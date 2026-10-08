@@ -1,11 +1,15 @@
 # BioAI 日知的官方 MCP Registry 发布
 
+当前元数据版本 **3.2.0** 已通过 [发布工作流](https://github.com/MInsYang/bioai-rizhi/actions/runs/37770653636) 发布，并由官方 API 独立回读为 `active`。本轮增加管理端使用统计，远程 MCP 地址与五项工具保持兼容；最新及 3.1.0 历史回读见 [验收记录](mcp-registry-acceptance.json)。
+
+下面的 09:xx 校验和与初次发布操作保留为 3.1.0 历史证据。
+
 2026-10-08 09:23 UTC，已通过 [GitHub Actions OIDC 发布](https://github.com/MInsYang/bioai-rizhi/actions/runs/37756319209) 将 `io.github.MInsYang/bioai-rizhi` 的 `3.1.0` 版本登记到官方 MCP Registry。工作流和随后独立 HTTP 回读均确认 `active`，远程地址为 `https://bioai-rizhi.pages.dev/mcp`，见 [实际回读证据](mcp-registry-acceptance.json)。登记不等于所有客户端会自动展示，也不保证目录推荐或访问量。
 
 | 字段 | 固定值 |
 |---|---|
 | Registry 名称 | `io.github.MInsYang/bioai-rizhi` |
-| 元数据版本 | `3.1.0` |
+| 元数据版本 | `3.2.0` |
 | 网站 | `https://bioai-rizhi.pages.dev` |
 | 远程 MCP | `https://bioai-rizhi.pages.dev/mcp` |
 | 传输 | `streamable-http` |
@@ -48,14 +52,14 @@ workflow 在执行 CLI 前先校验压缩包，再只提取 `mcp-publisher` 文�
 
 ## 手动发布步骤
 
-1. 由维护者把这三个发布文件纳入公开 release 导出，检查实际 MCP 部署与 `3.1.0` 发布说明一致。不要推送原工作区的敏感文件、运行目录或历史。
+1. 由维护者把这三个发布文件纳入公开 release 导出，检查实际 MCP 部署与 `3.2.0` 发布说明一致。不要推送原工作区的敏感文件、运行目录或历史。
 2. 在 `MInsYang/bioai-rizhi` 的 Actions 页面选择 **Publish BioAI 日知 to MCP Registry** → **Run workflow**，选择仓库默认分支（当前为 `codex/bioai-resource-site`）。只有手动触发，普通 push、tag、pull request 和定时任务都不会运行此发布。
 3. 检查 workflow 的 manifest identity gate、官方 API/CLI validate、OIDC login、publish 和 Registry 回读全部成功。只有最后一步核对名称、版本、remote 和 `active` 状态成功后，才将 Registry 发布标记为完成。
 
 发布后可读取的具体版本地址为：
 
 ```text
-https://registry.modelcontextprotocol.io/v0.1/servers/io.github.MInsYang%2Fbioai-rizhi/versions/3.1.0
+https://registry.modelcontextprotocol.io/v0.1/servers/io.github.MInsYang%2Fbioai-rizhi/versions/3.2.0
 ```
 
 workflow 不设置发布 secret，不上传认证文件，不自动更改版本，不部署网站。并发发布串行执行；429、校验失败或认证失败会停止，不进行绕过或无限重试。结束时调用 CLI logout 清理运行器中的 Registry 登录。

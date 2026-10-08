@@ -73,3 +73,30 @@ def test_collection_can_exceed_one_submission_batch(tmp_path, monkeypatch):
         current[module.ORIGIN+'/companies/new_company']=''
         assert module.submit(client,'test-public-key',state)['submitted']==1
     assert batches==[10000,1,1]
+
+
+def test_transient_public_fetch_retries_but_failure_diagnostics_do_not_leak_keys(monkeypatch):
+    monkeypatch.setattr(module.time, 'sleep', lambda seconds: None)
+    statuses = iter([503, 200])
+    with httpx.Client(transport=httpx.MockTransport(lambda request: httpx.Response(next(statuses)))) as client:
+        assert module.get_public(client, module.ORIGIN + '/sitemap.xml').status_code == 200
+    request = httpx.Request('GET', module.ORIGIN + '/indexnow-key.txt?private=do-not-print')
+    response = httpx.Response(403, request=request, text='sensitive response value')
+    with pytest.raises(httpx.HTTPStatusError) as caught:
+        response.raise_for_status()
+    report = module.failure_report(caught.value)
+    assert report['http_status'] == 403 and report['stage'] == 'verification_file'
+    assert 'do-not-print' not in json.dumps(report)
+    assert 'sensitive response value' not in json.dumps(report)
+
+
+def test_exhausted_sitemap_fetch_does_not_overwrite_state(tmp_path, monkeypatch):
+    monkeypatch.setattr(module.time, 'sleep', lambda seconds: None)
+    state = tmp_path / 'state.json'
+    original = json.dumps({'origin': module.ORIGIN, 'urls': {module.ORIGIN + '/': ''}})
+    state.write_text(original)
+    def respond(request):
+        return httpx.Response(200, text='test-public-key') if request.url.path == '/indexnow-key.txt' else httpx.Response(503)
+    with httpx.Client(transport=httpx.MockTransport(respond)) as client, pytest.raises(httpx.HTTPStatusError):
+        module.submit(client, 'test-public-key', state)
+    assert state.read_text() == original

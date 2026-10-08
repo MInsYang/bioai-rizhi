@@ -126,11 +126,17 @@ test('PostgreSQL weekly/sitemap/digest queries share source, scope and journal g
   const adminUrl=new URL(localUrl);adminUrl.pathname='/postgres';
   const control=new Client({connectionString:adminUrl.href});await control.connect();
   const name='bioai_publication_test_'+crypto.randomUUID().replaceAll('-','');
+  const closedConnections=[];
   let pool;
   try {
     await control.query(`CREATE DATABASE "${name}"`);
     const isolated=new URL(localUrl);isolated.pathname='/'+name;
     pool=new Pool({connectionString:isolated.href,max:4});
+    // Subscribe before teardown starts, including clients that close early.
+    // Pool.end() may resolve while a removed client's socket is still closing.
+    pool.on('connect',client=>{
+      closedConnections.push(new Promise(resolve=>client.once('end',resolve)));
+    });
     const sql={query:async(text,args=[]) => (await pool.query(text,args)).rows};
     const migrations=new URL('../../backend/migrations/',import.meta.url);
     for(const file of (await readdir(migrations)).filter(f=>f.endsWith('.sql')).sort())await sql.query(await readFile(new URL(file,migrations),'utf8'));
@@ -181,8 +187,20 @@ test('PostgreSQL weekly/sitemap/digest queries share source, scope and journal g
     const revokedCompany=await(await publication(req('/companies/source-fixture'),env,sql,read)).text();
     assert.doesNotMatch(revokedCompany,/Fixture event|SOURCE FIXTURE/);
   } finally {
-    if(pool)await pool.end();
-    await control.query('SELECT pg_terminate_backend(pid) FROM pg_stat_activity WHERE datname=$1 AND pid<>pg_backend_pid()',[name]);
-    await control.query(`DROP DATABASE IF EXISTS "${name}"`);await control.end();
+    try {
+      await pool?.end();
+      await Promise.all(closedConnections);
+      // Server backends can outlive the local socket-end callback briefly.
+      // Wait for this unique database only; never terminate closing clients.
+      for(let attempt=0;attempt<20;attempt++) {
+        const sessions=(await control.query('SELECT count(*)::integer n FROM pg_stat_activity WHERE datname=$1',[name])).rows[0].n;
+        if(!sessions)break;
+        if(attempt===19)throw new Error('Disposable publication database still has active connections after pool shutdown');
+        await new Promise(resolve=>setTimeout(resolve,50));
+      }
+      await control.query(`DROP DATABASE IF EXISTS "${name}"`);
+    } finally {
+      await control.end();
+    }
   }
 });

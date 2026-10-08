@@ -6,6 +6,7 @@ import json
 import os
 from pathlib import Path
 import re
+import time
 from urllib.parse import urlsplit
 import xml.etree.ElementTree as ET
 
@@ -17,6 +18,41 @@ NS = {'s': 'http://www.sitemaps.org/schemas/sitemap/0.9'}
 MAX_BATCH_URLS = 10000
 MAX_DISCOVERED_URLS = 100000
 MAX_SITEMAP_PAGES = 1000
+
+
+class SubmissionRejected(RuntimeError):
+    def __init__(self, status):
+        super().__init__('IndexNow submission rejected')
+        self.status = status
+
+
+def get_public(client, url):
+    """Retry only transient fetch failures; never checkpoint a partial sitemap."""
+    for attempt in range(3):
+        try:
+            response = client.get(url)
+        except httpx.TransportError:
+            if attempt == 2:
+                raise
+        else:
+            if response.status_code not in (429, 500, 502, 503, 504) or attempt == 2:
+                response.raise_for_status()
+                return response
+        time.sleep(1 + 2 * attempt)
+
+
+def failure_report(error):
+    result = {'status': 'failed', 'error_type': type(error).__name__, 'indexing_confirmed': False}
+    if isinstance(error, httpx.HTTPStatusError):
+        result['http_status'] = error.response.status_code
+        # Only fixed stage names, never a request URL, body, headers or key.
+        path = error.request.url.path
+        result['stage'] = ('verification_file' if path == '/indexnow-key.txt' else
+                           'sitemap' if path == '/sitemap.xml' or path.startswith('/sitemaps/') else
+                           'submission')
+    elif isinstance(error, SubmissionRejected):
+        result.update(http_status=error.status, stage='submission')
+    return result
 
 
 def public_url(value, sitemap=False):
@@ -31,8 +67,7 @@ def public_url(value, sitemap=False):
 
 
 def discover(client):
-    response = client.get(ORIGIN + '/sitemap.xml')
-    response.raise_for_status()
+    response = get_public(client, ORIGIN + '/sitemap.xml')
     if len(response.content) > 2_000_000:
         raise ValueError('Oversized sitemap')
     root = ET.fromstring(response.content)
@@ -43,8 +78,7 @@ def discover(client):
             raise ValueError('Sitemap page bound exceeded')
         documents = []
         for page in pages:
-            reply = client.get(page)
-            reply.raise_for_status()
+            reply = get_public(client, page)
             if len(reply.content) > 2_000_000:
                 raise ValueError('Oversized sitemap page')
             document = ET.fromstring(reply.content)
@@ -75,8 +109,7 @@ def submit(client, key, state_path, dry_run=False):
     if not re.fullmatch(r'[a-zA-Z0-9-]{8,128}', key):
         raise ValueError('IndexNow verification key missing or invalid')
     key_url = ORIGIN + '/indexnow-key.txt'
-    check = client.get(key_url)
-    check.raise_for_status()
+    check = get_public(client, key_url)
     if check.text.strip() != key:
         raise ValueError('Published verification file differs from configured key')
     previous = {}
@@ -99,7 +132,7 @@ def submit(client, key, state_path, dry_run=False):
             reply = client.post(ENDPOINT, json={'host': urlsplit(ORIGIN).hostname, 'key': key,
                                 'keyLocation': key_url, 'urlList': batch})
             if reply.status_code not in (200, 202):
-                raise RuntimeError(f'IndexNow submission rejected: HTTP {reply.status_code}')
+                raise SubmissionRejected(reply.status_code)
             receipts.append(reply.status_code)
             report['submitted'] += len(batch)
         pending = 202 in receipts
@@ -129,7 +162,7 @@ def main():
             result = submit(client, os.environ.get('BIOAI_INDEXNOW_KEY', ''), args.state, args.dry_run)
     except Exception as error:
         # Never serialize request bodies or external exception messages containing keys.
-        result = {'status': 'failed', 'error_type': type(error).__name__, 'indexing_confirmed': False}
+        result = failure_report(error)
     args.report.parent.mkdir(parents=True, exist_ok=True)
     args.report.write_text(json.dumps(result, ensure_ascii=False, indent=2) + '\n')
     print(json.dumps(result, ensure_ascii=False))

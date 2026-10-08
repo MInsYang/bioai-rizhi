@@ -19,5 +19,11 @@
   "session_hmac_verified": true,
   "all_acceptance_traffic_flagged_test": true,
   "historical_visitors_inferred": false,
-  "live_user_statistics_exported": false
+  "live_user_statistics_exported": false,
+  "backup_restore": {
+    "workflow": "https://github.com/MInsYang/bioai-rizhi/actions/runs/37770649000",
+    "status": "passed",
+    "analytics_tables_included": true,
+    "public_usage_counts_exported": false
+  }
 }

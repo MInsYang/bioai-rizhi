@@ -1,8 +1,8 @@
 {
-  "checked_at": "2026-10-08T09:30:25.577304+00:00",
-  "url": "https://registry.modelcontextprotocol.io/v0.1/servers/io.github.MInsYang%2Fbioai-rizhi/versions/3.1.0",
+  "checked_at": "2026-10-08T11:35:26.443294+00:00",
+  "url": "https://registry.modelcontextprotocol.io/v0.1/servers/io.github.MInsYang%2Fbioai-rizhi/versions/3.2.0",
   "status": 200,
-  "workflow": "https://github.com/MInsYang/bioai-rizhi/actions/runs/37756319209",
+  "workflow": "https://github.com/MInsYang/bioai-rizhi/actions/runs/37770653636",
   "response": {
     "server": {
       "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
@@ -13,7 +13,7 @@
         "url": "https://github.com/MInsYang/bioai-rizhi",
         "source": "github"
       },
-      "version": "3.1.0",
+      "version": "3.2.0",
       "websiteUrl": "https://bioai-rizhi.pages.dev",
       "remotes": [
         {
@@ -25,10 +25,45 @@
     "_meta": {
       "io.modelcontextprotocol.registry/official": {
         "status": "active",
-        "statusChangedAt": "2026-10-08T09:23:42.316367Z",
-        "publishedAt": "2026-10-08T09:23:42.316367Z",
-        "updatedAt": "2026-10-08T09:23:42.316367Z",
+        "statusChangedAt": "2026-10-08T11:31:58.57193Z",
+        "publishedAt": "2026-10-08T11:31:58.57193Z",
+        "updatedAt": "2026-10-08T11:31:58.57193Z",
         "isLatest": true
+      }
+    }
+  },
+  "previous_3_1_0": {
+    "checked_at": "2026-10-08T09:30:25.577304+00:00",
+    "url": "https://registry.modelcontextprotocol.io/v0.1/servers/io.github.MInsYang%2Fbioai-rizhi/versions/3.1.0",
+    "status": 200,
+    "workflow": "https://github.com/MInsYang/bioai-rizhi/actions/runs/37756319209",
+    "response": {
+      "server": {
+        "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+        "name": "io.github.MInsYang/bioai-rizhi",
+        "description": "Read-only AI biopharma news, research records, companies, and source status from BioAI 日知.",
+        "title": "BioAI 日知",
+        "repository": {
+          "url": "https://github.com/MInsYang/bioai-rizhi",
+          "source": "github"
+        },
+        "version": "3.1.0",
+        "websiteUrl": "https://bioai-rizhi.pages.dev",
+        "remotes": [
+          {
+            "type": "streamable-http",
+            "url": "https://bioai-rizhi.pages.dev/mcp"
+          }
+        ]
+      },
+      "_meta": {
+        "io.modelcontextprotocol.registry/official": {
+          "status": "active",
+          "statusChangedAt": "2026-10-08T09:23:42.316367Z",
+          "publishedAt": "2026-10-08T09:23:42.316367Z",
+          "updatedAt": "2026-10-08T09:23:42.316367Z",
+          "isLatest": true
+        }
       }
     }
   }

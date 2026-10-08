@@ -193,4 +193,4 @@ Neon 即使持续仅 0.25 CU，30 天也约 180 CU-hours，超过 100 免费额�
 
 2026-10-08 已部署 Worker `fb408dc7-df7e-4101-b268-2c3f4276e660`，正式 `/health` 返回 3.2.0 和数据库连通。迁移 016 在本地与生产应用；新增三张使用统计表，备份角色已验证只读访问。新增分析盐、Google 验证标签、IndexNow 验证配置均通过 Worker Secret 配置，不写入源码。Pages 网关沿用原绑定。小时采集与每日清理/日报 Cron 未改变。
 
-本轮 Worker 137、前端 17、Python 64 项测试均通过，另通过既有 UI 检查；正式端到端结果见 [analytics-acceptance.json](analytics-acceptance.json)，外部搜索结果见 [search-acceptance.json](search-acceptance.json)。管理员看板位于 `https://bioai-rizhi.pages.dev/#admin`，仍使用既有管理员认证。
+本轮 Worker 137、前端 17、Python 66 项测试均通过，另通过既有 UI 检查；正式端到端结果见 [analytics-acceptance.json](analytics-acceptance.json)，外部搜索结果见 [search-acceptance.json](search-acceptance.json)。管理员看板位于 `https://bioai-rizhi.pages.dev/#admin`，仍使用既有管理员认证。

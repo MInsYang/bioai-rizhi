@@ -41,19 +41,41 @@
   "indexnow": {
     "workflow": "search-discovery.yml",
     "schedule_beijing": "08:35 daily",
-    "first_run": "pending"
+    "first_run": "manual submission received; scheduled workflow retry pending",
+    "initial_workflow": "https://github.com/MInsYang/bioai-rizhi/actions/runs/37770645037",
+    "initial_workflow_result": "failed: HTTPStatusError; no checkpoint saved",
+    "manual_receipt": {
+      "at": "2026-10-08T11:35:30.703195+00:00",
+      "origin": "https://bioai-rizhi.pages.dev",
+      "sitemap_urls": 258,
+      "new_or_changed": 258,
+      "withdrawn": 0,
+      "submitted": 258,
+      "indexing_confirmed": false,
+      "scope": "New/withdrawn URLs and explicit sitemap lastmod changes; existing pages without lastmod are revisited by search crawlers.",
+      "status": "received",
+      "http_status": 200,
+      "batches": 1
+    }
   },
   "tests": {
     "worker_pass": 137,
     "worker_skip": 0,
     "frontend_pass": 17,
-    "python_pass": 64,
-    "existing_ui_check": "passed"
+    "python_pass": 66,
+    "existing_ui_check": "passed",
+    "initial_ci": "https://github.com/MInsYang/bioai-rizhi/actions/runs/37770621794",
+    "ci_fix": "Wait for PostgreSQL test sockets to close before dropping isolated temporary database; CI retry pending."
   },
   "browser_preview": {
     "desktop": "passed",
     "mobile_390x844": "passed",
     "guide_body_survives_client_render": "passed"
   },
-  "indexing_or_ranking_guaranteed": false
+  "indexing_or_ranking_guaranteed": false,
+  "mcp_registry": {
+    "version": "3.2.0",
+    "status": "active",
+    "workflow": "https://github.com/MInsYang/bioai-rizhi/actions/runs/37770653636"
+  }
 }
