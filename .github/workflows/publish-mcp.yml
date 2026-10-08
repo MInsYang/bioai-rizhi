@@ -22,12 +22,18 @@ jobs:
       REGISTRY_URL: https://registry.modelcontextprotocol.io
       PUBLISHER_VERSION: v1.8.1
       PUBLISHER_SHA256: a06c9096dcb9727c13555b6be26c7effa707b01f06a4c561ba7a3635443cf2cc
-      XDG_CONFIG_HOME: ${{ runner.temp }}/mcp-registry-config
     defaults:
       run:
         shell: bash
 
     steps:
+      - name: Set an isolated registry login directory
+        run: |
+          set -euo pipefail
+          registry_config="${RUNNER_TEMP}/mcp-registry-config"
+          mkdir -m 0700 -p "$registry_config"
+          printf 'XDG_CONFIG_HOME=%s\n' "$registry_config" >> "$GITHUB_ENV"
+
       - name: Check out the selected default branch revision
         uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5, verified 2026-10-08
         with:
