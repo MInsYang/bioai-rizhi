@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { handleMcp, MCP_LIMITS } from "./mcp.js";
+import { handleMcp, MCP_LIMITS, TOOL_SCHEMAS } from "./mcp.js";
 
 const ORIGIN = "https://bioai.example.test";
 const RECORD_ID = "a06d16e4-4dca-4f47-a0be-6158475f876b";
@@ -41,7 +41,9 @@ function sourceRecord() {
   };
 }
 
-test("legacy initialize and tool discovery use the official handler without public API reads", async () => {
+test("legacy initialize and tool discovery use the official handler without API reads or repeated schema conversion", async t => {
+  const conversions = Object.values(TOOL_SCHEMAS).map((schema) =>
+    t.mock.method(schema["~standard"].jsonSchema, "input"));
   let reads = 0;
   const apiRead = () => { reads++; throw new Error("Unexpected API read"); };
   const initialized = await handleMcp(request(legacy("initialize", {
@@ -55,6 +57,9 @@ test("legacy initialize and tool discovery use the official handler without publ
   const { result } = await payload(listed);
   assert.deepEqual(result.tools.map((tool) => tool.name).sort(), ["get_company", "get_resource", "get_source_status", "search_companies", "search_resources"]);
   for (const tool of result.tools) assert.equal(tool.annotations.readOnlyHint, true);
+  const repeated = await payload(await handleMcp(request(legacy("tools/list")), environment, context, apiRead));
+  assert.deepEqual(repeated.result.tools, result.tools);
+  for (const conversion of conversions) assert.equal(conversion.mock.callCount(), 0);
   assert.equal(reads, 0);
 });
 
@@ -87,7 +92,7 @@ test("source search keeps preprint status and keyword provenance while using bou
   const calls = [];
   const apiRead = async (path, params) => { calls.push({ path, params }); return { total: 1, items: [sourceRecord()] }; };
   const response = await handleMcp(request(legacy("tools/call", {
-    name: "search_resources", arguments: { topic: "virtual-cell", academic: "academic", limit: 2 },
+    name: "search_resources", arguments: { query: " virtual cell ", topic: "virtual-cell", academic: "academic", limit: 2 },
   })), environment, context, apiRead);
   const { result } = await payload(response);
   assert.equal(result.isError, undefined);
@@ -103,7 +108,25 @@ test("source search keeps preprint status and keyword provenance while using bou
   assert.equal(calls[0].path, "/api/records");
   assert.equal(calls[0].params.academic, true);
   assert.equal(calls[0].params.limit, 2);
+  assert.equal(calls[0].params.q, "virtual cell");
+  assert.equal(calls[0].params.days, 30);
+  assert.equal(calls[0].params.offset, 0);
   assert.ok(!JSON.stringify(data).includes("NOT_PUBLIC"));
+  const otherOrigin = "https://other.bioai.example.test";
+  const otherRequest = new Request(otherOrigin + "/mcp", {
+    method: "POST", headers: { Host: new URL(otherOrigin).host, "Content-Type": "application/json", Accept: "application/json, text/event-stream" },
+    body: JSON.stringify(legacy("tools/call", { name: "get_resource", arguments: { id: RECORD_ID } })),
+  });
+  const concurrent = await Promise.all([
+    handleMcp(request(legacy("tools/call", { name: "get_resource", arguments: { id: RECORD_ID } })), environment, context,
+      async () => ({ ...sourceRecord(), title: "First isolated reader" })).then(payload),
+    handleMcp(otherRequest, { SITE_ORIGIN: otherOrigin }, context,
+      async () => ({ ...sourceRecord(), title: "Second isolated reader" })).then(payload),
+  ]);
+  assert.equal(concurrent[0].result.structuredContent.data.title, "First isolated reader");
+  assert.equal(concurrent[1].result.structuredContent.data.title, "Second isolated reader");
+  assert.equal(concurrent[0].result.structuredContent.data.site_url, `${ORIGIN}/records/${RECORD_ID}`);
+  assert.equal(concurrent[1].result.structuredContent.data.site_url, `${otherOrigin}/records/${RECORD_ID}`);
 });
 
 test("resource text is truncated explicitly and arbitrary URL arguments cannot reach apiRead", async () => {
@@ -127,6 +150,7 @@ test("oversized limits and unknown/admin tools never call the public read callba
   let reads = 0;
   for (const params of [
     { name: "search_resources", arguments: { limit: 41 } },
+    { name: "search_resources", arguments: { query: "invalid\u0000query" } },
     { name: "search_companies", arguments: { query: "x".repeat(201) } },
     { name: "publish_event", arguments: { id: EVENT_ID } },
   ]) {

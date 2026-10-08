@@ -1119,7 +1119,7 @@ form label select {
 .mobile-menu { display:none; }
 @media(max-width:800px) {
   .brand { padding-right:105px; }
-  .mobile-menu { display:block; position:absolute; top:15px; right:15px; min-height:42px; padding:8px 12px; font-size:12px; background:#f9fbf6; }
+  .mobile-menu { display:block; position:absolute; top:15px; right:15px; min-height:44px; padding:8px 12px; font-size:12px; background:#f9fbf6; }
   .sidebar nav { scrollbar-width:thin; }
   .sidebar nav a { min-height:44px; font-size:12px; }
   .sidebar-foot { display:none; }

@@ -1,0 +1,44 @@
+{
+  "client": "@modelcontextprotocol/client",
+  "version": "2.0.0",
+  "origin": "https://bioai-rizhi.328558608.workers.dev",
+  "started_at": "2026-10-08T07:56:56.226Z",
+  "modes": [
+    {
+      "versionNegotiation": {
+        "mode": "legacy"
+      },
+      "server": {
+        "name": "bioai-rizhi",
+        "version": "1.0.0"
+      },
+      "tools": [
+        "search_resources",
+        "get_resource",
+        "search_companies",
+        "get_company",
+        "get_source_status"
+      ],
+      "calls_passed": 5
+    },
+    {
+      "versionNegotiation": {
+        "mode": "auto"
+      },
+      "server": {
+        "name": "bioai-rizhi",
+        "version": "1.0.0"
+      },
+      "tools": [
+        "search_resources",
+        "get_resource",
+        "search_companies",
+        "get_company",
+        "get_source_status"
+      ],
+      "calls_passed": 5
+    }
+  ],
+  "status": "passed",
+  "finished_at": "2026-10-08T07:57:03.938Z"
+}

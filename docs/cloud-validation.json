@@ -1,9 +1,9 @@
 {
-  "validated_at": "2026-10-08T07:19:22.513390+00:00",
-  "production_deployed": false,
-  "scope": "Local PostgreSQL, exact Worker handlers, real upstream HTTP; in-process queue acceptance transport",
+  "validated_at": "2026-10-08T08:08:53.740576+00:00",
+  "production_deployed": true,
+  "scope": "Local PostgreSQL tests plus actual Cloudflare Worker, Neon PostgreSQL and real Queue ingestion; see production-acceptance.json",
   "tests": {
-    "worker_js_passed": 60,
+    "worker_js_passed": 61,
     "worker_js_skipped": 0,
     "python_passed": 33,
     "python_deprecation_warnings": 2,
@@ -76,13 +76,36 @@
     }
   },
   "responsive_checks": {
-    "390px": "MCP code panel overflow fixed; menu expansion/selection and topic filters passed",
-    "desktop": "sidebar vertical scrolling and multi-column layout implemented; final viewport checks pending"
+    "360px": "No page overflow on company directory/detail, MCP config or long article dialog; Chinese search passed",
+    "390px": "MCP wrapping, menu expansion/selection, article detail and topic filters passed",
+    "1366x768": "Desktop overview multi-column layout visually checked; document width equals viewport",
+    "1366x600": "Sidebar vertical scrolling verified: clientHeight 600, scrollHeight 807"
   },
   "remaining": [
-    "Cloudflare OAuth callback and actual deployment",
-    "Neon authentication and production database",
-    "Cloudflare Cron/Queue and edge CPU acceptance",
-    "Real personal AI client installation"
-  ]
+    "Daily 00:00 UTC digest tick and longer-running observation",
+    "Tahoe RSS cloud collection failed after five HTTP 429 responses; backoff/retry budget enforced",
+    "Long-running CPU/quota and real device browser observation",
+    "Personal Claude/Cursor/Codex app installation"
+  ],
+  "github": {
+    "url": "https://github.com/MInsYang/bioai-rizhi",
+    "initial_ci": "passed",
+    "workflow_run": 37743055686
+  },
+  "cloud_preparation": {
+    "cloudflare_oauth": "success",
+    "queue_created": "bioai-ingestion",
+    "neon_project": "empty-cherry-52244223",
+    "neon_plan": "free",
+    "region": "aws-ap-southeast-1"
+  },
+  "production_origin": "https://bioai-rizhi.328558608.workers.dev",
+  "production_version": "3ab3ee44-c284-455e-8485-fa8fcc253edb",
+  "sdk_client_acceptance": "mcp-client-acceptance.json",
+  "native_hourly_cron": {
+    "observed_at": "2026-10-08T08:07:44Z",
+    "due_sources": 5,
+    "successful_jobs": 5,
+    "version": "3ab3ee44-c284-455e-8485-fa8fcc253edb"
+  }
 }

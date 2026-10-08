@@ -1,13 +1,17 @@
 # BioAI 日知更新与恢复手册
 
-截至 2026-10-08，新架构已完成本地 PostgreSQL、真实上游和 Worker 处理器验收，**尚未部署到 Cloudflare/Neon**。本地结果见 [采集验收记录](docs/cloud-ingestion-e2e.json)；云端权限、部署及上线验收见 [Cloudflare 部署说明](docs/cloudflare-deployment.md)。不以构建通过、手动调用或本地内存队列代替云端 Cron/Queues 验收。
+截至 2026-10-08，[生产 Worker](https://bioai-rizhi.328558608.workers.dev) 与 Neon PostgreSQL 已上线，`bioai-ingestion` 已创建并注册 1 个 producer、1 个 consumer。真实本地数据库恢复到 Neon Free 的 Singapore / `aws-ap-southeast-1`、PostgreSQL 17 空库成功，恢复时为 133 companies、4,669 raw_items、4,012 public_resources，迁移 001–008 校验和通过。公网读取、远程 MCP、手动管理接口及管理员 Neon WebSocket 事务已验证；正式小时 Cron → Queue → 数据库完整链路通过，五个到期来源的新任务全部成功、零失败。Tahoe 首轮五次 HTTP 429 达到预算、任务 `dead`，云端未成功，本地历史真实内容已保留。MCP 四次优化后公网调用 CPU 为 22/15/21/26 ms、均 `outcome=ok`，仍高于 Workers Free 的名义 HTTP 10 ms；长期免费容量与每日专用定时回调尚未验收。
+
+本地结果见 [采集验收记录](docs/cloud-ingestion-e2e.json)，云端结果及未完成项目见 [生产验收记录](docs/production-acceptance.json)，部署与额度见 [Cloudflare 部署说明](docs/cloudflare-deployment.md)。官方 `@modelcontextprotocol/client@2.0.0` 已用 legacy/auto 两种协商模式真实公网 connect/listTools，各调用全部五项工具通过，见 [SDK 客户端验收](docs/mcp-client-acceptance.json)；Claude/Cursor/Codex 个人应用接入尚未安装。不以构建通过、手动调用或本地内存队列代替云端 Cron/Queues 验收。
 
 生产入口为 [cloudflare/site](cloudflare/site/)，同一 Worker 提供页面、API、RSS、日报和只读 MCP，并消费 Cloudflare Queue。旧 `refresh_all.py` 静态快照 heartbeat 已暂停；`cloudflare/dispatcher` 和 Python consumer 仅保留给独立自托管模式，不与新方案同时调度同一个数据库。ResearchHub 保持独立，不删除或替换。
 
 ## 时间、来源与状态
 
+正式版本 `3ab3ee44-c284-455e-8485-fa8fcc253edb` 已发布以下两条 Cron，无分钟诊断任务。2026-10-08 08:07:43.981 UTC（北京时间 16:07）已取得真实 `7 * * * *` 回调，CPU 4 ms、墙钟 1,803 ms、`outcome=ok`。数据库 `scheduler_runs` 于 08:07:44.813 开始、08:07:45.836 完成，`status='succeeded'`、`dispatched_count=5`；随后 Emulate、HUB、晶泰、Europe PMC、PubMed 五个新任务分别于 08:07:47、08:07:49、08:08:00、08:08:23、08:08:30 UTC 完成，全部 `succeeded`、`failure_count=0`。完整证据见生产验收记录；每日专用 tick 尚未跨日观察。
+
 - `7 * * * *`：每小时第 7 分钟派发到期采集任务；来源仍受 TTL、主机间隔和失败退避约束，并非每个来源每小时必抓。
-- `0 0 * * *`：UTC 00:00，即北京时间 08:00，生成当日日报；每小时调用另行补偿当日生成失败，两项 `waitUntil` 独立执行。
+- `0 0 * * *`：UTC 00:00，即北京时间 08:00，目标为生成当日日报；手动日报接口、小时补偿实现与两项独立 `waitUntil` 已验证，每日专用回调尚未跨日观察，不声称其已执行通过。
 - 日报按此前 24 小时的**首次采集时间**选取最多 100 条聚焦资源，日期和记录 ID 固定，同日重跑不追加。小时补偿只处理当前北京日期，停机数日后不会自动补历史日报。
 - 前端每 5 分钟尝试刷新，后台标签页或超过 2 分钟未交互时暂停。页面刷新不派发采集任务。
 
@@ -54,7 +58,7 @@ HTTP 304 是有效检查成功；零新增也可能是重复数据、未变化�
 .venv/bin/python - <<'PY'
 import getpass, json, urllib.error, urllib.request
 from urllib.parse import urlsplit
-origin = input('已验证的 Worker HTTPS origin: ').strip().rstrip('/')
+origin = input('Worker HTTPS origin [https://bioai-rizhi.328558608.workers.dev]: ').strip().rstrip('/') or 'https://bioai-rizhi.328558608.workers.dev'
 u = urlsplit(origin)
 if u.scheme != 'https' or not u.hostname or u.username or u.password or u.path or u.query or u.fragment:
     raise SystemExit('需要不含路径和凭据的 HTTPS origin')
@@ -82,6 +86,8 @@ PY
 
 有效分页不算失败；`attempts` 是领取次数，不能当作失败次数。实际失败按 `failure_count` 退避，通常从约 60 秒逐级增加至最多 1 小时，并带抖动；429/可重试 5xx 遵守有界 `Retry-After`。永久 4xx 或达到 5 次失败进入数据库 `dead`，来源冷却 6 小时；同一查询版本、未完成窗口可从 dead checkpoint 续抓。主机间隔读取来源的 `request_interval_seconds`，限制在 1–3600 秒。
 
+首次云端验证中，PubMed 经 13 次处理（含两次 HTTP 429）自动退避后 `succeeded`，成功时 `failure_count` 归零；Tahoe 五次 HTTP 429 达到重试预算，本轮任务为 `dead`，云端采集未成功，本地历史真实内容已保留。后续来源轮询受 `next_poll_at` 与退避控制；按成功、重试和失败分别记录，不因出现 429 就重置任务或改写检查点。
+
 Wrangler 的 Queue `max_retries=5` 是另一层传输预算；当前未配置 Cloudflare dead-letter queue，数据库 dead 任务也不是 Cloudflare DLQ。不要无限重投、清空 checkpoint 或重置 failure_count 掩盖持续故障。先检查来源权限、HTTP 状态、查询版本、主机频率和消费者日志，再决定恢复。
 
 通过网站后台 `/#admin` 复核来源，或使用管理接口 `POST /api/admin/sources/{uuid}/review`：
@@ -102,7 +108,7 @@ API/MCP 新读取即时应用数据库门槛；动态 HTML 与 RSS 设置 no-sto
 
 ## 备份与灾难恢复
 
-Neon 当前 Free 计划公布的即时恢复窗口为 6 小时，不能代替独立备份；以账户实际计划为准，参见 [Neon 官方说明](https://neon.com/blog/neon-free-plan-1-gb-per-project)。项目没有自动备份任务；上线前需安排受控的日备份、异地保存和恢复演练。RPO 取决于最后验证的备份，不能承诺零数据丢失。
+Neon 当前 Free 计划公布的即时恢复窗口为 6 小时，不能代替独立备份；以账户实际计划为准，参见 [Neon 官方说明](https://neon.com/blog/neon-free-plan-1-gb-per-project)。首次本地数据库到 Neon 空库的真实恢复及迁移校验和已通过，项目尚无自动备份任务；仍需安排受控的日备份、异地保存和定期独立恢复演练。RPO 取决于最后验证的备份，不能承诺零数据丢失。
 
 以下命令需 PostgreSQL 客户端在 PATH，`pg_dump` 主版本不得低于服务端。默认导出；恢复时先设置 `BIOAI_BACKUP_MODE=restore`，连接**新建的空数据库**，并输入备份路径。连接密码仅放入子进程环境，不进入命令参数或输出；`artifacts/` 和 `*.dump` 已在 Git 忽略中，备份仍需受控保存。
 

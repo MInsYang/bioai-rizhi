@@ -212,6 +212,33 @@ test('PostgreSQL public views, publication transactions and source revocation', 
       assert.equal((await records.json()).length, 1);
       assert.equal((await apiRead('/api/topics', {}, sql)).items.length, 5);
     });
+
+    await t.test('recent record filtering and ordering bound future issue dates by collection without rewriting them', async () => {
+      const rows = [];
+      for (const [label, published, fetched] of [
+        ['old future issue', '90 days', '-60 days'],
+        ['recent future issue', '90 days', '-2 days'],
+        ['current publication', '-2 hours', '-1 hour'],
+        ['undated publication', null, '-4 hours'],
+      ]) {
+        const row = await fixture({ title: 'DATE_FIXTURE ' + label });
+        await sql.query('UPDATE raw_items SET published_at=now()+$2::interval,fetched_at=now()+$3::interval WHERE id=$1', [row.rid, published, fetched]);
+        rows.push(row);
+      }
+      const [oldFuture, recentFuture, current, undated] = rows;
+      const recent = await apiRead('/api/records', { q: 'DATE_FIXTURE', days: 30 }, sql);
+      assert.equal(recent.total, 3);
+      assert.deepEqual(recent.items.map(row => row.id), [current.rid, undated.rid, recentFuture.rid]);
+      const all = await apiRead('/api/records', { q: 'DATE_FIXTURE', days: 0 }, sql);
+      assert.equal(all.total, 4);
+      assert.deepEqual(all.items.map(row => row.id), [current.rid, undated.rid, recentFuture.rid, oldFuture.rid]);
+      const saved = (await sql.query('SELECT published_at,fetched_at FROM raw_items WHERE id=$1', [oldFuture.rid]))[0];
+      const returned = all.items.find(row => row.id === oldFuture.rid);
+      assert.equal(new Date(returned.published_at).getTime(), new Date(saved.published_at).getTime());
+      assert(new Date(returned.published_at) > new Date());
+      assert.equal(new Date(returned.fetched_at).getTime(), new Date(saved.fetched_at).getTime());
+      assert.equal(recent.items.find(row => row.id === undated.rid).published_at, null);
+    });
   } finally {
     await pool?.end();
     await control.query(`DROP DATABASE IF EXISTS "${name}" WITH (FORCE)`);

@@ -2,12 +2,12 @@
 
 BioAI 日知提供匿名、只读的远程 MCP，供个人 AI 查询本站已收录的研究与产业原文、公司目录和来源覆盖情况。网页、RSS 与 MCP 使用同一公开读取模型：已验证来源的原文记录，与经过编辑审核并附有有效证据的事件保持区分。
 
-本文的 `{{SITE_ORIGIN}}` 是部署 origin 占位符，例如验收后的真实 HTTPS 域名，不含末尾斜杠。部署完成后替换占位符，再复制配置；占位符不表示服务已经上线。
+公开服务已上线：[BioAI 日知](https://bioai-rizhi.328558608.workers.dev)。2026-10-08 已通过真实公网 initialize、tools/list 和只读 tools/call；官方 MCP SDK 客户端也已完成两种协商模式的连接、工具发现和全部五项工具调用，见 [SDK 客户端验收](mcp-client-acceptance.json)。Claude/Cursor/Codex 个人应用接入尚未安装，部署与待观察项目见 [生产验收记录](production-acceptance.json)。
 
 ## 接入地址与工具
 
 - 传输：Streamable HTTP。
-- 地址：`{{SITE_ORIGIN}}/mcp`，路径末尾没有斜杠。
+- 地址：`https://bioai-rizhi.328558608.workers.dev/mcp`，路径末尾没有斜杠。
 - 认证：公开读取不要求登录或 API Key。
 - 接入文档与内容入口使用普通 HTTPS 地址；MCP URL 供客户端连接，并非文章网页。
 
@@ -29,10 +29,10 @@ BioAI 日知提供匿名、只读的远程 MCP，供个人 AI 查询本站已收
 
 ### Codex
 
-在终端执行，先替换域名：
+在终端执行：
 
 ```sh
-codex mcp add bioaiRizhi --url {{SITE_ORIGIN}}/mcp
+codex mcp add bioaiRizhi --url https://bioai-rizhi.328558608.workers.dev/mcp
 codex mcp list
 ```
 
@@ -40,7 +40,7 @@ codex mcp list
 
 ```toml
 [mcp_servers.bioaiRizhi]
-url = "{{SITE_ORIGIN}}/mcp"
+url = "https://bioai-rizhi.328558608.workers.dev/mcp"
 ```
 
 Codex 支持 Streamable HTTP URL；公开服务不需要运行 OAuth 登录。CLI 和 IDE 扩展共用配置。可在 IDE 的 MCP servers 设置中添加 URL。这些方法依据 [OpenAI Docs MCP 文档](https://developers.openai.com/resources/docs-mcp) 和 [Codex MCP 配置文档](https://learn.chatgpt.com/docs/extend/mcp?surface=cli)。
@@ -48,7 +48,7 @@ Codex 支持 Streamable HTTP URL；公开服务不需要运行 OAuth 登录。CL
 ### Claude Code
 
 ```sh
-claude mcp add --transport http bioaiRizhi --scope user {{SITE_ORIGIN}}/mcp
+claude mcp add --transport http bioaiRizhi --scope user https://bioai-rizhi.328558608.workers.dev/mcp
 claude mcp get bioaiRizhi
 ```
 
@@ -68,7 +68,7 @@ claude mcp get bioaiRizhi
 {
   "mcpServers": {
     "bioaiRizhi": {
-      "url": "{{SITE_ORIGIN}}/mcp"
+      "url": "https://bioai-rizhi.328558608.workers.dev/mcp"
     }
   }
 }
@@ -109,7 +109,7 @@ PubMed `indexed` 表示收录状态，不能替换为“已通过同行评议”
 
 ## 服务边界与运维
 
-MCP 代码位于 [mcp.js](/Volumes/T24/BIoAINews/cloudflare/site/mcp.js)，由父 Worker 的 `/mcp` 路由调用：
+MCP 代码位于 [mcp.js](../cloudflare/site/mcp.js)，由父 Worker 的 `/mcp` 路由调用：
 
 ```js
 return handleMcp(request, env, ctx, (path, params) => apiRead(path, params, sql));
@@ -119,7 +119,7 @@ return handleMcp(request, env, ctx, (path, params) => apiRead(path, params, sql)
 
 | 配置或限制 | 当前实现 |
 |---|---|
-| `SITE_ORIGIN` | 固定公开站点 origin，例如真实部署的 `https://站点域名`；不含末尾 `/` |
+| `SITE_ORIGIN` | `https://bioai-rizhi.328558608.workers.dev`，不含末尾 `/` |
 | `MCP_ALLOWED_ORIGINS` | 可选的逗号分隔浏览器 origin 白名单；默认只允许站点本身 |
 | `MCP_RATE_LIMITER` | 可选 Cloudflare Rate Limiting binding；超限返回 429 与重试时间 |
 | 原生/云端客户端 | 不带 `Origin` 的请求允许；不要求额外登录 |
@@ -140,13 +140,18 @@ Cloudflare 当前推荐 `createMcpHandler` 的每请求服务器工厂，接受 
 ## 验证
 
 ```sh
-cd /Volumes/T24/BIoAINews/cloudflare/site
+# 从仓库根目录执行
+cd cloudflare/site
 node --test mcp.test.mjs
 ```
 
 测试使用真实已安装 SDK 与伪造的公开读取回调，检查初始化、发现、工具调用、2026 header 校验、非法工具/参数、Origin/Host、大小限制、文本截断、预印本/分类来源、错误与内部字段隔离。它验证协议和边界，不替代生产数据库、来源实际采集或客户端界面验收。
 
-公网部署后还需用 [MCP Inspector](https://github.com/modelcontextprotocol/inspector) 和实际 Claude/Cursor/Codex 客户端分别确认工具发现与读取，保存接入成功记录。地址可以打开、代码 dry-run 成功或配置写入成功，都不足以单独证明客户端已调用数据。
+MCP 静态工具 Schema 缓存优化已部署；站点 61 项 JavaScript 全套检查通过、无跳过。公开数据响应使用表列 `no-store`。优化后 initialize、tools/list、search_resources、get_source_status 四次公网调用均 HTTP 200、`outcome=ok`，CPU 为 22/15/21/26 ms，仍高于 Workers Free 的名义 HTTP 10 ms。长期免费容量尚未验收，仍需观察和按授权选择运行计划；本次未执行付费升级。详情见 [Cloudflare 部署说明](cloudflare-deployment.md#额度与成本验收)。
+
+官方 `@modelcontextprotocol/client@2.0.0` 已用 `versionNegotiation: {mode: "legacy"}` 和 `{mode: "auto"}` 分别真实公网 connect/listTools，两种模式均发现并调用全部五项工具通过。结果、版本与时间记录在 [mcp-client-acceptance.json](mcp-client-acceptance.json)。
+
+Claude/Cursor/Codex 个人应用接入尚未安装；后续需用 [MCP Inspector](https://github.com/modelcontextprotocol/inspector) 和实际个人应用分别保存工具发现与读取记录。地址可以打开、代码 dry-run 成功或配置写入成功，都不足以单独证明个人应用已调用数据。
 
 ## 分享与订阅
 
@@ -154,4 +159,6 @@ node --test mcp.test.mjs
 
 来源资源 RSS 位于 `/feed.xml`，专题订阅可用 `/feed.xml?topic=virtual-cell` 等五个已知专题 ID。日摘要页面为 `/digest/YYYY-MM-DD`，对应结构化数据为 `/api/digest?date=YYYY-MM-DD`。它们沿用网站的公开读取门槛；原文资源与已核验事件仍分别表述。
 
-部署设计包含北京时间 08:00 的日任务，另有每小时第 7 分钟的来源派发检查；来源 TTL 与失败重试会影响各来源实际收录时间。页面每 5 分钟检查可见更新。是否已部署并实际执行，应以部署验证和成功采集时间判断，不能仅从计划推断。推广入口与衡量方法见 [promotion-strategy.md](promotion-strategy.md)。
+正式版本仅保留每小时第 7 分钟派发、北京时间 08:00 日报两条 Cron，无分钟诊断任务。2026-10-08 08:07:43.981 UTC（北京时间 16:07）真实小时 Cron → Queue → 数据库完整链路通过，五个到期来源的新任务全部成功、零失败。每日 00:00 UTC（北京时间 08:00）专用 tick 尚未跨日观察；手动日报接口和小时补偿实现已验证，不替代每日专用回调验收。
+
+本轮云端五个来源成功，Tahoe 五次 HTTP 429 达到预算、本轮任务 `dead`，云端未成功；此前本地历史真实内容已保留，后续轮询受来源 `next_poll_at` 与退避控制。来源 TTL 与失败退避会影响收录时间，查询存量数据不触发采集。页面每 5 分钟检查可见更新。运行证据以生产验收记录和成功采集时间为准，不能仅从计划推断。推广入口与衡量方法见 [promotion-strategy.md](promotion-strategy.md)。

@@ -1,0 +1,425 @@
+{
+  "origin": "https://bioai-rizhi.328558608.workers.dev",
+  "started_at": "2026-10-08T07:40:38.725363+00:00",
+  "requests": [
+    {
+      "path": "/health",
+      "status": 200,
+      "bytes": 73
+    },
+    {
+      "path": "/api/config",
+      "status": 200,
+      "bytes": 205
+    },
+    {
+      "path": "/",
+      "status": 200,
+      "bytes": 4394
+    },
+    {
+      "path": "/connect",
+      "status": 200,
+      "bytes": 4123
+    },
+    {
+      "path": "/companies/seekgene",
+      "status": 200,
+      "bytes": 4173
+    },
+    {
+      "path": "/topics/virtual-cell",
+      "status": 200,
+      "bytes": 8714
+    },
+    {
+      "path": "/feed.xml?topic=virtual-cell",
+      "status": 200,
+      "bytes": 14905
+    },
+    {
+      "path": "/sitemap.xml",
+      "status": 200,
+      "bytes": 22810
+    },
+    {
+      "path": "/llms.txt",
+      "status": 200,
+      "bytes": 1007
+    },
+    {
+      "path": "/api/records?topic=virtual-cell&limit=2",
+      "status": 200,
+      "bytes": 2823
+    },
+    {
+      "path": "/records/da706d28-bce6-4f4d-903f-55b7ffdfe712",
+      "status": 200,
+      "bytes": 5468
+    },
+    {
+      "path": "/api/companies?q=%E5%AF%BB%E5%9B%A0",
+      "status": 200,
+      "bytes": 378
+    },
+    {
+      "path": "/mcp",
+      "status": 200,
+      "bytes": 918
+    },
+    {
+      "path": "/mcp",
+      "status": 200,
+      "bytes": 918
+    },
+    {
+      "path": "/mcp",
+      "status": 200,
+      "bytes": 7595
+    },
+    {
+      "path": "/mcp",
+      "status": 200,
+      "bytes": 6849
+    },
+    {
+      "path": "/mcp",
+      "status": 200,
+      "bytes": 1727
+    },
+    {
+      "path": "/api/admin/jobs",
+      "status": 200,
+      "bytes": 54383
+    },
+    {
+      "path": "/internal/dispatch",
+      "status": 200,
+      "bytes": 43
+    },
+    {
+      "path": "/internal/digest",
+      "status": 200,
+      "bytes": 207
+    }
+  ],
+  "virtual_cell_recent_count": 22,
+  "chinese_search": "passed",
+  "status": "passed_with_one_rate_limited_source_and_capacity_followup",
+  "finished_at": "2026-10-08T07:42:18.259189+00:00",
+  "mcp": [
+    {
+      "method": "initialize",
+      "passed": true
+    },
+    {
+      "method": "tools/list",
+      "passed": true
+    },
+    {
+      "method": "tools/call",
+      "passed": true
+    },
+    {
+      "method": "tools/call",
+      "passed": true
+    }
+  ],
+  "mcp_tool_names": [
+    "search_resources",
+    "get_resource",
+    "search_companies",
+    "get_company",
+    "get_source_status"
+  ],
+  "dispatch": {
+    "status": "succeeded",
+    "due": 6,
+    "enqueued": 6
+  },
+  "digest": {
+    "digest": {
+      "record_ids": [],
+      "window_end": "2026-10-08T00:00:00+00:00",
+      "digest_date": "2026-10-08",
+      "generated_at": "2026-10-08T07:42:18.013521+00:00",
+      "window_start": "2026-10-07T00:00:00+00:00",
+      "total_records": 0
+    }
+  },
+  "admin_neon_websocket_transaction": {
+    "status": "passed",
+    "company": "seekgene",
+    "fields_unchanged": true,
+    "audit_created": true
+  },
+  "bootstrap": {
+    "job_ids": [
+      "7a71eac2-3254-489a-8576-c178e415cc84",
+      "f924b8ea-bca0-479d-95d2-9f97cd24dadf",
+      "ec35ed47-702d-41a0-9533-81555c8c959e",
+      "62a16a6b-cd96-49a0-b2d1-c7085820bfe4",
+      "38b060c7-c8d1-4825-bc4a-361cd3a115d1",
+      "832a1ac0-462c-4b84-8902-7c5181c0156c"
+    ],
+    "trigger": "manual bootstrap of real verified sources after local-data restore",
+    "created_at": "2026-10-08T07:44:40.248661+00:00"
+  },
+  "cloud_ingestion": {
+    "jobs": [
+      {
+        "id": "ec35ed47-702d-41a0-9533-81555c8c959e",
+        "name": "Emulate official blog RSS",
+        "status": "succeeded",
+        "attempts": 1,
+        "failure_count": 0,
+        "last_error": null,
+        "available_at": "2026-10-08 07:44:38.604216+00:00",
+        "created_at": "2026-10-08 07:44:38.604216+00:00",
+        "finished_at": "2026-10-08 07:44:49.223695+00:00",
+        "last_success_at": "2026-10-08 07:44:49.223695+00:00",
+        "next_poll_at": "2026-10-08 08:00:00+00:00"
+      },
+      {
+        "id": "7a71eac2-3254-489a-8576-c178e415cc84",
+        "name": "Europe PMC REST API",
+        "status": "succeeded",
+        "attempts": 8,
+        "failure_count": 0,
+        "last_error": null,
+        "available_at": "2026-10-08 07:45:21.729705+00:00",
+        "created_at": "2026-10-08 07:44:38.604216+00:00",
+        "finished_at": "2026-10-08 07:45:25.031754+00:00",
+        "last_success_at": "2026-10-08 07:45:25.031754+00:00",
+        "next_poll_at": "2026-10-08 08:00:00+00:00"
+      },
+      {
+        "id": "f924b8ea-bca0-479d-95d2-9f97cd24dadf",
+        "name": "HUB Organoids official news RSS",
+        "status": "succeeded",
+        "attempts": 1,
+        "failure_count": 0,
+        "last_error": null,
+        "available_at": "2026-10-08 07:44:38.604216+00:00",
+        "created_at": "2026-10-08 07:44:38.604216+00:00",
+        "finished_at": "2026-10-08 07:44:48.033685+00:00",
+        "last_success_at": "2026-10-08 07:44:48.033685+00:00",
+        "next_poll_at": "2026-10-08 08:00:00+00:00"
+      },
+      {
+        "id": "62a16a6b-cd96-49a0-b2d1-c7085820bfe4",
+        "name": "PubMed / NCBI E-utilities",
+        "status": "succeeded",
+        "attempts": 13,
+        "failure_count": 0,
+        "last_error": null,
+        "available_at": "2026-10-08 07:48:47.647413+00:00",
+        "created_at": "2026-10-08 07:44:38.604216+00:00",
+        "finished_at": "2026-10-08 07:48:49.496929+00:00",
+        "last_success_at": "2026-10-08 07:48:49.496929+00:00",
+        "next_poll_at": "2026-10-08 08:00:00+00:00"
+      },
+      {
+        "id": "38b060c7-c8d1-4825-bc4a-361cd3a115d1",
+        "name": "Tahoe official blog RSS",
+        "status": "dead",
+        "attempts": 5,
+        "failure_count": 5,
+        "last_error": "Official source HTTP 429",
+        "available_at": "2026-10-08 08:16:26.556678+00:00",
+        "created_at": "2026-10-08 07:44:38.604216+00:00",
+        "finished_at": "2026-10-08 07:58:58.556678+00:00",
+        "last_success_at": "2026-10-08 07:03:31.255149+00:00",
+        "next_poll_at": "2026-10-08 13:00:00+00:00"
+      },
+      {
+        "id": "832a1ac0-462c-4b84-8902-7c5181c0156c",
+        "name": "晶泰科技 XtalPi » Feed",
+        "status": "succeeded",
+        "attempts": 1,
+        "failure_count": 0,
+        "last_error": null,
+        "available_at": "2026-10-08 07:44:38.604216+00:00",
+        "created_at": "2026-10-08 07:44:38.604216+00:00",
+        "finished_at": "2026-10-08 07:44:54.319611+00:00",
+        "last_success_at": "2026-10-08 07:44:54.319611+00:00",
+        "next_poll_at": "2026-10-08 08:00:00+00:00"
+      }
+    ],
+    "counts": {
+      "companies": 133,
+      "raw_records": 4669,
+      "public_resources": 4012
+    },
+    "observed_at": "2026-10-08T08:07:04.679909+00:00",
+    "rate_limit_attempts": [
+      {
+        "name": "Tahoe official blog RSS",
+        "attempt": 1,
+        "started_at": "2026-10-08 07:44:51.268019+00:00",
+        "http_status": 429,
+        "result": "retry"
+      },
+      {
+        "name": "PubMed / NCBI E-utilities",
+        "attempt": 3,
+        "started_at": "2026-10-08 07:45:02.755624+00:00",
+        "http_status": 429,
+        "result": "retry"
+      },
+      {
+        "name": "Tahoe official blog RSS",
+        "attempt": 2,
+        "started_at": "2026-10-08 07:46:00.542375+00:00",
+        "http_status": 429,
+        "result": "retry"
+      },
+      {
+        "name": "PubMed / NCBI E-utilities",
+        "attempt": 4,
+        "started_at": "2026-10-08 07:46:01.215588+00:00",
+        "http_status": 429,
+        "result": "retry"
+      },
+      {
+        "name": "Tahoe official blog RSS",
+        "attempt": 3,
+        "started_at": "2026-10-08 07:48:10.277665+00:00",
+        "http_status": 429,
+        "result": "retry"
+      },
+      {
+        "name": "Tahoe official blog RSS",
+        "attempt": 4,
+        "started_at": "2026-10-08 07:51:23.822059+00:00",
+        "http_status": 429,
+        "result": "retry"
+      }
+    ]
+  },
+  "cron_observations": [
+    {
+      "scheduled_at": "2026-10-08 08:00:00+00:00",
+      "trigger_kind": "cron",
+      "started_at": "2026-10-08 08:07:44.813065+00:00",
+      "finished_at": "2026-10-08 08:07:45.836472+00:00",
+      "status": "succeeded",
+      "dispatched_count": 5,
+      "error": null,
+      "dispatch_attempts": 1
+    }
+  ],
+  "mcp_post_optimization": {
+    "version": "35f2c35d-f18b-440e-9601-7ad4885f5942",
+    "operations": [
+      "initialize",
+      "tools/list",
+      "search_resources",
+      "get_source_status"
+    ],
+    "http_status": 200,
+    "cpu_ms": [
+      22,
+      15,
+      21,
+      26
+    ],
+    "outcome": "ok",
+    "note": "Small sample; remains above nominal Free HTTP budget and is not proof of sustained free-plan capacity."
+  },
+  "legacy_assets": {
+    "news.json": 404,
+    "update-status.json": 404
+  },
+  "database_restore": {
+    "companies": 133,
+    "raw_records": 4669,
+    "public_resources": 4012,
+    "migrations": 8,
+    "migration_checksums": "verified",
+    "size": "52 MB"
+  },
+  "sdk_client_acceptance": "mcp-client-acceptance.json",
+  "cloudflare_handlers": [
+    "fetch",
+    "scheduled",
+    "queue"
+  ],
+  "short_observation": {
+    "all_recorded_outcomes": "ok",
+    "scope": "Sampled live tails during release acceptance; not a load test or all-day uptime check"
+  },
+  "cron_scope": "Native Cloudflare hourly Cron -> real Queue -> Neon PostgreSQL; all five due source jobs succeeded. Daily 00:00 UTC tick not yet observed.",
+  "final_version": "3ab3ee44-c284-455e-8485-fa8fcc253edb",
+  "final_crons": [
+    "7 * * * *",
+    "0 0 * * *"
+  ],
+  "temporary_diagnostic_cron_removed": true,
+  "cron_jobs": [
+    {
+      "name": "Emulate official blog RSS",
+      "id": "974a8899-d792-4340-a182-fb4040a71509",
+      "status": "succeeded",
+      "attempts": 1,
+      "failure_count": 0,
+      "created_at": "2026-10-08 08:07:44.813065+00:00",
+      "finished_at": "2026-10-08 08:07:47.726992+00:00",
+      "last_error": null
+    },
+    {
+      "name": "HUB Organoids official news RSS",
+      "id": "d8e3e2e3-2d5a-4872-a55e-ebd3805da663",
+      "status": "succeeded",
+      "attempts": 1,
+      "failure_count": 0,
+      "created_at": "2026-10-08 08:07:44.813065+00:00",
+      "finished_at": "2026-10-08 08:07:49.431882+00:00",
+      "last_error": null
+    },
+    {
+      "name": "晶泰科技 XtalPi » Feed",
+      "id": "07cd58ac-60c8-46e0-8f32-61d7d7d774e4",
+      "status": "succeeded",
+      "attempts": 1,
+      "failure_count": 0,
+      "created_at": "2026-10-08 08:07:44.813065+00:00",
+      "finished_at": "2026-10-08 08:08:00.726876+00:00",
+      "last_error": null
+    },
+    {
+      "name": "PubMed / NCBI E-utilities",
+      "id": "78f2e22e-1cc5-4f44-a358-484b4b76f993",
+      "status": "succeeded",
+      "attempts": 11,
+      "failure_count": 0,
+      "created_at": "2026-10-08 08:07:44.813065+00:00",
+      "finished_at": "2026-10-08 08:08:30.303154+00:00",
+      "last_error": null
+    },
+    {
+      "name": "Europe PMC REST API",
+      "id": "19ddfabc-4175-4776-aa40-d35189d0fae8",
+      "status": "succeeded",
+      "attempts": 8,
+      "failure_count": 0,
+      "created_at": "2026-10-08 08:07:44.813065+00:00",
+      "finished_at": "2026-10-08 08:08:23.200543+00:00",
+      "last_error": null
+    }
+  ],
+  "cron_tail_events": [
+    {
+      "timestamp": 1791446863981,
+      "cpu_ms": 4,
+      "wall_ms": 1803,
+      "outcome": "ok",
+      "version": "3ab3ee44-c284-455e-8485-fa8fcc253edb",
+      "path": "",
+      "status": null,
+      "cron": "7 * * * *",
+      "queue": null,
+      "exceptions": []
+    }
+  ]
+}

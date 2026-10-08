@@ -3,6 +3,7 @@ main = "index.js"
 compatibility_date = "2026-10-08"
 compatibility_flags = ["nodejs_compat"]
 workers_dev = true
+preview_urls = false
 
 [assets]
 directory = "../../dist"
@@ -42,3 +43,7 @@ head_sampling_rate = 1
 
 # DATABASE_URL and ADMIN_TOKEN are deployed as Worker secrets.
 # Set SITE_ORIGIN after Cloudflare returns the actual workers.dev hostname.
+
+[vars]
+SITE_ORIGIN = "https://bioai-rizhi.328558608.workers.dev"
+GITHUB_URL = "https://github.com/MInsYang/bioai-rizhi"

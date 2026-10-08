@@ -71,4 +71,4 @@ Google 对 AI 搜索功能的官方建议仍围绕可爬取、可索引、对用
 
 > BioAI 日知汇集 AI 虚拟细胞、类器官、虚拟胚胎、虚拟器官与 AI 药物发现的研究和产业资源，提供原始出处、公司目录与专题导航。通过公开只读 MCP，你的个人 AI 可以检索本站已收录的材料，并保留来源、日期和论文状态。
 
-对外公布前，将 `{{SITE_ORIGIN}}` 替换为验收后的真实 HTTPS origin；更新频率、收录量和接入客户端只写已验证状态。接入步骤见 [MCP.md](MCP.md)。
+正式站点为 [BioAI 日知](https://bioai-rizhi.328558608.workers.dev)，公开源码为 [GitHub 仓库](https://github.com/MInsYang/bioai-rizhi)。推广时，更新频率、收录量和接入客户端只写已验证状态；接入步骤见 [MCP.md](MCP.md)。

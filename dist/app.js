@@ -125,7 +125,7 @@
   function recordCard(r) {
     const a = r.academic;
     const recordTopics = r.topics || r.classification?.topic_ids || [];
-    return `<article class="record"><div class="record-meta"><span class="pill ${a?.status === "preprint" ? "gold" : "green"}">${a ? (a.status === "preprint" ? "预印本" + (a.version ? " · v" + a.version : " · 版本未标注") : "学术索引收录") : "原文线索"}</span><span>${esc(r.source_name)}</span><time>${r.published_at ? (new Date(r.published_at) > new Date() ? "来源标注日期 " : "") + date(r.published_at) : "收录于 " + date(r.fetched_at)}</time></div><h3><button data-record="${r.id}">${esc(r.title)}</button></h3><p>${esc(r.excerpt?.slice(0, 180) || "摘要暂未提供，点击查看原文。")}</p><div class="record-foot">${r.company_slug ? `<a href="#company/${r.company_slug}">${esc(r.company_name || r.company_name_en)}</a>` : `<small>${a?.doi ? "DOI " + esc(a.doi) : "尚未转为已核验事件"}</small>`}<span>${anchor(r.canonical_url, "原文")} · <a href="/records/${r.id}">分享页 ↗</a></span></div>${recordTopics.length ? `<div class="tags topic-tags">${recordTopics.map(t=>`<a class="tag" href="#topic/${esc(t)}">${esc(topicName(t))}</a>`).join("")}</div>` : ""}</article>`;
+    return `<article class="record"><div class="record-meta"><span class="pill ${a?.status === "preprint" ? "gold" : "green"}">${a ? (a.status === "preprint" ? "预印本" + (a.version ? " · v" + a.version : " · 版本未标注") : "学术索引收录") : "原文线索"}</span><span>${esc(r.source_name)}</span><time>${r.published_at ? (new Date(r.published_at) > new Date() ? "来源刊期（晚于当前日期） " : "") + date(r.published_at) : "收录于 " + date(r.fetched_at)}</time></div><h3><button data-record="${r.id}">${esc(r.title)}</button></h3><p>${esc(r.excerpt?.slice(0, 180) || "摘要暂未提供，点击查看原文。")}</p><div class="record-foot">${r.company_slug ? `<a href="#company/${r.company_slug}">${esc(r.company_name || r.company_name_en)}</a>` : `<small>${a?.doi ? "DOI " + esc(a.doi) : "尚未转为已核验事件"}</small>`}<span>${anchor(r.canonical_url, "原文")} · <a href="/records/${r.id}">分享页 ↗</a></span></div>${recordTopics.length ? `<div class="tags topic-tags">${recordTopics.map(t=>`<a class="tag" href="#topic/${esc(t)}">${esc(topicName(t))}</a>`).join("")}</div>` : ""}</article>`;
   }
   function paperLabels(items) {
     return (items || [])
@@ -511,7 +511,7 @@
       $("#evidence-content").innerHTML =
         kind === "event"
           ? `<p class="eyebrow">VERIFIED EVENT · 已核验事件</p><h2>${esc(d.title)}</h2><div class="tags">${paperLabels(d.academic)}</div><p>${esc(d.summary)}</p>${d.details?.amount || d.details?.stage ? `<p>${esc(d.details.amount)} ${esc(d.details.stage)}</p>` : ""}<p class="raw-meta">发生日期 ${date(d.occurred_at)} · 发布日期 ${date(d.published_at)}<br>${esc(d.track)} · ${esc(types[d.event_type] || d.event_type)} · ${d.evidence_count} 条证据</p><div class="tags">${d.companies.map((c) => `<a class="tag" data-close-dialog href="#company/${c.slug}">${esc(c.name)} ↗</a>`).join("")}</div>${d.evidence.map((v) => `<section class="evidence-source"><span class="pill green">${esc(v.source_name)}</span><blockquote>${esc(v.evidence_text)}</blockquote>${anchor(v.canonical_url, "查看原始出处")}<p class="raw-meta">正文位置 ${v.evidence_start}—${v.evidence_end} · 采集内容哈希 ${esc(v.content_hash)}</p></section>`).join("")}`
-          : `<p class="eyebrow">SOURCE RECORD · 原始记录</p><h2>${esc(d.title)}</h2><p class="raw-meta">${esc(d.source_name)} · 发布 ${date(d.published_at)} · 收录 ${date(d.fetched_at, true)}</p><p>${anchor(d.canonical_url, "前往原文")}</p>${d.academic?.status === "preprint" ? '<p class="note-banner">预印本：未经期刊同行评议。请结合原文和后续版本判断。</p>' : '<p class="source-note">以下为来源中保存的正文或摘要，尚未作为已核验事件发布。</p>'}${d.academic?.journal_doi ? `<p>${anchor("https://doi.org/" + d.academic.journal_doi, "来源提供的正式发表 DOI")}</p>` : ""}<div class="raw-body">${esc(d.content_text)}</div>`;
+          : `<p class="eyebrow">SOURCE RECORD · 原始记录</p><h2>${esc(d.title)}</h2><p class="raw-meta">${esc(d.source_name)} · 来源日期 ${date(d.published_at)} · 收录 ${date(d.fetched_at, true)}</p><p>${anchor(d.canonical_url, "前往原文")}</p>${d.academic?.status === "preprint" ? '<p class="note-banner">预印本：未经期刊同行评议。请结合原文和后续版本判断。</p>' : '<p class="source-note">以下为来源中保存的正文或摘要，尚未作为已核验事件发布。</p>'}${d.academic?.journal_doi ? `<p>${anchor("https://doi.org/" + d.academic.journal_doi, "来源提供的正式发表 DOI")}</p>` : ""}<div class="raw-body">${esc(d.content_text)}</div>`;
     } catch (e) {
       if (n === dialogEpoch)
         $("#evidence-content").innerHTML =
@@ -552,7 +552,7 @@
           heading(
             route === "company" ? "公司档案" : "公司黄页",
             "COMPANY DIRECTORY",
-            "覆盖 130 家公司与历史主体，连接官方来源和发展进展。支持中英文、别名与历史品牌检索。",
+            "连接公司、历史主体、官方来源与发展进展。支持中英文、别名与历史品牌检索。",
           ) + '<div id="registry-root"></div>';
         window.RegistryPanel.mount(
           $("#registry-root"),

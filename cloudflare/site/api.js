@@ -253,7 +253,10 @@ export async function apiRead(path, input, sql) {
   }
   if (path === '/api/records') {
     const c = conditions();
-    dates(c, integer(params, 'days', 30, 0, 3660), null, null, 'COALESCE(r.published_at,r.fetched_at)');
+    // Future journal issue dates must not keep old records at the top of recent lists.
+    // Preserve the source date in the response and bound listing time by collection.
+    const effectiveTime = 'LEAST(COALESCE(r.published_at,r.fetched_at),r.fetched_at)';
+    dates(c, integer(params, 'days', 30, 0, 3660), null, null, effectiveTime);
     const academic = boolean(params, 'academic', null);
     if (academic !== null) c.clauses.push("(r.registry_key IN ('pubmed-eutils','biorxiv','medrxiv','europe-pmc','crossref')) IS " + (academic ? 'TRUE' : 'NOT TRUE'));
     const q = params.get('q') || '';
@@ -266,7 +269,7 @@ export async function apiRead(path, input, sql) {
       sql.query('SELECT count(*) n FROM public_resources r WHERE ' + c.where, c.args),
       sql.query(`SELECT r.id,r.title,left(r.content_text,400) AS excerpt,r.canonical_url,r.published_at,r.fetched_at,r.source_name,r.source_type,r.company_slug,r.company_name,r.company_name_en,r.registry_key,r.external_id,
         r.raw_payload->'academic' AS academic,r.raw_payload->'classification' AS classification FROM public_resources r WHERE ${c.where}
-        ORDER BY COALESCE(r.published_at,r.fetched_at) DESC,r.id LIMIT $${c.args.length + 1} OFFSET $${c.args.length + 2}`, [...c.args, limit, offset]),
+        ORDER BY ${effectiveTime} DESC,r.id LIMIT $${c.args.length + 1} OFFSET $${c.args.length + 2}`, [...c.args, limit, offset]),
     ]);
     return { total: count(total), items, limit, offset, ...focus };
   }
