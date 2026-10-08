@@ -1,0 +1,23 @@
+{
+  "status": "passed",
+  "origin": "https://bioai-rizhi.pages.dev",
+  "tested_at": "2026-10-08T11:25:55.094464+00:00",
+  "web_test_events": 6,
+  "duplicate_deduped": true,
+  "test_mcp_executions": 3,
+  "test_mcp_successes": 2,
+  "test_mcp_errors": 1,
+  "handshake_and_tools_list_excluded": true,
+  "admin_auth_and_no_store": true,
+  "days_checked": [
+    1,
+    7,
+    30
+  ],
+  "same_origin_and_admin_path_protection": true,
+  "dnt_omitted": true,
+  "session_hmac_verified": true,
+  "all_acceptance_traffic_flagged_test": true,
+  "historical_visitors_inferred": false,
+  "live_user_statistics_exported": false
+}

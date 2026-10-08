@@ -8,7 +8,7 @@ preview_urls = false
 [assets]
 directory = "../../dist"
 binding = "ASSETS"
-run_worker_first = ["/", "/api/*", "/mcp", "/health", "/feed.xml", "/digest/*", "/topics/*", "/companies/*", "/records/*", "/events/*", "/sitemap.xml", "/robots.txt", "/llms.txt", "/connect", "/internal/*"]
+run_worker_first = ["/", "/api/*", "/mcp", "/health", "/feed.xml", "/digest/*", "/topics/*", "/companies/*", "/records/*", "/events/*", "/guides", "/guides/*", "/briefings", "/sitemap.xml", "/sitemaps/*", "/indexnow-key.txt", "/robots.txt", "/llms.txt", "/connect", "/internal/*"]
 
 [triggers]
 # Hourly acquisition at minute 7 UTC (also minute 7 in Beijing).
@@ -41,7 +41,8 @@ simple = { limit = 120, period = 60 }
 enabled = true
 head_sampling_rate = 1
 
-# DATABASE_URL and ADMIN_TOKEN are deployed as Worker secrets.
+# DATABASE_URL, ADMIN_TOKEN and ANALYTICS_SALT are deployed as Worker secrets.
+# Analytics uses the existing API_RATE_LIMITER; no additional storage binding.
 # Canonical public origin uses the Pages gateway service binding.
 
 [vars]

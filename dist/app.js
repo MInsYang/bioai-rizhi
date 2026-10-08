@@ -3,6 +3,10 @@
   "use strict";
   const $ = (s) => document.querySelector(s),
     content = $("#content");
+  const publicationSnapshot = content.querySelector('[data-publication-view]')
+    ? { html: content.innerHTML, title: document.title }
+    : null;
+  const searchEditorial = content.querySelector('[data-search-editorial]')?.outerHTML || '';
   const esc = (s) =>
     String(s ?? "").replace(
       /[&<>"']/g,
@@ -21,6 +25,8 @@
     news: "新闻与文章",
     daily: "每日摘要",
     connect: "连接你的 AI",
+    guides: "专题指南",
+    briefings: "本周收录",
     timeline: "产业进展",
     hot: "Hot 关系图",
     academic: "学术进展",
@@ -625,6 +631,20 @@
     const pathRoute = pathParts.length ? [pathAliases[pathParts[0]] || pathParts[0], ...pathParts.slice(1)].join('/') : 'frontpage';
     const hash = location.hash.slice(1) || pathRoute;
     const [route, slug] = hash.split("/");
+    if (!location.hash && publicationSnapshot && ['guides', 'briefings'].includes(route)) {
+      current = route;
+      document.body.classList.remove('frontpage-view');
+      document.title = publicationSnapshot.title;
+      $("#crumb").textContent = names[route];
+      document.querySelectorAll('[data-nav]').forEach(a => {
+        const active = a.dataset.nav === route;
+        a.classList.toggle('active', active);
+        if (active) a.setAttribute('aria-current', 'page');
+        else a.removeAttribute('aria-current');
+      });
+      content.innerHTML = publicationSnapshot.html;
+      return;
+    }
     current =
       route === "topic" || route === "record" || route === "event"
         ? "news"
@@ -685,6 +705,10 @@
           heading(title, "BIOAI · 问象", "") +
           `<div class="error">${esc(e.message)} <button id="retry-load">重试</button></div>`;
       $("#retry-load")?.addEventListener("click", render);
+    } finally {
+      if (n === epoch && searchEditorial && ((route === 'frontpage' && pathRoute === 'frontpage') || (!location.hash && ['topic','company'].includes(route)))) {
+        content.insertAdjacentHTML('beforeend', searchEditorial);
+      }
     }
   }
   content.addEventListener("click", (e) => {
@@ -719,7 +743,7 @@
     $("#main").focus({ preventScroll: true });
     window.scrollTo({ top: 0, behavior: "auto" });
   });
-  $("#reload").onclick = render;
+  $("#reload").onclick = () => ['guides', 'briefings'].includes(current) ? location.reload() : render();
   const mobileMenu = $("#mobile-menu"), sidebar = $(".sidebar");
   const closeMobileMenu = () => {
     sidebar.classList.remove('nav-open');mobileMenu.setAttribute('aria-expanded','false');mobileMenu.textContent='全部栏目 ☰';
@@ -736,7 +760,7 @@
   const active = () => { lastActivity = Date.now(); };
   for (const event of ["pointerdown","keydown","scroll"]) window.addEventListener(event, active, {passive:true});
   const autoRefresh = () => {
-    if(document.hidden || Date.now()-lastActivity>120000 || current==='admin' || $('#evidence-dialog').open || document.activeElement?.matches('input,textarea,select') || /^(record|event)\//.test(location.hash.slice(1)))return;
+    if(document.hidden || Date.now()-lastActivity>120000 || ['admin','guides','briefings'].includes(current) || $('#evidence-dialog').open || document.activeElement?.matches('input,textarea,select') || /^(record|event)\//.test(location.hash.slice(1)))return;
     if(Date.now()-lastRefresh<300000)return;
     lastRefresh=Date.now();render();
   };

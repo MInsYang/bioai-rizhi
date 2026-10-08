@@ -50,3 +50,9 @@ CI 中 PostgreSQL 17 service 使用一次性演练凭证。`pg_restore` 在服�
 ## 验证状态的含义
 
 提交工作流只表示配置完成。只有实际运行成功且 artifact 中存在 `restore_drill: passed` 的 manifest，才表示该次备份及恢复演练通过。部署记录应引用实际工作流 run 和脱敏 manifest；首次手动运行不能证明之后每天都会持续成功。建议在 GitHub 通知中启用此仓库 Actions 失败通知，并定期检查 artifact 是否仍持续生成。
+
+### 使用统计数据
+
+3.2.0 的 `usage_analytics_state`、`usage_web_events`、`usage_mcp_calls` 纳入相同的加密备份与隔离恢复计数核对。在线明细保留 90 天，每日任务清理；备份工件保留 7 天，因此已清理明细可能在加密备份中再保留最多 7 天。公开验收报告仅记录测试流量，不导出真实用户访问统计。
+
+所有统计表的行数仍参与内部快照恢复对比，但不会写入公开 manifest 或 Actions 日志；仅输出 `analytics_tables_verified: true` 校验结果。

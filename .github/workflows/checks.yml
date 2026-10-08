@@ -39,5 +39,6 @@ jobs:
       - run: npm ci --prefix cloudflare/site
       - run: python -m pytest backend/tests -q
       - run: node tests/test_ui.cjs
+      - run: node --test tests/analytics_ui.test.cjs
       - run: npm test --prefix cloudflare/site
       - run: npm run check --prefix cloudflare/site

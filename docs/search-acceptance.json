@@ -1,0 +1,59 @@
+{
+  "tested_at": "2026-10-08T11:26:56.592684+00:00",
+  "origin": "https://bioai-rizhi.pages.dev",
+  "version": "3.2.0",
+  "worker_version": "fb408dc7-df7e-4101-b268-2c3f4276e660",
+  "public_routes": {
+    "/": 200,
+    "/guides": 200,
+    "/guides/virtual-cell-models": 200,
+    "/guides/ai-drug-discovery-collaborations": 200,
+    "/guides/weekly-reading-method": 200,
+    "/briefings": 200,
+    "/sitemap.xml": 200,
+    "/robots.txt": 200,
+    "/llms.txt": 200
+  },
+  "deployed_assets_match": {
+    "app.js": true,
+    "analytics.js": true,
+    "admin-panel.js": true,
+    "style.css": true
+  },
+  "sitemap_submaps": 4,
+  "public_sitemap_urls": 258,
+  "google": {
+    "property": "https://bioai-rizhi.pages.dev/",
+    "method": "HTML meta tag",
+    "ownership_verified_in_browser": true,
+    "sitemap_submission": "accepted",
+    "sitemap_url": "https://bioai-rizhi.pages.dev/sitemap.xml",
+    "initial_fetch_status": "could_not_fetch",
+    "live_inspection": "passed",
+    "performance_report": "processing; Google UI asks to check in about 1 day",
+    "live_inspection_time_beijing": "2026-10-08 19:28:55",
+    "live_page_fetch": "successful",
+    "live_crawl_allowed": true,
+    "live_indexing_allowed": true,
+    "sitemap_resubmitted_after_live_test": true,
+    "sitemap_latest_status": "could_not_fetch (immediately after resubmission; separate live URL fetch passed)"
+  },
+  "indexnow": {
+    "workflow": "search-discovery.yml",
+    "schedule_beijing": "08:35 daily",
+    "first_run": "pending"
+  },
+  "tests": {
+    "worker_pass": 137,
+    "worker_skip": 0,
+    "frontend_pass": 17,
+    "python_pass": 64,
+    "existing_ui_check": "passed"
+  },
+  "browser_preview": {
+    "desktop": "passed",
+    "mobile_390x844": "passed",
+    "guide_body_survives_client_render": "passed"
+  },
+  "indexing_or_ranking_guaranteed": false
+}

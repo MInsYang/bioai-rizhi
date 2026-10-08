@@ -10,6 +10,8 @@ __pycache__/
 cloudflare/site/.local-secrets/
 *.dump
 artifacts/
+.indexnow/
+indexnow-report.json
 node_modules/
 .wrangler/
 .pytest_cache/

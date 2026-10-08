@@ -18,7 +18,8 @@ import httpx
 import psycopg
 
 TABLES = ('companies', 'sources', 'raw_items', 'events', 'event_evidence', 'relations',
-          'ingestion_jobs', 'schema_migrations')
+          'ingestion_jobs', 'schema_migrations', 'usage_analytics_state',
+          'usage_web_events', 'usage_mcp_calls')
 RESTORE_DATABASES = {'restored', 'bioai_restore_test'}
 SECRET_ENV = {'DATABASE_URL', 'RESTORE_DATABASE_URL', 'BACKUP_PASSPHRASE'}
 
@@ -40,6 +41,20 @@ def table_counts(connection):
 def count_tables(uri):
     with psycopg.connect(uri, options='-c default_transaction_read_only=on') as connection:
         return table_counts(connection)
+
+
+def verified_public_counts(expected_counts, restored_counts):
+    """Compare the complete private snapshot before constructing public evidence."""
+    if (expected_counts != restored_counts or not set(TABLES).issubset(expected_counts)
+            or restored_counts['companies'] < 1 or restored_counts['schema_migrations'] < 8):
+        raise ValueError('Restored snapshot table counts differ or core tables are empty')
+    # Workflow logs and the unencrypted manifest are public. Full usage counts
+    # stay in the internal comparison; the backup itself is encrypted.
+    public = lambda counts: {name: count for name, count in counts.items()
+                             if not name.startswith('usage_')}
+    return {'expected_snapshot_counts': public(expected_counts),
+            'restored_counts': public(restored_counts),
+            'analytics_tables_verified': True}
 
 
 def write_report(path, result):
@@ -220,13 +235,12 @@ def backup(output, container=None):
                                                  '--dbname=' + target['PGDATABASE']]),
                            env=restore_env, stdin=stream, stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True, timeout=360)
         counts = count_tables(restore)
-        if counts != expected_counts or counts['companies'] < 1 or counts['schema_migrations'] < 8:
-            raise ValueError('Restored snapshot table counts differ or core tables are empty')
+        public_counts = verified_public_counts(expected_counts, counts)
         manifest = {'created_at': dt.datetime.now(dt.timezone.utc).isoformat(),
                     'encryption': 'GnuPG AES256 symmetric with integrity protection',
                     'ciphertext_sha256': file_sha256(encrypted), 'bytes': encrypted.stat().st_size,
                     'restore_drill': 'passed', 'validation': 'shared_read_only_snapshot_table_counts_and_full_pg_restore',
-                    'expected_snapshot_counts': expected_counts, 'restored_counts': counts,
+                    **public_counts,
                     'checked_tables': list(TABLES), 'retention_days': 7,
                     'limits': 'Counts validate the listed core tables, not every row value or application behavior; full pg_restore must also succeed.'}
         write_report(out / 'manifest.json', manifest)

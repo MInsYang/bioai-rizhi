@@ -188,3 +188,9 @@ Neon 即使持续仅 0.25 CU，30 天也约 180 CU-hours，超过 100 免费额�
 服务元数据报告 `usage_model=standard`，未提供 `limits`；未执行付费升级。短时 `ok` 不证明后续均满足免费限制，尚未完成全天运行或长期免费容量验收。后续须结合目标账户计划和用量，继续优化或降载；如需要付费计划，取得明确授权后再选择和变更。
 
 继续在 Cloudflare Observability 查看调用 CPU 和 `exceededCpu`/1102，分别测试首次 MCP 初始化、查询、XML 解析、队列消费与 Cron；本地 Node 冷启动耗时不是计费 CPU。同步检查 Queue operations/积压和 Neon CU-hours、存储、恢复窗口，先按一周实际用量估算全月，并设账户告警。若容量或 CPU 超出免费计划，暂停相关功能/采集并报告实际成本选项，未经授权不升级付费；不要宣称无限免费或已经完成线上性能验收。
+
+## 3.2.0 管理统计与搜索入口部署
+
+2026-10-08 已部署 Worker `fb408dc7-df7e-4101-b268-2c3f4276e660`，正式 `/health` 返回 3.2.0 和数据库连通。迁移 016 在本地与生产应用；新增三张使用统计表，备份角色已验证只读访问。新增分析盐、Google 验证标签、IndexNow 验证配置均通过 Worker Secret 配置，不写入源码。Pages 网关沿用原绑定。小时采集与每日清理/日报 Cron 未改变。
+
+本轮 Worker 137、前端 17、Python 64 项测试均通过，另通过既有 UI 检查；正式端到端结果见 [analytics-acceptance.json](analytics-acceptance.json)，外部搜索结果见 [search-acceptance.json](search-acceptance.json)。管理员看板位于 `https://bioai-rizhi.pages.dev/#admin`，仍使用既有管理员认证。

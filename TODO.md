@@ -1,8 +1,13 @@
-# TODO · 实际状态（2026-10-08，3.1 报纸版）
+# TODO · 实际状态（2026-10-08，3.2 统计与搜索版）
 
 本文件区分已完成、仍需观测与依赖外部条件的事项。不用“代码存在”代替真实数据接入，也不把未来产品设想自动勾成完成。
 
 ## 本轮完成
+
+- [x] 管理工作台增加网页 PV、匿名会话、重要点击、MCP 实际工具执行及成功/错误/耗时；今日/7天/30天按北京时间聚合，测试流量单列，历史访问不补造。见 [统计说明](docs/analytics.md) 与 [验收](docs/analytics-acceptance.json)。
+- [x] PostgreSQL 016 使用统计表在本地和生产应用；事件 ID 去重、HMAC 会话、DNT/GPC、同源/大小/配额限制、管理员鉴权、90天清理；新增表进入加密备份与恢复计数校验。
+- [x] 三篇有原始出处的专题指南、实时本周收录、公司/主题/首页可索引正文、分类型分页 sitemap；默认范围外档案和空日报 noindex，来源撤销同步更新。见 [搜索说明](docs/search-growth.md)。
+- [x] IndexNow 每日北京时间08:35通知机制、验证文件与独立密钥；新增/撤回URL与真实lastmod比较、分批提交、失败保留状态。实际平台回执与Google所有权验证见 [搜索验收](docs/search-acceptance.json)，不等同于已收录。
 
 - [x] 报纸式首页、四个栏目导读；点击进入原有看板、新闻、时间线、学术与公司黄页。保留问象 Logo、AI × LIFE SCIENCE 及中文标语，手机与 PC 自适应。
 - [x] 正式短地址 [bioai-rizhi.pages.dev](https://bioai-rizhi.pages.dev)；Pages Service Binding 转到原 Worker，MCP/canonical/RSS 使用短地址。未删除 ResearchHub 或旧 Sites。
@@ -29,6 +34,8 @@
 - [x] 真实公网来源撤销/恢复：Iambic 的原文、事件、关系图、公司动态和 MCP 同步隐藏，独立 watchdog 在 4.662 秒后恢复；来源其他字段与所有内容/任务指纹不变。[公网演练](docs/public-revocation-drill-2026-10-08.json)
 
 - [x] Crossref 首次完整日期窗口回填已在 10:06:18 UTC 完成：190 次处理（含分页/临时失败），最终 `succeeded`、连续失败归零，高水位只在完整窗口完成后推进。
+
+- [x] Google Search Console URL 前缀站点所有权已通过 HTML 标签验证；Sitemap 已受理。抓取状态与搜索通知回执以 [search-acceptance.json](docs/search-acceptance.json) 为准，提交不等于成功收录。
 
 ## 运行观测，不能凭一次操作提前宣称完成
 

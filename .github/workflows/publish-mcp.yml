@@ -44,7 +44,7 @@ jobs:
           set -euo pipefail
           jq -e '
             .name == "io.github.MInsYang/bioai-rizhi" and
-            .version == "3.1.0" and
+            .version == "3.2.0" and
             .repository.url == "https://github.com/MInsYang/bioai-rizhi" and
             .remotes == [{"type":"streamable-http","url":"https://bioai-rizhi.pages.dev/mcp"}] and
             ((.packages // []) | length == 0)
@@ -83,15 +83,15 @@ jobs:
           set -euo pipefail
           "${RUNNER_TEMP}/mcp-publisher-bin/mcp-publisher" publish server.json
           curl --proto '=https' --tlsv1.2 --fail --silent --show-error --max-time 30 \
-            "${REGISTRY_URL}/v0.1/servers/io.github.MInsYang%2Fbioai-rizhi/versions/3.1.0" \
+            "${REGISTRY_URL}/v0.1/servers/io.github.MInsYang%2Fbioai-rizhi/versions/3.2.0" \
             --output "${RUNNER_TEMP}/mcp-published.json"
           jq -e '
             .server.name == "io.github.MInsYang/bioai-rizhi" and
-            .server.version == "3.1.0" and
+            .server.version == "3.2.0" and
             .server.remotes == [{"type":"streamable-http","url":"https://bioai-rizhi.pages.dev/mcp"}] and
             ._meta["io.modelcontextprotocol.registry/official"].status == "active"
           ' "${RUNNER_TEMP}/mcp-published.json" >/dev/null
-          printf '%s\n' 'Published io.github.MInsYang/bioai-rizhi 3.1.0 and verified the active registry entry.' >> "$GITHUB_STEP_SUMMARY"
+          printf '%s\n' 'Published io.github.MInsYang/bioai-rizhi 3.2.0 and verified the active registry entry.' >> "$GITHUB_STEP_SUMMARY"
 
       - name: Clear the temporary registry login
         if: always()

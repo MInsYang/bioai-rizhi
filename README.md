@@ -2,7 +2,7 @@
 
 聚焦 **AI 虚拟细胞、类器官、虚拟胚胎、虚拟器官、AI 药物发现** 的研究与产业资源站。新闻文章、公司黄页、学术进展、产业时间线、合作关系图和来源状态共用 PostgreSQL；保留问象原 Logo 和统一导航。
 
-> **3.1 报纸版（2026-10-08）：** 首页聚焦 AI 生物制药行业动态；四个栏目进入原有看板。采用不带账号数字的 Cloudflare Pages 地址，后端仍为原 Worker、Queue 与 Neon。每小时检查新闻更新，学术默认筛选 17 种重点期刊，另有每日加密备份与独立恢复演练。完整验收与真实限制见 [本轮验收](docs/newspaper-acceptance.json) 和 [TODO](TODO.md)。
+> **3.2 统计与搜索版（2026-10-08）：** 管理员可查看网页浏览、匿名会话、点击和 MCP 实际工具执行；新增有来源的专题指南、本周收录概要与分页 sitemap。每小时采集、每日摘要、问象报纸首页和手机/PC 布局保持整合。统计口径见 [使用统计](docs/analytics.md)，搜索入口与验证边界见 [搜索建设](docs/search-growth.md)；当前部署验收见 [统计验收](docs/analytics-acceptance.json) 和 [搜索验收](docs/search-acceptance.json)。
 
 访问 [BioAI 日知](https://bioai-rizhi.pages.dev)，公开源码在 [MInsYang/bioai-rizhi](https://github.com/MInsYang/bioai-rizhi)，默认分支为 `codex/bioai-resource-site`。MCP 地址为 `https://bioai-rizhi.pages.dev/mcp`；当前验收与待观察项目见 [本轮验收](docs/newspaper-acceptance.json)。已登记到官方 MCP Registry，见 [接入与登记说明](docs/mcp-registry.md)。
 

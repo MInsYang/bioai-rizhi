@@ -244,12 +244,22 @@ async function boundedRead(apiRead, path, params = {}) {
 }
 
 /** apiRead(path, params) must only return the site's gated public read model. */
-export function createBioAiServer(apiRead, origin) {
-  const server = new McpServer({ name: "bioai-rizhi", version: "3.1.0" }, { instructions: INSTRUCTIONS });
+export function createBioAiServer(apiRead, origin, observeExecution) {
+  const server = new McpServer({ name: "bioai-rizhi", version: "3.2.0" }, { instructions: INSTRUCTIONS });
   const register = (name, title, description, outputSchema, run) => server.registerTool(name, {
     title, description, inputSchema: INPUT_SCHEMAS[name], outputSchema: OUTPUT_SCHEMAS.get(outputSchema), annotations: READ_ONLY,
   }, async (args) => {
-    try { return result(await run(args)); } catch (error) { return toolError(error); }
+    const startedAt = new Date().toISOString(), started = performance.now();
+    let output;
+    try { output = result(await run(args)); } catch (error) { output = toolError(error); }
+    // This callback only runs after SDK argument/protocol validation. Do not
+    // retain args, output content, client prompts or protocol request bodies.
+    try {
+      const measurement = observeExecution?.({tool_name:name,success:output.isError !== true,
+        started_at:startedAt,duration_ms:Math.max(0,Math.round(performance.now()-started))});
+      if (measurement?.catch) measurement.catch(()=>{});
+    } catch { /* A metrics observer can never turn a read-only tool into an error. */ }
+    return output;
   });
 
   register("search_resources", "Search BioAI resources", "Search stored public research abstracts and industry source records by keywords, topic, academic/industry category and time window. days=0 searches all stored dates. This tool searches source records; it does not claim they are editor-reviewed news.", resourceListSchema, async (args) => {
@@ -393,7 +403,7 @@ async function boundedBody(request) {
 }
 
 /** The parent Worker routes /mcp here; its apiRead callback must never expose admin APIs. */
-export async function handleMcp(request, env, ctx, apiRead) {
+export async function handleMcp(request, env, ctx, apiRead, observeExecution) {
   if (new URL(request.url).pathname !== "/mcp") return rpcError(404, -32601, "MCP endpoint not found");
   let origin;
   try { origin = endpointOrigin(request, env); }
@@ -432,7 +442,7 @@ export async function handleMcp(request, env, ctx, apiRead) {
   let body;
   try { body = await boundedBody(request); }
   catch (error) { return fail(error.status ?? 400, error.status === 413 ? -32600 : -32700, error.message); }
-  const factory = () => createBioAiServer(apiRead, origin);
+  const factory = () => createBioAiServer(apiRead, origin, observeExecution);
   const handler = createMcpHandler(factory, {
     route: "/mcp", legacy: "stateless", responseMode: "auto", corsOptions,
     allowedHostnames: [new URL(origin).hostname],

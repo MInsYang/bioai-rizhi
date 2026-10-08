@@ -34,6 +34,8 @@
         ><a href="#sources" data-nav="sources"><span>◉</span>信息来源</a
         ><a href="#saved" data-nav="saved"><span>☆</span>我的关注</a
         ><a href="#daily" data-nav="daily"><span>▣</span>每日摘要</a
+        ><a href="/guides" data-nav="guides"><span>▥</span>专题指南</a
+        ><a href="/briefings" data-nav="briefings"><span>▣</span>本周收录</a
         ><a href="#connect" data-nav="connect"><span>⌘</span>连接你的 AI</a>
       </nav>
       <div class="sidebar-foot">
@@ -64,6 +66,13 @@
         <span>BioAI 日知 · 问象</span
         ><a href="#sources">信息来自可追溯原始来源 · 查看接入状态 ↗</a>
       </footer>
+      <details class="statistics-notice">
+        <summary>访问统计与隐私说明</summary>
+        <p>本站用第一方统计了解哪些页面、原始出处与连接功能受到关注。统计记录仅含允许的页面路径、动作标识和来源域名，不含搜索词、表单内容、完整链接或原始 IP。</p>
+        <p>匿名会话标识仅保存在当前标签页，30 分钟没有活动后更新，不代表独立人数。浏览器的 Do Not Track（DNT）或 Global Privacy Control（GPC）信号会停止网页事件采集；管理页面和管理操作不采集。</p>
+        <p>MCP 使用量由服务端实际执行的工具记录，网页复制按钮点击不会算作工具调用，也不证明复制成功。测试流量与按浏览器标识识别的自动化访问从网页统计排除，识别可能存在误差；统计事件保留 90 天。</p>
+        <p id="analytics-privacy-state"></p>
+      </details>
     </div>
     <dialog
       id="evidence-dialog"
@@ -79,5 +88,6 @@
     <script src="/registry-panel.js"></script>
     <script src="/admin-panel.js"></script>
     <script src="/app.js"></script>
+    <script src="/analytics.js"></script>
   </body>
 </html>

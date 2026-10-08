@@ -1,0 +1,40 @@
+name: search-discovery
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '35 0 * * *'
+permissions:
+  contents: read
+concurrency:
+  group: bioai-search-discovery
+  cancel-in-progress: false
+jobs:
+  indexnow:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r backend/requirements.lock
+      - uses: actions/cache/restore@v4
+        with:
+          path: .indexnow/state.json
+          key: bioai-indexnow-v1-${{ github.run_id }}-${{ github.run_attempt }}
+          restore-keys: bioai-indexnow-v1-
+      - name: Submit changed public sitemap URLs
+        env:
+          BIOAI_INDEXNOW_KEY: ${{ secrets.BIOAI_INDEXNOW_KEY }}
+        run: python scripts/submit_indexnow.py
+      - uses: actions/cache/save@v4
+        if: success() && hashFiles('.indexnow/state.json') != ''
+        with:
+          path: .indexnow/state.json
+          key: bioai-indexnow-v1-${{ github.run_id }}-${{ github.run_attempt }}
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: bioai-search-discovery-${{ github.run_id }}
+          path: indexnow-report.json
+          retention-days: 30

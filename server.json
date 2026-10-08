@@ -3,7 +3,7 @@
   "name": "io.github.MInsYang/bioai-rizhi",
   "title": "BioAI 日知",
   "description": "Read-only AI biopharma news, research records, companies, and source status from BioAI 日知.",
-  "version": "3.1.0",
+  "version": "3.2.0",
   "websiteUrl": "https://bioai-rizhi.pages.dev",
   "repository": {
     "url": "https://github.com/MInsYang/bioai-rizhi",
