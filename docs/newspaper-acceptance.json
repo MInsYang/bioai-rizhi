@@ -386,7 +386,7 @@
     "selected_journals": 17,
     "journal_policy_version": "selected-journals-2026-10-v1"
   },
-  "backup_run": "https://github.com/MInsYang/bioai-rizhi/actions/runs/37752897575",
+  "backup_run": "https://github.com/MInsYang/bioai-rizhi/actions/runs/37761831580",
   "personal_codex": {
     "name": "bioai",
     "url": "https://bioai-rizhi.pages.dev/mcp",
@@ -398,5 +398,43 @@
   "queue_redelivery_acceptance": "queue-duplicate-drill-2026-10-08.json",
   "public_revocation_acceptance": "public-revocation-drill-2026-10-08.json",
   "scope_backfill_acceptance": "scope-backfill-acceptance.json",
-  "ci_status_url": "https://github.com/MInsYang/bioai-rizhi/actions/workflows/checks.yml"
+  "ci_status_url": "https://github.com/MInsYang/bioai-rizhi/actions/workflows/checks.yml",
+  "asset_integrity": {
+    "app.js": {
+      "sha256": "ab3ed47a3b56c07c5cb22a59c1213c6c8f82f53057f72de3661d12c211e4da8c",
+      "matches_deployed_source": true
+    },
+    "style.css": {
+      "sha256": "47fefa40838de2f7c16c203246aa2f48dbdef0f2e4459554a5e9374b5ce62273",
+      "matches_deployed_source": true
+    },
+    "admin-panel.js": {
+      "sha256": "c358ec6139b4514ae4126bee9431c2e742929acb83dba9552a1b5a6a3ab9c9c8",
+      "matches_deployed_source": true
+    },
+    "registry-panel.js": {
+      "sha256": "19b3a69bbae3f6da09e609a0d9640f651337055f51d8a97cb4e25901f232bd5e",
+      "matches_deployed_source": true
+    }
+  },
+  "scope_live_checks": {
+    "新塑料": {
+      "default_count": 0,
+      "archive_count": 1
+    },
+    "Keep AI-augmented science contestable": {
+      "default_count": 0,
+      "archive_count": 1
+    },
+    "VBI": {
+      "default_count": 1,
+      "retained": true
+    }
+  },
+  "final_http_checked_at": "2026-10-08T10:11:32.521097+00:00",
+  "release_code_ci": {
+    "url": "https://github.com/MInsYang/bioai-rizhi/actions/runs/37761749337",
+    "commit": "a7f3e95b9ef316a441364eec4f98b82a2cb41368",
+    "conclusion": "success"
+  }
 }
