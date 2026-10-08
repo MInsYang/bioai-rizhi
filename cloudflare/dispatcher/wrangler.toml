@@ -1,0 +1,13 @@
+name = "bioai-ingestion-dispatcher"
+main = "src.js"
+compatibility_date = "2026-09-14"
+workers_dev = false
+
+[triggers]
+crons = ["7 * * * *"]
+
+[observability]
+enabled = true
+
+# Set API_BASE and INGEST_SECRET using `wrangler secret put`.
+# API_BASE must be the deployed HTTPS backend origin, not the static Sites URL.

@@ -1,0 +1,184 @@
+{
+  "metadata": {
+    "project": "BioAI日知",
+    "version": "1.0.0",
+    "generated_on": "2026-09-14",
+    "principle": "采集任务每2小时启动一次，但按来源优先级与TTL选择真正需要抓取的来源。"
+  },
+  "scheduler": {
+    "provider": "Cloudflare Workers Cron Triggers",
+    "cron_utc": "7 */2 * * *",
+    "description": "每个UTC偶数小时的第7分钟启动，避开整点拥堵。Cloudflare Cron使用UTC。",
+    "handler": "Worker scheduled() -> signed POST /internal/ingestion/dispatch -> queue fan-out",
+    "idempotency_key": "source_id + window_start_utc"
+  },
+  "polling_profiles": {
+    "P0": {
+      "ttl_hours": 2,
+      "examples": [
+        "监管披露",
+        "交易所公告",
+        "重点公司IR/Newsroom",
+        "PubMed/bioRxiv增量"
+      ]
+    },
+    "P1": {
+      "ttl_hours": 6,
+      "examples": [
+        "一般公司Newsroom",
+        "ClinicalTrials高频关注集",
+        "官方社交账号"
+      ]
+    },
+    "P2": {
+      "ttl_hours": 24,
+      "examples": [
+        "长尾公司",
+        "低频专题页",
+        "公司黄页校验"
+      ]
+    }
+  },
+  "source_confidence": {
+    "regulator_or_exchange_filing": 1.0,
+    "company_ir_or_official_release": 0.95,
+    "peer_reviewed_article": 0.9,
+    "clinical_trial_registry": 0.9,
+    "preprint": 0.75,
+    "verified_official_social": 0.7,
+    "reputable_secondary_media": 0.55,
+    "unverified_aggregation_or_rumor": 0.25
+  },
+  "public_sources": [
+    {
+      "id": "pubmed-eutils",
+      "name": "PubMed / NCBI E-utilities",
+      "type": "academic_api",
+      "base_url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/",
+      "poll_profile": "P0",
+      "cursor_strategy": "按EDAT/PDAT窗口检索，保存PMID、last_seen_at和查询版本；重叠回看48小时。",
+      "dedup_key": "PMID"
+    },
+    {
+      "id": "biorxiv",
+      "name": "bioRxiv API",
+      "type": "preprint_api",
+      "base_url": "https://api.biorxiv.org/details/biorxiv/",
+      "poll_profile": "P0",
+      "cursor_strategy": "日期区间 + cursor分页；重叠回看72小时以捕获版本更新。",
+      "dedup_key": "DOI + version"
+    },
+    {
+      "id": "medrxiv",
+      "name": "medRxiv API",
+      "type": "preprint_api",
+      "base_url": "https://api.biorxiv.org/details/medrxiv/",
+      "poll_profile": "P0",
+      "cursor_strategy": "日期区间 + cursor分页；重叠回看72小时。",
+      "dedup_key": "DOI + version"
+    },
+    {
+      "id": "crossref",
+      "name": "Crossref REST API",
+      "type": "academic_metadata_api",
+      "base_url": "https://api.crossref.org/",
+      "poll_profile": "P1",
+      "cursor_strategy": "from-index-date + cursor；主要用于DOI补全、机构、资助与期刊元数据。",
+      "dedup_key": "DOI"
+    },
+    {
+      "id": "europe-pmc",
+      "name": "Europe PMC REST API",
+      "type": "academic_api",
+      "base_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/",
+      "poll_profile": "P1",
+      "cursor_strategy": "cursorMark分页；补充开放全文、资助和引用关系。",
+      "dedup_key": "PMID/PMCID/DOI"
+    },
+    {
+      "id": "clinicaltrials-gov",
+      "name": "ClinicalTrials.gov API v2",
+      "type": "clinical_trial_api",
+      "base_url": "https://clinicaltrials.gov/api/v2/studies",
+      "poll_profile": "P1",
+      "cursor_strategy": "按lastUpdatePostDate与watchlist sponsor查询，保存NCT ID和版本时间。",
+      "dedup_key": "NCT ID + lastUpdatePostDate"
+    },
+    {
+      "id": "sec-edgar",
+      "name": "SEC EDGAR Data APIs",
+      "type": "regulatory_filing_api",
+      "base_url": "https://data.sec.gov/",
+      "poll_profile": "P0",
+      "cursor_strategy": "按CIK读取submissions JSON；保存accession number；遵守User-Agent与访问频率要求。",
+      "dedup_key": "accession number"
+    },
+    {
+      "id": "company-official",
+      "name": "Company official sites / IR / Newsroom",
+      "type": "official_web",
+      "base_url": null,
+      "poll_profile": "dynamic_by_company_priority",
+      "cursor_strategy": "优先RSS/Atom/sitemap；否则条件请求ETag/If-Modified-Since并对正文生成content_hash。",
+      "dedup_key": "canonical URL + content_hash"
+    },
+    {
+      "id": "official-social",
+      "name": "Verified official social accounts",
+      "type": "social_discovery",
+      "base_url": null,
+      "poll_profile": "P1",
+      "cursor_strategy": "只使用官方API、公开RSS或合规第三方；登录墙页面不作为核心采集依赖。",
+      "dedup_key": "platform + account_id + post_id"
+    }
+  ],
+  "pipeline": [
+    "dispatch_due_sources",
+    "fetch_with_rate_limit_and_conditional_headers",
+    "store_raw_payload_and_http_metadata",
+    "extract_article_or_record",
+    "canonicalize_url_and_identifiers",
+    "deduplicate_exact_and_near_duplicate",
+    "entity_link_against_company_aliases",
+    "classify_event_and_extract_relations",
+    "score_confidence_and_apply_review_rules",
+    "publish_timeline_cards",
+    "rebuild_incremental_hot_graph",
+    "record_lineage_and_job_metrics"
+  ],
+  "event_types": [
+    "financing",
+    "partnership",
+    "licensing",
+    "merger_acquisition",
+    "product_launch",
+    "model_or_dataset_release",
+    "clinical_trial_milestone",
+    "regulatory",
+    "publication",
+    "facility_or_geographic_expansion",
+    "earnings",
+    "executive_change",
+    "hiring",
+    "other"
+  ],
+  "relation_types": [
+    "invested_in",
+    "partnered_with",
+    "licensed_to",
+    "licensed_from",
+    "acquired",
+    "co_developed",
+    "uses_platform",
+    "trial_sponsor",
+    "published_by",
+    "funded_by",
+    "competes_with"
+  ],
+  "review_rules": [
+    "融资、并购、授权交易金额与临床关键终点必须至少有一个A级或B级来源，否则进入人工复核。",
+    "只来自官方社交账号的重大事件先标记“待正式公告”，不直接改写为已完成事实。",
+    "预印本必须显示“预印本/未同行评议”徽标；后续匹配期刊DOI后合并版本链。",
+    "模型抽取必须保存证据句位置、原始URL、抓取时间、模型版本和提示词版本。"
+  ]
+}

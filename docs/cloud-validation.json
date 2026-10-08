@@ -1,0 +1,88 @@
+{
+  "validated_at": "2026-10-08T07:19:22.513390+00:00",
+  "production_deployed": false,
+  "scope": "Local PostgreSQL, exact Worker handlers, real upstream HTTP; in-process queue acceptance transport",
+  "tests": {
+    "worker_js_passed": 60,
+    "worker_js_skipped": 0,
+    "python_passed": 33,
+    "python_deprecation_warnings": 2,
+    "ui_contract": "passed",
+    "wrangler_build": "dry-run passed"
+  },
+  "database_migrations": [
+    "001_foundation.sql",
+    "002_unified_publication.sql",
+    "003_academic_evidence.sql",
+    "004_hourly_ingestion.sql",
+    "005_daily_digest.sql",
+    "006_public_resource_dedup.sql",
+    "007_host_request_intervals.sql",
+    "008_dispatch_queue_confirmation.sql"
+  ],
+  "initial_collection": {
+    "status": "passed",
+    "pages": 294,
+    "started_at": "2026-10-08T06:34:44.551Z",
+    "finished_at": "2026-10-08T06:47:32.007Z"
+  },
+  "six_source_incremental": {
+    "status": "passed",
+    "pages": 26,
+    "counts": {
+      "resources": "4012",
+      "raw_records": "4669",
+      "companies": "133"
+    }
+  },
+  "http_acceptance": {
+    "mcp_server": "bioai-rizhi",
+    "mcp_tools": [
+      "search_resources",
+      "get_resource",
+      "search_companies",
+      "get_company",
+      "get_source_status"
+    ],
+    "real_virtual_cell_results": 83,
+    "chinese_company_search": "passed",
+    "/connect": {
+      "status": 200,
+      "bytes": 4043
+    },
+    "/companies/seekgene": {
+      "status": 200,
+      "bytes": 4113
+    },
+    "/topics/virtual-cell": {
+      "status": 200,
+      "bytes": 8514
+    },
+    "/feed.xml?topic=virtual-cell": {
+      "status": 200,
+      "bytes": 14865
+    },
+    "/sitemap.xml": {
+      "status": 200,
+      "bytes": 18050
+    },
+    "/llms.txt": {
+      "status": 200,
+      "bytes": 867
+    },
+    "/records/da706d28-bce6-4f4d-903f-55b7ffdfe712": {
+      "status": 200,
+      "bytes": 5374
+    }
+  },
+  "responsive_checks": {
+    "390px": "MCP code panel overflow fixed; menu expansion/selection and topic filters passed",
+    "desktop": "sidebar vertical scrolling and multi-column layout implemented; final viewport checks pending"
+  },
+  "remaining": [
+    "Cloudflare OAuth callback and actual deployment",
+    "Neon authentication and production database",
+    "Cloudflare Cron/Queue and edge CPU acceptance",
+    "Real personal AI client installation"
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "started_at": "2026-10-08T05:49:07.095614+00:00",
+  "real_network": true,
+  "sources": [
+    {
+      "registry_key": "pubmed-eutils",
+      "status": "not_due",
+      "dispatched": 0,
+      "total_raw_records": 86,
+      "samples": [
+        {
+          "title": "SND1 promotes colorectal cancer progression and metastasis by stabilizing HK2 through the inhibition of FBW7-mediated ubiquitination.",
+          "canonical_url": "https://pubmed.ncbi.nlm.nih.gov/42837794/",
+          "external_id": "PMID:42837794"
+        },
+        {
+          "title": "Integrating network medicine and foundation models reveals cell-type-specific regulatory alterations in Alzheimer's disease.",
+          "canonical_url": "https://pubmed.ncbi.nlm.nih.gov/42840584/",
+          "external_id": "PMID:42840584"
+        },
+        {
+          "title": "Bisphenol A Exposure Perturbs the Immune Microenvironment in Alzheimer's Disease: Insights from Network Toxicology and Single-Cell Transcriptomics.",
+          "canonical_url": "https://pubmed.ncbi.nlm.nih.gov/42825974/",
+          "external_id": "PMID:42825974"
+        }
+      ],
+      "last_attempt": {
+        "http_status": 200,
+        "duration_ms": 11288,
+        "bytes_fetched": 2062121,
+        "parsed_count": 86,
+        "result": "success",
+        "finished_at": "2026-10-08 13:41:45.816812+08:00",
+        "job_status": "succeeded",
+        "attempts": 1
+      },
+      "last_success_at": "2026-10-08 13:41:45.816812+08:00"
+    },
+    {
+      "registry_key": "biorxiv",
+      "status": "failed",
+      "error": "Academic API HTTP 500 at https://api.biorxiv.org/details/biorxiv/2026-10-05/2026-10-08/120/json",
+      "total_raw_records": 0,
+      "samples": [],
+      "last_attempt": {
+        "http_status": null,
+        "duration_ms": 10964,
+        "bytes_fetched": null,
+        "parsed_count": null,
+        "result": "dead",
+        "finished_at": "2026-10-08 13:49:18.219155+08:00",
+        "job_status": "dead",
+        "attempts": 3
+      },
+      "last_success_at": null
+    }
+  ],
+  "finished_at": "2026-10-08T05:49:18.256692+00:00"
+}

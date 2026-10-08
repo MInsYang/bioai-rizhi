@@ -1,0 +1,173 @@
+{
+  "metadata": {
+    "project": "BioAI日知",
+    "version": "focus-supplement-1",
+    "generated_at": "2026-10-08T06:53:15Z",
+    "company_count": 3,
+    "source_count": 3,
+    "query_version": "focus-2026-10-v1",
+    "polling_profile": {"id": "P0", "ttl_hours": 1},
+    "scope": "补充已核实的公司身份与官方 RSS；不生成新闻、事件、公司主题标签或公司 AI 能力断言。",
+    "date_contract": "observed_at 和 http_date 是本次 HTTP 核验时间；published_on、closed_on 与 latest_article_published_at 是来源文章或交易日期。HTTP Last-Modified 不代表新闻发布日期。",
+    "verification_contract": "导入读取本清单中的既存官方证据，不访问网络。来源审核不意味着文章已被编辑复核，也不保证持续更新。"
+  },
+  "companies": [
+    {
+      "slug": "tahoe-therapeutics",
+      "name_zh": "",
+      "name_en": "Tahoe Therapeutics",
+      "track": "AI与模型数据",
+      "region": "美国",
+      "focus": ["单细胞扰动数据", "细胞状态预测模型"],
+      "official_website": "https://www.tahoebio.ai/",
+      "status": "active",
+      "priority": "P0",
+      "include_in_company_wall": true,
+      "notes": "官网介绍单细胞扰动数据和机器学习模型；2025-04-23 官方公告确认 Vevo Therapeutics 更名为 Tahoe。历史别名保留，不另建重复公司；公告日期不推断法律更名生效日。",
+      "aliases": [
+        {"alias": "Vevo Therapeutics", "alias_type": "historical_brand", "valid_from": null, "valid_to": null,
+         "evidence": {"url": "https://www.tahoebio.ai/news/vevo-therapeutics-is-now-tahoe", "published_on": "2025-04-23", "quote": "Vevo Therapeutics is now Tahoe.", "observed_at": "2026-10-08T06:52:47.374582Z", "http_status": 200, "http_date": "Thu, 08 Oct 2026 06:52:47 GMT", "body_sha256": "c044bd08d1916634021a15f1461a0f8b928890045154395cdead3b220896f8ff"}}
+      ],
+      "identity_evidence": [
+        {"url": "https://www.tahoebio.ai/", "summary": "官网列出单细胞扰动数据与 ML 模型，并提供 South San Francisco, CA, USA 地址。", "published_on": null, "observed_at": "2026-10-08T06:50:25.683978Z", "http_status": 200, "http_date": "Thu, 08 Oct 2026 06:50:26 GMT", "body_sha256": "4b19cbee4df1205b06a938ecaa655bfaa1aaed754e2cf954936cc3713d04bc04"}
+      ],
+      "identity_links": [
+        {"related_name": "Vevo Therapeutics", "link_type": "historical_brand", "related_slug": null, "evidence_url": "https://www.tahoebio.ai/news/vevo-therapeutics-is-now-tahoe", "notes": "官方更名公告发布日期：2025-04-23。保留历史品牌，不推断法律有效期。"}
+      ]
+    },
+    {
+      "slug": "hub-organoids",
+      "name_zh": "",
+      "name_en": "HUB Organoids",
+      "track": "生物医药",
+      "region": "荷兰",
+      "focus": ["患者来源类器官", "类器官药物筛选"],
+      "official_website": "https://www.huborganoids.nl/",
+      "status": "part_of_parent",
+      "priority": "P0",
+      "include_in_company_wall": false,
+      "notes": "已并入 Merck KGaA, Darmstadt, Germany 的 Life Science 业务（美国及加拿大使用 MilliporeSigma 名称）；不是美国 Merck/MSD。官网公告称收购于 2024-12-23 完成；保留为历史及已并购实体，可通过包含历史的搜索查看。已核实 RSS 的最新文章日期为 2025-01-06，不能视为最新新闻。类器官业务不等于 AI 能力。",
+      "aliases": [],
+      "identity_evidence": [
+        {"url": "https://www.huborganoids.nl/news/the-life-science-business-of-merck-kgaa-darmstadt-germany-acquires-hub-organoids-holding-bv-expands-next-gen-biology-portfolio/", "summary": "官网公告说明 Merck KGaA 的 Life Science 业务完成收购，并列出 HUB 在 Utrecht, Netherlands 的类器官业务。", "published_on": "2025-01-06", "closed_on": "2024-12-23", "observed_at": "2026-10-08T06:52:47.375705Z", "http_status": 200, "http_date": "Thu, 08 Oct 2026 06:52:49 GMT", "body_sha256": "a755f8e3557eacb36d4ca638ba27aabe5ceed26ecbb5d5b1b6760f7f51c12c91"}
+      ],
+      "identity_links": [
+        {"related_name": "Merck KGaA, Darmstadt, Germany", "link_type": "parent", "related_slug": null, "evidence_url": "https://www.huborganoids.nl/news/the-life-science-business-of-merck-kgaa-darmstadt-germany-acquires-hub-organoids-holding-bv-expands-next-gen-biology-portfolio/", "notes": "收购完成日：2024-12-23；公告发布日期：2025-01-06。Life Science 业务在美国及加拿大称 MilliporeSigma；非美国 Merck/MSD。母公司若尚无已核实实体，保留名称及证据，不按相似名称自动关联。"}
+      ]
+    },
+    {
+      "slug": "emulate",
+      "name_zh": "",
+      "name_en": "Emulate",
+      "track": "生物医药",
+      "region": "美国",
+      "focus": ["器官芯片", "人体相关体外药物评价模型"],
+      "official_website": "https://emulatebio.com/",
+      "status": "active",
+      "priority": "P0",
+      "include_in_company_wall": true,
+      "notes": "器官芯片与体外人体模型公司；官网联系方式位于 Boston, MA。生物器官芯片不等于 AI 虚拟器官，相关文章按具体内容自动分类，并单独保留 biological_model 与 ai_related。",
+      "aliases": [
+        {"alias": "Emulate, Inc.", "alias_type": "alias", "valid_from": null, "valid_to": null,
+         "evidence": {"url": "https://emulatebio.com/about/", "summary": "官方关于页面介绍 Emulate, Inc. 与 Organ-Chip/人体仿生平台。", "published_on": null, "observed_at": "2026-10-08T06:52:47.375839Z", "http_status": 200, "http_date": "Thu, 08 Oct 2026 06:52:48 GMT", "body_sha256": "33d23b29efd929eedd008d76d21830388e330965f5f93bf9e9b761293766d2ff"}}
+      ],
+      "identity_evidence": [
+        {"url": "https://emulatebio.com/about/", "summary": "官网介绍 Organ-Chip 与人体仿生平台；未据此断言全公司 AI 能力。", "published_on": null, "observed_at": "2026-10-08T06:52:47.375839Z", "http_status": 200, "http_date": "Thu, 08 Oct 2026 06:52:48 GMT", "body_sha256": "33d23b29efd929eedd008d76d21830388e330965f5f93bf9e9b761293766d2ff"},
+        {"url": "https://emulatebio.com/contact-us/", "summary": "官方联系地址为 27 Drydock Ave, Boston, MA。", "published_on": null, "observed_at": "2026-10-08T06:53:14.601838Z", "http_status": 200, "http_date": "Thu, 08 Oct 2026 06:53:15 GMT", "body_sha256": "e91570061da15765ad9df1758e552b8333a3a27fc0a1421a57e932aa3f971a00"}
+      ],
+      "identity_links": []
+    }
+  ],
+  "sources": [
+    {
+      "company_slug": "tahoe-therapeutics",
+      "registry_key": "tahoe-official-rss",
+      "name": "Tahoe official blog RSS",
+      "url": "https://blog.tahoebio.ai/feed",
+      "source_type": "rss",
+      "adapter": "rss",
+      "poll_profile": "P0",
+      "config": {
+        "cloud_runtime_enabled": true,
+        "official_feed_verified": true,
+        "allowed_hosts": ["blog.tahoebio.ai"],
+        "request_interval_seconds": 1,
+        "integration_status": "implemented",
+        "query_version": "focus-2026-10-v1",
+        "scope": "Only RSS items matching the five article topics; no company capability assertions",
+        "provenance": {
+          "official_anchor": "https://www.tahoebio.ai/",
+          "discovered_on": "https://blog.tahoebio.ai/",
+          "method": "official_homepage_backlink_chain",
+          "live_validated_at": "2026-10-08T06:48:47.310666Z",
+          "chain": [
+            {"page_url": "https://www.tahoebio.ai/", "href": "https://substack.com/@tahoeai", "target_url": "https://substack.com/@tahoeai", "link_kind": "official_external_link", "observed_at": "2026-10-08T06:50:25.683978Z", "http_status": 200, "http_date": "Thu, 08 Oct 2026 06:50:26 GMT", "body_sha256": "4b19cbee4df1205b06a938ecaa655bfaa1aaed754e2cf954936cc3713d04bc04"},
+            {"page_url": "https://substack.com/@tahoeai", "href": "https://blog.tahoebio.ai/?utm_campaign=profile_chips", "target_url": "https://blog.tahoebio.ai/", "link_kind": "official_profile_publication_link", "observed_at": "2026-10-08T06:50:25.684835Z", "http_status": 200, "http_date": "Thu, 08 Oct 2026 06:50:26 GMT", "body_sha256": "6d25e431c4354102140c2a71b440057afe7a44911fe9d6988ba38842ae4fbb14"},
+            {"page_url": "https://blog.tahoebio.ai/", "href": "/feed", "target_url": "https://blog.tahoebio.ai/feed", "link_kind": "rss_autodiscovery", "observed_at": "2026-10-08T06:50:25.685041Z", "http_status": 200, "http_date": "Thu, 08 Oct 2026 06:50:26 GMT", "body_sha256": "cb535a4ae0e292524ef1cef130f855ec808dd690948d865259dff852abc0d23b"}
+          ]
+        },
+        "http_observation": {"requested_url": "https://blog.tahoebio.ai/feed", "resolved_url": "https://blog.tahoebio.ai/feed", "observed_at": "2026-10-08T06:48:47.310666Z", "http_status": 200, "http_date": "Thu, 08 Oct 2026 06:48:48 GMT", "content_type": "application/xml; charset=utf-8", "etag": "W/\"2db16-lrQqHXGm4b8FeOCF+4cEQKYCUmc\"", "last_modified": null, "bytes": 187158, "body_sha256": "a43c614e835324bff2f322902345c1301dfcadf6c1ee678631b62bf4ce348799", "format": "rss", "channel_title": "The Tahoe Blog", "item_count": 7, "latest_article_published_at": "2026-03-16T20:46:10Z", "latest_article_date_raw": "Mon, 16 Mar 2026 20:46:10 GMT", "latest_article_url": "https://blog.tahoebio.ai/p/mapping-drug-response-cascades-with", "latest_article_summary": "以 Tahoe-100M 研究药物响应与基因调控网络。"},
+        "robots": {"url": "https://blog.tahoebio.ai/robots.txt", "observed_at": "2026-10-08T06:52:18.476431Z", "http_status": 200, "http_date": "Thu, 08 Oct 2026 06:52:19 GMT", "body_sha256": "8cf0df9b6b525d6f90d0f039fbd0f0dbd1a1335ac1fdf8de9c0fa64c0bdd682c", "crawl_delay_seconds": 0, "allowed_feed": true, "body": "User-agent: BLEXBot\nDisallow: /\n\nUser-agent: Twitterbot\nDisallow:\n\n\n\nUser-agent: *\nDisallow: /action/\nDisallow: /publish\nDisallow: /sign-in\nDisallow: /channel-frame\nDisallow: /session-attribution-frame\nDisallow: /visited-surface-frame\nDisallow: /feed/private\nDisallow: /feed/podcast/*/private/*.rss\nDisallow: /subscribe\nDisallow: /lovestack/*\nDisallow: /p/*/comment/*\nDisallow: /inbox/post/*\nDisallow: /notes/post/*\nDisallow: /embed\n\nUser-agent: facebookexternalhit\nAllow: /\nAllow: /subscribe\n\n\nSITEMAP: https://blog.tahoebio.ai/sitemap.xml\nSITEMAP: https://blog.tahoebio.ai/news_sitemap.xml\n\n"}
+      }
+    },
+    {
+      "company_slug": "hub-organoids",
+      "registry_key": "hub-organoids-official-rss",
+      "name": "HUB Organoids official news RSS",
+      "url": "https://www.huborganoids.nl/news/feed/",
+      "source_type": "rss",
+      "adapter": "rss",
+      "poll_profile": "P0",
+      "config": {
+        "cloud_runtime_enabled": true,
+        "official_feed_verified": true,
+        "allowed_hosts": ["www.huborganoids.nl"],
+        "request_interval_seconds": 10,
+        "integration_status": "implemented",
+        "query_version": "focus-2026-10-v1",
+        "scope": "Only RSS items matching the five article topics; historical coverage is retained",
+        "source_age_note": "RSS 最新文章日期为 2025-01-06。2026 年 HTTP Date/Last-Modified 只证明端点核验或响应变化，不证明发布了 2026 年新闻。",
+        "provenance": {
+          "official_anchor": "https://www.huborganoids.nl/",
+          "discovered_on": "https://www.huborganoids.nl/news/",
+          "method": "official_same_host_rss_autodiscovery",
+          "live_validated_at": "2026-10-08T06:48:47.311509Z",
+          "chain": [
+            {"page_url": "https://www.huborganoids.nl/news/", "href": "https://www.huborganoids.nl/news/feed/", "target_url": "https://www.huborganoids.nl/news/feed/", "link_kind": "rss_autodiscovery", "observed_at": "2026-10-08T06:50:25.685101Z", "http_status": 200, "http_date": "Thu, 08 Oct 2026 06:50:26 GMT", "body_sha256": "d114278e43baa3da916031642a2c2d48f0eaafbd7d98a112a3cd4acea43a75da"}
+          ]
+        },
+        "http_observation": {"requested_url": "https://www.huborganoids.nl/news/feed/", "resolved_url": "https://www.huborganoids.nl/news/feed/", "observed_at": "2026-10-08T06:48:47.311509Z", "http_status": 200, "http_date": "Thu, 08 Oct 2026 06:48:48 GMT", "content_type": "application/rss+xml; charset=UTF-8", "etag": "W/\"6d3c68d4551ca59083a911fbea5c18ac\"", "last_modified": "Wed, 30 Sep 2026 13:12:52 GMT", "bytes": 17621, "body_sha256": "a8c13f05ad0211450f43de237c50713cf5f16fd1d1697f536cd21040484df142", "format": "rss", "channel_title": "News - HUB Organoids", "item_count": 10, "latest_article_published_at": "2025-01-06T13:23:34Z", "latest_article_date_raw": "Mon, 06 Jan 2025 13:23:34 +0000", "latest_article_url": "https://www.huborganoids.nl/news/the-life-science-business-of-merck-kgaa-darmstadt-germany-acquires-hub-organoids-holding-bv-expands-next-gen-biology-portfolio/", "latest_article_summary": "Merck KGaA 的 Life Science 业务完成对 HUB Organoids 的收购。"},
+        "robots": {"url": "https://www.huborganoids.nl/robots.txt", "observed_at": "2026-10-08T06:52:18.477447Z", "http_status": 200, "http_date": "Thu, 08 Oct 2026 06:52:18 GMT", "body_sha256": "df4abb5c4eb9b39388ec5aa518c035c154d6adb2169bfe301888828e217f671d", "crawl_delay_seconds": 10, "allowed_feed": true, "body": "Crawl-delay: 10\n\nSitemap: https://www.huborganoids.nl/sitemap.xml\nSitemap: https://www.huborganoids.nl/sitemap.rss\n\n# START YOAST BLOCK\n# ---------------------------\nUser-agent: *\nDisallow:\n\nSitemap: https://www.huborganoids.nl/sitemap_index.xml\n# ---------------------------\n# END YOAST BLOCK"}
+      }
+    },
+    {
+      "company_slug": "emulate",
+      "registry_key": "emulate-official-rss",
+      "name": "Emulate official blog RSS",
+      "url": "https://emulatebio.com/feed/",
+      "source_type": "rss",
+      "adapter": "rss",
+      "poll_profile": "P0",
+      "config": {
+        "cloud_runtime_enabled": true,
+        "official_feed_verified": true,
+        "allowed_hosts": ["emulatebio.com"],
+        "request_interval_seconds": 10,
+        "integration_status": "implemented",
+        "query_version": "focus-2026-10-v1",
+        "scope": "Only RSS items matching the five article topics; biological Organ-Chips are not automatically AI virtual organs",
+        "provenance": {
+          "official_anchor": "https://emulatebio.com/",
+          "discovered_on": "https://emulatebio.com/blog/",
+          "method": "official_same_host_rss_autodiscovery",
+          "live_validated_at": "2026-10-08T06:48:47.311636Z",
+          "chain": [
+            {"page_url": "https://emulatebio.com/blog/", "href": "https://emulatebio.com/feed/", "target_url": "https://emulatebio.com/feed/", "link_kind": "rss_autodiscovery", "observed_at": "2026-10-08T06:50:25.686533Z", "http_status": 200, "http_date": "Thu, 08 Oct 2026 06:50:26 GMT", "body_sha256": "17b8c75d281cc3c045aa27bf272cf4221896d4959bf4f2a98b6db4a76601f9f8"}
+          ]
+        },
+        "http_observation": {"requested_url": "https://emulatebio.com/feed/", "resolved_url": "https://emulatebio.com/feed/", "observed_at": "2026-10-08T06:48:47.311636Z", "http_status": 200, "http_date": "Thu, 08 Oct 2026 06:48:48 GMT", "content_type": "application/rss+xml; charset=UTF-8", "etag": "W/\"2976bbc75d772e9c78c8f565bad38a27\"", "last_modified": "Tue, 06 Oct 2026 20:15:41 GMT", "bytes": 221808, "body_sha256": "b8c942539a15f62e727784f33335e10792de76d654240b47aab1eb87baca7372", "format": "rss", "channel_title": "Emulate", "item_count": 10, "latest_article_published_at": "2026-06-11T14:35:16Z", "latest_article_date_raw": "Thu, 11 Jun 2026 14:35:16 +0000", "latest_article_url": "https://emulatebio.com/organ-on-a-chip-for-biologics-development/", "latest_article_summary": "器官芯片在人类生物制剂研发中的应用。"},
+        "robots": {"url": "https://emulatebio.com/robots.txt", "observed_at": "2026-10-08T06:52:18.478290Z", "http_status": 200, "http_date": "Thu, 08 Oct 2026 06:52:18 GMT", "body_sha256": "c4f52b188e1a43a7c6501fc517f91b80a4f7e74f5df0501b3d17752bbd6ed056", "crawl_delay_seconds": 10, "allowed_feed": true, "body": "Crawl-delay: 10\n# START YOAST BLOCK\n# ---------------------------\nUser-agent: *\nDisallow:\n\nSitemap: https://emulatebio.com/sitemap_index.xml\n# ---------------------------\n# END YOAST BLOCK"}
+      }
+    }
+  ]
+}

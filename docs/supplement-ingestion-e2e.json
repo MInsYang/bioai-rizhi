@@ -1,0 +1,337 @@
+{
+  "started_at": "2026-10-08T07:03:12.909Z",
+  "runtime": "local PostgreSQL + exact Worker ingestion handlers",
+  "queue_transport": "in-process acceptance harness",
+  "real_network": true,
+  "pages": [
+    {
+      "job_id": "f964db56-fa49-4ab7-87cd-cc1ef7f61483",
+      "status": "checkpoint",
+      "inserted": 0,
+      "records": 19
+    },
+    {
+      "status": "retry"
+    },
+    {
+      "status": "retry"
+    },
+    {
+      "job_id": "96d15314-6eb8-4a59-91b3-fe3ce562f8df",
+      "status": "succeeded",
+      "inserted": 1,
+      "records": 1
+    },
+    {
+      "job_id": "fc2c3058-cfaf-4138-8fc1-e625d0a9be0a",
+      "status": "succeeded",
+      "inserted": 10,
+      "records": 10
+    },
+    {
+      "status": "retry"
+    },
+    {
+      "job_id": "f964db56-fa49-4ab7-87cd-cc1ef7f61483",
+      "status": "checkpoint",
+      "inserted": 0,
+      "records": 17
+    },
+    {
+      "job_id": "f964db56-fa49-4ab7-87cd-cc1ef7f61483",
+      "status": "checkpoint",
+      "inserted": 0,
+      "records": 21
+    },
+    {
+      "job_id": "f964db56-fa49-4ab7-87cd-cc1ef7f61483",
+      "status": "checkpoint",
+      "inserted": 0,
+      "records": 22
+    },
+    {
+      "job_id": "f964db56-fa49-4ab7-87cd-cc1ef7f61483",
+      "status": "checkpoint",
+      "inserted": 0,
+      "records": 22
+    },
+    {
+      "job_id": "f964db56-fa49-4ab7-87cd-cc1ef7f61483",
+      "status": "checkpoint",
+      "inserted": 0,
+      "records": 25
+    },
+    {
+      "job_id": "f964db56-fa49-4ab7-87cd-cc1ef7f61483",
+      "status": "checkpoint",
+      "inserted": 0,
+      "records": 24
+    },
+    {
+      "job_id": "f964db56-fa49-4ab7-87cd-cc1ef7f61483",
+      "status": "succeeded",
+      "inserted": 0,
+      "records": 13
+    },
+    {
+      "job_id": "8b89c931-8909-4596-b314-bf2ad72c182e",
+      "status": "succeeded",
+      "inserted": 0,
+      "records": 0
+    },
+    {
+      "job_id": "5b070799-0ca9-4891-a844-6c7ddfb146f7",
+      "status": "checkpoint",
+      "inserted": 0,
+      "records": 0
+    },
+    {
+      "job_id": "5b070799-0ca9-4891-a844-6c7ddfb146f7",
+      "status": "checkpoint",
+      "inserted": 0,
+      "records": 8
+    },
+    {
+      "job_id": "5b070799-0ca9-4891-a844-6c7ddfb146f7",
+      "status": "checkpoint",
+      "inserted": 0,
+      "records": 7
+    },
+    {
+      "job_id": "5b070799-0ca9-4891-a844-6c7ddfb146f7",
+      "status": "checkpoint",
+      "inserted": 0,
+      "records": 6
+    },
+    {
+      "job_id": "c206e681-50ca-4a54-9e77-3a0f683219b3",
+      "status": "succeeded",
+      "inserted": 9,
+      "records": 9
+    },
+    {
+      "job_id": "5b070799-0ca9-4891-a844-6c7ddfb146f7",
+      "status": "checkpoint",
+      "inserted": 0,
+      "records": 9
+    },
+    {
+      "job_id": "5b070799-0ca9-4891-a844-6c7ddfb146f7",
+      "status": "checkpoint",
+      "inserted": 0,
+      "records": 6
+    },
+    {
+      "job_id": "5b070799-0ca9-4891-a844-6c7ddfb146f7",
+      "status": "checkpoint",
+      "inserted": 0,
+      "records": 6
+    },
+    {
+      "job_id": "5b070799-0ca9-4891-a844-6c7ddfb146f7",
+      "status": "checkpoint",
+      "inserted": 0,
+      "records": 7
+    },
+    {
+      "job_id": "5b070799-0ca9-4891-a844-6c7ddfb146f7",
+      "status": "checkpoint",
+      "inserted": 0,
+      "records": 8
+    },
+    {
+      "job_id": "5b070799-0ca9-4891-a844-6c7ddfb146f7",
+      "status": "checkpoint",
+      "inserted": 0,
+      "records": 10
+    },
+    {
+      "job_id": "5b070799-0ca9-4891-a844-6c7ddfb146f7",
+      "status": "succeeded",
+      "inserted": 0,
+      "records": 4
+    }
+  ],
+  "status": "passed",
+  "dispatch": {
+    "status": "succeeded",
+    "due": 6,
+    "enqueued": 6
+  },
+  "sources": [
+    {
+      "name": "Europe PMC REST API",
+      "adapter": "europepmc",
+      "last_success_at": "2026-10-08T07:03:56.373Z",
+      "consecutive_failures": 0,
+      "last_collection": {
+        "bytes_total": 1085866,
+        "duration_ms": 3381,
+        "http_status": 200,
+        "bytes_fetched": 93586,
+        "matched_total": 163,
+        "query_version": "focus-2026-10-v1-e64083f62a7c",
+        "rejected_links": 0,
+        "retrieved_total": 188
+      }
+    },
+    {
+      "name": "HUB Organoids official news RSS",
+      "adapter": "rss",
+      "last_success_at": "2026-10-08T07:03:32.167Z",
+      "consecutive_failures": 0,
+      "last_collection": {
+        "bytes_total": 17621,
+        "duration_ms": 881,
+        "http_status": 200,
+        "bytes_fetched": 17621,
+        "matched_total": 10,
+        "query_version": "focus-2026-10-v1",
+        "rejected_links": 0,
+        "retrieved_total": 10
+      }
+    },
+    {
+      "name": "Emulate official blog RSS",
+      "adapter": "rss",
+      "last_success_at": "2026-10-08T07:04:42.299Z",
+      "consecutive_failures": 0,
+      "last_collection": {
+        "bytes_total": 221808,
+        "duration_ms": 647,
+        "http_status": 200,
+        "bytes_fetched": 221808,
+        "matched_total": 9,
+        "query_version": "focus-2026-10-v1",
+        "rejected_links": 0,
+        "retrieved_total": 10
+      }
+    },
+    {
+      "name": "PubMed / NCBI E-utilities",
+      "adapter": "pubmed",
+      "last_success_at": "2026-10-08T07:04:56.279Z",
+      "consecutive_failures": 0,
+      "last_collection": {
+        "bytes_total": 2092829,
+        "duration_ms": 1066,
+        "http_status": 200,
+        "bytes_fetched": 81155,
+        "matched_total": 71,
+        "query_version": "focus-2026-10-v1-b1b61de7e1f5",
+        "rejected_links": 0,
+        "retrieved_total": 94
+      }
+    },
+    {
+      "name": "Tahoe official blog RSS",
+      "adapter": "rss",
+      "last_success_at": "2026-10-08T07:03:31.255Z",
+      "consecutive_failures": 0,
+      "last_collection": {
+        "bytes_total": 187158,
+        "duration_ms": 806,
+        "http_status": 200,
+        "bytes_fetched": 187158,
+        "matched_total": 1,
+        "query_version": "focus-2026-10-v1",
+        "rejected_links": 0,
+        "retrieved_total": 7
+      }
+    },
+    {
+      "name": "晶泰科技 XtalPi » Feed",
+      "adapter": "rss",
+      "last_success_at": "2026-10-08T07:04:21.583Z",
+      "consecutive_failures": 0,
+      "last_collection": {
+        "bytes_total": 0,
+        "duration_ms": 2133,
+        "http_status": 304,
+        "bytes_fetched": 0,
+        "matched_total": 0,
+        "query_version": "focus-2026-10-v1",
+        "rejected_links": 0,
+        "retrieved_total": 0
+      }
+    }
+  ],
+  "jobs": [
+    {
+      "id": "5b070799-0ca9-4891-a844-6c7ddfb146f7",
+      "status": "succeeded",
+      "attempts": 12,
+      "failure_count": 0,
+      "last_error": null
+    },
+    {
+      "id": "96d15314-6eb8-4a59-91b3-fe3ce562f8df",
+      "status": "succeeded",
+      "attempts": 1,
+      "failure_count": 0,
+      "last_error": null
+    },
+    {
+      "id": "8b89c931-8909-4596-b314-bf2ad72c182e",
+      "status": "succeeded",
+      "attempts": 2,
+      "failure_count": 0,
+      "last_error": null
+    },
+    {
+      "id": "f964db56-fa49-4ab7-87cd-cc1ef7f61483",
+      "status": "succeeded",
+      "attempts": 8,
+      "failure_count": 0,
+      "last_error": null
+    },
+    {
+      "id": "fc2c3058-cfaf-4138-8fc1-e625d0a9be0a",
+      "status": "succeeded",
+      "attempts": 1,
+      "failure_count": 0,
+      "last_error": null
+    },
+    {
+      "id": "c206e681-50ca-4a54-9e77-3a0f683219b3",
+      "status": "succeeded",
+      "attempts": 2,
+      "failure_count": 0,
+      "last_error": null
+    },
+    {
+      "id": "9c17f1a5-55d1-4252-8aab-51284f7e6450",
+      "status": "succeeded",
+      "attempts": 103,
+      "failure_count": 0,
+      "last_error": null
+    },
+    {
+      "id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "succeeded",
+      "attempts": 187,
+      "failure_count": 0,
+      "last_error": null
+    },
+    {
+      "id": "bd3bb23a-c1c5-4d77-b651-28ca0291249b",
+      "status": "succeeded",
+      "attempts": 4,
+      "failure_count": 0,
+      "last_error": null
+    },
+    {
+      "id": "7e8c51bc-9559-4db9-a99f-a6a1c7fd743e",
+      "status": "succeeded",
+      "attempts": 1,
+      "failure_count": 0,
+      "last_error": null
+    }
+  ],
+  "counts": {
+    "resources": "4012",
+    "raw_records": "4669",
+    "companies": "133"
+  },
+  "finished_at": "2026-10-08T07:04:56.439Z"
+}

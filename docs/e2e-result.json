@@ -1,0 +1,85 @@
+{
+  "started_at": "2026-10-08T05:44:12.186807+00:00",
+  "real_network": true,
+  "steps": [
+    {
+      "dispatch": {
+        "dispatched": 2,
+        "job_ids": [
+          "a07bafd3-5a61-4eb7-8fc4-326b3769ff48",
+          "7e8c51bc-9559-4db9-a99f-a6a1c7fd743e"
+        ]
+      }
+    },
+    {
+      "homepage_job": "a07bafd3-5a61-4eb7-8fc4-326b3769ff48",
+      "status": "succeeded",
+      "raw_inserted": 0,
+      "candidates": 10,
+      "http_status": 200
+    },
+    {
+      "verification": {
+        "status": "verified",
+        "enabled": true
+      }
+    },
+    {
+      "rss_job": "7e8c51bc-9559-4db9-a99f-a6a1c7fd743e",
+      "status": "succeeded",
+      "raw_inserted": 10,
+      "candidates": 0,
+      "http_status": 200
+    }
+  ],
+  "homepage": "https://www.xtalpi.com/",
+  "feed": "https://www.xtalpi.com/feed/",
+  "audit": {
+    "http_status": 200,
+    "duration_ms": 1241,
+    "bytes_fetched": 147166,
+    "parsed_count": 10,
+    "result": "success"
+  },
+  "status": "passed",
+  "raw_count": 20,
+  "samples": [
+    {
+      "id": "41194400-8ceb-40fe-b32b-882f81d2a97b",
+      "title": "国际权威期刊 JACS Au 刊发晶泰科技新成果，AI 破解高通量实验产率定量瓶颈",
+      "canonical_url": "https://www.xtalpi.com/%e5%9b%bd%e9%99%85%e6%9d%83%e5%a8%81%e6%9c%9f%e5%88%8a-jacs-au-%e5%88%8a%e5%8f%91%e6%99%b6%e6%b3%b0%e7%a7%91%e6%8a%80%e6%96%b0%e6%88%90%e6%9e%9c%ef%bc%8cai-%e7%a0%b4%e8%a7%a3%e9%ab%98%e9%80%9a/",
+      "published_at": "2026-09-23 16:45:19+08:00",
+      "content_hash": "f524939ca962c3889484915ec8a90f429481651618039cb3eb3cf2a03b1d7572"
+    },
+    {
+      "id": "1e8c7e66-5329-49f7-9c61-b30dd745faf6",
+      "title": "晶泰AI4S助力艾滋病治愈获关键进展：候选药物高效提名PCC",
+      "canonical_url": "https://www.xtalpi.com/%e6%99%b6%e6%b3%b0ai4s%e5%8a%a9%e5%8a%9b%e8%89%be%e6%bb%8b%e7%97%85%e6%b2%bb%e6%84%88%e8%8e%b7%e5%85%b3%e9%94%ae%e8%bf%9b%e5%b1%95%ef%bc%9a%e5%80%99%e9%80%89%e8%8d%af%e7%89%a9%e9%ab%98%e6%95%88/",
+      "published_at": "2026-09-22 16:39:29+08:00",
+      "content_hash": "e86ad3cc700dfd82d70f162aa70876f5f818dc04b0085641ebe22f7c4f43e5a6"
+    },
+    {
+      "id": "84b9f799-b837-400c-9247-260d8815fc6e",
+      "title": "寻找下一个“十亿美金分子”科学创业大赛：XtalPi Science，高校年轻人的第一个创业合伙人",
+      "canonical_url": "https://www.xtalpi.com/%e5%af%bb%e6%89%be%e4%b8%8b%e4%b8%80%e4%b8%aa%e5%8d%81%e4%ba%bf%e7%be%8e%e9%87%91%e5%88%86%e5%ad%90%e7%a7%91%e5%ad%a6%e5%88%9b%e4%b8%9a%e5%a4%a7%e8%b5%9b%ef%bc%9axtalpi-science/",
+      "published_at": "2026-09-29 15:54:08+08:00",
+      "content_hash": "c3b0fd21e958806d6fa006e3e342ffab120fef2834daa023645ce2162e2914a5"
+    },
+    {
+      "id": "5a1a71e3-3b98-412d-a779-2d89aae0cb64",
+      "title": "晶泰向美国FDA提交 IND申请，AI + 机器人加速创新药物迈向临床",
+      "canonical_url": "https://www.xtalpi.com/%e6%99%b6%e6%b3%b0%e5%90%91%e7%be%8e%e5%9b%bdfda%e6%8f%90%e4%ba%a4-ind%e7%94%b3%e8%af%b7%ef%bc%8cai-%e6%9c%ba%e5%99%a8%e4%ba%ba%e5%8a%a0%e9%80%9f%e5%88%9b%e6%96%b0%e8%8d%af%e7%89%a9%e8%bf%88/",
+      "published_at": "2026-09-24 17:02:06+08:00",
+      "content_hash": "c9135b71aa154d988d4d8776a0a04fb7a9e44c8f26f7d79f154a31b73e36bcb4"
+    },
+    {
+      "id": "64bfb9da-f4f1-4bc4-8161-2aec55aa4ca4",
+      "title": "站在诺奖的肩膀上，化学正在从“发现规律”走向“设计规律”",
+      "canonical_url": "https://www.xtalpi.com/%e7%ab%99%e5%9c%a8%e8%af%ba%e5%a5%96%e7%9a%84%e8%82%a9%e8%86%80%e4%b8%8a%ef%bc%8c%e5%8c%96%e5%ad%a6%e6%ad%a3%e5%9c%a8%e4%bb%8e%e5%8f%91%e7%8e%b0%e8%a7%84%e5%be%8b%e8%b5%b0%e5%90%91/",
+      "published_at": "2026-10-08 13:26:00+08:00",
+      "content_hash": "dcb951471bb9d376c7f57328d242dc8ad96ce9bd50322fc2355f464e36fce901"
+    }
+  ],
+  "events_created": 0,
+  "finished_at": "2026-10-08T05:44:17.453905+00:00"
+}

@@ -1,0 +1,1857 @@
+{
+  "started_at": "2026-10-08T06:34:44.551Z",
+  "runtime": "local PostgreSQL + exact Worker ingestion handlers",
+  "queue_transport": "in-process acceptance harness",
+  "real_network": true,
+  "pages": [
+    {
+      "status": "retry"
+    },
+    {
+      "job_id": "9c17f1a5-55d1-4252-8aab-51284f7e6450",
+      "status": "checkpoint",
+      "inserted": 0,
+      "records": 0
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 24,
+      "records": 24
+    },
+    {
+      "job_id": "9c17f1a5-55d1-4252-8aab-51284f7e6450",
+      "status": "checkpoint",
+      "inserted": 8,
+      "records": 8
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 22,
+      "records": 22
+    },
+    {
+      "job_id": "9c17f1a5-55d1-4252-8aab-51284f7e6450",
+      "status": "checkpoint",
+      "inserted": 9,
+      "records": 9
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 17,
+      "records": 17
+    },
+    {
+      "job_id": "9c17f1a5-55d1-4252-8aab-51284f7e6450",
+      "status": "checkpoint",
+      "inserted": 10,
+      "records": 10
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 15,
+      "records": 15
+    },
+    {
+      "job_id": "9c17f1a5-55d1-4252-8aab-51284f7e6450",
+      "status": "checkpoint",
+      "inserted": 9,
+      "records": 9
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 21,
+      "records": 21
+    },
+    {
+      "job_id": "9c17f1a5-55d1-4252-8aab-51284f7e6450",
+      "status": "checkpoint",
+      "inserted": 7,
+      "records": 7
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 17,
+      "records": 17
+    },
+    {
+      "job_id": "9c17f1a5-55d1-4252-8aab-51284f7e6450",
+      "status": "checkpoint",
+      "inserted": 9,
+      "records": 9
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 18,
+      "records": 18
+    },
+    {
+      "job_id": "9c17f1a5-55d1-4252-8aab-51284f7e6450",
+      "status": "checkpoint",
+      "inserted": 10,
+      "records": 10
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 15,
+      "records": 15
+    },
+    {
+      "job_id": "9c17f1a5-55d1-4252-8aab-51284f7e6450",
+      "status": "checkpoint",
+      "inserted": 6,
+      "records": 6
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 17,
+      "records": 17
+    },
+    {
+      "job_id": "9c17f1a5-55d1-4252-8aab-51284f7e6450",
+      "status": "checkpoint",
+      "inserted": 6,
+      "records": 6
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 15,
+      "records": 15
+    },
+    {
+      "job_id": "9c17f1a5-55d1-4252-8aab-51284f7e6450",
+      "status": "checkpoint",
+      "inserted": 8,
+      "records": 8
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 14,
+      "records": 14
+    },
+    {
+      "job_id": "9c17f1a5-55d1-4252-8aab-51284f7e6450",
+      "status": "checkpoint",
+      "inserted": 6,
+      "records": 6
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 24,
+      "records": 24
+    },
+    {
+      "job_id": "9c17f1a5-55d1-4252-8aab-51284f7e6450",
+      "status": "checkpoint",
+      "inserted": 9,
+      "records": 9
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 22,
+      "records": 22
+    },
+    {
+      "job_id": "9c17f1a5-55d1-4252-8aab-51284f7e6450",
+      "status": "checkpoint",
+      "inserted": 8,
+      "records": 8
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 23,
+      "records": 23
+    },
+    {
+      "status": "retry"
+    },
+    {
+      "job_id": "9c17f1a5-55d1-4252-8aab-51284f7e6450",
+      "status": "checkpoint",
+      "inserted": 7,
+      "records": 7
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 25,
+      "records": 25
+    },
+    {
+      "job_id": "9c17f1a5-55d1-4252-8aab-51284f7e6450",
+      "status": "checkpoint",
+      "inserted": 7,
+      "records": 7
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 24,
+      "records": 24
+    },
+    {
+      "job_id": "9c17f1a5-55d1-4252-8aab-51284f7e6450",
+      "status": "checkpoint",
+      "inserted": 9,
+      "records": 9
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 25,
+      "records": 25
+    },
+    {
+      "job_id": "9c17f1a5-55d1-4252-8aab-51284f7e6450",
+      "status": "checkpoint",
+      "inserted": 8,
+      "records": 8
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 25,
+      "records": 25
+    },
+    {
+      "job_id": "9c17f1a5-55d1-4252-8aab-51284f7e6450",
+      "status": "checkpoint",
+      "inserted": 9,
+      "records": 9
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 25,
+      "records": 25
+    },
+    {
+      "job_id": "9c17f1a5-55d1-4252-8aab-51284f7e6450",
+      "status": "checkpoint",
+      "inserted": 7,
+      "records": 7
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 25,
+      "records": 25
+    },
+    {
+      "job_id": "9c17f1a5-55d1-4252-8aab-51284f7e6450",
+      "status": "checkpoint",
+      "inserted": 0,
+      "records": 0
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 25,
+      "records": 25
+    },
+    {
+      "job_id": "9c17f1a5-55d1-4252-8aab-51284f7e6450",
+      "status": "checkpoint",
+      "inserted": 9,
+      "records": 9
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 25,
+      "records": 25
+    },
+    {
+      "job_id": "9c17f1a5-55d1-4252-8aab-51284f7e6450",
+      "status": "checkpoint",
+      "inserted": 10,
+      "records": 10
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 25,
+      "records": 25
+    },
+    {
+      "job_id": "9c17f1a5-55d1-4252-8aab-51284f7e6450",
+      "status": "checkpoint",
+      "inserted": 10,
+      "records": 10
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 25,
+      "records": 25
+    },
+    {
+      "job_id": "9c17f1a5-55d1-4252-8aab-51284f7e6450",
+      "status": "checkpoint",
+      "inserted": 10,
+      "records": 10
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 25,
+      "records": 25
+    },
+    {
+      "job_id": "9c17f1a5-55d1-4252-8aab-51284f7e6450",
+      "status": "checkpoint",
+      "inserted": 9,
+      "records": 9
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 25,
+      "records": 25
+    },
+    {
+      "job_id": "9c17f1a5-55d1-4252-8aab-51284f7e6450",
+      "status": "checkpoint",
+      "inserted": 9,
+      "records": 9
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 25,
+      "records": 25
+    },
+    {
+      "job_id": "9c17f1a5-55d1-4252-8aab-51284f7e6450",
+      "status": "checkpoint",
+      "inserted": 8,
+      "records": 8
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 25,
+      "records": 25
+    },
+    {
+      "job_id": "9c17f1a5-55d1-4252-8aab-51284f7e6450",
+      "status": "checkpoint",
+      "inserted": 10,
+      "records": 10
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 15,
+      "records": 15
+    },
+    {
+      "job_id": "9c17f1a5-55d1-4252-8aab-51284f7e6450",
+      "status": "checkpoint",
+      "inserted": 9,
+      "records": 9
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 24,
+      "records": 25
+    },
+    {
+      "job_id": "9c17f1a5-55d1-4252-8aab-51284f7e6450",
+      "status": "checkpoint",
+      "inserted": 7,
+      "records": 7
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 22,
+      "records": 23
+    },
+    {
+      "job_id": "9c17f1a5-55d1-4252-8aab-51284f7e6450",
+      "status": "checkpoint",
+      "inserted": 6,
+      "records": 6
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 20,
+      "records": 23
+    },
+    {
+      "job_id": "9c17f1a5-55d1-4252-8aab-51284f7e6450",
+      "status": "checkpoint",
+      "inserted": 9,
+      "records": 9
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 20,
+      "records": 22
+    },
+    {
+      "job_id": "9c17f1a5-55d1-4252-8aab-51284f7e6450",
+      "status": "checkpoint",
+      "inserted": 9,
+      "records": 9
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 16,
+      "records": 17
+    },
+    {
+      "job_id": "9c17f1a5-55d1-4252-8aab-51284f7e6450",
+      "status": "checkpoint",
+      "inserted": 10,
+      "records": 10
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 18,
+      "records": 18
+    },
+    {
+      "job_id": "9c17f1a5-55d1-4252-8aab-51284f7e6450",
+      "status": "checkpoint",
+      "inserted": 8,
+      "records": 8
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 15,
+      "records": 15
+    },
+    {
+      "status": "retry"
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 15,
+      "records": 16
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 21,
+      "records": 21
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 12,
+      "records": 12
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 15,
+      "records": 15
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 19,
+      "records": 20
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 19,
+      "records": 19
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 18,
+      "records": 19
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 21,
+      "records": 21
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 23,
+      "records": 23
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 25,
+      "records": 25
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 22,
+      "records": 23
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 23,
+      "records": 23
+    },
+    {
+      "status": "retry"
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 24,
+      "records": 25
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 10,
+      "records": 25
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 14,
+      "records": 25
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 21,
+      "records": 25
+    },
+    {
+      "job_id": "9c17f1a5-55d1-4252-8aab-51284f7e6450",
+      "status": "checkpoint",
+      "inserted": 7,
+      "records": 7
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 25,
+      "records": 25
+    },
+    {
+      "job_id": "9c17f1a5-55d1-4252-8aab-51284f7e6450",
+      "status": "checkpoint",
+      "inserted": 9,
+      "records": 9
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 25,
+      "records": 25
+    },
+    {
+      "job_id": "9c17f1a5-55d1-4252-8aab-51284f7e6450",
+      "status": "checkpoint",
+      "inserted": 7,
+      "records": 7
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 24,
+      "records": 25
+    },
+    {
+      "job_id": "9c17f1a5-55d1-4252-8aab-51284f7e6450",
+      "status": "checkpoint",
+      "inserted": 0,
+      "records": 0
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 25,
+      "records": 25
+    },
+    {
+      "job_id": "9c17f1a5-55d1-4252-8aab-51284f7e6450",
+      "status": "checkpoint",
+      "inserted": 7,
+      "records": 7
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 24,
+      "records": 25
+    },
+    {
+      "job_id": "9c17f1a5-55d1-4252-8aab-51284f7e6450",
+      "status": "checkpoint",
+      "inserted": 8,
+      "records": 8
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 25,
+      "records": 25
+    },
+    {
+      "job_id": "9c17f1a5-55d1-4252-8aab-51284f7e6450",
+      "status": "checkpoint",
+      "inserted": 9,
+      "records": 9
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 25,
+      "records": 25
+    },
+    {
+      "job_id": "9c17f1a5-55d1-4252-8aab-51284f7e6450",
+      "status": "checkpoint",
+      "inserted": 5,
+      "records": 5
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 25,
+      "records": 25
+    },
+    {
+      "job_id": "9c17f1a5-55d1-4252-8aab-51284f7e6450",
+      "status": "checkpoint",
+      "inserted": 0,
+      "records": 0
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 25,
+      "records": 25
+    },
+    {
+      "job_id": "9c17f1a5-55d1-4252-8aab-51284f7e6450",
+      "status": "checkpoint",
+      "inserted": 8,
+      "records": 8
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 25,
+      "records": 25
+    },
+    {
+      "job_id": "9c17f1a5-55d1-4252-8aab-51284f7e6450",
+      "status": "checkpoint",
+      "inserted": 9,
+      "records": 9
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 25,
+      "records": 25
+    },
+    {
+      "job_id": "9c17f1a5-55d1-4252-8aab-51284f7e6450",
+      "status": "checkpoint",
+      "inserted": 7,
+      "records": 7
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 25,
+      "records": 25
+    },
+    {
+      "job_id": "9c17f1a5-55d1-4252-8aab-51284f7e6450",
+      "status": "checkpoint",
+      "inserted": 7,
+      "records": 7
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 7,
+      "records": 7
+    },
+    {
+      "job_id": "9c17f1a5-55d1-4252-8aab-51284f7e6450",
+      "status": "checkpoint",
+      "inserted": 6,
+      "records": 6
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 23,
+      "records": 25
+    },
+    {
+      "job_id": "9c17f1a5-55d1-4252-8aab-51284f7e6450",
+      "status": "checkpoint",
+      "inserted": 6,
+      "records": 6
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 20,
+      "records": 24
+    },
+    {
+      "job_id": "9c17f1a5-55d1-4252-8aab-51284f7e6450",
+      "status": "checkpoint",
+      "inserted": 9,
+      "records": 9
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 24,
+      "records": 25
+    },
+    {
+      "job_id": "9c17f1a5-55d1-4252-8aab-51284f7e6450",
+      "status": "checkpoint",
+      "inserted": 9,
+      "records": 9
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 21,
+      "records": 23
+    },
+    {
+      "job_id": "9c17f1a5-55d1-4252-8aab-51284f7e6450",
+      "status": "checkpoint",
+      "inserted": 9,
+      "records": 9
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 23,
+      "records": 23
+    },
+    {
+      "job_id": "9c17f1a5-55d1-4252-8aab-51284f7e6450",
+      "status": "checkpoint",
+      "inserted": 10,
+      "records": 10
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 16,
+      "records": 19
+    },
+    {
+      "job_id": "9c17f1a5-55d1-4252-8aab-51284f7e6450",
+      "status": "checkpoint",
+      "inserted": 8,
+      "records": 8
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 17,
+      "records": 20
+    },
+    {
+      "job_id": "9c17f1a5-55d1-4252-8aab-51284f7e6450",
+      "status": "checkpoint",
+      "inserted": 10,
+      "records": 10
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 17,
+      "records": 20
+    },
+    {
+      "job_id": "9c17f1a5-55d1-4252-8aab-51284f7e6450",
+      "status": "checkpoint",
+      "inserted": 7,
+      "records": 7
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 20,
+      "records": 24
+    },
+    {
+      "job_id": "9c17f1a5-55d1-4252-8aab-51284f7e6450",
+      "status": "checkpoint",
+      "inserted": 8,
+      "records": 8
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 24,
+      "records": 24
+    },
+    {
+      "job_id": "9c17f1a5-55d1-4252-8aab-51284f7e6450",
+      "status": "checkpoint",
+      "inserted": 8,
+      "records": 8
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 18,
+      "records": 18
+    },
+    {
+      "job_id": "9c17f1a5-55d1-4252-8aab-51284f7e6450",
+      "status": "checkpoint",
+      "inserted": 10,
+      "records": 10
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 18,
+      "records": 19
+    },
+    {
+      "job_id": "9c17f1a5-55d1-4252-8aab-51284f7e6450",
+      "status": "checkpoint",
+      "inserted": 8,
+      "records": 8
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 18,
+      "records": 18
+    },
+    {
+      "status": "retry"
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 16,
+      "records": 18
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 21,
+      "records": 22
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 18,
+      "records": 20
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 20,
+      "records": 20
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 19,
+      "records": 20
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 19,
+      "records": 19
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 21,
+      "records": 22
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 18,
+      "records": 18
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 19,
+      "records": 19
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 20,
+      "records": 20
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 23,
+      "records": 23
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 19,
+      "records": 19
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 16,
+      "records": 16
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 17,
+      "records": 17
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 18,
+      "records": 18
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 19,
+      "records": 19
+    },
+    {
+      "job_id": "bd3bb23a-c1c5-4d77-b651-28ca0291249b",
+      "status": "succeeded",
+      "inserted": 0,
+      "records": 0
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 18,
+      "records": 18
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 14,
+      "records": 14
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 17,
+      "records": 17
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 10,
+      "records": 23
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 13,
+      "records": 14
+    },
+    {
+      "job_id": "9c17f1a5-55d1-4252-8aab-51284f7e6450",
+      "status": "checkpoint",
+      "inserted": 9,
+      "records": 9
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 16,
+      "records": 16
+    },
+    {
+      "job_id": "9c17f1a5-55d1-4252-8aab-51284f7e6450",
+      "status": "checkpoint",
+      "inserted": 9,
+      "records": 9
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 24,
+      "records": 24
+    },
+    {
+      "job_id": "9c17f1a5-55d1-4252-8aab-51284f7e6450",
+      "status": "checkpoint",
+      "inserted": 9,
+      "records": 9
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 25,
+      "records": 25
+    },
+    {
+      "job_id": "9c17f1a5-55d1-4252-8aab-51284f7e6450",
+      "status": "checkpoint",
+      "inserted": 9,
+      "records": 9
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 22,
+      "records": 22
+    },
+    {
+      "job_id": "9c17f1a5-55d1-4252-8aab-51284f7e6450",
+      "status": "checkpoint",
+      "inserted": 7,
+      "records": 7
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 19,
+      "records": 19
+    },
+    {
+      "job_id": "9c17f1a5-55d1-4252-8aab-51284f7e6450",
+      "status": "checkpoint",
+      "inserted": 4,
+      "records": 4
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 8,
+      "records": 25
+    },
+    {
+      "job_id": "9c17f1a5-55d1-4252-8aab-51284f7e6450",
+      "status": "checkpoint",
+      "inserted": 0,
+      "records": 0
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 23,
+      "records": 24
+    },
+    {
+      "job_id": "9c17f1a5-55d1-4252-8aab-51284f7e6450",
+      "status": "checkpoint",
+      "inserted": 8,
+      "records": 8
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 16,
+      "records": 25
+    },
+    {
+      "job_id": "9c17f1a5-55d1-4252-8aab-51284f7e6450",
+      "status": "checkpoint",
+      "inserted": 10,
+      "records": 10
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 11,
+      "records": 25
+    },
+    {
+      "job_id": "9c17f1a5-55d1-4252-8aab-51284f7e6450",
+      "status": "checkpoint",
+      "inserted": 10,
+      "records": 10
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 21,
+      "records": 25
+    },
+    {
+      "job_id": "9c17f1a5-55d1-4252-8aab-51284f7e6450",
+      "status": "checkpoint",
+      "inserted": 9,
+      "records": 9
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 22,
+      "records": 25
+    },
+    {
+      "job_id": "9c17f1a5-55d1-4252-8aab-51284f7e6450",
+      "status": "checkpoint",
+      "inserted": 10,
+      "records": 10
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 25,
+      "records": 25
+    },
+    {
+      "job_id": "9c17f1a5-55d1-4252-8aab-51284f7e6450",
+      "status": "checkpoint",
+      "inserted": 7,
+      "records": 7
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 24,
+      "records": 25
+    },
+    {
+      "job_id": "9c17f1a5-55d1-4252-8aab-51284f7e6450",
+      "status": "checkpoint",
+      "inserted": 6,
+      "records": 6
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 23,
+      "records": 25
+    },
+    {
+      "job_id": "9c17f1a5-55d1-4252-8aab-51284f7e6450",
+      "status": "checkpoint",
+      "inserted": 8,
+      "records": 8
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 25,
+      "records": 25
+    },
+    {
+      "job_id": "9c17f1a5-55d1-4252-8aab-51284f7e6450",
+      "status": "checkpoint",
+      "inserted": 9,
+      "records": 9
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 25,
+      "records": 25
+    },
+    {
+      "status": "retry"
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 24,
+      "records": 25
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 24,
+      "records": 25
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 25,
+      "records": 25
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 24,
+      "records": 24
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 25,
+      "records": 25
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 25,
+      "records": 25
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 25,
+      "records": 25
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 25,
+      "records": 25
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 24,
+      "records": 25
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 25,
+      "records": 25
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 25,
+      "records": 25
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 25,
+      "records": 25
+    },
+    {
+      "job_id": "9c17f1a5-55d1-4252-8aab-51284f7e6450",
+      "status": "checkpoint",
+      "inserted": 8,
+      "records": 8
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 25,
+      "records": 25
+    },
+    {
+      "job_id": "9c17f1a5-55d1-4252-8aab-51284f7e6450",
+      "status": "checkpoint",
+      "inserted": 6,
+      "records": 6
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 24,
+      "records": 24
+    },
+    {
+      "status": "retry"
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 25,
+      "records": 25
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 25,
+      "records": 25
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 25,
+      "records": 25
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 25,
+      "records": 25
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 25,
+      "records": 25
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 25,
+      "records": 25
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 25,
+      "records": 25
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 25,
+      "records": 25
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 25,
+      "records": 25
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 25,
+      "records": 25
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 3,
+      "records": 3
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 19,
+      "records": 24
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 17,
+      "records": 24
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 15,
+      "records": 21
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 14,
+      "records": 17
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 14,
+      "records": 20
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 13,
+      "records": 17
+    },
+    {
+      "job_id": "9c17f1a5-55d1-4252-8aab-51284f7e6450",
+      "status": "checkpoint",
+      "inserted": 3,
+      "records": 3
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 13,
+      "records": 17
+    },
+    {
+      "job_id": "9c17f1a5-55d1-4252-8aab-51284f7e6450",
+      "status": "checkpoint",
+      "inserted": 9,
+      "records": 9
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 14,
+      "records": 16
+    },
+    {
+      "job_id": "9c17f1a5-55d1-4252-8aab-51284f7e6450",
+      "status": "checkpoint",
+      "inserted": 9,
+      "records": 9
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 16,
+      "records": 20
+    },
+    {
+      "job_id": "9c17f1a5-55d1-4252-8aab-51284f7e6450",
+      "status": "checkpoint",
+      "inserted": 9,
+      "records": 9
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 9,
+      "records": 11
+    },
+    {
+      "job_id": "9c17f1a5-55d1-4252-8aab-51284f7e6450",
+      "status": "checkpoint",
+      "inserted": 8,
+      "records": 8
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 10,
+      "records": 13
+    },
+    {
+      "job_id": "9c17f1a5-55d1-4252-8aab-51284f7e6450",
+      "status": "checkpoint",
+      "inserted": 6,
+      "records": 6
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 12,
+      "records": 12
+    },
+    {
+      "job_id": "9c17f1a5-55d1-4252-8aab-51284f7e6450",
+      "status": "checkpoint",
+      "inserted": 9,
+      "records": 9
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 14,
+      "records": 15
+    },
+    {
+      "job_id": "9c17f1a5-55d1-4252-8aab-51284f7e6450",
+      "status": "checkpoint",
+      "inserted": 6,
+      "records": 6
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 23,
+      "records": 24
+    },
+    {
+      "job_id": "9c17f1a5-55d1-4252-8aab-51284f7e6450",
+      "status": "checkpoint",
+      "inserted": 7,
+      "records": 7
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 20,
+      "records": 20
+    },
+    {
+      "job_id": "9c17f1a5-55d1-4252-8aab-51284f7e6450",
+      "status": "checkpoint",
+      "inserted": 4,
+      "records": 4
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 21,
+      "records": 21
+    },
+    {
+      "job_id": "9c17f1a5-55d1-4252-8aab-51284f7e6450",
+      "status": "checkpoint",
+      "inserted": 0,
+      "records": 0
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 13,
+      "records": 21
+    },
+    {
+      "job_id": "9c17f1a5-55d1-4252-8aab-51284f7e6450",
+      "status": "checkpoint",
+      "inserted": 8,
+      "records": 8
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 25,
+      "records": 25
+    },
+    {
+      "job_id": "9c17f1a5-55d1-4252-8aab-51284f7e6450",
+      "status": "checkpoint",
+      "inserted": 7,
+      "records": 7
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 24,
+      "records": 25
+    },
+    {
+      "job_id": "9c17f1a5-55d1-4252-8aab-51284f7e6450",
+      "status": "checkpoint",
+      "inserted": 6,
+      "records": 6
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 25,
+      "records": 25
+    },
+    {
+      "job_id": "9c17f1a5-55d1-4252-8aab-51284f7e6450",
+      "status": "checkpoint",
+      "inserted": 9,
+      "records": 9
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 22,
+      "records": 24
+    },
+    {
+      "job_id": "9c17f1a5-55d1-4252-8aab-51284f7e6450",
+      "status": "checkpoint",
+      "inserted": 6,
+      "records": 6
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 25,
+      "records": 25
+    },
+    {
+      "job_id": "9c17f1a5-55d1-4252-8aab-51284f7e6450",
+      "status": "checkpoint",
+      "inserted": 6,
+      "records": 6
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 20,
+      "records": 20
+    },
+    {
+      "job_id": "9c17f1a5-55d1-4252-8aab-51284f7e6450",
+      "status": "checkpoint",
+      "inserted": 7,
+      "records": 7
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 23,
+      "records": 23
+    },
+    {
+      "job_id": "9c17f1a5-55d1-4252-8aab-51284f7e6450",
+      "status": "succeeded",
+      "inserted": 1,
+      "records": 1
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 12,
+      "records": 23
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 5,
+      "records": 25
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 13,
+      "records": 25
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 22,
+      "records": 24
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 25,
+      "records": 25
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 25,
+      "records": 25
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 24,
+      "records": 24
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 24,
+      "records": 24
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 24,
+      "records": 25
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 24,
+      "records": 24
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 25,
+      "records": 25
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 24,
+      "records": 25
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 25,
+      "records": 25
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 25,
+      "records": 25
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 24,
+      "records": 24
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 25,
+      "records": 25
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 25,
+      "records": 25
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 7,
+      "records": 7
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 14,
+      "records": 19
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 16,
+      "records": 16
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 14,
+      "records": 23
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "checkpoint",
+      "inserted": 21,
+      "records": 21
+    },
+    {
+      "job_id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "succeeded",
+      "inserted": 14,
+      "records": 14
+    }
+  ],
+  "status": "passed",
+  "dispatch": {
+    "status": "succeeded",
+    "due": 3,
+    "enqueued": 3
+  },
+  "sources": [
+    {
+      "name": "PubMed / NCBI E-utilities",
+      "adapter": "pubmed",
+      "last_success_at": "2026-10-08T06:46:17.027Z",
+      "consecutive_failures": 0,
+      "last_collection": {
+        "bytes_total": 25566668,
+        "duration_ms": 662,
+        "http_status": 200,
+        "bytes_fetched": 58103,
+        "matched_total": 734,
+        "query_version": "focus-2026-10-v1",
+        "rejected_links": 0,
+        "retrieved_total": 914
+      }
+    },
+    {
+      "name": "晶泰科技 XtalPi » Feed",
+      "adapter": "rss",
+      "last_success_at": "2026-10-08T06:41:42.237Z",
+      "consecutive_failures": 0,
+      "last_collection": {
+        "bytes_total": 0,
+        "duration_ms": 1323,
+        "http_status": 304,
+        "bytes_fetched": 0,
+        "matched_total": 0,
+        "query_version": "focus-2026-10-v1",
+        "rejected_links": 0,
+        "retrieved_total": 0
+      }
+    },
+    {
+      "name": "Europe PMC REST API",
+      "adapter": "europepmc",
+      "last_success_at": "2026-10-08T06:47:31.824Z",
+      "consecutive_failures": 0,
+      "last_collection": {
+        "bytes_total": 34128125,
+        "duration_ms": 887,
+        "http_status": 200,
+        "bytes_fetched": 58357,
+        "matched_total": 4072,
+        "query_version": "focus-2026-10-v1",
+        "rejected_links": 0,
+        "retrieved_total": 4596
+      }
+    }
+  ],
+  "jobs": [
+    {
+      "id": "bd3bb23a-c1c5-4d77-b651-28ca0291249b",
+      "status": "succeeded",
+      "attempts": 4,
+      "failure_count": 0,
+      "last_error": null
+    },
+    {
+      "id": "fbdb5111-f0fa-4e6f-ae15-3ccfb2c5d48a",
+      "status": "succeeded",
+      "attempts": 187,
+      "failure_count": 0,
+      "last_error": null
+    },
+    {
+      "id": "9c17f1a5-55d1-4252-8aab-51284f7e6450",
+      "status": "succeeded",
+      "attempts": 103,
+      "failure_count": 0,
+      "last_error": null
+    },
+    {
+      "id": "7e8c51bc-9559-4db9-a99f-a6a1c7fd743e",
+      "status": "succeeded",
+      "attempts": 1,
+      "failure_count": 0,
+      "last_error": null
+    },
+    {
+      "id": "242e415a-4c5a-4344-a734-2402aa0dac02",
+      "status": "succeeded",
+      "attempts": 1,
+      "failure_count": 0,
+      "last_error": null
+    },
+    {
+      "id": "f22f9e3f-7345-4977-8f87-510195963c11",
+      "status": "succeeded",
+      "attempts": 1,
+      "failure_count": 0,
+      "last_error": null
+    }
+  ],
+  "counts": {
+    "resources": "3992",
+    "raw_records": "4649",
+    "companies": "130"
+  },
+  "finished_at": "2026-10-08T06:47:32.007Z"
+}

@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="theme-color" content="#2c5147" />
+    <meta
+      name="description"
+      content="BioAI 日知 · 问象：追踪 AI 虚拟细胞、类器官、虚拟胚胎、虚拟器官与 AI 制药，连接原始文献、公司黄页与可追溯证据。"
+    />
+    <title>BioAI 日知 · 问象</title>
+    <link rel="icon" type="image/png" href="/assets/wenxiang-mark.png" />
+    <link rel="stylesheet" href="/style.css" />
+    <link rel="alternate" type="application/rss+xml" title="BioAI 日知" href="/feed.xml" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">跳到内容</a>
+    <aside class="sidebar">
+      <a href="#overview" class="brand"
+        ><img src="/assets/wenxiang-mark.png" alt="问象 Logo" /><span
+          >BioAI 日知<small>问象 · WENXIANG</small></span
+        ></a
+      >
+      <button id="mobile-menu" class="mobile-menu" aria-controls="site-nav" aria-expanded="false">全部栏目 ☰</button>
+      <p class="nav-label">探索与发现</p>
+      <nav id="site-nav" aria-label="主导航">
+        <a href="#overview" data-nav="overview"><span>◈</span>今日概览</a
+        ><a href="#news" data-nav="news"><span>◷</span>新闻与文章</a
+        ><a href="#timeline" data-nav="timeline"><span>⌁</span>产业进展</a
+        ><a href="#hot" data-nav="hot"><span>◎</span>Hot 关系图</a
+        ><a href="#academic" data-nav="academic"><span>▤</span>学术进展</a
+        ><a href="#directory" data-nav="directory"><span>▦</span>公司黄页</a
+        ><a href="#sources" data-nav="sources"><span>◉</span>信息来源</a
+        ><a href="#saved" data-nav="saved"><span>☆</span>我的关注</a
+        ><a href="#daily" data-nav="daily"><span>▣</span>每日摘要</a
+        ><a href="#connect" data-nav="connect"><span>⌘</span>连接你的 AI</a>
+      </nav>
+      <div class="sidebar-foot">
+        <a href="#admin" data-nav="admin">管理工作台 <span>↗</span></a>
+        <div class="signature">
+          AI × LIFE SCIENCE
+          <p>连接生物与智能，追踪每一步进展。</p>
+        </div>
+      </div>
+    </aside>
+    <div class="workspace">
+      <header class="topbar">
+        <div>
+          <span class="breadcrumb">问象观察站</span
+          ><span class="divider">/</span><span id="crumb">今日概览</span>
+        </div>
+        <div class="top-actions">
+          <span id="today"></span
+          ><button id="reload" class="icon-button" aria-label="刷新当前数据">
+            ↻
+          </button>
+        </div>
+      </header>
+      <main id="main" tabindex="-1">
+        <div id="content" aria-live="polite"></div>
+      </main>
+      <footer class="site-footer">
+        <span>BioAI 日知 · 问象</span
+        ><a href="#sources">信息来自可追溯原始来源 · 查看接入状态 ↗</a>
+      </footer>
+    </div>
+    <dialog
+      id="evidence-dialog"
+      aria-label="事件证据与原文详情"
+      class="evidence-dialog"
+    >
+      <button id="close-evidence" class="dialog-close" aria-label="关闭详情">
+        ×
+      </button>
+      <div id="evidence-content"></div>
+    </dialog>
+    <div id="toast" role="status"></div>
+    <script src="/registry-panel.js"></script>
+    <script src="/admin-panel.js"></script>
+    <script src="/app.js"></script>
+  </body>
+</html>

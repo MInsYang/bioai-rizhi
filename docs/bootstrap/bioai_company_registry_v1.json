@@ -1,0 +1,4149 @@
+{
+  "metadata": {
+    "project": "BioAI日知",
+    "version": "1.0.0",
+    "generated_on": "2026-09-14",
+    "record_count": 130,
+    "tracks": [
+      "测序与多组学",
+      "AI与模型数据",
+      "生物医药"
+    ],
+    "priority_definition": {
+      "P0": "每2小时检查官方高价值来源；首页与核心Timeline优先展示",
+      "P1": "每6小时检查；补充行业覆盖",
+      "P2": "每日检查；历史、长尾或低频实体"
+    },
+    "important_rules": [
+      "website字段用于实体身份锚定；采集器仍应自动发现Newsroom、Press、IR、Blog、Publications与RSS页面。",
+      "social_accounts故意留空。只有从官网反向链接、平台官方认证或人工复核后，才写入正式账号URL。",
+      "aliases必须参与实体消歧，避免品牌更名、并购和中英文名造成重复公司。",
+      "legacy/part_of_parent实体保留历史事件，但公司墙默认显示当前主体并加状态徽标。",
+      "本文件是种子库，不应当作永远不变的事实库；后台需要版本、审计和人工修订入口。"
+    ]
+  },
+  "companies": [
+    {
+      "id": "10x-genomics",
+      "name_zh": "",
+      "name_en": "10x Genomics",
+      "aliases": [
+        "10x",
+        "Scale Biosciences",
+        "Scale Bio"
+      ],
+      "track": "测序与多组学",
+      "region": "美国/全球",
+      "priority": "P0",
+      "focus": [
+        "单细胞组学",
+        "空间组学"
+      ],
+      "website": "https://www.10xgenomics.com/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.10xgenomics.com/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"10x Genomics\" official LinkedIn company",
+        "x": "\"10x Genomics\" official X Twitter",
+        "youtube": "\"10x Genomics\" official YouTube"
+      },
+      "notes": ""
+    },
+    {
+      "id": "bruker-spatial-biology",
+      "name_zh": "",
+      "name_en": "Bruker Spatial Biology",
+      "aliases": [
+        "NanoString Technologies",
+        "NanoString"
+      ],
+      "track": "测序与多组学",
+      "region": "美国/全球",
+      "priority": "P0",
+      "focus": [
+        "空间生物学",
+        "原位成像",
+        "GeoMx/CosMx"
+      ],
+      "website": "https://brukerspatialbiology.com/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://brukerspatialbiology.com/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"Bruker Spatial Biology\" official LinkedIn company",
+        "x": "\"Bruker Spatial Biology\" official X Twitter",
+        "youtube": "\"Bruker Spatial Biology\" official YouTube"
+      },
+      "notes": "NanoString相关产品与内容应归一到Bruker Spatial Biology；保留旧别名用于历史新闻消歧。"
+    },
+    {
+      "id": "element-biosciences",
+      "name_zh": "",
+      "name_en": "Element Biosciences",
+      "aliases": [],
+      "track": "测序与多组学",
+      "region": "美国",
+      "priority": "P0",
+      "focus": [
+        "短读长测序",
+        "AVITI平台"
+      ],
+      "website": "https://www.elementbiosciences.com/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.elementbiosciences.com/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"Element Biosciences\" official LinkedIn company",
+        "x": "\"Element Biosciences\" official X Twitter",
+        "youtube": "\"Element Biosciences\" official YouTube"
+      },
+      "notes": ""
+    },
+    {
+      "id": "olink-proteomics",
+      "name_zh": "",
+      "name_en": "Olink Proteomics",
+      "aliases": [
+        "Olink"
+      ],
+      "track": "测序与多组学",
+      "region": "瑞典/全球",
+      "priority": "P0",
+      "focus": [
+        "靶向蛋白组",
+        "PEA"
+      ],
+      "website": "https://www.olink.com/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.olink.com/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"Olink Proteomics\" official LinkedIn company",
+        "x": "\"Olink Proteomics\" official X Twitter",
+        "youtube": "\"Olink Proteomics\" official YouTube"
+      },
+      "notes": ""
+    },
+    {
+      "id": "oxford-nanopore-technologies",
+      "name_zh": "",
+      "name_en": "Oxford Nanopore Technologies",
+      "aliases": [
+        "Oxford Nanopore",
+        "ONT"
+      ],
+      "track": "测序与多组学",
+      "region": "英国/全球",
+      "priority": "P0",
+      "focus": [
+        "纳米孔测序",
+        "实时长读长"
+      ],
+      "website": "https://nanoporetech.com/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://nanoporetech.com/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"Oxford Nanopore Technologies\" official LinkedIn company",
+        "x": "\"Oxford Nanopore Technologies\" official X Twitter",
+        "youtube": "\"Oxford Nanopore Technologies\" official YouTube"
+      },
+      "notes": ""
+    },
+    {
+      "id": "pacbio",
+      "name_zh": "",
+      "name_en": "PacBio",
+      "aliases": [
+        "Pacific Biosciences"
+      ],
+      "track": "测序与多组学",
+      "region": "美国/全球",
+      "priority": "P0",
+      "focus": [
+        "长读长测序",
+        "HiFi测序"
+      ],
+      "website": "https://www.pacb.com/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.pacb.com/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"PacBio\" official LinkedIn company",
+        "x": "\"PacBio\" official X Twitter",
+        "youtube": "\"PacBio\" official YouTube"
+      },
+      "notes": ""
+    },
+    {
+      "id": "parse-biosciences",
+      "name_zh": "",
+      "name_en": "Parse Biosciences",
+      "aliases": [],
+      "track": "测序与多组学",
+      "region": "美国",
+      "priority": "P0",
+      "focus": [
+        "组合索引单细胞",
+        "高通量单细胞"
+      ],
+      "website": "https://www.parsebiosciences.com/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.parsebiosciences.com/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"Parse Biosciences\" official LinkedIn company",
+        "x": "\"Parse Biosciences\" official X Twitter",
+        "youtube": "\"Parse Biosciences\" official YouTube"
+      },
+      "notes": ""
+    },
+    {
+      "id": "ultima-genomics",
+      "name_zh": "",
+      "name_en": "Ultima Genomics",
+      "aliases": [],
+      "track": "测序与多组学",
+      "region": "美国",
+      "priority": "P0",
+      "focus": [
+        "高通量测序",
+        "低成本测序"
+      ],
+      "website": "https://www.ultimagenomics.com/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.ultimagenomics.com/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"Ultima Genomics\" official LinkedIn company",
+        "x": "\"Ultima Genomics\" official X Twitter",
+        "youtube": "\"Ultima Genomics\" official YouTube"
+      },
+      "notes": ""
+    },
+    {
+      "id": "vizgen",
+      "name_zh": "",
+      "name_en": "Vizgen",
+      "aliases": [],
+      "track": "测序与多组学",
+      "region": "美国",
+      "priority": "P0",
+      "focus": [
+        "空间转录组",
+        "成像组学"
+      ],
+      "website": "https://vizgen.com/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://vizgen.com/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"Vizgen\" official LinkedIn company",
+        "x": "\"Vizgen\" official X Twitter",
+        "youtube": "\"Vizgen\" official YouTube"
+      },
+      "notes": ""
+    },
+    {
+      "id": "geneseeq",
+      "name_zh": "世和基因",
+      "name_en": "Geneseeq",
+      "aliases": [],
+      "track": "测序与多组学",
+      "region": "中国/加拿大",
+      "priority": "P0",
+      "focus": [
+        "肿瘤基因检测",
+        "伴随诊断",
+        "MRD"
+      ],
+      "website": "https://www.geneseeq.com/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.geneseeq.com/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"Geneseeq\" official LinkedIn company",
+        "x": "\"Geneseeq\" official X Twitter",
+        "youtube": "\"Geneseeq\" official YouTube",
+        "wechat": "微信公众号 世和基因 官方"
+      },
+      "notes": ""
+    },
+    {
+      "id": "bgi-genomics",
+      "name_zh": "华大基因",
+      "name_en": "BGI Genomics",
+      "aliases": [],
+      "track": "测序与多组学",
+      "region": "中国/全球",
+      "priority": "P0",
+      "focus": [
+        "基因组学",
+        "临床检测",
+        "科研服务"
+      ],
+      "website": "https://www.bgi.com/global/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.bgi.com/global/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"BGI Genomics\" official LinkedIn company",
+        "x": "\"BGI Genomics\" official X Twitter",
+        "youtube": "\"BGI Genomics\" official YouTube",
+        "wechat": "微信公众号 华大基因 官方"
+      },
+      "notes": ""
+    },
+    {
+      "id": "stomics",
+      "name_zh": "华大时空",
+      "name_en": "STOmics",
+      "aliases": [],
+      "track": "测序与多组学",
+      "region": "中国/全球",
+      "priority": "P0",
+      "focus": [
+        "时空组学",
+        "Stereo-seq"
+      ],
+      "website": "https://www.stomics.tech/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.stomics.tech/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"STOmics\" official LinkedIn company",
+        "x": "\"STOmics\" official X Twitter",
+        "youtube": "\"STOmics\" official YouTube",
+        "wechat": "微信公众号 华大时空 官方"
+      },
+      "notes": ""
+    },
+    {
+      "id": "mgi-tech",
+      "name_zh": "华大智造",
+      "name_en": "MGI Tech",
+      "aliases": [
+        "MGI",
+        "mgi-tech.com"
+      ],
+      "track": "测序与多组学",
+      "region": "中国/全球",
+      "priority": "P0",
+      "focus": [
+        "测序仪",
+        "自动化平台",
+        "生命数字化"
+      ],
+      "website": "https://global-mgitech.com/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://global-mgitech.com/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"MGI Tech\" official LinkedIn company",
+        "x": "\"MGI Tech\" official X Twitter",
+        "youtube": "\"MGI Tech\" official YouTube",
+        "wechat": "微信公众号 华大智造 官方"
+      },
+      "notes": ""
+    },
+    {
+      "id": "illumina",
+      "name_zh": "因美纳",
+      "name_en": "Illumina",
+      "aliases": [],
+      "track": "测序与多组学",
+      "region": "美国/全球",
+      "priority": "P0",
+      "focus": [
+        "短读长测序",
+        "测序平台",
+        "临床基因组"
+      ],
+      "website": "https://www.illumina.com/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.illumina.com/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"Illumina\" official LinkedIn company",
+        "x": "\"Illumina\" official X Twitter",
+        "youtube": "\"Illumina\" official YouTube",
+        "wechat": "微信公众号 因美纳 官方"
+      },
+      "notes": ""
+    },
+    {
+      "id": "mobidrop",
+      "name_zh": "墨卓生物",
+      "name_en": "MobiDrop",
+      "aliases": [],
+      "track": "测序与多组学",
+      "region": "中国",
+      "priority": "P0",
+      "focus": [
+        "单细胞微流控",
+        "单细胞测序"
+      ],
+      "website": "https://www.mobidrop.com/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.mobidrop.com/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"MobiDrop\" official LinkedIn company",
+        "x": "\"MobiDrop\" official X Twitter",
+        "youtube": "\"MobiDrop\" official YouTube",
+        "wechat": "微信公众号 墨卓生物 官方"
+      },
+      "notes": ""
+    },
+    {
+      "id": "seekgene",
+      "name_zh": "寻因生物",
+      "name_en": "SeekGene",
+      "aliases": [
+        "寻因"
+      ],
+      "track": "测序与多组学",
+      "region": "中国",
+      "priority": "P0",
+      "focus": [
+        "单细胞组学",
+        "高通量筛选"
+      ],
+      "website": "https://www.seekgene.com/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.seekgene.com/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"SeekGene\" official LinkedIn company",
+        "x": "\"SeekGene\" official X Twitter",
+        "youtube": "\"SeekGene\" official YouTube",
+        "wechat": "微信公众号 寻因生物 官方"
+      },
+      "notes": ""
+    },
+    {
+      "id": "singleron-biotechnologies",
+      "name_zh": "新格元",
+      "name_en": "Singleron Biotechnologies",
+      "aliases": [
+        "Singleron",
+        "新格元生物"
+      ],
+      "track": "测序与多组学",
+      "region": "中国/新加坡",
+      "priority": "P0",
+      "focus": [
+        "单细胞测序",
+        "空间组学",
+        "临床转化"
+      ],
+      "website": "https://singleron.bio/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://singleron.bio/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"Singleron Biotechnologies\" official LinkedIn company",
+        "x": "\"Singleron Biotechnologies\" official X Twitter",
+        "youtube": "\"Singleron Biotechnologies\" official YouTube",
+        "wechat": "微信公众号 新格元 官方"
+      },
+      "notes": ""
+    },
+    {
+      "id": "burning-rock-biotech",
+      "name_zh": "燃石医学",
+      "name_en": "Burning Rock Biotech",
+      "aliases": [
+        "Burning Rock"
+      ],
+      "track": "测序与多组学",
+      "region": "中国/美国",
+      "priority": "P0",
+      "focus": [
+        "肿瘤NGS",
+        "伴随诊断",
+        "MRD"
+      ],
+      "website": "https://www.brbiotech.com/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.brbiotech.com/",
+        "newsroom": null,
+        "investor_relations": "https://brbiotech.gcs-web.com/"
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"Burning Rock Biotech\" official LinkedIn company",
+        "x": "\"Burning Rock Biotech\" official X Twitter",
+        "youtube": "\"Burning Rock Biotech\" official YouTube",
+        "wechat": "微信公众号 燃石医学 官方"
+      },
+      "notes": ""
+    },
+    {
+      "id": "genemind-biosciences",
+      "name_zh": "真迈生物",
+      "name_en": "GeneMind Biosciences",
+      "aliases": [
+        "GeneMind"
+      ],
+      "track": "测序与多组学",
+      "region": "中国",
+      "priority": "P0",
+      "focus": [
+        "测序仪",
+        "测序平台"
+      ],
+      "website": "https://www.genemind.com/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.genemind.com/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"GeneMind Biosciences\" official LinkedIn company",
+        "x": "\"GeneMind Biosciences\" official X Twitter",
+        "youtube": "\"GeneMind Biosciences\" official YouTube",
+        "wechat": "微信公众号 真迈生物 官方"
+      },
+      "notes": ""
+    },
+    {
+      "id": "novogene",
+      "name_zh": "诺禾致源",
+      "name_en": "Novogene",
+      "aliases": [
+        "诺禾"
+      ],
+      "track": "测序与多组学",
+      "region": "中国/全球",
+      "priority": "P0",
+      "focus": [
+        "基因组测序",
+        "转录组",
+        "多组学服务"
+      ],
+      "website": "https://www.novogene.com/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.novogene.com/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"Novogene\" official LinkedIn company",
+        "x": "\"Novogene\" official X Twitter",
+        "youtube": "\"Novogene\" official YouTube",
+        "wechat": "微信公众号 诺禾致源 官方"
+      },
+      "notes": ""
+    },
+    {
+      "id": "genscript",
+      "name_zh": "金斯瑞",
+      "name_en": "GenScript",
+      "aliases": [],
+      "track": "测序与多组学",
+      "region": "中国/全球",
+      "priority": "P0",
+      "focus": [
+        "基因合成",
+        "蛋白与抗体",
+        "细胞治疗服务"
+      ],
+      "website": "https://www.genscript.com/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.genscript.com/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"GenScript\" official LinkedIn company",
+        "x": "\"GenScript\" official X Twitter",
+        "youtube": "\"GenScript\" official YouTube",
+        "wechat": "微信公众号 金斯瑞 官方"
+      },
+      "notes": ""
+    },
+    {
+      "id": "mission-bio",
+      "name_zh": "",
+      "name_en": "Mission Bio",
+      "aliases": [],
+      "track": "测序与多组学",
+      "region": "美国",
+      "priority": "P1",
+      "focus": [
+        "单细胞DNA测序",
+        "血液肿瘤"
+      ],
+      "website": "https://www.missionbio.com/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.missionbio.com/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"Mission Bio\" official LinkedIn company",
+        "x": "\"Mission Bio\" official X Twitter",
+        "youtube": "\"Mission Bio\" official YouTube"
+      },
+      "notes": ""
+    },
+    {
+      "id": "natera",
+      "name_zh": "",
+      "name_en": "Natera",
+      "aliases": [],
+      "track": "测序与多组学",
+      "region": "美国",
+      "priority": "P1",
+      "focus": [
+        "无创产前检测",
+        "MRD",
+        "移植检测"
+      ],
+      "website": "https://www.natera.com/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.natera.com/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"Natera\" official LinkedIn company",
+        "x": "\"Natera\" official X Twitter",
+        "youtube": "\"Natera\" official YouTube"
+      },
+      "notes": ""
+    },
+    {
+      "id": "nautilus-biotechnology",
+      "name_zh": "",
+      "name_en": "Nautilus Biotechnology",
+      "aliases": [],
+      "track": "测序与多组学",
+      "region": "美国",
+      "priority": "P1",
+      "focus": [
+        "单分子蛋白组",
+        "蛋白质组平台"
+      ],
+      "website": "https://www.nautilus.bio/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.nautilus.bio/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"Nautilus Biotechnology\" official LinkedIn company",
+        "x": "\"Nautilus Biotechnology\" official X Twitter",
+        "youtube": "\"Nautilus Biotechnology\" official YouTube"
+      },
+      "notes": ""
+    },
+    {
+      "id": "quanterix",
+      "name_zh": "",
+      "name_en": "Quanterix",
+      "aliases": [
+        "Akoya Biosciences",
+        "Akoya"
+      ],
+      "track": "测序与多组学",
+      "region": "美国",
+      "priority": "P1",
+      "focus": [
+        "超灵敏蛋白检测",
+        "空间蛋白组"
+      ],
+      "website": "https://www.quanterix.com/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.quanterix.com/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"Quanterix\" official LinkedIn company",
+        "x": "\"Quanterix\" official X Twitter",
+        "youtube": "\"Quanterix\" official YouTube"
+      },
+      "notes": "Akoya已并入Quanterix；旧事件保留Akoya别名与历史实体。"
+    },
+    {
+      "id": "quantum-si",
+      "name_zh": "",
+      "name_en": "Quantum-Si",
+      "aliases": [],
+      "track": "测序与多组学",
+      "region": "美国",
+      "priority": "P1",
+      "focus": [
+        "单分子蛋白测序"
+      ],
+      "website": "https://www.quantum-si.com/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.quantum-si.com/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"Quantum-Si\" official LinkedIn company",
+        "x": "\"Quantum-Si\" official X Twitter",
+        "youtube": "\"Quantum-Si\" official YouTube"
+      },
+      "notes": ""
+    },
+    {
+      "id": "seer",
+      "name_zh": "",
+      "name_en": "Seer",
+      "aliases": [],
+      "track": "测序与多组学",
+      "region": "美国",
+      "priority": "P1",
+      "focus": [
+        "深度蛋白组",
+        "Proteograph"
+      ],
+      "website": "https://seer.bio/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://seer.bio/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"Seer\" official LinkedIn company",
+        "x": "\"Seer\" official X Twitter",
+        "youtube": "\"Seer\" official YouTube"
+      },
+      "notes": ""
+    },
+    {
+      "id": "singular-genomics",
+      "name_zh": "",
+      "name_en": "Singular Genomics",
+      "aliases": [],
+      "track": "测序与多组学",
+      "region": "美国",
+      "priority": "P1",
+      "focus": [
+        "测序平台",
+        "空间与单细胞"
+      ],
+      "website": "https://www.singulargenomics.com/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.singulargenomics.com/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"Singular Genomics\" official LinkedIn company",
+        "x": "\"Singular Genomics\" official X Twitter",
+        "youtube": "\"Singular Genomics\" official YouTube"
+      },
+      "notes": ""
+    },
+    {
+      "id": "standard-biotools",
+      "name_zh": "",
+      "name_en": "Standard BioTools",
+      "aliases": [
+        "Fluidigm",
+        "SomaLogic"
+      ],
+      "track": "测序与多组学",
+      "region": "美国/全球",
+      "priority": "P1",
+      "focus": [
+        "质谱流式",
+        "高通量蛋白组",
+        "微流控"
+      ],
+      "website": "https://www.standardbio.com/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.standardbio.com/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"Standard BioTools\" official LinkedIn company",
+        "x": "\"Standard BioTools\" official X Twitter",
+        "youtube": "\"Standard BioTools\" official YouTube"
+      },
+      "notes": "Fluidigm为旧品牌；SomaLogic并入后应在别名和历史关系中保留。"
+    },
+    {
+      "id": "capitalbio-technology",
+      "name_zh": "博奥生物",
+      "name_en": "CapitalBio Technology",
+      "aliases": [
+        "CapitalBio"
+      ],
+      "track": "测序与多组学",
+      "region": "中国",
+      "priority": "P1",
+      "focus": [
+        "生物芯片",
+        "分子诊断",
+        "检测平台"
+      ],
+      "website": "https://www.capitalbio.com/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.capitalbio.com/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"CapitalBio Technology\" official LinkedIn company",
+        "x": "\"CapitalBio Technology\" official X Twitter",
+        "youtube": "\"CapitalBio Technology\" official YouTube",
+        "wechat": "微信公众号 博奥生物 官方"
+      },
+      "notes": ""
+    },
+    {
+      "id": "geneplus",
+      "name_zh": "吉因加",
+      "name_en": "Geneplus",
+      "aliases": [],
+      "track": "测序与多组学",
+      "region": "中国",
+      "priority": "P1",
+      "focus": [
+        "肿瘤精准医疗",
+        "基因检测"
+      ],
+      "website": "https://www.geneplus.cn/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.geneplus.cn/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"Geneplus\" official LinkedIn company",
+        "x": "\"Geneplus\" official X Twitter",
+        "youtube": "\"Geneplus\" official YouTube",
+        "wechat": "微信公众号 吉因加 官方"
+      },
+      "notes": ""
+    },
+    {
+      "id": "annoroad-gene-technology",
+      "name_zh": "安诺优达",
+      "name_en": "Annoroad Gene Technology",
+      "aliases": [
+        "Annoroad"
+      ],
+      "track": "测序与多组学",
+      "region": "中国",
+      "priority": "P1",
+      "focus": [
+        "基因测序",
+        "科研服务",
+        "临床检测"
+      ],
+      "website": "https://www.annoroad.com/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.annoroad.com/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"Annoroad Gene Technology\" official LinkedIn company",
+        "x": "\"Annoroad Gene Technology\" official X Twitter",
+        "youtube": "\"Annoroad Gene Technology\" official YouTube",
+        "wechat": "微信公众号 安诺优达 官方"
+      },
+      "notes": ""
+    },
+    {
+      "id": "oe-biotech",
+      "name_zh": "欧易生物",
+      "name_en": "OE Biotech",
+      "aliases": [],
+      "track": "测序与多组学",
+      "region": "中国",
+      "priority": "P1",
+      "focus": [
+        "多组学服务",
+        "生物信息"
+      ],
+      "website": "https://www.oebiotech.com/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.oebiotech.com/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"OE Biotech\" official LinkedIn company",
+        "x": "\"OE Biotech\" official X Twitter",
+        "youtube": "\"OE Biotech\" official YouTube",
+        "wechat": "微信公众号 欧易生物 官方"
+      },
+      "notes": ""
+    },
+    {
+      "id": "personalbio",
+      "name_zh": "派森诺",
+      "name_en": "Personalbio",
+      "aliases": [],
+      "track": "测序与多组学",
+      "region": "中国",
+      "priority": "P1",
+      "focus": [
+        "测序服务",
+        "微生物组",
+        "生物信息"
+      ],
+      "website": "https://www.personalbio.cn/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.personalbio.cn/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"Personalbio\" official LinkedIn company",
+        "x": "\"Personalbio\" official X Twitter",
+        "youtube": "\"Personalbio\" official YouTube",
+        "wechat": "微信公众号 派森诺 官方"
+      },
+      "notes": ""
+    },
+    {
+      "id": "haplox",
+      "name_zh": "海普洛斯",
+      "name_en": "HaploX",
+      "aliases": [],
+      "track": "测序与多组学",
+      "region": "中国",
+      "priority": "P1",
+      "focus": [
+        "肿瘤早筛",
+        "液体活检",
+        "NGS"
+      ],
+      "website": "https://www.haplox.cn/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.haplox.cn/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"HaploX\" official LinkedIn company",
+        "x": "\"HaploX\" official X Twitter",
+        "youtube": "\"HaploX\" official YouTube",
+        "wechat": "微信公众号 海普洛斯 官方"
+      },
+      "notes": ""
+    },
+    {
+      "id": "acrobiosystems",
+      "name_zh": "百普赛斯",
+      "name_en": "ACROBiosystems",
+      "aliases": [],
+      "track": "测序与多组学",
+      "region": "中国/全球",
+      "priority": "P1",
+      "focus": [
+        "重组蛋白",
+        "抗体",
+        "细胞基因治疗试剂"
+      ],
+      "website": "https://www.acrobiosystems.com/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.acrobiosystems.com/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"ACROBiosystems\" official LinkedIn company",
+        "x": "\"ACROBiosystems\" official X Twitter",
+        "youtube": "\"ACROBiosystems\" official YouTube",
+        "wechat": "微信公众号 百普赛斯 官方"
+      },
+      "notes": ""
+    },
+    {
+      "id": "biomarker-technologies",
+      "name_zh": "百迈客",
+      "name_en": "Biomarker Technologies",
+      "aliases": [],
+      "track": "测序与多组学",
+      "region": "中国",
+      "priority": "P1",
+      "focus": [
+        "多组学服务",
+        "生物信息",
+        "育种"
+      ],
+      "website": "https://www.biomarker.com.cn/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.biomarker.com.cn/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"Biomarker Technologies\" official LinkedIn company",
+        "x": "\"Biomarker Technologies\" official X Twitter",
+        "youtube": "\"Biomarker Technologies\" official YouTube",
+        "wechat": "微信公众号 百迈客 官方"
+      },
+      "notes": ""
+    },
+    {
+      "id": "genecast-biotechnology",
+      "name_zh": "臻和科技",
+      "name_en": "Genecast Biotechnology",
+      "aliases": [
+        "臻和生物",
+        "OrigiMed China"
+      ],
+      "track": "测序与多组学",
+      "region": "中国",
+      "priority": "P1",
+      "focus": [
+        "肿瘤检测",
+        "精准医疗"
+      ],
+      "website": "https://www.genecast.com.cn/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.genecast.com.cn/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"Genecast Biotechnology\" official LinkedIn company",
+        "x": "\"Genecast Biotechnology\" official X Twitter",
+        "youtube": "\"Genecast Biotechnology\" official YouTube",
+        "wechat": "微信公众号 臻和科技 官方"
+      },
+      "notes": ""
+    },
+    {
+      "id": "vazyme-biotech",
+      "name_zh": "诺唯赞",
+      "name_en": "Vazyme Biotech",
+      "aliases": [
+        "Vazyme"
+      ],
+      "track": "测序与多组学",
+      "region": "中国/全球",
+      "priority": "P1",
+      "focus": [
+        "生命科学试剂",
+        "分子诊断",
+        "测序建库"
+      ],
+      "website": "https://www.vazymebiotech.com/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.vazymebiotech.com/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"Vazyme Biotech\" official LinkedIn company",
+        "x": "\"Vazyme Biotech\" official X Twitter",
+        "youtube": "\"Vazyme Biotech\" official YouTube",
+        "wechat": "微信公众号 诺唯赞 官方"
+      },
+      "notes": ""
+    },
+    {
+      "id": "berry-genomics",
+      "name_zh": "贝瑞基因",
+      "name_en": "Berry Genomics",
+      "aliases": [],
+      "track": "测序与多组学",
+      "region": "中国",
+      "priority": "P1",
+      "focus": [
+        "遗传检测",
+        "生育健康",
+        "肿瘤检测"
+      ],
+      "website": "https://www.berrygenomics.com/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.berrygenomics.com/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"Berry Genomics\" official LinkedIn company",
+        "x": "\"Berry Genomics\" official X Twitter",
+        "youtube": "\"Berry Genomics\" official YouTube",
+        "wechat": "微信公众号 贝瑞基因 官方"
+      },
+      "notes": ""
+    },
+    {
+      "id": "abcellera",
+      "name_zh": "",
+      "name_en": "AbCellera",
+      "aliases": [],
+      "track": "AI与模型数据",
+      "region": "加拿大",
+      "priority": "P0",
+      "focus": [
+        "抗体发现平台",
+        "自动化与数据"
+      ],
+      "website": "https://www.abcellera.com/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.abcellera.com/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"AbCellera\" official LinkedIn company",
+        "x": "\"AbCellera\" official X Twitter",
+        "youtube": "\"AbCellera\" official YouTube"
+      },
+      "notes": ""
+    },
+    {
+      "id": "absci",
+      "name_zh": "",
+      "name_en": "Absci",
+      "aliases": [],
+      "track": "AI与模型数据",
+      "region": "美国",
+      "priority": "P0",
+      "focus": [
+        "生成式抗体设计",
+        "蛋白表达"
+      ],
+      "website": "https://www.absci.com/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.absci.com/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"Absci\" official LinkedIn company",
+        "x": "\"Absci\" official X Twitter",
+        "youtube": "\"Absci\" official YouTube"
+      },
+      "notes": ""
+    },
+    {
+      "id": "accutar-biotechnology",
+      "name_zh": "",
+      "name_en": "Accutar Biotechnology",
+      "aliases": [
+        "Accutar"
+      ],
+      "track": "AI与模型数据",
+      "region": "中国/美国",
+      "priority": "P0",
+      "focus": [
+        "AI药物发现",
+        "靶向蛋白降解"
+      ],
+      "website": "https://www.accutarbio.com/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.accutarbio.com/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"Accutar Biotechnology\" official LinkedIn company",
+        "x": "\"Accutar Biotechnology\" official X Twitter",
+        "youtube": "\"Accutar Biotechnology\" official YouTube"
+      },
+      "notes": ""
+    },
+    {
+      "id": "chai-discovery",
+      "name_zh": "",
+      "name_en": "Chai Discovery",
+      "aliases": [],
+      "track": "AI与模型数据",
+      "region": "美国",
+      "priority": "P0",
+      "focus": [
+        "分子结构预测",
+        "药物设计"
+      ],
+      "website": "https://www.chaidiscovery.com/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.chaidiscovery.com/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"Chai Discovery\" official LinkedIn company",
+        "x": "\"Chai Discovery\" official X Twitter",
+        "youtube": "\"Chai Discovery\" official YouTube"
+      },
+      "notes": ""
+    },
+    {
+      "id": "enveda-biosciences",
+      "name_zh": "",
+      "name_en": "Enveda Biosciences",
+      "aliases": [
+        "Enveda"
+      ],
+      "track": "AI与模型数据",
+      "region": "美国",
+      "priority": "P0",
+      "focus": [
+        "天然产物",
+        "AI药物发现"
+      ],
+      "website": "https://www.envedabio.com/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.envedabio.com/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"Enveda Biosciences\" official LinkedIn company",
+        "x": "\"Enveda Biosciences\" official X Twitter",
+        "youtube": "\"Enveda Biosciences\" official YouTube"
+      },
+      "notes": ""
+    },
+    {
+      "id": "generate-biomedicines",
+      "name_zh": "",
+      "name_en": "Generate Biomedicines",
+      "aliases": [],
+      "track": "AI与模型数据",
+      "region": "美国",
+      "priority": "P0",
+      "focus": [
+        "生成式蛋白设计",
+        "生物药"
+      ],
+      "website": "https://generatebiomedicines.com/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://generatebiomedicines.com/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"Generate Biomedicines\" official LinkedIn company",
+        "x": "\"Generate Biomedicines\" official X Twitter",
+        "youtube": "\"Generate Biomedicines\" official YouTube"
+      },
+      "notes": ""
+    },
+    {
+      "id": "iambic-therapeutics",
+      "name_zh": "",
+      "name_en": "Iambic Therapeutics",
+      "aliases": [
+        "Iambic"
+      ],
+      "track": "AI与模型数据",
+      "region": "美国",
+      "priority": "P0",
+      "focus": [
+        "AI药物发现",
+        "小分子设计"
+      ],
+      "website": "https://www.iambic.ai/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.iambic.ai/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"Iambic Therapeutics\" official LinkedIn company",
+        "x": "\"Iambic Therapeutics\" official X Twitter",
+        "youtube": "\"Iambic Therapeutics\" official YouTube"
+      },
+      "notes": ""
+    },
+    {
+      "id": "isomorphic-labs",
+      "name_zh": "",
+      "name_en": "Isomorphic Labs",
+      "aliases": [],
+      "track": "AI与模型数据",
+      "region": "英国/美国",
+      "priority": "P0",
+      "focus": [
+        "AI药物设计",
+        "蛋白结构",
+        "生成模型"
+      ],
+      "website": "https://www.isomorphiclabs.com/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.isomorphiclabs.com/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"Isomorphic Labs\" official LinkedIn company",
+        "x": "\"Isomorphic Labs\" official X Twitter",
+        "youtube": "\"Isomorphic Labs\" official YouTube"
+      },
+      "notes": ""
+    },
+    {
+      "id": "latent-labs",
+      "name_zh": "",
+      "name_en": "Latent Labs",
+      "aliases": [],
+      "track": "AI与模型数据",
+      "region": "英国/美国",
+      "priority": "P0",
+      "focus": [
+        "生成式生物学",
+        "蛋白设计"
+      ],
+      "website": "https://www.latentlabs.com/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.latentlabs.com/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"Latent Labs\" official LinkedIn company",
+        "x": "\"Latent Labs\" official X Twitter",
+        "youtube": "\"Latent Labs\" official YouTube"
+      },
+      "notes": ""
+    },
+    {
+      "id": "lila-sciences",
+      "name_zh": "",
+      "name_en": "Lila Sciences",
+      "aliases": [],
+      "track": "AI与模型数据",
+      "region": "美国",
+      "priority": "P0",
+      "focus": [
+        "科学超级智能",
+        "自动化实验"
+      ],
+      "website": "https://www.lila.ai/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.lila.ai/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"Lila Sciences\" official LinkedIn company",
+        "x": "\"Lila Sciences\" official X Twitter",
+        "youtube": "\"Lila Sciences\" official YouTube"
+      },
+      "notes": ""
+    },
+    {
+      "id": "owkin",
+      "name_zh": "",
+      "name_en": "Owkin",
+      "aliases": [],
+      "track": "AI与模型数据",
+      "region": "法国/美国",
+      "priority": "P0",
+      "focus": [
+        "多模态生物医学AI",
+        "联邦学习",
+        "药物发现"
+      ],
+      "website": "https://www.owkin.com/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.owkin.com/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"Owkin\" official LinkedIn company",
+        "x": "\"Owkin\" official X Twitter",
+        "youtube": "\"Owkin\" official YouTube"
+      },
+      "notes": ""
+    },
+    {
+      "id": "pathai",
+      "name_zh": "",
+      "name_en": "PathAI",
+      "aliases": [],
+      "track": "AI与模型数据",
+      "region": "美国",
+      "priority": "P0",
+      "focus": [
+        "数字病理",
+        "AI诊断",
+        "临床试验"
+      ],
+      "website": "https://www.pathai.com/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.pathai.com/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"PathAI\" official LinkedIn company",
+        "x": "\"PathAI\" official X Twitter",
+        "youtube": "\"PathAI\" official YouTube"
+      },
+      "notes": ""
+    },
+    {
+      "id": "profluent",
+      "name_zh": "",
+      "name_en": "Profluent",
+      "aliases": [],
+      "track": "AI与模型数据",
+      "region": "美国",
+      "priority": "P0",
+      "focus": [
+        "蛋白设计",
+        "基因编辑模型"
+      ],
+      "website": "https://www.profluent.bio/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.profluent.bio/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"Profluent\" official LinkedIn company",
+        "x": "\"Profluent\" official X Twitter",
+        "youtube": "\"Profluent\" official YouTube"
+      },
+      "notes": ""
+    },
+    {
+      "id": "recursion",
+      "name_zh": "",
+      "name_en": "Recursion",
+      "aliases": [
+        "Recursion Pharmaceuticals",
+        "Exscientia"
+      ],
+      "track": "AI与模型数据",
+      "region": "美国",
+      "priority": "P0",
+      "focus": [
+        "表型组学",
+        "自动化实验",
+        "AI药物发现"
+      ],
+      "website": "https://www.recursion.com/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.recursion.com/",
+        "newsroom": null,
+        "investor_relations": "https://ir.recursion.com/"
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"Recursion\" official LinkedIn company",
+        "x": "\"Recursion\" official X Twitter",
+        "youtube": "\"Recursion\" official YouTube"
+      },
+      "notes": "Exscientia已与Recursion合并；历史新闻仍需以别名匹配并显示原始实体。"
+    },
+    {
+      "id": "relation-therapeutics",
+      "name_zh": "",
+      "name_en": "Relation Therapeutics",
+      "aliases": [
+        "Relation"
+      ],
+      "track": "AI与模型数据",
+      "region": "英国",
+      "priority": "P0",
+      "focus": [
+        "单细胞数据",
+        "疾病生物学",
+        "药物发现"
+      ],
+      "website": "https://www.relationrx.com/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.relationrx.com/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"Relation Therapeutics\" official LinkedIn company",
+        "x": "\"Relation Therapeutics\" official X Twitter",
+        "youtube": "\"Relation Therapeutics\" official YouTube"
+      },
+      "notes": ""
+    },
+    {
+      "id": "tempus-ai",
+      "name_zh": "",
+      "name_en": "Tempus AI",
+      "aliases": [
+        "Tempus"
+      ],
+      "track": "AI与模型数据",
+      "region": "美国",
+      "priority": "P0",
+      "focus": [
+        "临床数据",
+        "精准医疗",
+        "生成式AI"
+      ],
+      "website": "https://www.tempus.com/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.tempus.com/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"Tempus AI\" official LinkedIn company",
+        "x": "\"Tempus AI\" official X Twitter",
+        "youtube": "\"Tempus AI\" official YouTube"
+      },
+      "notes": ""
+    },
+    {
+      "id": "insitro",
+      "name_zh": "",
+      "name_en": "insitro",
+      "aliases": [],
+      "track": "AI与模型数据",
+      "region": "美国",
+      "priority": "P0",
+      "focus": [
+        "机器学习药物发现",
+        "人源数据",
+        "疾病模型"
+      ],
+      "website": "https://www.insitro.com/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.insitro.com/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"insitro\" official LinkedIn company",
+        "x": "\"insitro\" official X Twitter",
+        "youtube": "\"insitro\" official YouTube"
+      },
+      "notes": ""
+    },
+    {
+      "id": "moleculemind",
+      "name_zh": "分子之心",
+      "name_en": "MoleculeMind",
+      "aliases": [],
+      "track": "AI与模型数据",
+      "region": "中国",
+      "priority": "P0",
+      "focus": [
+        "蛋白质基础模型",
+        "分子设计"
+      ],
+      "website": "https://moleculemind.com/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://moleculemind.com/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"MoleculeMind\" official LinkedIn company",
+        "x": "\"MoleculeMind\" official X Twitter",
+        "youtube": "\"MoleculeMind\" official YouTube",
+        "wechat": "微信公众号 分子之心 官方"
+      },
+      "notes": ""
+    },
+    {
+      "id": "metis-therapeutics",
+      "name_zh": "剂泰医药",
+      "name_en": "METiS Therapeutics",
+      "aliases": [
+        "METiS"
+      ],
+      "track": "AI与模型数据",
+      "region": "中国/美国",
+      "priority": "P0",
+      "focus": [
+        "AI制剂",
+        "递送系统",
+        "药物开发"
+      ],
+      "website": "https://metistechbio.com/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://metistechbio.com/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"METiS Therapeutics\" official LinkedIn company",
+        "x": "\"METiS Therapeutics\" official X Twitter",
+        "youtube": "\"METiS Therapeutics\" official YouTube",
+        "wechat": "微信公众号 剂泰医药 官方"
+      },
+      "notes": ""
+    },
+    {
+      "id": "xtalpi",
+      "name_zh": "晶泰科技",
+      "name_en": "XtalPi",
+      "aliases": [],
+      "track": "AI与模型数据",
+      "region": "中国/美国",
+      "priority": "P0",
+      "focus": [
+        "AI制药",
+        "机器人实验室",
+        "晶型预测"
+      ],
+      "website": "https://www.xtalpi.com/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.xtalpi.com/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"XtalPi\" official LinkedIn company",
+        "x": "\"XtalPi\" official X Twitter",
+        "youtube": "\"XtalPi\" official YouTube",
+        "wechat": "微信公众号 晶泰科技 官方"
+      },
+      "notes": ""
+    },
+    {
+      "id": "stonewise",
+      "name_zh": "望石智慧",
+      "name_en": "StoneWise",
+      "aliases": [],
+      "track": "AI与模型数据",
+      "region": "中国",
+      "priority": "P0",
+      "focus": [
+        "AI药物发现",
+        "分子设计"
+      ],
+      "website": "https://www.stonewise.cn/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.stonewise.cn/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"StoneWise\" official LinkedIn company",
+        "x": "\"StoneWise\" official X Twitter",
+        "youtube": "\"StoneWise\" official YouTube",
+        "wechat": "微信公众号 望石智慧 官方"
+      },
+      "notes": ""
+    },
+    {
+      "id": "dp-technology",
+      "name_zh": "深势科技",
+      "name_en": "DP Technology",
+      "aliases": [
+        "DP Tech"
+      ],
+      "track": "AI与模型数据",
+      "region": "中国/全球",
+      "priority": "P0",
+      "focus": [
+        "科学计算",
+        "AI制药",
+        "材料与分子模拟"
+      ],
+      "website": "https://www.dp.tech/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.dp.tech/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"DP Technology\" official LinkedIn company",
+        "x": "\"DP Technology\" official X Twitter",
+        "youtube": "\"DP Technology\" official YouTube",
+        "wechat": "微信公众号 深势科技 官方"
+      },
+      "notes": ""
+    },
+    {
+      "id": "biomap",
+      "name_zh": "百图生科",
+      "name_en": "BioMap",
+      "aliases": [],
+      "track": "AI与模型数据",
+      "region": "中国",
+      "priority": "P0",
+      "focus": [
+        "生命科学基础模型",
+        "蛋白设计",
+        "多组学AI"
+      ],
+      "website": "https://www.biomap.com/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.biomap.com/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"BioMap\" official LinkedIn company",
+        "x": "\"BioMap\" official X Twitter",
+        "youtube": "\"BioMap\" official YouTube",
+        "wechat": "微信公众号 百图生科 官方"
+      },
+      "notes": ""
+    },
+    {
+      "id": "insilico-medicine",
+      "name_zh": "英矽智能",
+      "name_en": "Insilico Medicine",
+      "aliases": [],
+      "track": "AI与模型数据",
+      "region": "全球",
+      "priority": "P0",
+      "focus": [
+        "生成式AI制药",
+        "靶点发现",
+        "临床管线"
+      ],
+      "website": "https://insilico.com/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://insilico.com/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"Insilico Medicine\" official LinkedIn company",
+        "x": "\"Insilico Medicine\" official X Twitter",
+        "youtube": "\"Insilico Medicine\" official YouTube",
+        "wechat": "微信公众号 英矽智能 官方"
+      },
+      "notes": ""
+    },
+    {
+      "id": "mindrank",
+      "name_zh": "英飞智药",
+      "name_en": "MindRank",
+      "aliases": [],
+      "track": "AI与模型数据",
+      "region": "中国",
+      "priority": "P0",
+      "focus": [
+        "AI药物发现",
+        "小分子设计"
+      ],
+      "website": "https://www.mindrank.ai/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.mindrank.ai/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"MindRank\" official LinkedIn company",
+        "x": "\"MindRank\" official X Twitter",
+        "youtube": "\"MindRank\" official YouTube",
+        "wechat": "微信公众号 英飞智药 官方"
+      },
+      "notes": ""
+    },
+    {
+      "id": "schrodinger",
+      "name_zh": "薛定谔",
+      "name_en": "Schrodinger",
+      "aliases": [
+        "Schrödinger"
+      ],
+      "track": "AI与模型数据",
+      "region": "美国/全球",
+      "priority": "P0",
+      "focus": [
+        "计算化学",
+        "药物发现软件",
+        "自研管线"
+      ],
+      "website": "https://www.schrodinger.com/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.schrodinger.com/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"Schrodinger\" official LinkedIn company",
+        "x": "\"Schrodinger\" official X Twitter",
+        "youtube": "\"Schrodinger\" official YouTube",
+        "wechat": "微信公众号 薛定谔 官方"
+      },
+      "notes": ""
+    },
+    {
+      "id": "a-alpha-bio",
+      "name_zh": "",
+      "name_en": "A-Alpha Bio",
+      "aliases": [],
+      "track": "AI与模型数据",
+      "region": "美国",
+      "priority": "P1",
+      "focus": [
+        "蛋白互作数据",
+        "抗体发现"
+      ],
+      "website": "https://www.aalphabio.com/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.aalphabio.com/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"A-Alpha Bio\" official LinkedIn company",
+        "x": "\"A-Alpha Bio\" official X Twitter",
+        "youtube": "\"A-Alpha Bio\" official YouTube"
+      },
+      "notes": ""
+    },
+    {
+      "id": "aqemia",
+      "name_zh": "",
+      "name_en": "AQEMIA",
+      "aliases": [],
+      "track": "AI与模型数据",
+      "region": "法国",
+      "priority": "P1",
+      "focus": [
+        "量子启发药物设计",
+        "AI小分子"
+      ],
+      "website": "https://aqemia.com/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://aqemia.com/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"AQEMIA\" official LinkedIn company",
+        "x": "\"AQEMIA\" official X Twitter",
+        "youtube": "\"AQEMIA\" official YouTube"
+      },
+      "notes": ""
+    },
+    {
+      "id": "atomwise",
+      "name_zh": "",
+      "name_en": "Atomwise",
+      "aliases": [],
+      "track": "AI与模型数据",
+      "region": "美国",
+      "priority": "P1",
+      "focus": [
+        "深度学习虚拟筛选",
+        "小分子发现"
+      ],
+      "website": "https://www.atomwise.com/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.atomwise.com/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"Atomwise\" official LinkedIn company",
+        "x": "\"Atomwise\" official X Twitter",
+        "youtube": "\"Atomwise\" official YouTube"
+      },
+      "notes": ""
+    },
+    {
+      "id": "benchsci",
+      "name_zh": "",
+      "name_en": "BenchSci",
+      "aliases": [],
+      "track": "AI与模型数据",
+      "region": "加拿大",
+      "priority": "P1",
+      "focus": [
+        "实验设计智能",
+        "生物医学知识图谱"
+      ],
+      "website": "https://www.benchsci.com/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.benchsci.com/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"BenchSci\" official LinkedIn company",
+        "x": "\"BenchSci\" official X Twitter",
+        "youtube": "\"BenchSci\" official YouTube"
+      },
+      "notes": ""
+    },
+    {
+      "id": "benevolentai",
+      "name_zh": "",
+      "name_en": "BenevolentAI",
+      "aliases": [],
+      "track": "AI与模型数据",
+      "region": "英国",
+      "priority": "P1",
+      "focus": [
+        "知识图谱",
+        "AI药物发现"
+      ],
+      "website": "https://www.benevolent.com/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.benevolent.com/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"BenevolentAI\" official LinkedIn company",
+        "x": "\"BenevolentAI\" official X Twitter",
+        "youtube": "\"BenevolentAI\" official YouTube"
+      },
+      "notes": ""
+    },
+    {
+      "id": "bighat-biosciences",
+      "name_zh": "",
+      "name_en": "BigHat Biosciences",
+      "aliases": [],
+      "track": "AI与模型数据",
+      "region": "美国",
+      "priority": "P1",
+      "focus": [
+        "抗体设计",
+        "机器学习实验闭环"
+      ],
+      "website": "https://www.bighatbio.com/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.bighatbio.com/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"BigHat Biosciences\" official LinkedIn company",
+        "x": "\"BigHat Biosciences\" official X Twitter",
+        "youtube": "\"BigHat Biosciences\" official YouTube"
+      },
+      "notes": ""
+    },
+    {
+      "id": "causaly",
+      "name_zh": "",
+      "name_en": "Causaly",
+      "aliases": [],
+      "track": "AI与模型数据",
+      "region": "英国/美国",
+      "priority": "P1",
+      "focus": [
+        "生物医学知识图谱",
+        "科研智能"
+      ],
+      "website": "https://www.causaly.com/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.causaly.com/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"Causaly\" official LinkedIn company",
+        "x": "\"Causaly\" official X Twitter",
+        "youtube": "\"Causaly\" official YouTube"
+      },
+      "notes": ""
+    },
+    {
+      "id": "cradle",
+      "name_zh": "",
+      "name_en": "Cradle",
+      "aliases": [],
+      "track": "AI与模型数据",
+      "region": "荷兰/瑞士",
+      "priority": "P1",
+      "focus": [
+        "蛋白工程",
+        "生成式模型"
+      ],
+      "website": "https://www.cradle.bio/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.cradle.bio/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"Cradle\" official LinkedIn company",
+        "x": "\"Cradle\" official X Twitter",
+        "youtube": "\"Cradle\" official YouTube"
+      },
+      "notes": ""
+    },
+    {
+      "id": "deep-genomics",
+      "name_zh": "",
+      "name_en": "Deep Genomics",
+      "aliases": [],
+      "track": "AI与模型数据",
+      "region": "加拿大",
+      "priority": "P1",
+      "focus": [
+        "RNA药物",
+        "AI遗传学"
+      ],
+      "website": "https://www.deepgenomics.com/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.deepgenomics.com/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"Deep Genomics\" official LinkedIn company",
+        "x": "\"Deep Genomics\" official X Twitter",
+        "youtube": "\"Deep Genomics\" official YouTube"
+      },
+      "notes": ""
+    },
+    {
+      "id": "elix",
+      "name_zh": "",
+      "name_en": "Elix",
+      "aliases": [],
+      "track": "AI与模型数据",
+      "region": "日本",
+      "priority": "P1",
+      "focus": [
+        "AI药物发现",
+        "机器学习平台"
+      ],
+      "website": "https://www.elix-inc.com/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.elix-inc.com/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"Elix\" official LinkedIn company",
+        "x": "\"Elix\" official X Twitter",
+        "youtube": "\"Elix\" official YouTube"
+      },
+      "notes": ""
+    },
+    {
+      "id": "evolutionaryscale",
+      "name_zh": "",
+      "name_en": "EvolutionaryScale",
+      "aliases": [],
+      "track": "AI与模型数据",
+      "region": "美国",
+      "priority": "P1",
+      "focus": [
+        "蛋白质语言模型",
+        "ESM"
+      ],
+      "website": "https://www.evolutionaryscale.ai/",
+      "status": "part_of_parent",
+      "parent": "Biohub",
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.evolutionaryscale.ai/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"EvolutionaryScale\" official LinkedIn company",
+        "x": "\"EvolutionaryScale\" official X Twitter",
+        "youtube": "\"EvolutionaryScale\" official YouTube"
+      },
+      "notes": "当前应同时跟踪Biohub与ESM服务页面；保留EvolutionaryScale历史实体。"
+    },
+    {
+      "id": "formation-bio",
+      "name_zh": "",
+      "name_en": "Formation Bio",
+      "aliases": [],
+      "track": "AI与模型数据",
+      "region": "美国",
+      "priority": "P1",
+      "focus": [
+        "AI临床开发",
+        "药物资产开发"
+      ],
+      "website": "https://www.formation.bio/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.formation.bio/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"Formation Bio\" official LinkedIn company",
+        "x": "\"Formation Bio\" official X Twitter",
+        "youtube": "\"Formation Bio\" official YouTube"
+      },
+      "notes": ""
+    },
+    {
+      "id": "genesis-therapeutics",
+      "name_zh": "",
+      "name_en": "Genesis Therapeutics",
+      "aliases": [],
+      "track": "AI与模型数据",
+      "region": "美国",
+      "priority": "P1",
+      "focus": [
+        "生成式化学",
+        "小分子设计"
+      ],
+      "website": "https://genesistherapeutics.ai/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://genesistherapeutics.ai/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"Genesis Therapeutics\" official LinkedIn company",
+        "x": "\"Genesis Therapeutics\" official X Twitter",
+        "youtube": "\"Genesis Therapeutics\" official YouTube"
+      },
+      "notes": ""
+    },
+    {
+      "id": "ginkgo-bioworks",
+      "name_zh": "",
+      "name_en": "Ginkgo Bioworks",
+      "aliases": [],
+      "track": "AI与模型数据",
+      "region": "美国",
+      "priority": "P1",
+      "focus": [
+        "合成生物学平台",
+        "自动化实验",
+        "生物数据"
+      ],
+      "website": "https://www.ginkgobioworks.com/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.ginkgobioworks.com/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"Ginkgo Bioworks\" official LinkedIn company",
+        "x": "\"Ginkgo Bioworks\" official X Twitter",
+        "youtube": "\"Ginkgo Bioworks\" official YouTube"
+      },
+      "notes": ""
+    },
+    {
+      "id": "immunai",
+      "name_zh": "",
+      "name_en": "Immunai",
+      "aliases": [],
+      "track": "AI与模型数据",
+      "region": "美国/以色列",
+      "priority": "P1",
+      "focus": [
+        "免疫单细胞数据",
+        "AI药物发现"
+      ],
+      "website": "https://www.immunai.com/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.immunai.com/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"Immunai\" official LinkedIn company",
+        "x": "\"Immunai\" official X Twitter",
+        "youtube": "\"Immunai\" official YouTube"
+      },
+      "notes": ""
+    },
+    {
+      "id": "inceptive",
+      "name_zh": "",
+      "name_en": "Inceptive",
+      "aliases": [],
+      "track": "AI与模型数据",
+      "region": "美国",
+      "priority": "P1",
+      "focus": [
+        "生成式RNA设计",
+        "RNA药物"
+      ],
+      "website": "https://www.inceptive.life/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.inceptive.life/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"Inceptive\" official LinkedIn company",
+        "x": "\"Inceptive\" official X Twitter",
+        "youtube": "\"Inceptive\" official YouTube"
+      },
+      "notes": ""
+    },
+    {
+      "id": "nabla-bio",
+      "name_zh": "",
+      "name_en": "Nabla Bio",
+      "aliases": [],
+      "track": "AI与模型数据",
+      "region": "美国",
+      "priority": "P1",
+      "focus": [
+        "蛋白设计",
+        "抗体工程"
+      ],
+      "website": "https://www.nablabio.com/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.nablabio.com/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"Nabla Bio\" official LinkedIn company",
+        "x": "\"Nabla Bio\" official X Twitter",
+        "youtube": "\"Nabla Bio\" official YouTube"
+      },
+      "notes": ""
+    },
+    {
+      "id": "terray-therapeutics",
+      "name_zh": "",
+      "name_en": "Terray Therapeutics",
+      "aliases": [
+        "Terray"
+      ],
+      "track": "AI与模型数据",
+      "region": "美国",
+      "priority": "P1",
+      "focus": [
+        "实验数据平台",
+        "AI小分子发现"
+      ],
+      "website": "https://www.terraytx.com/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.terraytx.com/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"Terray Therapeutics\" official LinkedIn company",
+        "x": "\"Terray Therapeutics\" official X Twitter",
+        "youtube": "\"Terray Therapeutics\" official YouTube"
+      },
+      "notes": ""
+    },
+    {
+      "id": "valo-health",
+      "name_zh": "",
+      "name_en": "Valo Health",
+      "aliases": [],
+      "track": "AI与模型数据",
+      "region": "美国",
+      "priority": "P1",
+      "focus": [
+        "人源数据",
+        "AI药物研发"
+      ],
+      "website": "https://www.valohealth.com/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.valohealth.com/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"Valo Health\" official LinkedIn company",
+        "x": "\"Valo Health\" official X Twitter",
+        "youtube": "\"Valo Health\" official YouTube"
+      },
+      "notes": ""
+    },
+    {
+      "id": "verge-genomics",
+      "name_zh": "",
+      "name_en": "Verge Genomics",
+      "aliases": [],
+      "track": "AI与模型数据",
+      "region": "美国",
+      "priority": "P1",
+      "focus": [
+        "人源组学",
+        "神经退行性疾病",
+        "AI制药"
+      ],
+      "website": "https://www.vergegenomics.com/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.vergegenomics.com/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"Verge Genomics\" official LinkedIn company",
+        "x": "\"Verge Genomics\" official X Twitter",
+        "youtube": "\"Verge Genomics\" official YouTube"
+      },
+      "notes": ""
+    },
+    {
+      "id": "zelixir-biotech",
+      "name_zh": "智峪生科",
+      "name_en": "Zelixir Biotech",
+      "aliases": [
+        "Zelixir"
+      ],
+      "track": "AI与模型数据",
+      "region": "中国",
+      "priority": "P1",
+      "focus": [
+        "AI蛋白设计",
+        "药物发现"
+      ],
+      "website": "https://www.zelixir.com/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.zelixir.com/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"Zelixir Biotech\" official LinkedIn company",
+        "x": "\"Zelixir Biotech\" official X Twitter",
+        "youtube": "\"Zelixir Biotech\" official YouTube",
+        "wechat": "微信公众号 智峪生科 官方"
+      },
+      "notes": ""
+    },
+    {
+      "id": "biontech",
+      "name_zh": "BioNTech",
+      "name_en": "BioNTech",
+      "aliases": [],
+      "track": "生物医药",
+      "region": "德国/全球",
+      "priority": "P0",
+      "focus": [
+        "mRNA",
+        "肿瘤免疫",
+        "疫苗"
+      ],
+      "website": "https://www.biontech.com/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.biontech.com/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"BioNTech\" official LinkedIn company",
+        "x": "\"BioNTech\" official X Twitter",
+        "youtube": "\"BioNTech\" official YouTube",
+        "wechat": "微信公众号 BioNTech 官方"
+      },
+      "notes": ""
+    },
+    {
+      "id": "legend-biotech",
+      "name_zh": "传奇生物",
+      "name_en": "Legend Biotech",
+      "aliases": [],
+      "track": "生物医药",
+      "region": "中国/美国",
+      "priority": "P0",
+      "focus": [
+        "CAR-T",
+        "细胞治疗"
+      ],
+      "website": "https://legendbiotech.com/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://legendbiotech.com/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"Legend Biotech\" official LinkedIn company",
+        "x": "\"Legend Biotech\" official X Twitter",
+        "youtube": "\"Legend Biotech\" official YouTube",
+        "wechat": "微信公众号 传奇生物 官方"
+      },
+      "notes": ""
+    },
+    {
+      "id": "innovent-biologics",
+      "name_zh": "信达生物",
+      "name_en": "Innovent Biologics",
+      "aliases": [],
+      "track": "生物医药",
+      "region": "中国/全球",
+      "priority": "P0",
+      "focus": [
+        "抗体药物",
+        "肿瘤",
+        "代谢"
+      ],
+      "website": "https://en.innoventbio.com/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://en.innoventbio.com/",
+        "newsroom": null,
+        "investor_relations": "https://investor.innoventbio.com/"
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"Innovent Biologics\" official LinkedIn company",
+        "x": "\"Innovent Biologics\" official X Twitter",
+        "youtube": "\"Innovent Biologics\" official YouTube",
+        "wechat": "微信公众号 信达生物 官方"
+      },
+      "notes": ""
+    },
+    {
+      "id": "regeneron",
+      "name_zh": "再生元",
+      "name_en": "Regeneron",
+      "aliases": [],
+      "track": "生物医药",
+      "region": "美国/全球",
+      "priority": "P0",
+      "focus": [
+        "抗体药物",
+        "遗传学",
+        "眼科"
+      ],
+      "website": "https://www.regeneron.com/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.regeneron.com/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"Regeneron\" official LinkedIn company",
+        "x": "\"Regeneron\" official X Twitter",
+        "youtube": "\"Regeneron\" official YouTube",
+        "wechat": "微信公众号 再生元 官方"
+      },
+      "notes": ""
+    },
+    {
+      "id": "zai-lab",
+      "name_zh": "再鼎医药",
+      "name_en": "Zai Lab",
+      "aliases": [],
+      "track": "生物医药",
+      "region": "中国/全球",
+      "priority": "P0",
+      "focus": [
+        "肿瘤",
+        "自身免疫",
+        "感染"
+      ],
+      "website": "https://www.zailaboratory.com/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.zailaboratory.com/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"Zai Lab\" official LinkedIn company",
+        "x": "\"Zai Lab\" official X Twitter",
+        "youtube": "\"Zai Lab\" official YouTube",
+        "wechat": "微信公众号 再鼎医药 官方"
+      },
+      "notes": ""
+    },
+    {
+      "id": "gilead-sciences",
+      "name_zh": "吉利德科学",
+      "name_en": "Gilead Sciences",
+      "aliases": [],
+      "track": "生物医药",
+      "region": "美国/全球",
+      "priority": "P0",
+      "focus": [
+        "抗病毒",
+        "肿瘤",
+        "细胞治疗"
+      ],
+      "website": "https://www.gilead.com/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.gilead.com/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"Gilead Sciences\" official LinkedIn company",
+        "x": "\"Gilead Sciences\" official X Twitter",
+        "youtube": "\"Gilead Sciences\" official YouTube",
+        "wechat": "微信公众号 吉利德科学 官方"
+      },
+      "notes": ""
+    },
+    {
+      "id": "junshi-biosciences",
+      "name_zh": "君实生物",
+      "name_en": "Junshi Biosciences",
+      "aliases": [],
+      "track": "生物医药",
+      "region": "中国",
+      "priority": "P0",
+      "focus": [
+        "抗体药物",
+        "肿瘤",
+        "感染"
+      ],
+      "website": "https://www.junshipharma.com/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.junshipharma.com/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"Junshi Biosciences\" official LinkedIn company",
+        "x": "\"Junshi Biosciences\" official X Twitter",
+        "youtube": "\"Junshi Biosciences\" official YouTube",
+        "wechat": "微信公众号 君实生物 官方"
+      },
+      "notes": ""
+    },
+    {
+      "id": "amgen",
+      "name_zh": "安进",
+      "name_en": "Amgen",
+      "aliases": [],
+      "track": "生物医药",
+      "region": "美国/全球",
+      "priority": "P0",
+      "focus": [
+        "生物药",
+        "肿瘤",
+        "炎症"
+      ],
+      "website": "https://www.amgen.com/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.amgen.com/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"Amgen\" official LinkedIn company",
+        "x": "\"Amgen\" official X Twitter",
+        "youtube": "\"Amgen\" official YouTube",
+        "wechat": "微信公众号 安进 官方"
+      },
+      "notes": ""
+    },
+    {
+      "id": "akeso",
+      "name_zh": "康方生物",
+      "name_en": "Akeso",
+      "aliases": [],
+      "track": "生物医药",
+      "region": "中国",
+      "priority": "P0",
+      "focus": [
+        "双特异抗体",
+        "肿瘤",
+        "免疫"
+      ],
+      "website": "https://www.akesobio.com/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.akesobio.com/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"Akeso\" official LinkedIn company",
+        "x": "\"Akeso\" official X Twitter",
+        "youtube": "\"Akeso\" official YouTube",
+        "wechat": "微信公众号 康方生物 官方"
+      },
+      "notes": ""
+    },
+    {
+      "id": "johnson-johnson-innovative-medicine",
+      "name_zh": "强生创新制药",
+      "name_en": "Johnson & Johnson Innovative Medicine",
+      "aliases": [
+        "Janssen",
+        "杨森"
+      ],
+      "track": "生物医药",
+      "region": "美国/全球",
+      "priority": "P0",
+      "focus": [
+        "肿瘤",
+        "免疫",
+        "神经科学"
+      ],
+      "website": "https://www.jnj.com/innovativemedicine",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.jnj.com/innovativemedicine",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"Johnson & Johnson Innovative Medicine\" official LinkedIn company",
+        "x": "\"Johnson & Johnson Innovative Medicine\" official X Twitter",
+        "youtube": "\"Johnson & Johnson Innovative Medicine\" official YouTube",
+        "wechat": "微信公众号 强生创新制药 官方"
+      },
+      "notes": ""
+    },
+    {
+      "id": "jiangsu-hengrui-pharmaceuticals",
+      "name_zh": "恒瑞医药",
+      "name_en": "Jiangsu Hengrui Pharmaceuticals",
+      "aliases": [
+        "Hengrui"
+      ],
+      "track": "生物医药",
+      "region": "中国",
+      "priority": "P0",
+      "focus": [
+        "创新药",
+        "肿瘤",
+        "代谢与免疫"
+      ],
+      "website": "https://www.hengrui.com/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.hengrui.com/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"Jiangsu Hengrui Pharmaceuticals\" official LinkedIn company",
+        "x": "\"Jiangsu Hengrui Pharmaceuticals\" official X Twitter",
+        "youtube": "\"Jiangsu Hengrui Pharmaceuticals\" official YouTube",
+        "wechat": "微信公众号 恒瑞医药 官方"
+      },
+      "notes": ""
+    },
+    {
+      "id": "duality-biologics",
+      "name_zh": "映恩生物",
+      "name_en": "Duality Biologics",
+      "aliases": [],
+      "track": "生物医药",
+      "region": "中国",
+      "priority": "P0",
+      "focus": [
+        "ADC",
+        "抗体偶联药物"
+      ],
+      "website": "https://www.dualitybiologics.com/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.dualitybiologics.com/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"Duality Biologics\" official LinkedIn company",
+        "x": "\"Duality Biologics\" official X Twitter",
+        "youtube": "\"Duality Biologics\" official YouTube",
+        "wechat": "微信公众号 映恩生物 官方"
+      },
+      "notes": ""
+    },
+    {
+      "id": "takeda",
+      "name_zh": "武田药品",
+      "name_en": "Takeda",
+      "aliases": [],
+      "track": "生物医药",
+      "region": "日本/全球",
+      "priority": "P0",
+      "focus": [
+        "消化",
+        "罕见病",
+        "血浆疗法"
+      ],
+      "website": "https://www.takeda.com/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.takeda.com/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"Takeda\" official LinkedIn company",
+        "x": "\"Takeda\" official X Twitter",
+        "youtube": "\"Takeda\" official YouTube",
+        "wechat": "微信公众号 武田药品 官方"
+      },
+      "notes": ""
+    },
+    {
+      "id": "bristol-myers-squibb",
+      "name_zh": "百时美施贵宝",
+      "name_en": "Bristol Myers Squibb",
+      "aliases": [
+        "BMS"
+      ],
+      "track": "生物医药",
+      "region": "美国/全球",
+      "priority": "P0",
+      "focus": [
+        "肿瘤",
+        "免疫",
+        "心血管"
+      ],
+      "website": "https://www.bms.com/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.bms.com/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"Bristol Myers Squibb\" official LinkedIn company",
+        "x": "\"Bristol Myers Squibb\" official X Twitter",
+        "youtube": "\"Bristol Myers Squibb\" official YouTube",
+        "wechat": "微信公众号 百时美施贵宝 官方"
+      },
+      "notes": ""
+    },
+    {
+      "id": "beone-medicines",
+      "name_zh": "百济神州",
+      "name_en": "BeOne Medicines",
+      "aliases": [
+        "BeiGene",
+        "百济神州 BeiGene"
+      ],
+      "track": "生物医药",
+      "region": "中国/全球",
+      "priority": "P0",
+      "focus": [
+        "肿瘤药物",
+        "全球临床开发"
+      ],
+      "website": "https://beonemedicines.com/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://beonemedicines.com/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"BeOne Medicines\" official LinkedIn company",
+        "x": "\"BeOne Medicines\" official X Twitter",
+        "youtube": "\"BeOne Medicines\" official YouTube",
+        "wechat": "微信公众号 百济神州 官方"
+      },
+      "notes": "当前品牌为BeOne Medicines；BeiGene/百济神州作为历史与中文别名保留。"
+    },
+    {
+      "id": "eli-lilly",
+      "name_zh": "礼来",
+      "name_en": "Eli Lilly",
+      "aliases": [],
+      "track": "生物医药",
+      "region": "美国/全球",
+      "priority": "P0",
+      "focus": [
+        "代谢",
+        "神经科学",
+        "肿瘤"
+      ],
+      "website": "https://www.lilly.com/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.lilly.com/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"Eli Lilly\" official LinkedIn company",
+        "x": "\"Eli Lilly\" official X Twitter",
+        "youtube": "\"Eli Lilly\" official YouTube",
+        "wechat": "微信公众号 礼来 官方"
+      },
+      "notes": ""
+    },
+    {
+      "id": "kelun-biotech",
+      "name_zh": "科伦博泰",
+      "name_en": "Kelun-Biotech",
+      "aliases": [],
+      "track": "生物医药",
+      "region": "中国",
+      "priority": "P0",
+      "focus": [
+        "ADC",
+        "创新药"
+      ],
+      "website": "https://www.kelun-biotech.com/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.kelun-biotech.com/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"Kelun-Biotech\" official LinkedIn company",
+        "x": "\"Kelun-Biotech\" official X Twitter",
+        "youtube": "\"Kelun-Biotech\" official YouTube",
+        "wechat": "微信公众号 科伦博泰 官方"
+      },
+      "notes": ""
+    },
+    {
+      "id": "daiichi-sankyo",
+      "name_zh": "第一三共",
+      "name_en": "Daiichi Sankyo",
+      "aliases": [],
+      "track": "生物医药",
+      "region": "日本/全球",
+      "priority": "P0",
+      "focus": [
+        "ADC",
+        "肿瘤",
+        "心血管"
+      ],
+      "website": "https://www.daiichisankyo.com/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.daiichisankyo.com/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"Daiichi Sankyo\" official LinkedIn company",
+        "x": "\"Daiichi Sankyo\" official X Twitter",
+        "youtube": "\"Daiichi Sankyo\" official YouTube",
+        "wechat": "微信公众号 第一三共 官方"
+      },
+      "notes": ""
+    },
+    {
+      "id": "roche",
+      "name_zh": "罗氏",
+      "name_en": "Roche",
+      "aliases": [],
+      "track": "生物医药",
+      "region": "瑞士/全球",
+      "priority": "P0",
+      "focus": [
+        "制药",
+        "诊断",
+        "肿瘤"
+      ],
+      "website": "https://www.roche.com/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.roche.com/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"Roche\" official LinkedIn company",
+        "x": "\"Roche\" official X Twitter",
+        "youtube": "\"Roche\" official YouTube",
+        "wechat": "微信公众号 罗氏 官方"
+      },
+      "notes": ""
+    },
+    {
+      "id": "abbvie",
+      "name_zh": "艾伯维",
+      "name_en": "AbbVie",
+      "aliases": [],
+      "track": "生物医药",
+      "region": "美国/全球",
+      "priority": "P0",
+      "focus": [
+        "免疫",
+        "肿瘤",
+        "神经科学"
+      ],
+      "website": "https://www.abbvie.com/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.abbvie.com/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"AbbVie\" official LinkedIn company",
+        "x": "\"AbbVie\" official X Twitter",
+        "youtube": "\"AbbVie\" official YouTube",
+        "wechat": "微信公众号 艾伯维 官方"
+      },
+      "notes": ""
+    },
+    {
+      "id": "remegen",
+      "name_zh": "荣昌生物",
+      "name_en": "RemeGen",
+      "aliases": [],
+      "track": "生物医药",
+      "region": "中国",
+      "priority": "P0",
+      "focus": [
+        "ADC",
+        "自身免疫",
+        "抗体药物"
+      ],
+      "website": "https://www.remegen.com/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.remegen.com/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"RemeGen\" official LinkedIn company",
+        "x": "\"RemeGen\" official X Twitter",
+        "youtube": "\"RemeGen\" official YouTube",
+        "wechat": "微信公众号 荣昌生物 官方"
+      },
+      "notes": ""
+    },
+    {
+      "id": "wuxi-apptec",
+      "name_zh": "药明康德",
+      "name_en": "WuXi AppTec",
+      "aliases": [],
+      "track": "生物医药",
+      "region": "中国/全球",
+      "priority": "P0",
+      "focus": [
+        "CRDMO",
+        "药物发现",
+        "开发与生产"
+      ],
+      "website": "https://www.wuxiapptec.com/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.wuxiapptec.com/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"WuXi AppTec\" official LinkedIn company",
+        "x": "\"WuXi AppTec\" official X Twitter",
+        "youtube": "\"WuXi AppTec\" official YouTube",
+        "wechat": "微信公众号 药明康德 官方"
+      },
+      "notes": ""
+    },
+    {
+      "id": "wuxi-biologics",
+      "name_zh": "药明生物",
+      "name_en": "WuXi Biologics",
+      "aliases": [],
+      "track": "生物医药",
+      "region": "中国/全球",
+      "priority": "P0",
+      "focus": [
+        "生物药CRDMO",
+        "抗体生产"
+      ],
+      "website": "https://www.wuxibiologics.com/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.wuxibiologics.com/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"WuXi Biologics\" official LinkedIn company",
+        "x": "\"WuXi Biologics\" official X Twitter",
+        "youtube": "\"WuXi Biologics\" official YouTube",
+        "wechat": "微信公众号 药明生物 官方"
+      },
+      "notes": ""
+    },
+    {
+      "id": "moderna",
+      "name_zh": "莫德纳",
+      "name_en": "Moderna",
+      "aliases": [],
+      "track": "生物医药",
+      "region": "美国/全球",
+      "priority": "P0",
+      "focus": [
+        "mRNA",
+        "疫苗",
+        "肿瘤"
+      ],
+      "website": "https://www.modernatx.com/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.modernatx.com/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"Moderna\" official LinkedIn company",
+        "x": "\"Moderna\" official X Twitter",
+        "youtube": "\"Moderna\" official YouTube",
+        "wechat": "微信公众号 莫德纳 官方"
+      },
+      "notes": ""
+    },
+    {
+      "id": "novartis",
+      "name_zh": "诺华",
+      "name_en": "Novartis",
+      "aliases": [],
+      "track": "生物医药",
+      "region": "瑞士/全球",
+      "priority": "P0",
+      "focus": [
+        "创新药",
+        "放射配体",
+        "基因治疗"
+      ],
+      "website": "https://www.novartis.com/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.novartis.com/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"Novartis\" official LinkedIn company",
+        "x": "\"Novartis\" official X Twitter",
+        "youtube": "\"Novartis\" official YouTube",
+        "wechat": "微信公众号 诺华 官方"
+      },
+      "notes": ""
+    },
+    {
+      "id": "novo-nordisk",
+      "name_zh": "诺和诺德",
+      "name_en": "Novo Nordisk",
+      "aliases": [],
+      "track": "生物医药",
+      "region": "丹麦/全球",
+      "priority": "P0",
+      "focus": [
+        "糖尿病",
+        "肥胖",
+        "罕见病"
+      ],
+      "website": "https://www.novonordisk.com/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.novonordisk.com/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"Novo Nordisk\" official LinkedIn company",
+        "x": "\"Novo Nordisk\" official X Twitter",
+        "youtube": "\"Novo Nordisk\" official YouTube",
+        "wechat": "微信公众号 诺和诺德 官方"
+      },
+      "notes": ""
+    },
+    {
+      "id": "sanofi",
+      "name_zh": "赛诺菲",
+      "name_en": "Sanofi",
+      "aliases": [],
+      "track": "生物医药",
+      "region": "法国/全球",
+      "priority": "P0",
+      "focus": [
+        "免疫",
+        "疫苗",
+        "罕见病"
+      ],
+      "website": "https://www.sanofi.com/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.sanofi.com/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"Sanofi\" official LinkedIn company",
+        "x": "\"Sanofi\" official X Twitter",
+        "youtube": "\"Sanofi\" official YouTube",
+        "wechat": "微信公众号 赛诺菲 官方"
+      },
+      "notes": ""
+    },
+    {
+      "id": "pfizer",
+      "name_zh": "辉瑞",
+      "name_en": "Pfizer",
+      "aliases": [],
+      "track": "生物医药",
+      "region": "美国/全球",
+      "priority": "P0",
+      "focus": [
+        "疫苗",
+        "肿瘤",
+        "创新药"
+      ],
+      "website": "https://www.pfizer.com/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.pfizer.com/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"Pfizer\" official LinkedIn company",
+        "x": "\"Pfizer\" official X Twitter",
+        "youtube": "\"Pfizer\" official YouTube",
+        "wechat": "微信公众号 辉瑞 官方"
+      },
+      "notes": ""
+    },
+    {
+      "id": "astrazeneca",
+      "name_zh": "阿斯利康",
+      "name_en": "AstraZeneca",
+      "aliases": [],
+      "track": "生物医药",
+      "region": "英国/全球",
+      "priority": "P0",
+      "focus": [
+        "肿瘤",
+        "心肾代谢",
+        "呼吸免疫"
+      ],
+      "website": "https://www.astrazeneca.com/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.astrazeneca.com/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"AstraZeneca\" official LinkedIn company",
+        "x": "\"AstraZeneca\" official X Twitter",
+        "youtube": "\"AstraZeneca\" official YouTube",
+        "wechat": "微信公众号 阿斯利康 官方"
+      },
+      "notes": ""
+    },
+    {
+      "id": "merck-co",
+      "name_zh": "默沙东",
+      "name_en": "Merck & Co.",
+      "aliases": [
+        "MSD"
+      ],
+      "track": "生物医药",
+      "region": "美国/全球",
+      "priority": "P0",
+      "focus": [
+        "肿瘤免疫",
+        "疫苗",
+        "创新药"
+      ],
+      "website": "https://www.merck.com/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.merck.com/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"Merck & Co.\" official LinkedIn company",
+        "x": "\"Merck & Co.\" official X Twitter",
+        "youtube": "\"Merck & Co.\" official YouTube",
+        "wechat": "微信公众号 默沙东 官方"
+      },
+      "notes": ""
+    },
+    {
+      "id": "sino-biopharmaceutical",
+      "name_zh": "中国生物制药",
+      "name_en": "Sino Biopharmaceutical",
+      "aliases": [],
+      "track": "生物医药",
+      "region": "中国",
+      "priority": "P1",
+      "focus": [
+        "创新药",
+        "肿瘤",
+        "肝病"
+      ],
+      "website": "https://www.sinobiopharm.com/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.sinobiopharm.com/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"Sino Biopharmaceutical\" official LinkedIn company",
+        "x": "\"Sino Biopharmaceutical\" official X Twitter",
+        "youtube": "\"Sino Biopharmaceutical\" official YouTube",
+        "wechat": "微信公众号 中国生物制药 官方"
+      },
+      "notes": ""
+    },
+    {
+      "id": "ascentage-pharma",
+      "name_zh": "亚盛医药",
+      "name_en": "Ascentage Pharma",
+      "aliases": [],
+      "track": "生物医药",
+      "region": "中国/美国",
+      "priority": "P1",
+      "focus": [
+        "凋亡通路",
+        "血液肿瘤"
+      ],
+      "website": "https://www.ascentage.com/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.ascentage.com/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"Ascentage Pharma\" official LinkedIn company",
+        "x": "\"Ascentage Pharma\" official X Twitter",
+        "youtube": "\"Ascentage Pharma\" official YouTube",
+        "wechat": "微信公众号 亚盛医药 官方"
+      },
+      "notes": ""
+    },
+    {
+      "id": "boehringer-ingelheim",
+      "name_zh": "勃林格殷格翰",
+      "name_en": "Boehringer Ingelheim",
+      "aliases": [],
+      "track": "生物医药",
+      "region": "德国/全球",
+      "priority": "P1",
+      "focus": [
+        "心肾代谢",
+        "呼吸",
+        "动物保健"
+      ],
+      "website": "https://www.boehringer-ingelheim.com/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.boehringer-ingelheim.com/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"Boehringer Ingelheim\" official LinkedIn company",
+        "x": "\"Boehringer Ingelheim\" official X Twitter",
+        "youtube": "\"Boehringer Ingelheim\" official YouTube",
+        "wechat": "微信公众号 勃林格殷格翰 官方"
+      },
+      "notes": ""
+    },
+    {
+      "id": "hutchmed",
+      "name_zh": "和黄医药",
+      "name_en": "HUTCHMED",
+      "aliases": [],
+      "track": "生物医药",
+      "region": "中国/全球",
+      "priority": "P1",
+      "focus": [
+        "肿瘤小分子",
+        "临床开发"
+      ],
+      "website": "https://www.hutch-med.com/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.hutch-med.com/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"HUTCHMED\" official LinkedIn company",
+        "x": "\"HUTCHMED\" official X Twitter",
+        "youtube": "\"HUTCHMED\" official YouTube",
+        "wechat": "微信公众号 和黄医药 官方"
+      },
+      "notes": ""
+    },
+    {
+      "id": "genentech",
+      "name_zh": "基因泰克",
+      "name_en": "Genentech",
+      "aliases": [],
+      "track": "生物医药",
+      "region": "美国",
+      "priority": "P1",
+      "focus": [
+        "生物药",
+        "肿瘤",
+        "神经科学"
+      ],
+      "website": "https://www.gene.com/",
+      "status": "active",
+      "parent": "Roche",
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.gene.com/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"Genentech\" official LinkedIn company",
+        "x": "\"Genentech\" official X Twitter",
+        "youtube": "\"Genentech\" official YouTube",
+        "wechat": "微信公众号 基因泰克 官方"
+      },
+      "notes": ""
+    },
+    {
+      "id": "fosun-pharma",
+      "name_zh": "复星医药",
+      "name_en": "Fosun Pharma",
+      "aliases": [],
+      "track": "生物医药",
+      "region": "中国/全球",
+      "priority": "P1",
+      "focus": [
+        "制药",
+        "医疗器械",
+        "医疗服务"
+      ],
+      "website": "https://www.fosunpharma.com/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.fosunpharma.com/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"Fosun Pharma\" official LinkedIn company",
+        "x": "\"Fosun Pharma\" official X Twitter",
+        "youtube": "\"Fosun Pharma\" official YouTube",
+        "wechat": "微信公众号 复星医药 官方"
+      },
+      "notes": ""
+    },
+    {
+      "id": "astellas-pharma",
+      "name_zh": "安斯泰来",
+      "name_en": "Astellas Pharma",
+      "aliases": [],
+      "track": "生物医药",
+      "region": "日本/全球",
+      "priority": "P1",
+      "focus": [
+        "肿瘤",
+        "泌尿",
+        "基因治疗"
+      ],
+      "website": "https://www.astellas.com/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.astellas.com/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"Astellas Pharma\" official LinkedIn company",
+        "x": "\"Astellas Pharma\" official X Twitter",
+        "youtube": "\"Astellas Pharma\" official YouTube",
+        "wechat": "微信公众号 安斯泰来 官方"
+      },
+      "notes": ""
+    },
+    {
+      "id": "pharmaron",
+      "name_zh": "康龙化成",
+      "name_en": "Pharmaron",
+      "aliases": [],
+      "track": "生物医药",
+      "region": "中国/全球",
+      "priority": "P1",
+      "focus": [
+        "CRDMO",
+        "药物发现与开发"
+      ],
+      "website": "https://www.pharmaron.com/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.pharmaron.com/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"Pharmaron\" official LinkedIn company",
+        "x": "\"Pharmaron\" official X Twitter",
+        "youtube": "\"Pharmaron\" official YouTube",
+        "wechat": "微信公众号 康龙化成 官方"
+      },
+      "notes": ""
+    },
+    {
+      "id": "bayer-pharmaceuticals",
+      "name_zh": "拜耳制药",
+      "name_en": "Bayer Pharmaceuticals",
+      "aliases": [],
+      "track": "生物医药",
+      "region": "德国/全球",
+      "priority": "P1",
+      "focus": [
+        "心血管",
+        "肿瘤",
+        "女性健康"
+      ],
+      "website": "https://www.bayer.com/en/pharma",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.bayer.com/en/pharma",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"Bayer Pharmaceuticals\" official LinkedIn company",
+        "x": "\"Bayer Pharmaceuticals\" official X Twitter",
+        "youtube": "\"Bayer Pharmaceuticals\" official YouTube",
+        "wechat": "微信公众号 拜耳制药 官方"
+      },
+      "notes": ""
+    },
+    {
+      "id": "tigermed",
+      "name_zh": "泰格医药",
+      "name_en": "Tigermed",
+      "aliases": [],
+      "track": "生物医药",
+      "region": "中国/全球",
+      "priority": "P1",
+      "focus": [
+        "CRO",
+        "临床试验"
+      ],
+      "website": "https://www.tigermedgrp.com/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.tigermedgrp.com/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"Tigermed\" official LinkedIn company",
+        "x": "\"Tigermed\" official X Twitter",
+        "youtube": "\"Tigermed\" official YouTube",
+        "wechat": "微信公众号 泰格医药 官方"
+      },
+      "notes": ""
+    },
+    {
+      "id": "cspc-pharmaceutical-group",
+      "name_zh": "石药集团",
+      "name_en": "CSPC Pharmaceutical Group",
+      "aliases": [
+        "CSPC"
+      ],
+      "track": "生物医药",
+      "region": "中国",
+      "priority": "P1",
+      "focus": [
+        "创新药",
+        "制剂",
+        "肿瘤与心血管"
+      ],
+      "website": "https://www.e-cspc.com/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.e-cspc.com/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"CSPC Pharmaceutical Group\" official LinkedIn company",
+        "x": "\"CSPC Pharmaceutical Group\" official X Twitter",
+        "youtube": "\"CSPC Pharmaceutical Group\" official YouTube",
+        "wechat": "微信公众号 石药集团 官方"
+      },
+      "notes": ""
+    },
+    {
+      "id": "vertex-pharmaceuticals",
+      "name_zh": "福泰制药",
+      "name_en": "Vertex Pharmaceuticals",
+      "aliases": [],
+      "track": "生物医药",
+      "region": "美国/全球",
+      "priority": "P1",
+      "focus": [
+        "罕见病",
+        "基因编辑",
+        "囊性纤维化"
+      ],
+      "website": "https://www.vrtx.com/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.vrtx.com/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"Vertex Pharmaceuticals\" official LinkedIn company",
+        "x": "\"Vertex Pharmaceuticals\" official X Twitter",
+        "youtube": "\"Vertex Pharmaceuticals\" official YouTube",
+        "wechat": "微信公众号 福泰制药 官方"
+      },
+      "notes": ""
+    },
+    {
+      "id": "dizal",
+      "name_zh": "迪哲医药",
+      "name_en": "Dizal",
+      "aliases": [],
+      "track": "生物医药",
+      "region": "中国/全球",
+      "priority": "P1",
+      "focus": [
+        "肿瘤精准治疗",
+        "小分子药物"
+      ],
+      "website": "https://www.dizalpharma.com/",
+      "status": "active",
+      "parent": null,
+      "include_in_company_wall": true,
+      "source_pages": {
+        "homepage": "https://www.dizalpharma.com/",
+        "newsroom": null,
+        "investor_relations": null
+      },
+      "social_accounts": [],
+      "social_verification": "pending_official_site_backlink_or_platform_badge",
+      "social_discovery_queries": {
+        "linkedin": "\"Dizal\" official LinkedIn company",
+        "x": "\"Dizal\" official X Twitter",
+        "youtube": "\"Dizal\" official YouTube",
+        "wechat": "微信公众号 迪哲医药 官方"
+      },
+      "notes": ""
+    }
+  ]
+}

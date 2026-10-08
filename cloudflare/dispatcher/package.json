@@ -1,0 +1,1 @@
+{"name":"bioai-ingestion-dispatcher","private":true,"type":"module","scripts":{"deploy":"wrangler deploy","check":"wrangler deploy --dry-run","test":"node --test test.mjs"},"devDependencies":{"wrangler":"^4.0.0"}}

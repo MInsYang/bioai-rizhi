@@ -1,0 +1,23 @@
+{
+  "name": "bioai-rizhi",
+  "version": "3.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "check": "wrangler deploy --dry-run",
+    "test": "node --test *.test.mjs"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/server": "2.0.0",
+    "@neondatabase/serverless": "1.2.0",
+    "agents": "0.27.0",
+    "fast-xml-parser": "5.11.2",
+    "zod": "4.6.5"
+  },
+  "devDependencies": {
+    "pg": "8.23.1",
+    "wrangler": "4.148.0"
+  }
+}
