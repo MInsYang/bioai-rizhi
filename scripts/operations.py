@@ -186,6 +186,9 @@ def backup(output, container=None):
         restore_env.update(PGHOST='localhost', PGPORT='5432')
     with tempfile.TemporaryDirectory(prefix='bioai-backup-') as tmp:
         dump, decrypted = Path(tmp) / 'snapshot.dump', Path(tmp) / 'decrypted.dump'
+        gpg_home = Path(tmp) / 'gnupg'
+        gpg_home.mkdir(mode=0o700)
+        base_env['GNUPGHOME'] = str(gpg_home)
         # Counts and pg_dump share exactly one MVCC snapshot. Live ingestion can
         # continue without making the validation race production writes.
         with psycopg.connect(source, connect_timeout=30, autocommit=True,
