@@ -30,7 +30,7 @@ test('five stable topic IDs and no generic AI biomedical admission',()=>{
   assert.deepEqual(classify('Geneformer regulatory network inference','Single-cell gene expression.').topic_ids,['virtual-cell']);
   assert.ok(classify('STATE predicts single-cell perturbation responses','Arc model').topic_ids.includes('virtual-cell'));
   assert.ok(!classify('State of deep learning diagnostics','Clinical practice').topic_ids.includes('virtual-cell'));
-  assert.ok(FOCUSED_QUERY.includes('SRC:PPR'));
+  assert.ok(FOCUSED_QUERY.includes('SRC:MED'));assert.ok(!FOCUSED_QUERY.includes('SRC:PPR'));
 });
 test('biological organoids and embryo models are not automatically called virtual organs or embryos',()=>{
   const organoid=classify('Stem cell-derived liver organoids','In vitro tissue culture for disease biology.');
@@ -51,6 +51,17 @@ test('Europe PMC preserves preprint origin and unknown version without inferring
   assert.equal(rows[0].raw_payload.academic.publisher,'bioRxiv');assert.equal(rows[0].raw_payload.original.id,'PPR123');
   assert.equal(rows[0].raw_payload.classification.method,'automated_keyword_v1');assert.ok(!('peer_reviewed' in rows[0].raw_payload.academic));
   assert.equal(JSON.parse(finish.params[3]).cursor_date,'2026-10-08');assert.equal(m.acked,1);
+});
+test('selected scholarly source drops preprints, unknown journals and unrelated wet-lab organoids before insertion',async()=>{
+  const s=source('europepmc');s.config.selected_journals_only=true;
+  const indexed={...epmcItem('123'),source:'MED',pubTypeList:{pubType:['Journal Article']},journalInfo:{journal:{title:'Nature Biotechnology',issn:'1087-0156',eissn:'1546-1696'}}};
+  const items=[indexed,epmcItem('PPR9'),{...indexed,id:'124',journalInfo:{journal:{title:'Unlisted Journal',issn:'1087-0156'}}},
+    {...indexed,id:'125',title:'Patient-derived organoids for cancer biology',abstractText:'In vitro cell culture for tissue development.'}];
+  const sql=mockSQL(s),m=msg();await consume({messages:[m]},envFor(JSON.stringify({hitCount:4,resultList:{result:items}})),sql);
+  const finish=callOf(sql,'ingestion_finish'),rows=JSON.parse(finish.params[2]);
+  assert.equal(rows.length,1);assert.deepEqual(rows[0].raw_payload.academic.issns,['1087-0156','1546-1696']);
+  assert.equal(rows[0].raw_payload.academic.journal_selection.journal_id,'nature-biotechnology');
+  const metrics=JSON.parse(finish.params[4]);assert.equal(metrics.retrieved_total,4);assert.equal(metrics.matched_total,1);
 });
 test('one bounded Europe PMC page checkpoints before sending continuation',async()=>{
   const items=Array.from({length:25},(_,i)=>epmcItem('PPR'+i)),sql=mockSQL(source('europepmc')),m=msg();
@@ -76,6 +87,14 @@ test('query change ignores the former checkpoint and rebuilds the focused search
 });
 test('PubMed search is a separate page and saves a complete ID checkpoint',async()=>{
   const sql=mockSQL(source('pubmed')),m=msg(),env=envFor(JSON.stringify({esearchresult:{count:'2',idlist:['123','124']}}));
+  const fetch=env.FETCH;
+  env.FETCH=async(url,options)=>{
+    assert.equal(new URL(url).search,'');assert.equal(options.method,'POST');
+    assert.equal(options.headers['Content-Type'],'application/x-www-form-urlencoded');
+    const parameters=new URLSearchParams(options.body);
+    assert.ok(parameters.get('term').includes('"1087-0156"[ISSN]'));
+    assert.equal(parameters.get('mindate'),'2026-10-07');return fetch(url,options);
+  };
   await consume({messages:[m]},env,sql);
   const checkpoint=JSON.parse(callOf(sql,'ingestion_checkpoint').params[3]);assert.deepEqual(checkpoint.ids,['123','124']);assert.equal(checkpoint.phase,'fetch');
 });
@@ -95,6 +114,65 @@ test('PubMed month-only date remains unknown rather than invented',async()=>{
   const sql=mockSQL(source('pubmed'),{...state,ids:['123']}),m=msg(),env=envFor('<PubmedArticleSet>'+article('123','')+'</PubmedArticleSet>');
   await consume({messages:[m]},env,sql);assert.equal(JSON.parse(callOf(sql,'ingestion_finish').params[2])[0].published_at,null);
 });
+test('PubMed journal ISSNs and exact title support selected journal admission',async()=>{
+  const s=source('pubmed');s.config.selected_journals_only=true;
+  const xml=article().replace('<Title>Example journal</Title>','<ISSN IssnType="Print">0028-0836</ISSN><Title>Nature</Title>');
+  const sql=mockSQL(s,{...state,ids:['123']}),m=msg();await consume({messages:[m]},envFor('<PubmedArticleSet>'+xml+'</PubmedArticleSet>'),sql);
+  const row=JSON.parse(callOf(sql,'ingestion_finish').params[2])[0];
+  assert.deepEqual(row.raw_payload.academic.issns,['0028-0836']);assert.equal(row.raw_payload.academic.journal_selection.journal_id,'nature');
+});
+
+const crossrefItem=(id='one',fields={})=>({DOI:'10.1000/unit-test-'+id,title:['Machine learning virtual cell prediction'],
+  'container-title':['Nature Biotechnology'],ISSN:['1087-0156','1546-1696'],publisher:'UNIT TEST publisher',type:'journal-article',
+  abstract:'<jats:p>A foundation model predicts single-cell perturbation responses.</jats:p>',
+  'published-online':{'date-parts':[[2026,10,7]]},URL:'https://example.org/unit-test-'+id,...fields});
+const crossrefEnvelope=(items,total=items.length)=>JSON.stringify({status:'ok','message-type':'work-list',message:{items,'total-results':total}});
+test('Crossref fetches a bounded selected-journal page and preserves the original deposited metadata',async()=>{
+  const s=source('crossref');s.config.journal_ids=['nature-biotechnology'];
+  const sql=mockSQL(s),m=msg(),env=envFor(crossrefEnvelope([crossrefItem()]));
+  env.FETCH=async url=>{
+    const parsed=new URL(url);assert.equal(parsed.hostname,'api.crossref.org');assert.equal(parsed.pathname,'/works');
+    assert.equal(parsed.searchParams.get('rows'),'20');assert.ok(parsed.searchParams.get('filter').includes('type:journal-article'));
+    assert.ok(parsed.searchParams.get('filter').includes('issn:1087-0156'));
+    assert.ok(parsed.searchParams.get('filter').includes('from-update-date:2026-10-07'));
+    return new Response(crossrefEnvelope([crossrefItem()]));
+  };
+  await consume({messages:[m]},env,sql);
+  const finish=callOf(sql,'ingestion_finish'),row=JSON.parse(finish.params[2])[0];
+  assert.equal(row.external_id,'DOI:10.1000/unit-test-one');assert.equal(row.canonical_url,'https://doi.org/10.1000/unit-test-one');
+  assert.equal(row.content_text,'A foundation model predicts single-cell perturbation responses.');assert.equal(row.published_at,'2026-10-07T00:00:00.000Z');
+  assert.equal(row.raw_payload.academic.status,'indexed');assert.deepEqual(row.raw_payload.original,crossrefItem());
+  assert.equal(row.raw_payload.academic.journal_selection.tier,'selected');assert.equal(m.acked,1);
+});
+test('Crossref merged journal records and articles without AI relevance are counted but never admitted',async()=>{
+  const s=source('crossref');s.config.journal_ids=['nature-biotechnology'];
+  const items=[crossrefItem('valid'),crossrefItem('unknown',{'container-title':['Unlisted Journal']}),
+    crossrefItem('wet',{title:['Biological organoid development'],abstract:'<p>In vitro stem cell culture</p>'})];
+  const sql=mockSQL(s),m=msg();await consume({messages:[m]},envFor(crossrefEnvelope(items)),sql);
+  const finish=callOf(sql,'ingestion_finish');assert.equal(JSON.parse(finish.params[2]).length,1);
+  const metrics=JSON.parse(finish.params[4]);assert.equal(metrics.retrieved_total,3);assert.equal(metrics.matched_total,1);
+});
+test('Crossref checkpoints page offsets and each journal separately without declaring a partial window complete',async()=>{
+  const s=source('crossref');s.config.journal_ids=['nature-biotechnology','nature-methods'];
+  const sql=mockSQL(s),m=msg();await consume({messages:[m]},envFor(crossrefEnvelope([crossrefItem()],2)),sql);
+  const first=JSON.parse(callOf(sql,'ingestion_checkpoint').params[3]);assert.equal(first.offset,1);assert.equal(first.journal_index,0);
+  assert.ok(!callOf(sql,'ingestion_finish'));
+  const secondSQL=mockSQL(s,first),next=msg();await consume({messages:[next]},envFor(crossrefEnvelope([crossrefItem('two')],2)),secondSQL);
+  const second=JSON.parse(callOf(secondSQL,'ingestion_checkpoint').params[3]);assert.equal(second.offset,0);assert.equal(second.journal_index,1);
+  assert.equal(second.last_page_ids.length,0);assert.ok(!callOf(secondSQL,'ingestion_finish'));
+});
+test('Crossref empty partial page and out-of-policy journal configuration cannot advance high water',async()=>{
+  const s=source('crossref');s.config.journal_ids=['nature-biotechnology'];const sql=mockSQL(s),m=msg();
+  await consume({messages:[m]},envFor(crossrefEnvelope([],1)),sql);assert.ok(callOf(sql,'ingestion_fail'));assert.ok(!callOf(sql,'ingestion_finish'));
+  const invalid=source('crossref');invalid.config.journal_ids=['unlisted-journal'];const rejected=mockSQL(invalid),other=msg();
+  await consume({messages:[other]},{FETCH:async()=>{assert.fail('Invalid journal configuration fetched a URL');}},rejected);
+  assert.equal(JSON.parse(callOf(rejected,'ingestion_fail').params[2]).permanent,true);
+});
+test('Crossref imprecise publication dates stay unknown',async()=>{
+  const s=source('crossref');s.config.journal_ids=['nature-biotechnology'];const sql=mockSQL(s),m=msg();
+  await consume({messages:[m]},envFor(crossrefEnvelope([crossrefItem('month',{'published-online':{'date-parts':[[2026,10]]}})])),sql);
+  assert.equal(JSON.parse(callOf(sql,'ingestion_finish').params[2])[0].published_at,null);
+});
 test('company RSS rejects a cross-origin redirect before fetching it',async()=>{
   const s=source('rss');s.config={...s.config,allowed_hosts:['www.xtalpi.com'],official_feed_verified:true};const sql=mockSQL(s,{},{failStatus:'dead'}),m=msg();
   let calls=0;const env={FETCH:async()=>{calls++;return new Response('',{status:302,headers:{Location:'https://example.com/unverified'}});}};
@@ -105,6 +183,20 @@ test('company RSS retains original item and drops articles outside the focus',as
   const body='<rss><channel><item><title>晶泰 AI 制药新药进展</title><link>https://www.xtalpi.com/news/a/?utm_source=rss</link><guid>one</guid><description>AI 药物研发创新药候选药物</description></item><item><title>Office event</title><link>https://www.xtalpi.com/event/</link><description>Employee celebration</description></item></channel></rss>';
   await consume({messages:[m]},envFor(body),sql);const row=JSON.parse(callOf(sql,'ingestion_finish').params[2])[0];
   assert.equal(JSON.parse(callOf(sql,'ingestion_finish').params[2]).length,1);assert.equal(row.canonical_url,'https://www.xtalpi.com/news/a/');assert.ok(row.raw_payload.raw_xml.includes('<guid>one</guid>'));
+});
+test('verified AI biopharma identity admits an industry licensing headline while preserving its basis',async()=>{
+  const s=source('rss');s.config={...s.config,allowed_hosts:['www.xtalpi.com'],official_feed_verified:true,official_industry_source:true,ai_biopharma_identity_verified:true};
+  const sql=mockSQL(s),m=msg(),body='<rss><channel><item><title>UNIT TEST company enters licensing agreement</title><link>https://www.xtalpi.com/news/license/</link><description>Global rights agreement for therapeutic development.</description></item></channel></rss>';
+  await consume({messages:[m]},envFor(body),sql);const row=JSON.parse(callOf(sql,'ingestion_finish').params[2])[0];
+  assert.equal(row.raw_payload.industry_classification.relevant,true);assert.equal(row.raw_payload.industry_classification.identity_basis,'dated-official-company-evidence');
+  assert.ok(row.raw_payload.classification.topic_ids.includes('drug-discovery'));assert.equal(row.raw_payload.classification.ai_related,true);
+});
+test('official industry virtual biology coverage keeps the evidence topic without a drug fallback',async()=>{
+  const s=source('rss');s.config={...s.config,allowed_hosts:['www.xtalpi.com'],official_feed_verified:true,official_industry_source:true,ai_biopharma_identity_verified:true};
+  const sql=mockSQL(s),m=msg(),body='<rss><channel><item><title>AI models for the Virtual Biology Initiative</title><link>https://www.xtalpi.com/news/virtual-biology/</link><description>Investing in biological measurements and foundational data to predict disease.</description></item></channel></rss>';
+  await consume({messages:[m]},envFor(body),sql);const row=JSON.parse(callOf(sql,'ingestion_finish').params[2])[0];
+  assert.equal(row.raw_payload.industry_classification.relevant,true);
+  assert.deepEqual(row.raw_payload.classification.topic_ids,['virtual-cell']);
 });
 test('304 conditional RSS success has no fabricated new records',async()=>{
   const s=source('rss');s.config={...s.config,allowed_hosts:['www.xtalpi.com'],official_feed_verified:true};s.etag='"one"';const sql=mockSQL(s),m=msg();
@@ -164,7 +256,8 @@ test('PostgreSQL RPC leases, checkpoints, retries and hourly slots', {skip:proce
   const admin=new pg.Client({connectionString:adminUrl.href});await admin.connect();await admin.query('CREATE DATABASE '+name);
   const testUrl=new URL(url);testUrl.pathname='/'+name;const db=new pg.Client({connectionString:testUrl.href});await db.connect();
   try {
-    for(const filename of ['001_foundation.sql','002_unified_publication.sql','003_academic_evidence.sql','004_hourly_ingestion.sql','007_host_request_intervals.sql','008_dispatch_queue_confirmation.sql'])await db.query(await fs.readFile(new URL('../../backend/migrations/'+filename,import.meta.url),'utf8'));
+    const migrations=new URL('../../backend/migrations/',import.meta.url);
+    for(const filename of (await fs.readdir(migrations)).filter(name=>name.endsWith('.sql')).sort())await db.query(await fs.readFile(new URL(filename,migrations),'utf8'));
     await db.query("INSERT INTO polling_profiles VALUES('P0',1)");
     const sid='30000000-0000-4000-8000-000000000001';
     async function reset() {
@@ -176,6 +269,15 @@ test('PostgreSQL RPC leases, checkpoints, retries and hourly slots', {skip:proce
     const dispatchJobs=async(kind='cron')=>(await db.query('SELECT * FROM ingestion_dispatch_hourly(now(),$1)',[kind])).rows;
     const metrics={http_status:200,duration_ms:10,bytes_fetched:100};
     const raw={external_id:'PPR:TEST',canonical_url:'https://europepmc.org/article/PPR/TEST',title:'Virtual cell test',content_text:'Test data only',published_at:null,content_hash:'a'.repeat(64),raw_payload:{classification:classify('AI virtual cell','Foundation model'),original:{id:'TEST'}}};
+    await t.test('Crossref is scheduled and claimed on its official host with a database request interval',async()=>{
+      await reset();await db.query("UPDATE sources SET adapter='crossref',url='https://api.crossref.org/',config=config||'{\"request_interval_seconds\":1,\"journal_ids\":[\"nature\"]}'::jsonb WHERE id=$1",[sid]);
+      const [scheduled]=await dispatchJobs(),claimed=await claim(scheduled.job_id);
+      assert.equal(claimed.status,'claimed');assert.equal(claimed.source.adapter,'crossref');
+      const [host]=(await db.query("SELECT host,extract(epoch FROM next_request_at-now()) AS seconds FROM ingestion_host_gates WHERE host='api.crossref.org'")).rows;
+      assert.equal(host.host,'api.crossref.org');assert.ok(Number(host.seconds)>=0.5);
+      const finished=await invoke('ingestion_finish',[scheduled.job_id,claimed.job.lease_token,[],{query_version:QUERY_VERSION,cursor_date:'2026-10-08'},metrics],',,::jsonb,::jsonb,::jsonb');
+      assert.equal(finished.status,'succeeded');
+    });
     await t.test('hourly dispatch idempotence and separate manual/cron heartbeats',async()=>{
       await reset();const first=await dispatchJobs();assert.equal(first.length,1);const second=await dispatchJobs();assert.equal(second[0].job_id,first[0].job_id);await dispatchJobs('manual');
       const heartbeats=(await db.query('SELECT * FROM scheduler_runs ORDER BY trigger_kind')).rows;assert.equal(heartbeats.length,2);assert.ok(heartbeats.every(r=>r.status==='running' && r.finished_at===null && r.dispatched_count===0));

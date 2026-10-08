@@ -1,0 +1,1266 @@
+{
+  "started_at": "2026-10-08T08:48:44.060191+00:00",
+  "real_network": true,
+  "writes_database": false,
+  "journal_policy_version": "selected-journals-2026-10-v1",
+  "query_version": "focus-2026-10-v2",
+  "date_window": {
+    "from": "2026-09-08",
+    "to": "2026-10-08"
+  },
+  "sources": [
+    {
+      "registry_key": "crossref",
+      "status": "passed",
+      "journals": [
+        {
+          "id": "nature",
+          "requested_title": "Nature",
+          "metadata": {
+            "url": "https://api.crossref.org/journals/0028-0836",
+            "http_status": 200,
+            "bytes": 5726,
+            "sha256": "6fe34928021728e0c56c6b0a7a7dac2f73ac502da73d7fadbfeb8a4f4f6cd969",
+            "observed_at": "2026-10-08T08:42:00.744117+00:00",
+            "title": "Nature",
+            "issns": [
+              "0028-0836",
+              "1476-4687"
+            ],
+            "publisher": "Springer Science and Business Media LLC"
+          },
+          "works": {
+            "url": "https://api.crossref.org/works?filter=issn%3A0028-0836%2Ctype%3Ajournal-article%2Cfrom-update-date%3A2026-09-08%2Cuntil-update-date%3A2026-10-08&rows=2&sort=deposited&order=desc",
+            "http_status": 200,
+            "bytes": 73825,
+            "sha256": "cb5c570179a1f3f3f129e15028306ceb5b155859d156d62483930a6825f40dff",
+            "observed_at": "2026-10-08T08:42:04.750365+00:00",
+            "total": 678,
+            "samples": [
+              {
+                "doi": "10.1038/s41586-026-11032-2",
+                "title": "Developmental xenocortication using human-derived organoids in mice",
+                "journal": "Nature",
+                "issns": [
+                  "0028-0836",
+                  "1476-4687"
+                ],
+                "type": "journal-article",
+                "published": {
+                  "date-parts": [
+                    [
+                      2026,
+                      9,
+                      16
+                    ]
+                  ]
+                },
+                "original_url": "https://doi.org/10.1038/s41586-026-11032-2"
+              },
+              {
+                "doi": "10.1038/s41586-026-11031-3",
+                "title": "Lsp2 links early-life diet to adult translation and lifespan in Drosophila",
+                "journal": "Nature",
+                "issns": [
+                  "0028-0836",
+                  "1476-4687"
+                ],
+                "type": "journal-article",
+                "published": {
+                  "date-parts": [
+                    [
+                      2026,
+                      9,
+                      23
+                    ]
+                  ]
+                },
+                "original_url": "https://doi.org/10.1038/s41586-026-11031-3"
+              }
+            ]
+          },
+          "status": "passed"
+        },
+        {
+          "id": "science",
+          "requested_title": "Science",
+          "metadata": {
+            "url": "https://api.crossref.org/journals/0036-8075",
+            "http_status": 200,
+            "bytes": 5809,
+            "sha256": "7a6dd831abca8c48cf0aa70d7c6f1a84c23511ee8209e9c7a71bb7a632b91c0c",
+            "observed_at": "2026-10-08T08:33:48.651805+00:00",
+            "title": "Science",
+            "issns": [
+              "0036-8075",
+              "1095-9203"
+            ],
+            "publisher": "American Association for the Advancement of Science (AAAS)"
+          },
+          "works": {
+            "url": "https://api.crossref.org/works?filter=issn%3A0036-8075%2Ctype%3Ajournal-article%2Cfrom-update-date%3A2026-09-08%2Cuntil-update-date%3A2026-10-08&rows=2&sort=deposited&order=desc",
+            "http_status": 200,
+            "bytes": 30647,
+            "sha256": "ba41df4726250fff6c05064d41cdedb55a6dbb9c01be6f35b91e989870b42ab5",
+            "observed_at": "2026-10-08T08:42:11.976009+00:00",
+            "total": 173,
+            "samples": [
+              {
+                "doi": "10.1126/science.aea2490",
+                "title": "The air pollution benefits of low-severity fire",
+                "journal": "Science",
+                "issns": [
+                  "0036-8075",
+                  "1095-9203"
+                ],
+                "type": "journal-article",
+                "published": {
+                  "date-parts": [
+                    [
+                      2026,
+                      6,
+                      11
+                    ]
+                  ]
+                },
+                "original_url": "https://doi.org/10.1126/science.aea2490"
+              },
+              {
+                "doi": "10.1126/science.aeg8415",
+                "title": "Redirecting wet–interfacial redox pathways for efficient inverted perovskite solar cells",
+                "journal": "Science",
+                "issns": [
+                  "0036-8075",
+                  "1095-9203"
+                ],
+                "type": "journal-article",
+                "published": {
+                  "date-parts": [
+                    [
+                      2026,
+                      8,
+                      20
+                    ]
+                  ]
+                },
+                "original_url": "https://doi.org/10.1126/science.aeg8415"
+              }
+            ]
+          },
+          "status": "passed"
+        },
+        {
+          "id": "cell",
+          "requested_title": "Cell",
+          "metadata": {
+            "url": "https://api.crossref.org/journals/0092-8674",
+            "http_status": 200,
+            "bytes": 4235,
+            "sha256": "73994c8f52c226fe44d3074db990a56bb28823c13fc09e802cc44a345de7d5fc",
+            "observed_at": "2026-10-08T08:33:54.172044+00:00",
+            "title": "Cell",
+            "issns": [
+              "0092-8674"
+            ],
+            "publisher": "Elsevier"
+          },
+          "works": {
+            "url": "https://api.crossref.org/works?filter=issn%3A0092-8674%2Ctype%3Ajournal-article%2Cfrom-update-date%3A2026-09-08%2Cuntil-update-date%3A2026-10-08&rows=2&sort=deposited&order=desc",
+            "http_status": 200,
+            "bytes": 47488,
+            "sha256": "f196b623400b76aa1bd97f0c6774fa6f382640973a031df01ad03a17331e1ed5",
+            "observed_at": "2026-10-08T08:42:16.796299+00:00",
+            "total": 188,
+            "samples": [
+              {
+                "doi": "10.1016/j.cell.2026.09.031",
+                "title": "STING reprogramming by estrogen promotes neutrophil extracellular trap formation and sex-biased resistance to ADC therapy",
+                "journal": "Cell",
+                "issns": [
+                  "0092-8674"
+                ],
+                "type": "journal-article",
+                "published": {
+                  "date-parts": [
+                    [
+                      2026,
+                      10
+                    ]
+                  ]
+                },
+                "original_url": "https://doi.org/10.1016/j.cell.2026.09.031"
+              },
+              {
+                "doi": "10.1016/j.cell.2026.07.016",
+                "title": "CRISPR screens identify targets to rescue age-related T cell dysfunction in cancer",
+                "journal": "Cell",
+                "issns": [
+                  "0092-8674"
+                ],
+                "type": "journal-article",
+                "published": {
+                  "date-parts": [
+                    [
+                      2026,
+                      7
+                    ]
+                  ]
+                },
+                "original_url": "https://doi.org/10.1016/j.cell.2026.07.016"
+              }
+            ]
+          },
+          "status": "passed"
+        },
+        {
+          "id": "nature-biotechnology",
+          "requested_title": "Nature Biotechnology",
+          "metadata": {
+            "url": "https://api.crossref.org/journals/1087-0156",
+            "http_status": 200,
+            "bytes": 4372,
+            "sha256": "121f18010c789af22b4f63446f0df2d3d29a1069f0f287f6ce722a91ef587080",
+            "observed_at": "2026-10-08T08:34:02.843356+00:00",
+            "title": "Nature Biotechnology",
+            "issns": [
+              "1087-0156",
+              "1546-1696"
+            ],
+            "publisher": "Springer Science and Business Media LLC"
+          },
+          "works": {
+            "url": "https://api.crossref.org/works?filter=issn%3A1087-0156%2Ctype%3Ajournal-article%2Cfrom-update-date%3A2026-09-08%2Cuntil-update-date%3A2026-10-08&rows=2&sort=deposited&order=desc",
+            "http_status": 200,
+            "bytes": 43419,
+            "sha256": "acfdf9ce80255dcadfc3f56059bf7e864ceb03ebb351a1dfca50ceb48a9f1689",
+            "observed_at": "2026-10-08T08:49:00.900966+00:00",
+            "total": 63,
+            "samples": [
+              {
+                "doi": "10.1038/s41587-026-03286-y",
+                "title": "Integration of proteomic aging clocks in a phase 2a clinical trial supports simultaneous geroprotective assessment",
+                "journal": "Nature Biotechnology",
+                "issns": [
+                  "1087-0156",
+                  "1546-1696"
+                ],
+                "type": "journal-article",
+                "published": {
+                  "date-parts": [
+                    [
+                      2026,
+                      9,
+                      7
+                    ]
+                  ]
+                },
+                "original_url": "https://doi.org/10.1038/s41587-026-03286-y"
+              },
+              {
+                "doi": "10.1038/s41587-026-03330-x",
+                "title": "AI-guided optimization for thermostable mRNA vaccines",
+                "journal": "Nature Biotechnology",
+                "issns": [
+                  "1087-0156",
+                  "1546-1696"
+                ],
+                "type": "journal-article",
+                "published": {
+                  "date-parts": [
+                    [
+                      2026,
+                      9,
+                      28
+                    ]
+                  ]
+                },
+                "original_url": "https://doi.org/10.1038/s41587-026-03330-x"
+              }
+            ]
+          },
+          "status": "passed"
+        },
+        {
+          "id": "nature-methods",
+          "requested_title": "Nature Methods",
+          "metadata": {
+            "url": "https://api.crossref.org/journals/1548-7091",
+            "http_status": 200,
+            "bytes": 4325,
+            "sha256": "c89e6a68759092b23864171c9bc7b4d0ad5b31f551e93e47c4bc660200d6b020",
+            "observed_at": "2026-10-08T08:34:08.408007+00:00",
+            "title": "Nature Chemical Biology",
+            "issns": [
+              "1552-4450",
+              "1552-4469",
+              "1548-7091",
+              "1548-7105"
+            ],
+            "publisher": "Springer Science and Business Media LLC"
+          },
+          "works": {
+            "url": "https://api.crossref.org/works?filter=issn%3A1548-7091%2Ctype%3Ajournal-article%2Cfrom-update-date%3A2026-09-08%2Cuntil-update-date%3A2026-10-08&rows=2&sort=deposited&order=desc",
+            "http_status": 200,
+            "bytes": 5702,
+            "sha256": "6c807d68989523072ac24e8823befbd8752fccdad3713b12b3a256a8bec76312",
+            "observed_at": "2026-10-08T08:42:26.686491+00:00",
+            "total": 39,
+            "samples": [
+              {
+                "doi": "10.1038/s41592-026-03260-1",
+                "title": "Generalizable perturbation prediction",
+                "journal": "Nature Methods",
+                "issns": [
+                  "1548-7091",
+                  "1548-7105"
+                ],
+                "type": "journal-article",
+                "published": {
+                  "date-parts": [
+                    [
+                      2026,
+                      10
+                    ]
+                  ]
+                },
+                "original_url": "https://doi.org/10.1038/s41592-026-03260-1"
+              },
+              {
+                "doi": "10.1038/s41592-026-03261-0",
+                "title": "How to write a rebuttal letter",
+                "journal": "Nature Methods",
+                "issns": [
+                  "1548-7091",
+                  "1548-7105"
+                ],
+                "type": "journal-article",
+                "published": {
+                  "date-parts": [
+                    [
+                      2026,
+                      10
+                    ]
+                  ]
+                },
+                "original_url": "https://doi.org/10.1038/s41592-026-03261-0"
+              }
+            ]
+          },
+          "status": "passed",
+          "serial_metadata_note": "Registry canonical title differs from requested journal; each work must match the exact selected title before admission."
+        },
+        {
+          "id": "nature-medicine",
+          "requested_title": "Nature Medicine",
+          "metadata": {
+            "url": "https://api.crossref.org/journals/1078-8956",
+            "http_status": 200,
+            "bytes": 4297,
+            "sha256": "24fc47ab0eea7220e3293b842f90a3d8d6563f1cecd49fcfd02b3d917dcf9d97",
+            "observed_at": "2026-10-08T08:34:13.509636+00:00",
+            "title": "Nature Medicine",
+            "issns": [
+              "1078-8956",
+              "1546-170X"
+            ],
+            "publisher": "Springer Science and Business Media LLC"
+          },
+          "works": {
+            "url": "https://api.crossref.org/works?filter=issn%3A1078-8956%2Ctype%3Ajournal-article%2Cfrom-update-date%3A2026-09-08%2Cuntil-update-date%3A2026-10-08&rows=2&sort=deposited&order=desc",
+            "http_status": 200,
+            "bytes": 72428,
+            "sha256": "3e438d51e5a91d8197ab9128dfd60d84dfc752a1763bf1d640038da3541aa5f9",
+            "observed_at": "2026-10-08T08:42:31.026615+00:00",
+            "total": 136,
+            "samples": [
+              {
+                "doi": "10.1038/s41591-026-04644-8",
+                "title": "Broadly neutralizing antibodies in adult males living with HIV undergoing analytical treatment interruption: secondary and exploratory outcomes of the phase II randomized controlled RIO trial",
+                "journal": "Nature Medicine",
+                "issns": [
+                  "1078-8956",
+                  "1546-170X"
+                ],
+                "type": "journal-article",
+                "published": {
+                  "date-parts": [
+                    [
+                      2026,
+                      9,
+                      15
+                    ]
+                  ]
+                },
+                "original_url": "https://doi.org/10.1038/s41591-026-04644-8"
+              },
+              {
+                "doi": "10.1038/s41591-026-04665-3",
+                "title": "EBV reactivation priming of the peripheral immune system in multiple sclerosis relapse",
+                "journal": "Nature Medicine",
+                "issns": [
+                  "1078-8956",
+                  "1546-170X"
+                ],
+                "type": "journal-article",
+                "published": {
+                  "date-parts": [
+                    [
+                      2026,
+                      9,
+                      16
+                    ]
+                  ]
+                },
+                "original_url": "https://doi.org/10.1038/s41591-026-04665-3"
+              }
+            ]
+          },
+          "status": "passed"
+        },
+        {
+          "id": "nature-genetics",
+          "requested_title": "Nature Genetics",
+          "metadata": {
+            "url": "https://api.crossref.org/journals/1061-4036",
+            "http_status": 200,
+            "bytes": 4336,
+            "sha256": "6ba7d9c46959ccb2e9476fe705af983bda446902a85fd6f88e9850e218d4631d",
+            "observed_at": "2026-10-08T08:34:50.072319+00:00",
+            "title": "Nature Genetics",
+            "issns": [
+              "1061-4036",
+              "1546-1718"
+            ],
+            "publisher": "Springer Science and Business Media LLC"
+          },
+          "works": {
+            "url": "https://api.crossref.org/works?filter=issn%3A1061-4036%2Ctype%3Ajournal-article%2Cfrom-update-date%3A2026-09-08%2Cuntil-update-date%3A2026-10-08&rows=2&sort=deposited&order=desc",
+            "http_status": 200,
+            "bytes": 64242,
+            "sha256": "70ef4da12549528fa16d5de47e200b820cfcd19c221e44c8e9da4f6b539b22ba",
+            "observed_at": "2026-10-08T08:42:35.064699+00:00",
+            "total": 78,
+            "samples": [
+              {
+                "doi": "10.1038/s41588-026-02766-w",
+                "title": "A heritability-optimized method for functional prioritization of rare coding variants in complex traits",
+                "journal": "Nature Genetics",
+                "issns": [
+                  "1061-4036",
+                  "1546-1718"
+                ],
+                "type": "journal-article",
+                "published": {
+                  "date-parts": [
+                    [
+                      2026,
+                      10,
+                      5
+                    ]
+                  ]
+                },
+                "original_url": "https://doi.org/10.1038/s41588-026-02766-w"
+              },
+              {
+                "doi": "10.1038/s41588-026-02787-5",
+                "title": "Imputation of fluid intelligence scores reduces ascertainment bias and increases power for analyses of common and rare variants",
+                "journal": "Nature Genetics",
+                "issns": [
+                  "1061-4036",
+                  "1546-1718"
+                ],
+                "type": "journal-article",
+                "published": {
+                  "date-parts": [
+                    [
+                      2026,
+                      10,
+                      5
+                    ]
+                  ]
+                },
+                "original_url": "https://doi.org/10.1038/s41588-026-02787-5"
+              }
+            ]
+          },
+          "status": "passed"
+        },
+        {
+          "id": "nature-machine-intelligence",
+          "requested_title": "Nature Machine Intelligence",
+          "metadata": {
+            "url": "https://api.crossref.org/journals/2522-5839",
+            "http_status": 200,
+            "bytes": 3899,
+            "sha256": "6407bd011157ca9b2667ba05a5fe4f82b255790e252ab0168ac8009d1dab1488",
+            "observed_at": "2026-10-08T08:34:58.477851+00:00",
+            "title": "Nature Machine Intelligence",
+            "issns": [
+              "2522-5839"
+            ],
+            "publisher": "Springer Science and Business Media LLC"
+          },
+          "works": {
+            "url": "https://api.crossref.org/works?filter=issn%3A2522-5839%2Ctype%3Ajournal-article%2Cfrom-update-date%3A2026-09-08%2Cuntil-update-date%3A2026-10-08&rows=2&sort=deposited&order=desc",
+            "http_status": 200,
+            "bytes": 30300,
+            "sha256": "f4abc3e9d56577f2ca56fc676131c21cf30aad5e434e90541aaf327d7cdf92cc",
+            "observed_at": "2026-10-08T08:42:42.046307+00:00",
+            "total": 28,
+            "samples": [
+              {
+                "doi": "10.1038/s42256-026-01303-y",
+                "title": "Characterizing the role of reasoning tokens in large language models as state over tokens",
+                "journal": "Nature Machine Intelligence",
+                "issns": [
+                  "2522-5839"
+                ],
+                "type": "journal-article",
+                "published": {
+                  "date-parts": [
+                    [
+                      2026,
+                      10,
+                      7
+                    ]
+                  ]
+                },
+                "original_url": "https://doi.org/10.1038/s42256-026-01303-y"
+              },
+              {
+                "doi": "10.1038/s42256-026-01315-8",
+                "title": "Emotional optimization by newsroom AI needs behavioural evaluation",
+                "journal": "Nature Machine Intelligence",
+                "issns": [
+                  "2522-5839"
+                ],
+                "type": "journal-article",
+                "published": {
+                  "date-parts": [
+                    [
+                      2026,
+                      10,
+                      7
+                    ]
+                  ]
+                },
+                "original_url": "https://doi.org/10.1038/s42256-026-01315-8"
+              }
+            ]
+          },
+          "status": "passed"
+        },
+        {
+          "id": "nature-computational-science",
+          "requested_title": "Nature Computational Science",
+          "metadata": {
+            "url": "https://api.crossref.org/journals/2662-8457",
+            "http_status": 200,
+            "bytes": 3863,
+            "sha256": "3c34a5f973c18f41469021b6d8efadf7dee997fa3058bc0b9e8a996a194adfac",
+            "observed_at": "2026-10-08T08:35:03.176961+00:00",
+            "title": "Nature Computational Science",
+            "issns": [
+              "2662-8457"
+            ],
+            "publisher": "Springer Science and Business Media LLC"
+          },
+          "works": {
+            "url": "https://api.crossref.org/works?filter=issn%3A2662-8457%2Ctype%3Ajournal-article%2Cfrom-update-date%3A2026-09-08%2Cuntil-update-date%3A2026-10-08&rows=2&sort=deposited&order=desc",
+            "http_status": 200,
+            "bytes": 47707,
+            "sha256": "7519438e36864e7358a627e90b4130c5e92e39a78d18d8bc78c4b2f6dea5c80c",
+            "observed_at": "2026-10-08T08:42:46.374152+00:00",
+            "total": 30,
+            "samples": [
+              {
+                "doi": "10.1038/s43588-026-01050-5",
+                "title": "Modulatability of complex oscillators",
+                "journal": "Nature Computational Science",
+                "issns": [
+                  "2662-8457"
+                ],
+                "type": "journal-article",
+                "published": {
+                  "date-parts": [
+                    [
+                      2026,
+                      10,
+                      1
+                    ]
+                  ]
+                },
+                "original_url": "https://doi.org/10.1038/s43588-026-01050-5"
+              },
+              {
+                "doi": "10.1038/s43588-026-01057-y",
+                "title": "Photonic neuromorphic learning via generalized in situ physical gradient descent",
+                "journal": "Nature Computational Science",
+                "issns": [
+                  "2662-8457"
+                ],
+                "type": "journal-article",
+                "published": {
+                  "date-parts": [
+                    [
+                      2026,
+                      10,
+                      5
+                    ]
+                  ]
+                },
+                "original_url": "https://doi.org/10.1038/s43588-026-01057-y"
+              }
+            ]
+          },
+          "status": "passed"
+        },
+        {
+          "id": "nature-biomedical-engineering",
+          "requested_title": "Nature Biomedical Engineering",
+          "metadata": {
+            "url": "https://api.crossref.org/journals/2157-846X",
+            "http_status": 200,
+            "bytes": 3904,
+            "sha256": "f971a8e066c913b465152a0d8d807d304ec247dd25329516d698595cb827beef",
+            "observed_at": "2026-10-08T08:35:11.192478+00:00",
+            "title": "Nature Biomedical Engineering",
+            "issns": [
+              "2157-846X"
+            ],
+            "publisher": "Springer Science and Business Media LLC"
+          },
+          "works": {
+            "url": "https://api.crossref.org/works?filter=issn%3A2157-846X%2Ctype%3Ajournal-article%2Cfrom-update-date%3A2026-09-08%2Cuntil-update-date%3A2026-10-08&rows=2&sort=deposited&order=desc",
+            "http_status": 200,
+            "bytes": 46945,
+            "sha256": "9d6238f94624ee795616b14bfbabd04a2bd38a34a3f0e7d91de74be12407ff43",
+            "observed_at": "2026-10-08T08:42:53.686341+00:00",
+            "total": 45,
+            "samples": [
+              {
+                "doi": "10.1038/s41551-023-01009-1",
+                "title": "Activatable near-infrared probes for the detection of specific populations of tumour-infiltrating leukocytes in vivo and in urine",
+                "journal": "Nature Biomedical Engineering",
+                "issns": [
+                  "2157-846X"
+                ],
+                "type": "journal-article",
+                "published": {
+                  "date-parts": [
+                    [
+                      2023,
+                      3,
+                      20
+                    ]
+                  ]
+                },
+                "original_url": "https://doi.org/10.1038/s41551-023-01009-1"
+              },
+              {
+                "doi": "10.1038/s41551-026-01814-4",
+                "title": "A soft bioelectronic system with a responsive hydrogel neural interface for direct force quantification and real-time intraoperative craniocerebral injury monitoring",
+                "journal": "Nature Biomedical Engineering",
+                "issns": [
+                  "2157-846X"
+                ],
+                "type": "journal-article",
+                "published": {
+                  "date-parts": [
+                    [
+                      2026,
+                      10,
+                      7
+                    ]
+                  ]
+                },
+                "original_url": "https://doi.org/10.1038/s41551-026-01814-4"
+              }
+            ]
+          },
+          "status": "passed"
+        },
+        {
+          "id": "nature-chemical-biology",
+          "requested_title": "Nature Chemical Biology",
+          "metadata": {
+            "url": "https://api.crossref.org/journals/1552-4450",
+            "http_status": 200,
+            "bytes": 4325,
+            "sha256": "c89e6a68759092b23864171c9bc7b4d0ad5b31f551e93e47c4bc660200d6b020",
+            "observed_at": "2026-10-08T08:35:24.451175+00:00",
+            "title": "Nature Chemical Biology",
+            "issns": [
+              "1552-4450",
+              "1552-4469",
+              "1548-7091",
+              "1548-7105"
+            ],
+            "publisher": "Springer Science and Business Media LLC"
+          },
+          "works": {
+            "url": "https://api.crossref.org/works?filter=issn%3A1552-4450%2Ctype%3Ajournal-article%2Cfrom-update-date%3A2026-09-08%2Cuntil-update-date%3A2026-10-08&rows=2&sort=deposited&order=desc",
+            "http_status": 200,
+            "bytes": 35431,
+            "sha256": "d8ec0ccd5bb20317ed50db7c2f15d430a7cd275b41b5339654145c34b373e3de",
+            "observed_at": "2026-10-08T08:43:29.514999+00:00",
+            "total": 52,
+            "samples": [
+              {
+                "doi": "10.1038/s41589-025-02013-z",
+                "title": "RETRACTED ARTICLE: α-Ketoglutarate dictates AMPK protein synthesis for energy sensing in\n            human cancers",
+                "journal": "Nature Chemical Biology",
+                "issns": [
+                  "1552-4450",
+                  "1552-4469"
+                ],
+                "type": "journal-article",
+                "published": {
+                  "date-parts": [
+                    [
+                      2025,
+                      8,
+                      22
+                    ]
+                  ]
+                },
+                "original_url": "https://doi.org/10.1038/s41589-025-02013-z"
+              },
+              {
+                "doi": "10.1038/s41589-026-02346-3",
+                "title": "Retraction Note: α-Ketoglutarate dictates AMPK protein synthesis for energy sensing in human cancers",
+                "journal": "Nature Chemical Biology",
+                "issns": [
+                  "1552-4450",
+                  "1552-4469"
+                ],
+                "type": "journal-article",
+                "published": {
+                  "date-parts": [
+                    [
+                      2026,
+                      10,
+                      7
+                    ]
+                  ]
+                },
+                "original_url": "https://doi.org/10.1038/s41589-026-02346-3"
+              }
+            ]
+          },
+          "status": "passed"
+        },
+        {
+          "id": "science-translational-medicine",
+          "requested_title": "Science Translational Medicine",
+          "metadata": {
+            "url": "https://api.crossref.org/journals/1946-6234",
+            "http_status": 200,
+            "bytes": 4233,
+            "sha256": "5f4bd9b797b500e6b26c32dcd8ab9427d288e0187011353eed202329186ec1cb",
+            "observed_at": "2026-10-08T08:35:37.892510+00:00",
+            "title": "Science Translational Medicine",
+            "issns": [
+              "1946-6234",
+              "1946-6242"
+            ],
+            "publisher": "American Association for the Advancement of Science (AAAS)"
+          },
+          "works": {
+            "url": "https://api.crossref.org/works?filter=issn%3A1946-6234%2Ctype%3Ajournal-article%2Cfrom-update-date%3A2026-09-08%2Cuntil-update-date%3A2026-10-08&rows=2&sort=deposited&order=desc",
+            "http_status": 200,
+            "bytes": 36182,
+            "sha256": "adbc5c88146e5285f44836ecbc296007049e4ceb9e401fa92d5a2dcbf9a905c0",
+            "observed_at": "2026-10-08T08:43:39.992040+00:00",
+            "total": 35,
+            "samples": [
+              {
+                "doi": "10.1126/scitranslmed.adz9258",
+                "title": "Human microglia clear intraneuronal α-synuclein aggregates by GPNMB-mediated trogocytosis",
+                "journal": "Science Translational Medicine",
+                "issns": [
+                  "1946-6234",
+                  "1946-6242"
+                ],
+                "type": "journal-article",
+                "published": {
+                  "date-parts": [
+                    [
+                      2026,
+                      10,
+                      7
+                    ]
+                  ]
+                },
+                "original_url": "https://doi.org/10.1126/scitranslmed.adz9258"
+              },
+              {
+                "doi": "10.1126/scitranslmed.adt0044",
+                "title": "Aberrant erythrocyte rigidity in JAK2\n                    <sup>V617F</sup>\n                    myeloproliferative neoplasms underlies concurrent thrombosis and hemorrhage",
+                "journal": "Science Translational Medicine",
+                "issns": [
+                  "1946-6234",
+                  "1946-6242"
+                ],
+                "type": "journal-article",
+                "published": {
+                  "date-parts": [
+                    [
+                      2026,
+                      10,
+                      7
+                    ]
+                  ]
+                },
+                "original_url": "https://doi.org/10.1126/scitranslmed.adt0044"
+              }
+            ]
+          },
+          "status": "passed"
+        },
+        {
+          "id": "cell-systems",
+          "requested_title": "Cell Systems",
+          "metadata": {
+            "url": "https://api.crossref.org/journals/2405-4712",
+            "http_status": 200,
+            "bytes": 3672,
+            "sha256": "af85f130d4b8a9841b0a909c22155d142fcc25fcb576bceb9aa65d17732f3acf",
+            "observed_at": "2026-10-08T08:35:44.061624+00:00",
+            "title": "Cell Systems",
+            "issns": [
+              "2405-4712"
+            ],
+            "publisher": "Elsevier"
+          },
+          "works": {
+            "url": "https://api.crossref.org/works?filter=issn%3A2405-4712%2Ctype%3Ajournal-article%2Cfrom-update-date%3A2026-09-08%2Cuntil-update-date%3A2026-10-08&rows=2&sort=deposited&order=desc",
+            "http_status": 200,
+            "bytes": 35482,
+            "sha256": "7d4dea158e731bcd0bb7fee1b4b4f502a8e7070e4c7c118bf22fa0734f7a0eb1",
+            "observed_at": "2026-10-08T08:43:44.535627+00:00",
+            "total": 23,
+            "samples": [
+              {
+                "doi": "10.1016/j.cels.2026.101739",
+                "title": "FLIGHTED: Inferring fitness landscapes from noisy high-throughput experimental data",
+                "journal": "Cell Systems",
+                "issns": [
+                  "2405-4712"
+                ],
+                "type": "journal-article",
+                "published": {
+                  "date-parts": [
+                    [
+                      2026,
+                      10
+                    ]
+                  ]
+                },
+                "original_url": "https://doi.org/10.1016/j.cels.2026.101739"
+              },
+              {
+                "doi": "10.1016/j.cels.2026.101736",
+                "title": "The drifting biochemical basis of an essential molecular interaction",
+                "journal": "Cell Systems",
+                "issns": [
+                  "2405-4712"
+                ],
+                "type": "journal-article",
+                "published": {
+                  "date-parts": [
+                    [
+                      2026,
+                      9
+                    ]
+                  ]
+                },
+                "original_url": "https://doi.org/10.1016/j.cels.2026.101736"
+              }
+            ]
+          },
+          "status": "passed"
+        },
+        {
+          "id": "cancer-discovery",
+          "requested_title": "Cancer Discovery",
+          "metadata": {
+            "url": "https://api.crossref.org/journals/2159-8274",
+            "http_status": 200,
+            "bytes": 4281,
+            "sha256": "f39dba377f5248ffaad22757e44ac7013b515908524c1661a4b94deec343d468",
+            "observed_at": "2026-10-08T08:36:19.115336+00:00",
+            "title": "Cancer Discovery",
+            "issns": [
+              "2159-8274",
+              "2159-8290"
+            ],
+            "publisher": "American Association for Cancer Research"
+          },
+          "works": {
+            "url": "https://api.crossref.org/works?filter=issn%3A2159-8274%2Ctype%3Ajournal-article%2Cfrom-update-date%3A2026-09-08%2Cuntil-update-date%3A2026-10-08&rows=2&sort=deposited&order=desc",
+            "http_status": 200,
+            "bytes": 52463,
+            "sha256": "5499ef51c46e30fcea9bb31f199b43c7e8d1d2d4eb4710794e1342d2f680b3fd",
+            "observed_at": "2026-10-08T08:43:49.243774+00:00",
+            "total": 67,
+            "samples": [
+              {
+                "doi": "10.1158/2159-8290.cd-26-0971",
+                "title": "Universal Germline Genetic Testing after a Diagnosis of Cancer",
+                "journal": "Cancer Discovery",
+                "issns": [
+                  "2159-8274",
+                  "2159-8290"
+                ],
+                "type": "journal-article",
+                "published": {
+                  "date-parts": [
+                    [
+                      2026,
+                      10,
+                      8
+                    ]
+                  ]
+                },
+                "original_url": "https://doi.org/10.1158/2159-8290.cd-26-0971"
+              },
+              {
+                "doi": "10.1158/2159-8290.cd-25-2314",
+                "title": "Systematic Targeting of Protein Complexes with Molecular COUPLrs",
+                "journal": "Cancer Discovery",
+                "issns": [
+                  "2159-8274",
+                  "2159-8290"
+                ],
+                "type": "journal-article",
+                "published": {
+                  "date-parts": [
+                    [
+                      2026,
+                      10,
+                      7
+                    ]
+                  ]
+                },
+                "original_url": "https://doi.org/10.1158/2159-8290.cd-25-2314"
+              }
+            ]
+          },
+          "status": "passed"
+        },
+        {
+          "id": "nature-reviews-drug-discovery",
+          "requested_title": "Nature Reviews Drug Discovery",
+          "metadata": {
+            "url": "https://api.crossref.org/journals/1474-1776",
+            "http_status": 200,
+            "bytes": 4135,
+            "sha256": "3719820f43b32691024865a09f46033166aa79e66674547f5e9e790df2ece206",
+            "observed_at": "2026-10-08T08:36:26.028569+00:00",
+            "title": "Nature Reviews Cancer",
+            "issns": [
+              "1474-1768",
+              "1474-1768",
+              "1474-175X",
+              "1474-1776",
+              "1474-1784"
+            ],
+            "publisher": "Springer Science and Business Media LLC"
+          },
+          "works": {
+            "url": "https://api.crossref.org/works?filter=issn%3A1474-1776%2Ctype%3Ajournal-article%2Cfrom-update-date%3A2026-09-08%2Cuntil-update-date%3A2026-10-08&rows=2&sort=deposited&order=desc",
+            "http_status": 200,
+            "bytes": 77574,
+            "sha256": "e05e631a73021a60fea594a59b834b7c1683bd914dc33f1ec4c3ed7e91ec7459",
+            "observed_at": "2026-10-08T08:43:54.146132+00:00",
+            "total": 41,
+            "samples": [
+              {
+                "doi": "10.1038/d41573-026-00163-w",
+                "title": "Molecular glue targets ALK resistance",
+                "journal": "Nature Reviews Drug Discovery",
+                "issns": [
+                  "1474-1776",
+                  "1474-1784"
+                ],
+                "type": "journal-article",
+                "published": {
+                  "date-parts": [
+                    [
+                      2026,
+                      10,
+                      7
+                    ]
+                  ]
+                },
+                "original_url": "https://doi.org/10.1038/d41573-026-00163-w"
+              },
+              {
+                "doi": "10.1038/s41573-026-01534-z",
+                "title": "Next-generation immune cell engagers for B cell depletion in autoimmune diseases",
+                "journal": "Nature Reviews Drug Discovery",
+                "issns": [
+                  "1474-1776",
+                  "1474-1784"
+                ],
+                "type": "journal-article",
+                "published": {
+                  "date-parts": [
+                    [
+                      2026,
+                      10,
+                      7
+                    ]
+                  ]
+                },
+                "original_url": "https://doi.org/10.1038/s41573-026-01534-z"
+              }
+            ]
+          },
+          "status": "passed",
+          "serial_metadata_note": "Registry canonical title differs from requested journal; each work must match the exact selected title before admission."
+        },
+        {
+          "id": "nature-chemistry",
+          "requested_title": "Nature Chemistry",
+          "metadata": {
+            "url": "https://api.crossref.org/journals/1755-4330",
+            "http_status": 200,
+            "bytes": 3963,
+            "sha256": "d6b7da50e29fc59a4b8540b2ea33d36cb4f094d0b8464e456914f37b7ffacec0",
+            "observed_at": "2026-10-08T08:37:04.063953+00:00",
+            "title": "Nature Chemistry",
+            "issns": [
+              "1755-4330",
+              "1755-4349"
+            ],
+            "publisher": "Springer Science and Business Media LLC"
+          },
+          "works": {
+            "url": "https://api.crossref.org/works?filter=issn%3A1755-4330%2Ctype%3Ajournal-article%2Cfrom-update-date%3A2026-09-08%2Cuntil-update-date%3A2026-10-08&rows=2&sort=deposited&order=desc",
+            "http_status": 200,
+            "bytes": 10454,
+            "sha256": "364e5d127d90c0a6b84718afa51a836c6805d5dcf22f0005d20726b8cd9b1ee1",
+            "observed_at": "2026-10-08T08:44:01.479522+00:00",
+            "total": 47,
+            "samples": [
+              {
+                "doi": "10.1038/s41557-026-02268-6",
+                "title": "Controlling reactions via nucleophile sorting",
+                "journal": "Nature Chemistry",
+                "issns": [
+                  "1755-4330",
+                  "1755-4349"
+                ],
+                "type": "journal-article",
+                "published": {
+                  "date-parts": [
+                    [
+                      2026,
+                      10,
+                      7
+                    ]
+                  ]
+                },
+                "original_url": "https://doi.org/10.1038/s41557-026-02268-6"
+              },
+              {
+                "doi": "10.1038/s41557-026-02284-6",
+                "title": "A triple carbonylation cascade converts aldehydes into threofuranoses",
+                "journal": "Nature Chemistry",
+                "issns": [
+                  "1755-4330",
+                  "1755-4349"
+                ],
+                "type": "journal-article",
+                "published": {
+                  "date-parts": [
+                    [
+                      2026,
+                      10,
+                      7
+                    ]
+                  ]
+                },
+                "original_url": "https://doi.org/10.1038/s41557-026-02284-6"
+              }
+            ]
+          },
+          "status": "passed"
+        },
+        {
+          "id": "nature-structural-molecular-biology",
+          "requested_title": "Nature Structural & Molecular Biology",
+          "metadata": {
+            "url": "https://api.crossref.org/journals/1545-9993",
+            "http_status": 200,
+            "bytes": 4075,
+            "sha256": "fa4e3078cbc7481cf7bd0a708b6e8665cb47e8e55ea888127074483722900379",
+            "observed_at": "2026-10-08T08:37:09.630575+00:00",
+            "title": "Nature Structural & Molecular Biology",
+            "issns": [
+              "1545-9993",
+              "1545-9985"
+            ],
+            "publisher": "Springer Science and Business Media LLC"
+          },
+          "works": {
+            "url": "https://api.crossref.org/works?filter=issn%3A1545-9993%2Ctype%3Ajournal-article%2Cfrom-update-date%3A2026-09-08%2Cuntil-update-date%3A2026-10-08&rows=2&sort=deposited&order=desc",
+            "http_status": 200,
+            "bytes": 39256,
+            "sha256": "5ab545032e48c3a46353b5e0b4618f3a48bc606185aa753ba27d13559e1b32e2",
+            "observed_at": "2026-10-08T08:44:08.327774+00:00",
+            "total": 38,
+            "samples": [
+              {
+                "doi": "10.1038/s41594-026-01896-3",
+                "title": "Glycosylated RNAs travel with extracellular vesicles and shape intercellular communication",
+                "journal": "Nature Structural &amp; Molecular Biology",
+                "issns": [
+                  "1545-9993",
+                  "1545-9985"
+                ],
+                "type": "journal-article",
+                "published": {
+                  "date-parts": [
+                    [
+                      2026,
+                      10,
+                      6
+                    ]
+                  ]
+                },
+                "original_url": "https://doi.org/10.1038/s41594-026-01896-3"
+              },
+              {
+                "doi": "10.1038/s41594-025-01669-4",
+                "title": "Computational design of sequence-specific DNA-binding proteins",
+                "journal": "Nature Structural &amp; Molecular Biology",
+                "issns": [
+                  "1545-9993",
+                  "1545-9985"
+                ],
+                "type": "journal-article",
+                "published": {
+                  "date-parts": [
+                    [
+                      2025,
+                      9,
+                      12
+                    ]
+                  ]
+                },
+                "original_url": "https://doi.org/10.1038/s41594-025-01669-4"
+              }
+            ]
+          },
+          "status": "passed"
+        }
+      ],
+      "documentation": "https://www.crossref.org/documentation/retrieve-metadata/rest-api/",
+      "enabled_journal_ids": [
+        "nature",
+        "science",
+        "cell",
+        "nature-biotechnology",
+        "nature-methods",
+        "nature-medicine",
+        "nature-genetics",
+        "nature-machine-intelligence",
+        "nature-computational-science",
+        "nature-biomedical-engineering",
+        "nature-chemical-biology",
+        "science-translational-medicine",
+        "cell-systems",
+        "cancer-discovery",
+        "nature-reviews-drug-discovery",
+        "nature-chemistry",
+        "nature-structural-molecular-biology"
+      ],
+      "degraded_journal_ids": []
+    },
+    {
+      "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=%28SRC%3AMED+AND+NOT+PUB_TYPE%3APreprint+AND+%28ISSN%3A0028-0836+OR+ISSN%3A1476-4687+OR+ISSN%3A0036-8075+OR+ISSN%3A1095-9203+OR+ISSN%3A0092-8674+OR+ISSN%3A1097-4172+OR+ISSN%3A1087-0156+OR+ISSN%3A1546-1696+OR+ISSN%3A1548-7091+OR+ISSN%3A1548-7105+OR+ISSN%3A1078-8956+OR+ISSN%3A1546-170X+OR+ISSN%3A1061-4036+OR+ISSN%3A1546-1718+OR+ISSN%3A2522-5839+OR+ISSN%3A2662-8457+OR+ISSN%3A2157-846X+OR+ISSN%3A1552-4450+OR+ISSN%3A1552-4469+OR+ISSN%3A1946-6234+OR+ISSN%3A1946-6242+OR+ISSN%3A2405-4712+OR+ISSN%3A2405-4720+OR+ISSN%3A2159-8274+OR+ISSN%3A2159-8290+OR+ISSN%3A1474-1776+OR+ISSN%3A1474-1784+OR+ISSN%3A1755-4330+OR+ISSN%3A1755-4349+OR+ISSN%3A1545-9993+OR+ISSN%3A1545-9985%29+AND+%28%28%28TITLE_ABS%3A%22virtual+cell%22+OR+TITLE_ABS%3A%22cell+foundation+model%22+OR+TITLE_ABS%3A%22single-cell+foundation+model%22+OR+TITLE_ABS%3A%22perturbation+prediction%22%29+AND+%28TITLE_ABS%3A%22artificial+intelligence%22+OR+TITLE_ABS%3A%22machine+learning%22+OR+TITLE_ABS%3A%22deep+learning%22+OR+TITLE_ABS%3A%22foundation+model%22+OR+TITLE_ABS%3A%22neural+network%22+OR+TITLE_ABS%3A%22language+model%22+OR+TITLE_ABS%3A%22generative+model%22+OR+TITLE_ABS%3A%22diffusion+model%22%29%29+OR+%28%28TITLE_ABS%3A%22scGPT%22+OR+TITLE_ABS%3A%22scFoundation%22+OR+TITLE_ABS%3A%22Geneformer%22%29%29+OR+%28%28TITLE_ABS%3A%22scVI%22%29+AND+%28TITLE_ABS%3A%22artificial+intelligence%22+OR+TITLE_ABS%3A%22machine+learning%22+OR+TITLE_ABS%3A%22deep+learning%22+OR+TITLE_ABS%3A%22foundation+model%22+OR+TITLE_ABS%3A%22neural+network%22+OR+TITLE_ABS%3A%22language+model%22+OR+TITLE_ABS%3A%22generative+model%22+OR+TITLE_ABS%3A%22diffusion+model%22%29+AND+%28TITLE_ABS%3A%22single-cell%22+OR+TITLE_ABS%3A%22single+cell%22+OR+TITLE_ABS%3A%22perturbation%22%29%29+OR+%28%28TITLE_ABS%3A%22STATE%22%29+AND+%28TITLE_ABS%3A%22artificial+intelligence%22+OR+TITLE_ABS%3A%22machine+learning%22+OR+TITLE_ABS%3A%22deep+learning%22+OR+TITLE_ABS%3A%22foundation+model%22+OR+TITLE_ABS%3A%22neural+network%22+OR+TITLE_ABS%3A%22language+model%22+OR+TITLE_ABS%3A%22generative+model%22+OR+TITLE_ABS%3A%22diffusion+model%22%29+AND+%28TITLE_ABS%3A%22perturbation%22%29%29+OR+%28%28TITLE_ABS%3Aorganoid%2A+OR+TITLE_ABS%3Aassembloid%2A%29+AND+%28TITLE_ABS%3A%22artificial+intelligence%22+OR+TITLE_ABS%3A%22machine+learning%22+OR+TITLE_ABS%3A%22deep+learning%22+OR+TITLE_ABS%3A%22foundation+model%22+OR+TITLE_ABS%3A%22neural+network%22+OR+TITLE_ABS%3A%22language+model%22+OR+TITLE_ABS%3A%22generative+model%22+OR+TITLE_ABS%3A%22diffusion+model%22%29%29+OR+%28%28TITLE_ABS%3A%22virtual+embryo%22+OR+TITLE_ABS%3A%22embryogenesis%22+OR+TITLE_ABS%3A%22embryonic+development%22+OR+TITLE_ABS%3A%22gastrulation%22%29+AND+%28TITLE_ABS%3A%22artificial+intelligence%22+OR+TITLE_ABS%3A%22machine+learning%22+OR+TITLE_ABS%3A%22deep+learning%22+OR+TITLE_ABS%3A%22foundation+model%22+OR+TITLE_ABS%3A%22neural+network%22+OR+TITLE_ABS%3A%22language+model%22+OR+TITLE_ABS%3A%22generative+model%22+OR+TITLE_ABS%3A%22diffusion+model%22%29%29+OR+%28%28TITLE_ABS%3A%22virtual+organ%22+OR+TITLE_ABS%3A%22digital+twin%22+OR+TITLE_ABS%3A%22virtual+twin%22%29%29+OR+%28%28TITLE_ABS%3A%22drug+discovery%22+OR+TITLE_ABS%3A%22drug+design%22+OR+TITLE_ABS%3A%22drug+development%22+OR+TITLE_ABS%3A%22virtual+screening%22+OR+TITLE_ABS%3A%22target+discovery%22+OR+TITLE_ABS%3A%22molecular+design%22+OR+TITLE_ABS%3A%22antibody+design%22+OR+TITLE_ABS%3A%22protein+design%22+OR+TITLE_ABS%3A%22protein+structure+prediction%22+OR+TITLE_ABS%3A%22protein+folding%22+OR+TITLE_ABS%3A%22binding+affinity%22%29+AND+%28TITLE_ABS%3A%22artificial+intelligence%22+OR+TITLE_ABS%3A%22machine+learning%22+OR+TITLE_ABS%3A%22deep+learning%22+OR+TITLE_ABS%3A%22foundation+model%22+OR+TITLE_ABS%3A%22neural+network%22+OR+TITLE_ABS%3A%22language+model%22+OR+TITLE_ABS%3A%22generative+model%22+OR+TITLE_ABS%3A%22diffusion+model%22%29%29+OR+%28%28TITLE_ABS%3A%22AlphaFold%22+OR+TITLE_ABS%3A%22RFdiffusion%22+OR+TITLE_ABS%3A%22ProteinMPNN%22+OR+TITLE_ABS%3A%22Boltz-1%22+OR+TITLE_ABS%3A%22Boltz-2%22%29%29%29%29+AND+FIRST_PDATE%3A%5B2026-09-08+TO+2026-10-08%5D&format=json&resultType=core&pageSize=3",
+      "http_status": 200,
+      "bytes": 43704,
+      "sha256": "17af6244961ef350cb417805d35a37ede2a7a62b4ebc8ef7bc2efa7f88d21df6",
+      "observed_at": "2026-10-08T08:49:17.140876+00:00",
+      "registry_key": "europe-pmc",
+      "status": "passed",
+      "hit_count": 12,
+      "query": "SRC:MED AND NOT PUB_TYPE:Preprint AND (ISSN:0028-0836 OR ISSN:1476-4687 OR ISSN:0036-8075 OR ISSN:1095-9203 OR ISSN:0092-8674 OR ISSN:1097-4172 OR ISSN:1087-0156 OR ISSN:1546-1696 OR ISSN:1548-7091 OR ISSN:1548-7105 OR ISSN:1078-8956 OR ISSN:1546-170X OR ISSN:1061-4036 OR ISSN:1546-1718 OR ISSN:2522-5839 OR ISSN:2662-8457 OR ISSN:2157-846X OR ISSN:1552-4450 OR ISSN:1552-4469 OR ISSN:1946-6234 OR ISSN:1946-6242 OR ISSN:2405-4712 OR ISSN:2405-4720 OR ISSN:2159-8274 OR ISSN:2159-8290 OR ISSN:1474-1776 OR ISSN:1474-1784 OR ISSN:1755-4330 OR ISSN:1755-4349 OR ISSN:1545-9993 OR ISSN:1545-9985) AND (((TITLE_ABS:\"virtual cell\" OR TITLE_ABS:\"cell foundation model\" OR TITLE_ABS:\"single-cell foundation model\" OR TITLE_ABS:\"perturbation prediction\") AND (TITLE_ABS:\"artificial intelligence\" OR TITLE_ABS:\"machine learning\" OR TITLE_ABS:\"deep learning\" OR TITLE_ABS:\"foundation model\" OR TITLE_ABS:\"neural network\" OR TITLE_ABS:\"language model\" OR TITLE_ABS:\"generative model\" OR TITLE_ABS:\"diffusion model\")) OR ((TITLE_ABS:\"scGPT\" OR TITLE_ABS:\"scFoundation\" OR TITLE_ABS:\"Geneformer\")) OR ((TITLE_ABS:\"scVI\") AND (TITLE_ABS:\"artificial intelligence\" OR TITLE_ABS:\"machine learning\" OR TITLE_ABS:\"deep learning\" OR TITLE_ABS:\"foundation model\" OR TITLE_ABS:\"neural network\" OR TITLE_ABS:\"language model\" OR TITLE_ABS:\"generative model\" OR TITLE_ABS:\"diffusion model\") AND (TITLE_ABS:\"single-cell\" OR TITLE_ABS:\"single cell\" OR TITLE_ABS:\"perturbation\")) OR ((TITLE_ABS:\"STATE\") AND (TITLE_ABS:\"artificial intelligence\" OR TITLE_ABS:\"machine learning\" OR TITLE_ABS:\"deep learning\" OR TITLE_ABS:\"foundation model\" OR TITLE_ABS:\"neural network\" OR TITLE_ABS:\"language model\" OR TITLE_ABS:\"generative model\" OR TITLE_ABS:\"diffusion model\") AND (TITLE_ABS:\"perturbation\")) OR ((TITLE_ABS:organoid* OR TITLE_ABS:assembloid*) AND (TITLE_ABS:\"artificial intelligence\" OR TITLE_ABS:\"machine learning\" OR TITLE_ABS:\"deep learning\" OR TITLE_ABS:\"foundation model\" OR TITLE_ABS:\"neural network\" OR TITLE_ABS:\"language model\" OR TITLE_ABS:\"generative model\" OR TITLE_ABS:\"diffusion model\")) OR ((TITLE_ABS:\"virtual embryo\" OR TITLE_ABS:\"embryogenesis\" OR TITLE_ABS:\"embryonic development\" OR TITLE_ABS:\"gastrulation\") AND (TITLE_ABS:\"artificial intelligence\" OR TITLE_ABS:\"machine learning\" OR TITLE_ABS:\"deep learning\" OR TITLE_ABS:\"foundation model\" OR TITLE_ABS:\"neural network\" OR TITLE_ABS:\"language model\" OR TITLE_ABS:\"generative model\" OR TITLE_ABS:\"diffusion model\")) OR ((TITLE_ABS:\"virtual organ\" OR TITLE_ABS:\"digital twin\" OR TITLE_ABS:\"virtual twin\")) OR ((TITLE_ABS:\"drug discovery\" OR TITLE_ABS:\"drug design\" OR TITLE_ABS:\"drug development\" OR TITLE_ABS:\"virtual screening\" OR TITLE_ABS:\"target discovery\" OR TITLE_ABS:\"molecular design\" OR TITLE_ABS:\"antibody design\" OR TITLE_ABS:\"protein design\" OR TITLE_ABS:\"protein structure prediction\" OR TITLE_ABS:\"protein folding\" OR TITLE_ABS:\"binding affinity\") AND (TITLE_ABS:\"artificial intelligence\" OR TITLE_ABS:\"machine learning\" OR TITLE_ABS:\"deep learning\" OR TITLE_ABS:\"foundation model\" OR TITLE_ABS:\"neural network\" OR TITLE_ABS:\"language model\" OR TITLE_ABS:\"generative model\" OR TITLE_ABS:\"diffusion model\")) OR ((TITLE_ABS:\"AlphaFold\" OR TITLE_ABS:\"RFdiffusion\" OR TITLE_ABS:\"ProteinMPNN\" OR TITLE_ABS:\"Boltz-1\" OR TITLE_ABS:\"Boltz-2\")))",
+      "samples": [
+        {
+          "id": "42717098",
+          "source": "MED",
+          "title": "An operational perturbation proteomics-based virtual cell model.",
+          "doi": "10.1038/s41586-026-11001-9",
+          "journal": {
+            "medlineAbbreviation": "Nature",
+            "title": "Nature",
+            "essn": "1476-4687",
+            "issn": "0028-0836",
+            "nlmid": "0410462",
+            "isoabbreviation": "Nature"
+          },
+          "published": "2026-09-09"
+        },
+        {
+          "id": "42816645",
+          "source": "MED",
+          "title": "CytoVI: deep generative modeling of antibody-based single cell data.",
+          "doi": "10.1038/s41592-026-03224-5",
+          "journal": {
+            "medlineAbbreviation": "Nat Methods",
+            "title": "Nature methods",
+            "essn": "1548-7105",
+            "issn": "1548-7091",
+            "nlmid": "101215604",
+            "isoabbreviation": "Nat Methods"
+          },
+          "published": "2026-09-30"
+        },
+        {
+          "id": "42816606",
+          "source": "MED",
+          "title": "Function-preserving watermarking of AI-generated proteins.",
+          "doi": "10.1038/s41586-026-10965-y",
+          "journal": {
+            "medlineAbbreviation": "Nature",
+            "title": "Nature",
+            "essn": "1476-4687",
+            "issn": "0028-0836",
+            "nlmid": "0410462",
+            "isoabbreviation": "Nature"
+          },
+          "published": "2026-09-30"
+        }
+      ]
+    },
+    {
+      "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi",
+      "http_status": 200,
+      "bytes": 4605,
+      "sha256": "4f615ccb01f7330bf73b3932dfb4a5276ac66d50dfacee8a56e3c2682987a19a",
+      "observed_at": "2026-10-08T08:49:18.361706+00:00",
+      "registry_key": "pubmed-eutils",
+      "status": "passed",
+      "request_method": "POST",
+      "hit_count": "18",
+      "ids": [
+        "42838048",
+        "42834083",
+        "42826717"
+      ],
+      "query": "(((\"virtual cell\"[Title/Abstract] OR \"cell foundation model\"[Title/Abstract] OR \"single-cell foundation model\"[Title/Abstract] OR \"perturbation prediction\"[Title/Abstract]) AND (\"artificial intelligence\"[Title/Abstract] OR \"machine learning\"[Title/Abstract] OR \"deep learning\"[Title/Abstract] OR \"foundation model\"[Title/Abstract] OR \"neural network\"[Title/Abstract] OR \"language model\"[Title/Abstract] OR \"generative model\"[Title/Abstract] OR \"diffusion model\"[Title/Abstract])) OR ((\"scGPT\"[Title/Abstract] OR \"scFoundation\"[Title/Abstract] OR \"Geneformer\"[Title/Abstract])) OR ((\"scVI\"[Title/Abstract]) AND (\"artificial intelligence\"[Title/Abstract] OR \"machine learning\"[Title/Abstract] OR \"deep learning\"[Title/Abstract] OR \"foundation model\"[Title/Abstract] OR \"neural network\"[Title/Abstract] OR \"language model\"[Title/Abstract] OR \"generative model\"[Title/Abstract] OR \"diffusion model\"[Title/Abstract]) AND (\"single-cell\"[Title/Abstract] OR \"single cell\"[Title/Abstract] OR \"perturbation\"[Title/Abstract])) OR ((\"STATE\"[Title/Abstract]) AND (\"artificial intelligence\"[Title/Abstract] OR \"machine learning\"[Title/Abstract] OR \"deep learning\"[Title/Abstract] OR \"foundation model\"[Title/Abstract] OR \"neural network\"[Title/Abstract] OR \"language model\"[Title/Abstract] OR \"generative model\"[Title/Abstract] OR \"diffusion model\"[Title/Abstract]) AND (\"perturbation\"[Title/Abstract])) OR ((organoid*[Title/Abstract] OR assembloid*[Title/Abstract]) AND (\"artificial intelligence\"[Title/Abstract] OR \"machine learning\"[Title/Abstract] OR \"deep learning\"[Title/Abstract] OR \"foundation model\"[Title/Abstract] OR \"neural network\"[Title/Abstract] OR \"language model\"[Title/Abstract] OR \"generative model\"[Title/Abstract] OR \"diffusion model\"[Title/Abstract])) OR ((\"virtual embryo\"[Title/Abstract] OR \"embryogenesis\"[Title/Abstract] OR \"embryonic development\"[Title/Abstract] OR \"gastrulation\"[Title/Abstract]) AND (\"artificial intelligence\"[Title/Abstract] OR \"machine learning\"[Title/Abstract] OR \"deep learning\"[Title/Abstract] OR \"foundation model\"[Title/Abstract] OR \"neural network\"[Title/Abstract] OR \"language model\"[Title/Abstract] OR \"generative model\"[Title/Abstract] OR \"diffusion model\"[Title/Abstract])) OR ((\"virtual organ\"[Title/Abstract] OR \"digital twin\"[Title/Abstract] OR \"virtual twin\"[Title/Abstract])) OR ((\"drug discovery\"[Title/Abstract] OR \"drug design\"[Title/Abstract] OR \"drug development\"[Title/Abstract] OR \"virtual screening\"[Title/Abstract] OR \"target discovery\"[Title/Abstract] OR \"molecular design\"[Title/Abstract] OR \"antibody design\"[Title/Abstract] OR \"protein design\"[Title/Abstract] OR \"protein structure prediction\"[Title/Abstract] OR \"protein folding\"[Title/Abstract] OR \"binding affinity\"[Title/Abstract]) AND (\"artificial intelligence\"[Title/Abstract] OR \"machine learning\"[Title/Abstract] OR \"deep learning\"[Title/Abstract] OR \"foundation model\"[Title/Abstract] OR \"neural network\"[Title/Abstract] OR \"language model\"[Title/Abstract] OR \"generative model\"[Title/Abstract] OR \"diffusion model\"[Title/Abstract])) OR ((\"AlphaFold\"[Title/Abstract] OR \"RFdiffusion\"[Title/Abstract] OR \"ProteinMPNN\"[Title/Abstract] OR \"Boltz-1\"[Title/Abstract] OR \"Boltz-2\"[Title/Abstract]))) AND (\"0028-0836\"[ISSN] OR \"1476-4687\"[ISSN] OR \"0036-8075\"[ISSN] OR \"1095-9203\"[ISSN] OR \"0092-8674\"[ISSN] OR \"1097-4172\"[ISSN] OR \"1087-0156\"[ISSN] OR \"1546-1696\"[ISSN] OR \"1548-7091\"[ISSN] OR \"1548-7105\"[ISSN] OR \"1078-8956\"[ISSN] OR \"1546-170X\"[ISSN] OR \"1061-4036\"[ISSN] OR \"1546-1718\"[ISSN] OR \"2522-5839\"[ISSN] OR \"2662-8457\"[ISSN] OR \"2157-846X\"[ISSN] OR \"1552-4450\"[ISSN] OR \"1552-4469\"[ISSN] OR \"1946-6234\"[ISSN] OR \"1946-6242\"[ISSN] OR \"2405-4712\"[ISSN] OR \"2405-4720\"[ISSN] OR \"2159-8274\"[ISSN] OR \"2159-8290\"[ISSN] OR \"1474-1776\"[ISSN] OR \"1474-1784\"[ISSN] OR \"1755-4330\"[ISSN] OR \"1755-4349\"[ISSN] OR \"1545-9993\"[ISSN] OR \"1545-9985\"[ISSN]) NOT \"Preprint\"[Publication Type]",
+      "warnings": null,
+      "errors": {
+        "phrasesnotfound": [],
+        "fieldsnotfound": []
+      }
+    }
+  ],
+  "status": "passed",
+  "finished_at": "2026-10-08T08:49:18.361851+00:00"
+}

@@ -16,7 +16,8 @@
         })[c],
     );
   const names = {
-    overview: "今日概览",
+    frontpage: "日知头版",
+    overview: "全站看板",
     news: "新闻与文章",
     daily: "每日摘要",
     connect: "连接你的 AI",
@@ -38,7 +39,7 @@
   ];
   const topicName = (id) => focusTopics.find(t => t[0] === id)?.[1] || id;
   const topicLinks = () => `<div class="topic-grid">${focusTopics.map(([id, label, text], i) => `<a class="topic-card" href="#topic/${id}"><small>0${i+1} / RESEARCH TRACK</small><strong>${label}</strong><span>${text}</span><b aria-hidden="true">↗</b></a>`).join("")}</div>`;
-  const newsState = { q: "", topic: "", kind: "", days: "30" };
+  const newsState = { q: "", topic: "", kind: "false", days: "30" };
   const types = {
     funding: "融资",
     partnership: "合作",
@@ -66,7 +67,7 @@
     dialogEpoch = 0,
     page = 0,
     sourceRows = [],
-    current = "overview";
+    current = "frontpage";
   const state = {
     days: "30",
     q: "",
@@ -77,7 +78,14 @@
     academic: false,
     lanes: tracks.slice(0, 3),
   };
-  const paperState = { q: "", source: "", days: "30", picked: false };
+  const paperState = { q: "", source: "", days: "30", picked: false, journal_tier: "selected" };
+  let watchlistNotice = "";
+  function parseWatchlist(text) {
+    const data = JSON.parse(text);
+    if (!data || data.schema !== "bioai-watchlist" || data.version !== 1 || !Array.isArray(data.company_slugs) || data.company_slugs.length > 1000 || data.company_slugs.some(slug => typeof slug !== "string" || !slug || slug.length > 200))
+      throw Error("文件不是受支持的 BioAI 关注名单，请使用本站导出的 JSON 文件。");
+    return [...new Set(data.company_slugs)];
+  }
   function date(s, full = false) {
     if (!s) return "日期未提供";
     const d = new Date(s);
@@ -125,7 +133,48 @@
   function recordCard(r) {
     const a = r.academic;
     const recordTopics = r.topics || r.classification?.topic_ids || [];
-    return `<article class="record"><div class="record-meta"><span class="pill ${a?.status === "preprint" ? "gold" : "green"}">${a ? (a.status === "preprint" ? "预印本" + (a.version ? " · v" + a.version : " · 版本未标注") : "学术索引收录") : "原文线索"}</span><span>${esc(r.source_name)}</span><time>${r.published_at ? (new Date(r.published_at) > new Date() ? "来源刊期（晚于当前日期） " : "") + date(r.published_at) : "收录于 " + date(r.fetched_at)}</time></div><h3><button data-record="${r.id}">${esc(r.title)}</button></h3><p>${esc(r.excerpt?.slice(0, 180) || "摘要暂未提供，点击查看原文。")}</p><div class="record-foot">${r.company_slug ? `<a href="#company/${r.company_slug}">${esc(r.company_name || r.company_name_en)}</a>` : `<small>${a?.doi ? "DOI " + esc(a.doi) : "尚未转为已核验事件"}</small>`}<span>${anchor(r.canonical_url, "原文")} · <a href="/records/${r.id}">分享页 ↗</a></span></div>${recordTopics.length ? `<div class="tags topic-tags">${recordTopics.map(t=>`<a class="tag" href="#topic/${esc(t)}">${esc(topicName(t))}</a>`).join("")}</div>` : ""}</article>`;
+    return `<article class="record"><div class="record-meta"><span class="pill ${a?.status === "preprint" ? "gold" : "green"}">${a ? (a.status === "preprint" ? "预印本" + (a.version ? " · v" + a.version : " · 版本未标注") : "学术索引收录") : "原文线索"}</span><span>${esc(a?.journal || r.source_name)}${a?.journal ? " · " + esc(r.source_name) : ""}</span><time>${r.published_at ? (new Date(r.published_at) > new Date() ? "来源刊期（晚于当前日期） " : "") + date(r.published_at) : "收录于 " + date(r.fetched_at)}</time></div><h3><button data-record="${r.id}">${esc(r.title)}</button></h3><p>${esc(r.excerpt?.slice(0, 180) || "摘要暂未提供，点击查看原文。")}</p><div class="record-foot">${r.company_slug ? `<a href="#company/${r.company_slug}">${esc(r.company_name || r.company_name_en)}</a>` : `<small>${a?.doi ? "DOI " + esc(a.doi) : "尚未转为已核验事件"}</small>`}<span>${anchor(r.canonical_url, "原文")} · <a href="/records/${r.id}">分享页 ↗</a></span></div>${recordTopics.length ? `<div class="tags topic-tags">${recordTopics.map(t=>`<a class="tag" href="#topic/${esc(t)}">${esc(topicName(t))}</a>`).join("")}</div>` : ""}</article>`;
+  }
+  function newspaperRecord(r, lead = false) {
+    return `<article class="newspaper-story ${lead ? "newspaper-lead" : ""}"><p class="newspaper-byline"><span>${esc(r.academic?.journal || r.company_name || r.company_name_en || r.source_name)}</span><time>${r.published_at && new Date(r.published_at) <= new Date() ? date(r.published_at) : "收录 " + date(r.fetched_at)}</time></p><h${lead ? "2" : "3"}><button data-record="${esc(r.id)}">${esc(r.title)}</button></h${lead ? "2" : "3"}>${lead ? `<p class="newspaper-excerpt">${esc(r.excerpt?.slice(0, 250) || "从公司官方披露与原始报道，追踪这条进展的细节与出处。")}</p>` : ""}<div class="newspaper-story-foot"><span>${r.academic ? "重点期刊 · 学术原文" : "行业原文"}</span>${anchor(r.canonical_url, "阅读原文")}</div></article>`;
+  }
+  function selectIndustryHeadlines(items) {
+    const eventSignal = r => Array.isArray(r.industry_classification?.event_types) && r.industry_classification.event_types.length > 0;
+    const recentDate = r => Math.min(Date.parse(r.published_at || r.fetched_at) || 0, Date.parse(r.fetched_at) || Date.now());
+    return [...items].sort((a, b) => Number(eventSignal(b)) - Number(eventSignal(a)) || recentDate(b) - recentDate(a)).slice(0, 5);
+  }
+  async function frontpage(n) {
+    const [o, industry, ev, papers] = await Promise.all([
+      api("/api/overview"),
+      api("/api/records?academic=false&days=30&limit=20"),
+      api("/api/events?days=30&limit=3"),
+      api("/api/records?academic=true&journal_tier=selected&days=30&limit=2"),
+    ]);
+    if (n !== epoch) return;
+    const industryHeadlines = selectIndustryHeadlines(industry.items);
+    const edition = new Date().toLocaleDateString("zh-CN", { year: "numeric", month: "long", day: "numeric", weekday: "long", timeZone: "Asia/Shanghai" });
+    const sections = [
+      ["01", "行业动态", "公司公告、融资消息、产品与临床进展，从原始出处了解产业变化。", "#news", "阅读行业原文"],
+      ["02", "合作与布局", "沿时间线追踪合作、授权、投资与并购，在 Hot 图中查看公司联系。", "#timeline", "打开产业进展"],
+      ["03", "学术进展", "重点期刊与主题相关研究，为生物医药产业方向提供证据与新方法。", "#academic", "浏览重点期刊"],
+      ["04", "公司黄页", "检索中国与海外公司、历史品牌、官方网站及其最新动态。", "#directory", "查找公司档案"],
+    ];
+    content.innerHTML = `<div class="newspaper">
+      <header class="newspaper-masthead">
+        <div class="newspaper-utility"><span>问象 · WENXIANG</span><nav aria-label="头版快捷导航"><a href="#daily">每日摘要</a><a href="#connect">MCP 与订阅</a><a href="#overview">进入全站看板 <span aria-hidden="true">↗</span></a></nav></div>
+        <div class="newspaper-nameplate"><div class="newspaper-mark"><img src="/assets/wenxiang-mark.png" alt="问象 Logo"><div><h1>BioAI 日知</h1><p>AI × LIFE SCIENCE <span>连接生物与智能，追踪每一步进展。</span></p></div></div><p class="newspaper-edition">生物医药产业观察<span>THE BIOAI CHRONICLE</span></p></div>
+        <div class="newspaper-dateline"><time>${esc(edition)} · 北京时间</time><span>每小时更新 · 保留原始出处</span><a href="#sources">来源与更新状态 ↗</a></div>
+      </header>
+      <section class="newspaper-intro" aria-label="关于日知"><p>产业是主线，研究是依据。</p><span>关注 AI 如何走进生物医药：从虚拟生命模型，到药物研发与公司合作。</span></section>
+      <nav class="newspaper-sections" aria-label="栏目导读">${sections.map(([num, title, desc, href, label]) => `<a href="${href}" class="newspaper-section"><span class="newspaper-section-index">${num} / 栏目</span><h2>${title}<span aria-hidden="true">↗</span></h2><p>${desc}</p><strong>${label}</strong></a>`).join("")}</nav>
+      <div class="newspaper-body">
+        <section class="newspaper-industry" aria-labelledby="industry-title"><div class="newspaper-section-title"><h2 id="industry-title">产业来信 <small>INDUSTRY DISPATCHES</small></h2><a href="#news">全部动态 ↗</a></div>${industryHeadlines.length ? `<div class="newspaper-stories">${newspaperRecord(industryHeadlines[0], true)}<div class="newspaper-briefs">${industryHeadlines.slice(1).map(r => newspaperRecord(r)).join("")}</div></div>` : `<div class="newspaper-empty"><h3>等待新的行业来信</h3><p>近 30 天暂未收录符合主题的公司原文。可浏览历史内容，或检查来源更新状态。</p><a href="#news">进入行业栏目 →</a></div>`}<p class="newspaper-provenance">原文收录与事件核验分别标注。最近成功采集：${o.last_success_at ? date(o.last_success_at, true) : "尚无记录"}。</p></section>
+        <aside class="newspaper-side"><section aria-labelledby="deals-title"><div class="newspaper-section-title"><h2 id="deals-title">合作与产业进展</h2><span class="newspaper-small-label">证据核验</span></div>${ev.items.length ? ev.items.map(e => `<article class="newspaper-deal"><p class="newspaper-byline"><span>${esc(types[e.event_type] || e.event_type)}</span><time>${date(e.display_date)}</time></p><h3><button data-event="${esc(e.id)}">${esc(e.title)}</button></h3><p>${esc(e.summary?.slice(0, 105) || "查看公司关联与原始证据。")}</p><small>${e.evidence_count} 条原文证据</small></article>`).join("") : `<div class="newspaper-empty"><p>已核验的合作、融资与布局进展将在这里展示。公司公告可先从行业原文阅读。</p></div>`}<div class="newspaper-inline-links"><a href="#timeline">查看时间线 ↗</a><a href="#hot">打开 Hot 关系图 ↗</a></div></section><section class="newspaper-research" aria-labelledby="research-title"><div class="newspaper-section-title"><h2 id="research-title">研究参照</h2><a href="#academic">学术版 ↗</a></div>${papers.items.map(r => newspaperRecord(r)).join("") || `<p class="newspaper-empty">当前窗口暂无收录，学术版可查看历史记录。</p>`}</section></aside>
+      </div>
+      <section class="newspaper-topics" aria-labelledby="topics-title"><div class="newspaper-section-title"><h2 id="topics-title">持续关注的五个赛道</h2><a href="#overview">打开完整看板 ↗</a></div><div class="newspaper-topic-list">${focusTopics.map(([id, label, desc], i) => `<a href="#topic/${id}"><small>0${i + 1}</small><h3>${label}</h3><p>${desc}</p></a>`).join("")}</div></section>
+      <section class="newspaper-bottom"><a href="#directory"><span class="newspaper-small-label">COMPANY DIRECTORY</span><h2>一条新闻，连回一家公司的全貌。</h2><p>从新格元、寻因、诺禾致源到海外生物医药公司，检索中英文名称、历史品牌与官方信息。</p><strong>打开公司黄页 →</strong></a><a href="#connect"><span class="newspaper-small-label">READ WITH YOUR AI</span><h2>让日知进入你的阅读工作流。</h2><p>通过 RSS 订阅更新，或用公开只读 MCP，让你的 AI 查询公司、文章与信息来源。</p><strong>查看订阅与 MCP 接入 →</strong></a></section>
+      <p class="newspaper-colophon">问象出品 · 以可追溯的原文连接行业动态、公司与研究。<a href="#sources">查看来源覆盖</a></p>
+    </div>`;
   }
   function paperLabels(items) {
     return (items || [])
@@ -244,7 +293,7 @@
   async function overview(n) {
     const [o, raw, companies, ev] = await Promise.all([
       api("/api/overview"),
-      api("/api/records?days=0&limit=4"),
+      api("/api/records?academic=false&days=0&limit=4"),
       api("/api/companies?region=%E4%B8%AD%E5%9B%BD&limit=200"),
       api("/api/events?days=30&limit=3"),
     ]);
@@ -258,7 +307,7 @@
       if (featured.length >= 5) break;
       if (!featured.includes(c)) featured.push(c);
     }
-    content.innerHTML = `<section class="hero"><div><p class="eyebrow">BIOAI INTELLIGENCE · 问象</p><h1>探索虚拟生命，<br>看见研究与产业的下一步。</h1><p class="lede">聚焦虚拟细胞、类器官、虚拟胚胎、虚拟器官与 AI 制药。连接文献、公司与可追溯的进展。</p></div><aside class="hero-note"><b>每一步进展，都保留来处</b>从官方披露与公共学术索引出发，<br>区分原文收录与核验后的事实。<br><br><a href="#sources" class="text-link">查看来源接入状态 ↗</a></aside></section>${topicLinks()}<section class="stats">${[
+    content.innerHTML = `<section class="hero"><div><p class="eyebrow">BIOAI INTELLIGENCE · 问象</p><h1>追踪 AI 与生物医药，<br>看见产业的下一步。</h1><p class="lede">以公司动态、合作与融资为主线，连接虚拟细胞、类器官、虚拟胚胎、虚拟器官与 AI 制药的研究依据。</p></div><aside class="hero-note"><b>每一步进展，都保留来处</b>从官方披露与公共学术索引出发，<br>区分原文收录与核验后的事实。<br><br><a href="#sources" class="text-link">查看来源接入状态 ↗</a></aside></section>${topicLinks()}<section class="stats">${[
       [o.companies, "公司档案", "收录公司与相关技术提供方"],
       [o.cloud_connected_sources ?? o.connected_sources, "自动采集来源", "官网与公共订阅"],
       [o.records, "主题原文", "自动归类 · 保留出处"],
@@ -270,12 +319,12 @@
       )
       .join(
         "",
-      )}</section><div class="two-col"><section><div class="section-head"><h2>最新原文 <small>SOURCE DISPATCHES</small></h2><a class="text-link" href="#news">全部新闻与文章 ↗</a></div><div class="panel">${raw.items.map(recordCard).join("") || empty("原文正在积累", "已验证来源完成抓取后，原始记录会出现在这里。", "#sources", "查看信息来源")}</div><p class="source-note">最近成功采集 ${o.last_success_at ? date(o.last_success_at, true) : "尚无记录"} · 原文线索经复核后，才进入产业进展与关系图。</p></section><aside><div class="section-head"><h2>国内公司速览</h2><a class="text-link" href="#directory">全部公司 ↗</a></div><div class="panel">${featured.map((c) => `<div class="mini-company"><div class="monogram" aria-hidden="true">${esc((c.name_zh || c.name_en).slice(0, 2))}</div><div><h3><a href="#company/${c.slug}">${esc(c.name_zh || c.name_en)}</a></h3><small>${esc(c.name_en)}</small></div><a href="#company/${c.slug}" aria-label="查看${esc(c.name_zh || c.name_en)}">↗</a></div>`).join("")}</div><div class="section-head"><h2>产业覆盖</h2></div><div class="panel">${o.tracks.map((t) => `<div class="mini-company"><span>${esc(t.track)}</span><span style="margin-left:auto">${t.count} <small>家公司</small></span></div>`).join("")}<p class="source-note">地区按种子库登记的所在地与布局分类，不推断内外资股权性质。</p></div></aside></div><div class="section-head"><h2>近期已核验进展</h2><a class="text-link" href="#timeline">查看进展树 ↗</a></div>${ev.items.length ? `<div class="timeline-grid">${ev.items.map(eventCard).join("")}</div>` : empty("尚无近期已核验事件", "已采集原文保留在来源库；复核通过的事件会同步到公司时间线。", "#sources", "查看原始来源")}`;
+      )}</section><div class="two-col"><section><div class="section-head"><h2>最新行业原文 <small>INDUSTRY DISPATCHES</small></h2><a class="text-link" href="#news">全部新闻与文章 ↗</a></div><div class="panel">${raw.items.map(recordCard).join("") || empty("原文正在积累", "已验证来源完成抓取后，原始记录会出现在这里。", "#sources", "查看信息来源")}</div><p class="source-note">最近成功采集 ${o.last_success_at ? date(o.last_success_at, true) : "尚无记录"} · 原文线索经复核后，才进入产业进展与关系图。</p></section><aside><div class="section-head"><h2>国内公司速览</h2><a class="text-link" href="#directory">全部公司 ↗</a></div><div class="panel">${featured.map((c) => `<div class="mini-company"><div class="monogram" aria-hidden="true">${esc((c.name_zh || c.name_en).slice(0, 2))}</div><div><h3><a href="#company/${c.slug}">${esc(c.name_zh || c.name_en)}</a></h3><small>${esc(c.name_en)}</small></div><a href="#company/${c.slug}" aria-label="查看${esc(c.name_zh || c.name_en)}">↗</a></div>`).join("")}</div><div class="section-head"><h2>产业覆盖</h2></div><div class="panel">${o.tracks.map((t) => `<div class="mini-company"><span>${esc(t.track)}</span><span style="margin-left:auto">${t.count} <small>家公司</small></span></div>`).join("")}<p class="source-note">地区按种子库登记的所在地与布局分类，不推断内外资股权性质。</p></div></aside></div><div class="section-head"><h2>近期已核验进展</h2><a class="text-link" href="#timeline">查看进展树 ↗</a></div>${ev.items.length ? `<div class="timeline-grid">${ev.items.map(eventCard).join("")}</div>` : empty("尚无近期已核验事件", "已采集原文保留在来源库；复核通过的事件会同步到公司时间线。", "#sources", "查看原始来源")}`;
   }
   async function news(n, selectedTopic) {
-    if (selectedTopic) newsState.topic = selectedTopic;
+    newsState.topic = selectedTopic || "";
     const theme = focusTopics.find(t => t[0] === newsState.topic);
-    content.innerHTML = heading(theme?.[1] || "新闻与文章", "VIRTUAL LIFE SCIENCES", theme?.[2] || "按主题汇集官方动态与公共学术索引。自动主题标签仅用于检索，原文收录不等于事件复核。") +
+    content.innerHTML = heading(theme?.[1] || "新闻与文章", "VIRTUAL LIFE SCIENCES", theme?.[2] || "关注 AI 在生物医药领域的公司动态、融资合作与发展布局。默认展示行业原文；学术文章可在筛选中单独查看。") +
       `<div class="filters"><input id="news-q" type="search" aria-label="搜索新闻文章" placeholder="关键词、模型名、公司名" value="${esc(newsState.q)}"><select id="news-topic" aria-label="研究主题"><option value="">全部主题</option>${focusTopics.map(([id,label]) => `<option value="${id}" ${newsState.topic===id?'selected':''}>${label}</option>`).join('')}</select><select id="news-kind" aria-label="内容类型"><option value="">全部内容</option><option value="false" ${newsState.kind==='false'?'selected':''}>公司与行业原文</option><option value="true" ${newsState.kind==='true'?'selected':''}>学术文章</option></select><select id="news-days" aria-label="日期范围">${[['7','7 天'],['30','30 天'],['90','90 天'],['0','全部']].map(([v,t])=>`<option value="${v}" ${newsState.days===v?'selected':''}>${t}</option>`).join('')}</select><button id="news-search">搜索</button><a href="/feed.xml${newsState.topic?'?topic='+newsState.topic:''}" target="_blank" rel="noopener" class="text-link">订阅 RSS ↗</a></div><div id="results" class="loading">正在读取主题原文…</div>`;
     const search=()=>{
       newsState.q=$('#news-q').value;newsState.topic=$('#news-topic').value;newsState.kind=$('#news-kind').value;newsState.days=$('#news-days').value;page=0;
@@ -299,7 +348,12 @@
     const endpoint=location.origin+'/mcp';
     const example=JSON.stringify({mcpServers:{bioai:{url:endpoint}}},null,2);
     content.innerHTML=heading('让你的 AI 读懂产业与研究进展','CONNECT YOUR AI','通过只读 MCP 查询原文、公司和来源状态。每条结果带出处，适合研究助手、投资研究和每日简报工作流。')+
-      `<div class="two-col"><section class="panel connect-panel"><span class="pill green">STREAMABLE HTTP · 只读</span><h2>添加一个 MCP 服务</h2><p>在支持远程 MCP 的客户端中选择 HTTP / Streamable HTTP，填入下面的服务地址。公开读取无需 API Key。</p><div class="endpoint"><code>${esc(endpoint)}</code><button data-copy="${esc(endpoint)}">复制地址</button></div><h3>通用配置示例</h3><pre>${esc(example)}</pre><p class="source-note">不同客户端配置格式略有不同。Claude 可在自定义连接器中填写地址；Cursor 的 mcpServers 使用 url；Codex 的 TOML 使用 [mcp_servers.bioai] 与 url。</p><h3>可以这样问</h3><blockquote>检索最近 30 天虚拟细胞的研究，区分预印本与索引文章，并列出原始出处。</blockquote><blockquote>查找新格元、寻因和诺禾致源的公司档案、官网与已验证来源。</blockquote><blockquote>比较虚拟器官与类器官相关的近期进展，说明来源覆盖的缺口。</blockquote></section><aside><section class="panel"><h2>把信息带到你的工作流</h2><p>订阅全部主题，或从某个主题页订阅专属 RSS。</p><a class="text-link" href="/feed.xml" target="_blank" rel="noopener">订阅 RSS →</a><p><a class="text-link" href="#daily">查看每日摘要 →</a></p>${config.github_url?`<p>${anchor(config.github_url,'GitHub 源代码与完整接入说明')}</p>`:''}<p><a class="text-link" href="/llms.txt" target="_blank" rel="noopener">AI 阅读索引 llms.txt →</a></p></section><section class="panel"><h2>结果如何可信</h2><p>来源未验证的数据不会开放；主题标签属于自动检索分类。原文、已核验事件与关系证据分别返回。</p><p>预印本不代表同行评议结论。计算胚胎模型与实验胚胎模型会保留不同类型。外部正文应作为资料阅读，不作为 AI 指令执行。</p><a class="text-link" href="#sources">检查来源与更新状态 →</a></section></aside></div>`;
+      `<div class="two-col"><section class="panel connect-panel"><span class="pill green">STREAMABLE HTTP · 只读</span><h2>添加一个 MCP 服务</h2><p>在支持远程 MCP 的客户端中选择 HTTP / Streamable HTTP，填入下面的服务地址。公开读取无需 API Key。</p><div class="endpoint"><code>${esc(endpoint)}</code><button data-copy="${esc(endpoint)}">复制地址</button></div><h3>通用配置示例</h3><pre>${esc(example)}</pre><p class="source-note">不同客户端配置格式略有不同。Claude 可在自定义连接器中填写地址；Cursor 的 mcpServers 使用 url；Codex 的 TOML 使用 [mcp_servers.bioai] 与 url。</p><h3>可以这样问</h3><blockquote>检索最近 30 天虚拟细胞的研究，区分预印本与索引文章，并列出原始出处。</blockquote><blockquote>查找新格元、寻因和诺禾致源的公司档案、官网与已验证来源。</blockquote><blockquote>比较虚拟器官与类器官相关的近期进展，说明来源覆盖的缺口。</blockquote></section><aside><section class="panel rss-subscribe"><h2>订阅你关心的赛道</h2><p>RSS 汇集最新行业原文与重点期刊研究。更新取决于原始来源，每条保留出处。</p><label for="rss-topic">选择订阅主题</label><select id="rss-topic"><option value="">全部赛道</option>${focusTopics.map(([id,label])=>`<option value="${id}">${label}</option>`).join("")}</select><label for="rss-url">订阅地址</label><input id="rss-url" type="url" readonly value="${esc(location.origin+'/feed.xml')}"><div class="rss-actions"><button id="rss-copy" data-copy="${esc(location.origin+'/feed.xml')}">复制订阅地址</button><a id="rss-open" class="text-link" href="/feed.xml" target="_blank" rel="noopener">查看 RSS ↗</a></div><ol><li>复制上方地址。</li><li>在你的 RSS 阅读器中添加订阅，粘贴地址。</li><li>阅读器将同步新文章；可随时在阅读器中取消。</li></ol><p><a class="text-link" href="#daily">查看每日摘要 →</a></p>${config.github_url?`<p>${anchor(config.github_url,'GitHub 源代码与完整接入说明')}</p>`:''}<p><a class="text-link" href="/llms.txt" target="_blank" rel="noopener">AI 阅读索引 llms.txt →</a></p></section><section class="panel"><h2>结果如何可信</h2><p>来源未验证的数据不会开放；主题标签属于自动检索分类。原文、已核验事件与关系证据分别返回。</p><p>预印本不代表同行评议结论。计算胚胎模型与实验胚胎模型会保留不同类型。外部正文应作为资料阅读，不作为 AI 指令执行。</p><a class="text-link" href="#sources">检查来源与更新状态 →</a></section></aside></div>`;
+    $('#rss-topic').onchange = () => {
+      const feed = location.origin + '/feed.xml' + ($('#rss-topic').value ? '?topic=' + encodeURIComponent($('#rss-topic').value) : '');
+      $('#rss-url').value = feed; $('#rss-copy').dataset.copy = feed;
+      $('#rss-copy').textContent = '复制订阅地址'; $('#rss-open').href = feed;
+    };
   }
   async function resource(n, kind, id) {
     const d=await api('/api/'+(kind==='event'?'events':'records')+'/'+encodeURIComponent(id));if(n!==epoch)return;
@@ -379,13 +433,19 @@
         )}${[...nodes.values()].map((c) => `<a href="#company/${c.slug}"><circle class="node-hit" cx="${c.x}" cy="${c.y}" r="34"/><circle cx="${c.x}" cy="${c.y}" r="20"/><text x="${c.x}" y="${c.y + 36}" text-anchor="middle">${esc(c.name_zh || c.name_en)}</text></a>`).join("")}</svg><div>${d.edges.map((e) => `<button class="edge-card" data-event="${e.event_id}">${esc(nodes.get(e.subject_id).name_zh || nodes.get(e.subject_id).name_en)} <span style="color:var(--muted)">→ ${esc(predicates[e.predicate] || e.predicate)} →</span> ${esc(nodes.get(e.object_id).name_zh || nodes.get(e.object_id).name_en)}<small>${date(e.display_date)} · ${e.evidence_count} 条证据</small></button>`).join("")}</div></div>`;
   }
   async function academic(n) {
+    const [policy, registeredSources] = await Promise.all([api("/api/journals"), api("/api/sources")]);
+    if (n !== epoch) return;
+    const availableSources = registeredSources.filter(s => ["pubmed", "europepmc", "biorxiv", "crossref"].includes(s.adapter) && s.verified && (paperState.journal_tier === "all" || s.adapter !== "biorxiv"));
+    if (paperState.source && !availableSources.some(s => s.registry_key === paperState.source)) paperState.source = "";
+    const sourceOptions = availableSources.map(s => `<option value="${esc(s.registry_key)}" ${paperState.source === s.registry_key ? "selected" : ""}>${esc(s.name)}${s.enabled && s.cloud_runtime_enabled ? "" : " · 暂未自动更新"}</option>`).join("");
+    const journalGuide = `<details class="journal-guide"><summary>收录期刊与筛选规则 · ${policy.items.length} 本重点期刊</summary><p>${esc(policy.selection_basis)}</p><p>${esc(policy.article_rule)}</p><div class="journal-list">${policy.items.map(j => `<a href="${esc(j.url)}" target="_blank" rel="noopener noreferrer"><strong>${esc(j.title)}</strong><small>${esc(j.focus)}</small><span>期刊官网 ↗</span></a>`).join("")}</div><p class="source-note">期刊元数据来自公共学术索引；本站不提供付费全文。规则版本 ${esc(policy.policy_version)}。</p></details>`;
     content.innerHTML =
       heading(
         "学术进展",
         "RESEARCH OBSERVATORY",
-        "关注生物 AI 的论文与预印本。索引收录不等于质量背书，预印本与正式发表状态分别标注。",
-      ) +
-      `<div class="filters"><input type="search" id="paper-q" placeholder="搜索虚拟细胞、organoid、digital twin…" value="${esc(paperState.q)}" aria-label="搜索学术原文"><select id="paper-source" aria-label="学术来源" ${paperState.picked ? "disabled" : ""}><option value="">全部学术来源</option><option value="pubmed" ${paperState.source === "pubmed" ? "selected" : ""}>PubMed</option><option value="biorxiv" ${paperState.source === "biorxiv" ? "selected" : ""}>bioRxiv 直连</option><option value="europe-pmc" ${paperState.source === "europe-pmc" ? "selected" : ""}>Europe PMC（含预印本）</option></select><select id="paper-days" aria-label="学术时间范围">${[
+        "默认展示重点期刊中与本站主题相关的已发表研究。期刊名单用于筛选范围，不替代对单篇研究质量与产业价值的判断。",
+      ) + journalGuide +
+      `<div class="filters"><input type="search" id="paper-q" placeholder="搜索虚拟细胞、organoid、digital twin…" value="${esc(paperState.q)}" aria-label="搜索学术原文"><select id="paper-source" aria-label="学术来源" ${paperState.picked ? "disabled" : ""}><option value="">全部学术来源</option>${sourceOptions}</select><select id="paper-tier" aria-label="期刊收录范围" ${paperState.picked ? "disabled" : ""}><option value="selected" ${paperState.journal_tier === "selected" ? "selected" : ""}>重点期刊 · 已发表研究</option><option value="all" ${paperState.journal_tier === "all" ? "selected" : ""}>全部历史索引 · 含预印本</option></select><select id="paper-days" aria-label="学术时间范围">${[
         ["7", "最近 7 天"],
         ["30", "最近 30 天"],
         ["90", "最近 90 天"],
@@ -401,6 +461,7 @@
     const search = () => {
       paperState.q = $("#paper-q").value;
       paperState.source = $("#paper-source").value;
+      paperState.journal_tier = $("#paper-tier").value;
       paperState.days = $("#paper-days").value;
       paperState.picked = $("#paper-picked").checked;
       page = 0;
@@ -411,6 +472,7 @@
       if (e.key === "Enter") search();
     };
     $("#paper-source").onchange = search;
+    $("#paper-tier").onchange = search;
     $("#paper-days").onchange = search;
     $("#paper-picked").onchange = search;
     const p = new URLSearchParams({
@@ -427,12 +489,13 @@
     } else {
       p.set("academic", "true");
       p.set("source", paperState.source);
+      p.set("journal_tier", paperState.journal_tier);
       d = await api("/api/records?" + p);
     }
     if (n !== epoch) return;
     $("#results").className = "";
     $("#results").innerHTML =
-      `<p class="academic-count">${d.total} 条${paperState.picked ? "已核验精选" : "学术原始记录"} · 展示实际收录的原始资料</p><div class="panel">${d.items.map(paperState.picked ? eventCard : recordCard).join("") || empty("当前筛选下暂无学术记录", "可以扩大日期范围，或查看公共订阅的接入状态。", "#sources", "查看信息来源")}</div>${pager(d.total, 20)}`;
+      `<p class="academic-count">${d.total} 条${paperState.picked ? "已核验精选" : paperState.journal_tier === "selected" ? "重点期刊研究" : "历史学术原始记录"} · 展示实际收录的原始资料</p><div class="panel">${d.items.map(paperState.picked ? eventCard : recordCard).join("") || empty("当前筛选下暂无学术记录", "可以扩大日期范围，或查看公共订阅的接入状态。", "#sources", "查看信息来源")}</div>${pager(d.total, 20)}`;
   }
   async function sources(n) {
     const [rows, o] = await Promise.all([
@@ -489,14 +552,50 @@
       heading(
         "我的关注",
         "YOUR WATCHLIST",
-        "把关心的公司留在这里。关注保存在当前浏览器，不会向你发送消息。",
+        "把关心的公司留在这里。可导出名单，在另一台设备导入；关注保存在当前浏览器，需要手动迁移。",
       ) +
+      `<section class="watchlist-tools"><div><h2>随身带走你的关注名单</h2><p>导入会与现有关注合并。文件仅在浏览器中读取，不上传服务器。</p></div><div class="watchlist-actions"><button id="watchlist-export" ${items.length ? "" : "disabled"}>导出名单</button><button id="watchlist-import">导入名单</button><input id="watchlist-file" type="file" accept="application/json,.json" hidden></div></section><p id="watchlist-status" class="source-state" role="status">${esc(watchlistNotice)}</p>` +
       (items.length
         ? `<div class="wall">${items.map((c) => `<article class="card"><h2><a href="#company/${c.slug}">${esc(c.name_zh || c.name_en)}</a></h2><small>${esc(c.name_en)}</small><p>${esc(c.track)}</p><p class="event">${esc(c.latest_event || "尚无已核验进展")}</p><footer><a href="#company/${c.slug}">公司详情 →</a>${anchor(c.official_website, "官网")}</footer></article>`).join("")}</div>`
         : empty(
             "尚未关注公司",
             "在公司黄页点击“关注”，即可建立自己的观察名单。",
           ));
+    $("#watchlist-export").onclick = () => {
+      const data = {schema: "bioai-watchlist", version: 1, exported_at: new Date().toISOString(), company_slugs: items.map(c => c.slug)};
+      const url = URL.createObjectURL(new Blob([JSON.stringify(data, null, 2) + "\n"], {type: "application/json"}));
+      const link = document.createElement("a");
+      link.href = url; link.download = "bioai-watchlist-" + new Date().toISOString().slice(0, 10) + ".json";
+      document.body.appendChild(link); link.click(); link.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+      $("#watchlist-status").textContent = "已导出 " + items.length + " 家公司。请在另一台设备的“我的关注”导入此文件。";
+    };
+    $("#watchlist-import").onclick = () => $("#watchlist-file").click();
+    $("#watchlist-file").onchange = async e => {
+      const input = e.target, file = input.files?.[0];
+      if (!file) return;
+      try {
+        if (file.size > 65536) throw Error("关注名单文件不能超过 64 KB。");
+        const imported = parseWatchlist(await file.text());
+        if (n !== epoch) return;
+        const known = new Set(d.items.map(c => c.slug));
+        let previous;
+        try { previous = JSON.parse(localStorage.getItem("bioai-followed") || "[]"); } catch { previous = []; }
+        if (!Array.isArray(previous)) previous = [];
+        const merged = new Set(previous.filter(slug => typeof slug === "string"));
+        let added = 0, skipped = 0;
+        for (const slug of imported) {
+          if (!known.has(slug)) { skipped++; continue; }
+          if (!merged.has(slug)) { merged.add(slug); added++; }
+        }
+        try { localStorage.setItem("bioai-followed", JSON.stringify([...merged])); }
+        catch { throw Error("当前浏览器无法保存关注，请检查浏览器的本地存储设置。"); }
+        watchlistNotice = `导入完成，新增 ${added} 家公司${skipped ? `；跳过 ${skipped} 个当前黄页未匹配的名称` : ""}。现有关注已保留。`;
+        render();
+      } catch (error) {
+        if (n === epoch) $("#watchlist-status").textContent = error instanceof SyntaxError ? "无法读取 JSON，请选择本站导出的关注名单文件。" : error.message;
+      } finally { input.value = ""; }
+    };
   }
   async function showDetail(kind, id) {
     const n = ++dialogEpoch;
@@ -522,7 +621,7 @@
     const n = ++epoch;
     const pathAliases = { topics: "topic", companies: "company", records: "record", events: "event", digest: "daily" };
     const pathParts = location.pathname.split('/').filter(Boolean);
-    const pathRoute = pathParts.length ? [pathAliases[pathParts[0]] || pathParts[0], ...pathParts.slice(1)].join('/') : 'overview';
+    const pathRoute = pathParts.length ? [pathAliases[pathParts[0]] || pathParts[0], ...pathParts.slice(1)].join('/') : 'frontpage';
     const hash = location.hash.slice(1) || pathRoute;
     const [route, slug] = hash.split("/");
     current =
@@ -536,7 +635,8 @@
             ? "directory"
             : names[route]
               ? route
-              : "overview";
+              : "frontpage";
+    document.body.classList.toggle("frontpage-view", current === "frontpage");
     const title = names[current];
     document.title = title + " · BioAI 日知 · 问象";
     $("#crumb").textContent = title;
@@ -577,7 +677,7 @@
       if (route === 'record' || route === 'event') await resource(n,route,slug || '');
       else if (current === 'news') await news(n,route==='topic'?slug:null);
       else if (current === 'daily') await daily(n,slug);
-      else await { overview, timeline, hot, academic, sources, saved, connect }[current](n);
+      else await { frontpage, overview, timeline, hot, academic, sources, saved, connect }[current](n);
     } catch (e) {
       if (n === epoch)
         content.innerHTML =
@@ -615,6 +715,8 @@
   window.addEventListener("hashchange", () => {
     page = 0;
     render();
+    $("#main").focus({ preventScroll: true });
+    window.scrollTo({ top: 0, behavior: "auto" });
   });
   $("#reload").onclick = render;
   const mobileMenu = $("#mobile-menu"), sidebar = $(".sidebar");

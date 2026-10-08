@@ -2,6 +2,7 @@
 import { createMcpHandler } from "agents/mcp/server";
 import { McpServer } from "@modelcontextprotocol/server";
 import { z } from "zod";
+import { journalPolicy } from './journals.js';
 
 export const MCP_LIMITS = Object.freeze({
   bodyBytes: 64 * 1024,
@@ -28,6 +29,7 @@ export const TOOL_SCHEMAS = Object.freeze({
     query: boundedQuery.default(""),
     topic: z.enum(TOPIC_IDS).optional(),
     academic: z.enum(["all", "academic", "industry"]).default("all"),
+    journal_tier: z.enum(["selected", "all"]).default("selected"),
     company: slug.optional(),
     days: z.number().int().min(0).max(3660).default(30),
     ...pageFields,
@@ -159,6 +161,13 @@ function academic(value) {
     result[key] = text(value[key], 500);
   }
   if (Array.isArray(value.publication_types)) result.publication_types = value.publication_types.slice(0, 20).map((v) => text(v, 200));
+  if (Array.isArray(value.issns)) result.issns = value.issns.slice(0, 8).map((v) => text(v, 20));
+  if (value.journal_selection && typeof value.journal_selection === 'object') {
+    result.journal_selection = {selected: value.journal_selection.tier === 'selected',
+      tier: text(value.journal_selection.tier, 100),
+      policy_version: text(value.journal_selection.policy_version, 100),
+      journal_id: text(value.journal_selection.journal_id, 100)};
+  }
   return result;
 }
 function resourceSummary(row, origin) {
@@ -234,7 +243,7 @@ async function boundedRead(apiRead, path, params = {}) {
 
 /** apiRead(path, params) must only return the site's gated public read model. */
 export function createBioAiServer(apiRead, origin) {
-  const server = new McpServer({ name: "bioai-rizhi", version: "1.0.0" }, { instructions: INSTRUCTIONS });
+  const server = new McpServer({ name: "bioai-rizhi", version: "3.1.0" }, { instructions: INSTRUCTIONS });
   const register = (name, title, description, outputSchema, run) => server.registerTool(name, {
     title, description, inputSchema: INPUT_SCHEMAS[name], outputSchema: OUTPUT_SCHEMAS.get(outputSchema), annotations: READ_ONLY,
   }, async (args) => {
@@ -242,7 +251,7 @@ export function createBioAiServer(apiRead, origin) {
   });
 
   register("search_resources", "Search BioAI resources", "Search stored public research abstracts and industry source records by keywords, topic, academic/industry category and time window. days=0 searches all stored dates. This tool searches source records; it does not claim they are editor-reviewed news.", resourceListSchema, async (args) => {
-    const params = { q: args.query, days: args.days, limit: args.limit, offset: args.offset };
+    const params = { q: args.query, days: args.days, limit: args.limit, offset: args.offset, journal_tier: args.journal_tier };
     if (args.topic) params.topic = args.topic;
     if (args.company) params.company = args.company;
     if (args.academic !== "all") params.academic = args.academic === "academic";
@@ -325,6 +334,7 @@ export function createBioAiServer(apiRead, origin) {
       total: visible.length, items: visible.slice(args.offset, args.offset + args.limit).map(sourceSummary),
       limit: args.limit, offset: args.offset,
       topics: Array.isArray(topics) ? topics.slice(0, 20).map((t) => ({ id: text(t.id, 80), label: text(t.label, 200), description: text(t.description, 1000) })) : [],
+      journal_policy: journalPolicy(),
       status_note: "verified identifies source ownership/review; enabled identifies collection permission. A source without last_success_at has no recorded successful collection. These fields do not certify peer review or scientific validity.",
     }, coverage_note: COVERAGE_NOTE };
   });

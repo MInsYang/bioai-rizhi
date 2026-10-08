@@ -1,5 +1,7 @@
+import {EUROPE_PMC_JOURNAL_QUERY,PUBMED_JOURNAL_QUERY} from './journals.js';
+
 // Topic labels describe article content, never legal ownership or a company's capabilities.
-export const QUERY_VERSION = 'focus-2026-10-v1';
+export const QUERY_VERSION = 'focus-2026-10-v2';
 export const TOPICS = Object.freeze([
   {id:'virtual-cell', label:'AI 虚拟细胞', description:'细胞状态、扰动响应与细胞基础模型'},
   {id:'organoid', label:'类器官', description:'生物类器官、类器官分析及计算模型'},
@@ -8,15 +10,16 @@ export const TOPICS = Object.freeze([
   {id:'drug-discovery', label:'虚拟药物研发', description:'计算靶点发现、虚拟筛选与生成式药物设计'},
 ]);
 
-const aiTerms = ['artificial intelligence','machine learning','deep learning','foundation model','neural network','transformer','generative model','diffusion model','生成式','人工智能','机器学习','深度学习','基础模型','大模型'];
-const cellTerms = ['virtual cell','virtual-cell','cell foundation model','single-cell foundation','single cell foundation','cellular foundation model','perturbation prediction','perturbation response prediction','虚拟细胞','细胞基础模型','细胞大模型','扰动预测','扰动响应预测'];
+const aiTerms = ['artificial intelligence','machine learning','deep learning','foundation model','neural network','transformer','language model','reinforcement learning','generative model','diffusion model','生成式','人工智能','机器学习','深度学习','基础模型','大模型'];
+const cellTerms = ['virtual cell','virtual-cell','virtual biology','cell foundation model','single-cell foundation','single cell foundation','cellular foundation model','perturbation prediction','perturbation response prediction','虚拟细胞','虚拟生物学','细胞基础模型','细胞大模型','扰动预测','扰动响应预测'];
 const cellModels = ['scgpt','scfoundation','geneformer'];
+const molecularModels = ['alphafold','alphafold 3','alphafold3','rfdiffusion','rfdiffusion2','chai-1','boltz-1','boltz-2','proteinmpnn'];
 const organoidTerms = ['organoid','assembloid','类器官','组装体'];
 const embryoTerms = ['embryo','embryonic development','gastrulation','embryogenesis','胚胎','原肠胚'];
 const biologicalEmbryoTerms = ['blastoid','gastruloid','embryoid','stem cell-based embryo','stem-cell-based embryo','stem cell based embryo','胚胎样体','类胚胎','胚胎模型'];
 const virtualTerms = ['digital twin','virtual twin','virtual organ','virtual embryo','computational model','in silico','simulation','multiscale model','multi-scale model','数字孪生','虚拟器官','虚拟胚胎','计算模型','多尺度模拟'];
 const organTerms = ['heart','cardiac','brain','liver','kidney','lung','organ','心脏','脑','肝','肾','肺','器官'];
-const drugTerms = ['drug discovery','drug design','drug development','virtual screening','target discovery','target identification','molecular design','de novo design','therapeutic design','antibody design','protein design','binding affinity','药物发现','药物设计','药物研发','新药','创新药','候选药物','靶点发现','虚拟筛选','分子设计','抗体设计','蛋白设计','制药'];
+const drugTerms = ['drug discovery','drug design','drug development','drug candidate','drug pipeline','drug target','virtual screening','target discovery','target identification','molecular design','de novo design','therapeutic design','antibody design','protein design','binding affinity','protein structure prediction','protein folding','structure-based drug','small molecule','therapeutic antibody','biopharmaceutical','pharmaceutical','药物发现','药物设计','药物研发','新药','创新药','候选药物','靶点发现','虚拟筛选','分子设计','抗体设计','蛋白设计','制药','生物医药'];
 const computationalTerms = ['computational','digital twin','virtual twin','virtual cell','virtual embryo','virtual organ','in silico','simulation','generative','foundation model','prediction','计算','数字孪生','虚拟','模拟','生成式','基础模型','预测'];
 const wetTerms = ['in vitro','organoid','assembloid','blastoid','gastruloid','embryoid','stem cell-derived','stem-cell-derived','organ-on-a-chip','organ on a chip','类器官','类胚胎','胚胎样体','体外培养','干细胞来源','器官芯片'];
 
@@ -37,7 +40,8 @@ export function classify(title='', abstract='') {
   const namedCellModel=has(text,cellModels);
   const predictiveCellContext=/(?:perturbation|cellular|single[ -]cell|gene expression|细胞|扰动)/i.test(text);
   const contextualCellModel=(/\bscvi\b/.test(text)||/\bSTATE\b/.test(original)) && predictiveCellContext && /(?:predict|generative|foundation|virtual|预测|生成|虚拟)/i.test(text);
-  const ai=has(text,aiTerms) || namedCellModel || contextualCellModel || /(?:\bai\b|ai4s|ai制药|ai药物|ai\s*[+×])/i.test(text);
+  const namedMolecularModel=has(text,molecularModels) && /(?:protein|molecular|ligand|antibody|drug|蛋白|分子|配体|抗体|药物)/i.test(text);
+  const ai=has(text,aiTerms) || namedCellModel || contextualCellModel || namedMolecularModel || /(?:\bai\b|ai4s|ai制药|ai药物|ai\s*[+×])/i.test(text);
   const computational=has(text,computationalTerms);
   const biological=has(text,wetTerms);
   const topic_ids=[];
@@ -56,16 +60,17 @@ export function classify(title='', abstract='') {
   return {topic_ids,model_form,biological_model,ai_related:ai,method:'automated_keyword_v1',query_version:QUERY_VERSION};
 }
 
-const aiQuery=['artificial intelligence','machine learning','deep learning','foundation model','neural network','generative model','diffusion model'];
+const aiQuery=['artificial intelligence','machine learning','deep learning','foundation model','neural network','language model','generative model','diffusion model'];
 const scopeQueries=[
   [['virtual cell','cell foundation model','single-cell foundation model','perturbation prediction'],true],
   [['scGPT','scFoundation','Geneformer'],false],
   [['scVI'],true,['single-cell','single cell','perturbation']],
   [['STATE'],true,['perturbation']],
-  [['organoid*','assembloid*'],false],
+  [['organoid*','assembloid*'],true],
   [['virtual embryo','embryogenesis','embryonic development','gastrulation'],true],
   [['virtual organ','digital twin','virtual twin'],false],
-  [['drug discovery','drug design','virtual screening','target discovery','molecular design','antibody design','protein design'],true],
+  [['drug discovery','drug design','drug development','virtual screening','target discovery','molecular design','antibody design','protein design','protein structure prediction','protein folding','binding affinity'],true],
+  [['AlphaFold','RFdiffusion','ProteinMPNN','Boltz-1','Boltz-2'],false],
 ];
 const epmcTerm=t=>t.endsWith('*')?'TITLE_ABS:'+t:'TITLE_ABS:"'+t+'"';
 const pubmedTerm=t=>t.endsWith('*')?t+'[Title/Abstract]':'"'+t+'"[Title/Abstract]';
@@ -73,5 +78,5 @@ function buildQuery(term) {
   const ai='('+aiQuery.map(term).join(' OR ')+')';
   return '('+scopeQueries.map(([terms,requireAi,context])=>'(('+terms.map(term).join(' OR ')+')'+(requireAi?' AND '+ai:'')+(context?' AND ('+context.map(term).join(' OR ')+')':'')+')').join(' OR ')+')';
 }
-export const FOCUSED_QUERY='(SRC:MED OR SRC:PPR) AND '+buildQuery(epmcTerm);
-export const PUBMED_QUERY=buildQuery(pubmedTerm);
+export const FOCUSED_QUERY='SRC:MED AND NOT PUB_TYPE:Preprint AND '+EUROPE_PMC_JOURNAL_QUERY+' AND '+buildQuery(epmcTerm);
+export const PUBMED_QUERY=buildQuery(pubmedTerm)+' AND '+PUBMED_JOURNAL_QUERY+' NOT "Preprint"[Publication Type]';

@@ -1,0 +1,94 @@
+name: Publish BioAI 日知 to MCP Registry
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: bioai-mcp-registry-publish
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    if: github.repository == 'MInsYang/bioai-rizhi' && github.ref_name == github.event.repository.default_branch
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      id-token: write
+    env:
+      REGISTRY_URL: https://registry.modelcontextprotocol.io
+      PUBLISHER_VERSION: v1.8.1
+      PUBLISHER_SHA256: a06c9096dcb9727c13555b6be26c7effa707b01f06a4c561ba7a3635443cf2cc
+      XDG_CONFIG_HOME: ${{ runner.temp }}/mcp-registry-config
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+      - name: Check out the selected default branch revision
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5, verified 2026-10-08
+        with:
+          persist-credentials: false
+
+      - name: Check manifest identity and remote endpoint
+        run: |
+          set -euo pipefail
+          jq -e '
+            .name == "io.github.MInsYang/bioai-rizhi" and
+            .version == "3.1.0" and
+            .repository.url == "https://github.com/MInsYang/bioai-rizhi" and
+            .remotes == [{"type":"streamable-http","url":"https://bioai-rizhi.pages.dev/mcp"}] and
+            ((.packages // []) | length == 0)
+          ' server.json >/dev/null
+
+      - name: Install the fixed official publisher and verify its checksum
+        run: |
+          set -euo pipefail
+          publisher_dir="${RUNNER_TEMP}/mcp-publisher-bin"
+          publisher_archive="${RUNNER_TEMP}/mcp-publisher_linux_amd64.tar.gz"
+          mkdir -p "$publisher_dir"
+          curl --proto '=https' --tlsv1.2 --fail --silent --show-error --location --max-time 60 \
+            "https://github.com/modelcontextprotocol/registry/releases/download/${PUBLISHER_VERSION}/mcp-publisher_linux_amd64.tar.gz" \
+            --output "$publisher_archive"
+          printf '%s  %s\n' "$PUBLISHER_SHA256" "$publisher_archive" | sha256sum --check --strict
+          tar -xzf "$publisher_archive" -C "$publisher_dir" mcp-publisher
+          chmod 0755 "${publisher_dir}/mcp-publisher"
+
+      - name: Validate without publishing
+        run: |
+          set -euo pipefail
+          curl --proto '=https' --tlsv1.2 --fail --silent --show-error --max-time 30 \
+            --header 'Content-Type: application/json' --data-binary @server.json \
+            "${REGISTRY_URL}/v0.1/validate" --output "${RUNNER_TEMP}/mcp-validation.json"
+          cat "${RUNNER_TEMP}/mcp-validation.json"
+          jq -e '.valid == true' "${RUNNER_TEMP}/mcp-validation.json" >/dev/null
+          "${RUNNER_TEMP}/mcp-publisher-bin/mcp-publisher" validate server.json
+
+      - name: Authenticate with GitHub OIDC
+        run: |
+          set -euo pipefail
+          "${RUNNER_TEMP}/mcp-publisher-bin/mcp-publisher" login github-oidc --registry "$REGISTRY_URL"
+
+      - name: Publish this version and verify the registry entry
+        run: |
+          set -euo pipefail
+          "${RUNNER_TEMP}/mcp-publisher-bin/mcp-publisher" publish server.json
+          curl --proto '=https' --tlsv1.2 --fail --silent --show-error --max-time 30 \
+            "${REGISTRY_URL}/v0.1/servers/io.github.MInsYang%2Fbioai-rizhi/versions/3.1.0" \
+            --output "${RUNNER_TEMP}/mcp-published.json"
+          jq -e '
+            .server.name == "io.github.MInsYang/bioai-rizhi" and
+            .server.version == "3.1.0" and
+            .server.remotes == [{"type":"streamable-http","url":"https://bioai-rizhi.pages.dev/mcp"}] and
+            ._meta["io.modelcontextprotocol.registry/official"].status == "active"
+          ' "${RUNNER_TEMP}/mcp-published.json" >/dev/null
+          printf '%s\n' 'Published io.github.MInsYang/bioai-rizhi 3.1.0 and verified the active registry entry.' >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Clear the temporary registry login
+        if: always()
+        run: |
+          publisher="${RUNNER_TEMP}/mcp-publisher-bin/mcp-publisher"
+          if [ -x "$publisher" ]; then "$publisher" logout; fi

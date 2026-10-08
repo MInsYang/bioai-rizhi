@@ -1,6 +1,6 @@
 # BioAI 日知更新与恢复手册
 
-截至 2026-10-08，[生产 Worker](https://bioai-rizhi.328558608.workers.dev) 与 Neon PostgreSQL 已上线，`bioai-ingestion` 已创建并注册 1 个 producer、1 个 consumer。真实本地数据库恢复到 Neon Free 的 Singapore / `aws-ap-southeast-1`、PostgreSQL 17 空库成功，恢复时为 133 companies、4,669 raw_items、4,012 public_resources，迁移 001–008 校验和通过。公网读取、远程 MCP、手动管理接口及管理员 Neon WebSocket 事务已验证；正式小时 Cron → Queue → 数据库完整链路通过，五个到期来源的新任务全部成功、零失败。Tahoe 首轮五次 HTTP 429 达到预算、任务 `dead`，云端未成功，本地历史真实内容已保留。MCP 四次优化后公网调用 CPU 为 22/15/21/26 ms、均 `outcome=ok`，仍高于 Workers Free 的名义 HTTP 10 ms；长期免费容量与每日专用定时回调尚未验收。
+截至 2026-10-08，[生产 Worker](https://bioai-rizhi.pages.dev) 与 Neon PostgreSQL 已上线，`bioai-ingestion` 已创建并注册 1 个 producer、1 个 consumer。真实本地数据库恢复到 Neon Free 的 Singapore / `aws-ap-southeast-1`、PostgreSQL 17 空库成功，恢复时为 133 companies、4,669 raw_items、4,012 public_resources，迁移 001–008 校验和通过。公网读取、远程 MCP、手动管理接口及管理员 Neon WebSocket 事务已验证；正式小时 Cron → Queue → 数据库完整链路通过，五个到期来源的新任务全部成功、零失败。Tahoe 首轮五次 HTTP 429 达到预算、任务 `dead`，云端未成功，本地历史真实内容已保留。MCP 四次优化后公网调用 CPU 为 22/15/21/26 ms、均 `outcome=ok`，仍高于 Workers Free 的名义 HTTP 10 ms；长期免费容量与每日专用定时回调尚未验收。
 
 本地结果见 [采集验收记录](docs/cloud-ingestion-e2e.json)，云端结果及未完成项目见 [生产验收记录](docs/production-acceptance.json)，部署与额度见 [Cloudflare 部署说明](docs/cloudflare-deployment.md)。官方 `@modelcontextprotocol/client@2.0.0` 已用 legacy/auto 两种协商模式真实公网 connect/listTools，各调用全部五项工具通过，见 [SDK 客户端验收](docs/mcp-client-acceptance.json)；Claude/Cursor/Codex 个人应用接入尚未安装。不以构建通过、手动调用或本地内存队列代替云端 Cron/Queues 验收。
 
@@ -58,7 +58,7 @@ HTTP 304 是有效检查成功；零新增也可能是重复数据、未变化�
 .venv/bin/python - <<'PY'
 import getpass, json, urllib.error, urllib.request
 from urllib.parse import urlsplit
-origin = input('Worker HTTPS origin [https://bioai-rizhi.328558608.workers.dev]: ').strip().rstrip('/') or 'https://bioai-rizhi.328558608.workers.dev'
+origin = input('Worker HTTPS origin [https://bioai-rizhi.pages.dev]: ').strip().rstrip('/') or 'https://bioai-rizhi.pages.dev'
 u = urlsplit(origin)
 if u.scheme != 'https' or not u.hostname or u.username or u.password or u.path or u.query or u.fragment:
     raise SystemExit('需要不含路径和凭据的 HTTPS origin')

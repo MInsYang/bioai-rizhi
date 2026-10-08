@@ -1,8 +1,11 @@
 import {XMLParser, XMLValidator} from 'fast-xml-parser';
 import {classify, FOCUSED_QUERY, PUBMED_QUERY, QUERY_VERSION} from './topics.js';
+import {SELECTED_JOURNALS,selectJournal} from './journals.js';
+import {classifyIndustry} from './industry.js';
+import {officialHTML} from './official-html.js';
 
 const MAX_BYTES=1_500_000;
-const API_HOSTS={europepmc:['www.ebi.ac.uk'],pubmed:['eutils.ncbi.nlm.nih.gov'],biorxiv:['api.biorxiv.org']};
+const API_HOSTS={europepmc:['www.ebi.ac.uk'],pubmed:['eutils.ncbi.nlm.nih.gov'],biorxiv:['api.biorxiv.org'],crossref:['api.crossref.org']};
 const parser=new XMLParser({ignoreAttributes:false,removeNSPrefix:true,parseTagValue:false,parseAttributeValue:false});
 const asArray=value=>value==null?[]:Array.isArray(value)?value:[value];
 const dateOnly=value=>new Date(value).toISOString().slice(0,10);
@@ -25,16 +28,18 @@ function safeURL(value,hosts) {
   return url;
 }
 
-async function request(value,hosts,env,headers={}) {
+async function request(value,hosts,env,headers={},options={}) {
   let url=safeURL(value,hosts);
+  let method=options.method||'GET',requestBody=options.body;
   for (let redirects=0;redirects<4;redirects++) {
     let response;
     try {
-      response=await (env.FETCH||globalThis.fetch)(url.href,{redirect:'manual',headers:{'User-Agent':'BioAIRegistry/2.0 public-news-metadata',...headers},signal:AbortSignal.timeout(15000)});
+      response=await (env.FETCH||globalThis.fetch)(url.href,{method,...(requestBody===undefined?{}:{body:requestBody}),redirect:'manual',headers:{'User-Agent':'BioAIRegistry/3.0 public-news-metadata',...headers},signal:AbortSignal.timeout(15000)});
     } catch (error) { throw new IngestionError('Official source transport failed: '+transportCode(error),{permanent:false}); }
     if ([301,302,303,307,308].includes(response.status)) {
       if (!response.headers.get('location')) throw new IngestionError('Redirect has no Location');
       url=safeURL(new URL(response.headers.get('location'),url).href,hosts);
+      if(response.status===303){method='GET';requestBody=undefined;}
       continue;
     }
     if (response.status===304) return {url:url.href,status:304,headers:response.headers,body:'',bytes:0};
@@ -102,14 +107,23 @@ function pubmedDate(value) {
 async function record(source,fields,payload,state,response) {
   const title=String(fields.title||'').slice(0,1000),content_text=String(fields.content_text||title).slice(0,200000);
   if (!title || !fields.canonical_url) throw new IngestionError('Official record lacks title or URL');
-  const classification=classify(title,content_text);
-  if (!classification.topic_ids.length) return null;
+  const classification=classify(title,content_text),industry=classifyIndustry(title,content_text,source.config);
+  if (!classification.topic_ids.length && !industry.relevant) return null;
+  if(industry.relevant)classification.ai_related=classification.ai_related||industry.ai_related;
+  if(industry.relevant && !classification.topic_ids.length)classification.topic_ids.push('drug-discovery');
+  let academic=payload.academic;
+  if(academic) {
+    academic={...academic,journal_selection:selectJournal(academic)};
+    if(source.config.selected_journals_only===true && (academic.journal_selection.tier!=='selected'||!classification.ai_related))return null;
+  }
   const canonical=new URL(fields.canonical_url);
   if (canonical.protocol!=='https:' || canonical.username || canonical.password) throw new IngestionError('Official record URL is not public HTTPS');
+  // Editorial selection is derived data and must not change a source-content hash.
   const stable=JSON.stringify([canonical.href,title,content_text,fields.published_at||null,fields.external_id||null,payload.academic||null]);
   const digest=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(stable));
   const content_hash=Array.from(new Uint8Array(digest),b=>b.toString(16).padStart(2,'0')).join('');
-  return {...fields,canonical_url:canonical.href,title,content_text,content_hash,raw_payload:{...payload,classification,
+  return {...fields,canonical_url:canonical.href,title,content_text,content_hash,raw_payload:{...payload,...(academic?{academic}:{}),classification,
+    ...(industry.relevant?{industry_classification:industry}:{}),
     http_status:response.status,fetched_url:response.url,parser_version:'cloud-ingestion-v1',
     retrieval:{adapter:source.adapter,from:state.from||null,to:state.to||null,query:source.config.query||null,
       query_version:state.query_version,page_cursor:state.page_cursor??state.offset??null,complete_window:false}}};
@@ -122,13 +136,13 @@ function initialState(source,checkpoint,now) {
   const from=source.config.cursor_date?shift(source.config.cursor_date,-lookback):shift(today,-Math.min(90,Math.max(1,Number(source.config.bootstrap_days??30))));
   const windowDays=Math.min(7,Math.max(1,Number(source.config.window_days??7)));
   return {query_version:version,target_date:today,from,to:[shift(from,windowDays-1),today].sort()[0],window_days:windowDays,
-    phase:source.adapter==='pubmed'?'search':'fetch',page_cursor:'*',offset:0,seen:0,retrieved_total:0,matched_total:0,bytes_total:0};
+    phase:source.adapter==='pubmed'?'search':'fetch',page_cursor:'*',offset:0,journal_index:0,seen:0,retrieved_total:0,matched_total:0,bytes_total:0};
 }
 function advanceWindow(state,adapter) {
   if(state.to>=state.target_date)return {done:true,state};
   const from=shift(state.to,1);
   return {done:false,state:{...state,from,to:[shift(from,state.window_days-1),state.target_date].sort()[0],
-    phase:adapter==='pubmed'?'search':'fetch',page_cursor:'*',offset:0,seen:0,ids:[],last_page_ids:[]}};
+    phase:adapter==='pubmed'?'search':'fetch',page_cursor:'*',offset:0,journal_index:0,seen:0,ids:[],last_page_ids:[]}};
 }
 function counts(state,response,retrieved,matched) {
   return {...state,retrieved_total:state.retrieved_total+retrieved,matched_total:state.matched_total+matched,bytes_total:state.bytes_total+response.bytes};
@@ -152,7 +166,9 @@ async function europePMC(source,state,env) {
       title:plain(item.title),content_text:plain(item.abstractText)||plain(item.title),published_at:iso(item.firstPublicationDate)},
       {original:item,academic:{doi:item.doi||null,pmid:item.pmid||(item.source==='MED'?item.id:null),pmcid:item.pmcid||null,
         europe_pmc_id:item.id,source:item.source,status:preprint?'preprint':'indexed',version:item.versionNumber==null?null:String(item.versionNumber),
-        journal:item.journalInfo?.journal?.title||null,publisher:item.bookOrReportDetails?.publisher||null,publication_types:pubTypes,
+        journal:item.journalInfo?.journal?.title||null,
+        issns:[item.journalInfo?.journal?.issn,item.journalInfo?.journal?.eissn].filter(Boolean),
+        publisher:item.bookOrReportDetails?.publisher||null,publication_types:pubTypes,
         first_index_date:item.firstIndexDate||null,first_publication_date:item.firstPublicationDate||null,original_url:item.doi?'https://doi.org/'+item.doi:null}},state,response);
     if(row)records.push(row);
   }
@@ -169,7 +185,10 @@ async function pubmed(source,state,env) {
   if(state.phase==='search') {
     const args=new URLSearchParams({db:'pubmed',term:source.config.query||PUBMED_QUERY,datetype:'edat',mindate:state.from,maxdate:state.to,
       retmode:'json',retmax:'1000',tool:'bioai_registry'});
-    const response=await request(base+'esearch.fcgi?'+args,API_HOSTS.pubmed,env),result=json(response.body).esearchresult;
+    // Selected journal and topic clauses exceed some intermediaries' GET URL
+    // limit. NCBI documents form POST for long ESearch queries.
+    const response=await request(base+'esearch.fcgi',API_HOSTS.pubmed,env,
+      {'Content-Type':'application/x-www-form-urlencoded'},{method:'POST',body:args.toString()}),result=json(response.body).esearchresult;
     if (!result || result.ERROR || !/^\d+$/.test(String(result.count)) || !Array.isArray(result.idlist)) throw new IngestionError('PubMed search response is invalid');
     const count=Number(result.count);
     if(count>1000) {
@@ -198,7 +217,8 @@ async function pubmed(source,state,env) {
     const types=asArray(details.PublicationTypeList?.PublicationType).map(scalar),date=asArray(details.ArticleDate)[0]||details.Journal?.JournalIssue?.PubDate;
     const row=await record(source,{external_id:'PMID:'+pmid,canonical_url:'https://pubmed.ncbi.nlm.nih.gov/'+pmid+'/',title,content_text:abstract||title,published_at:pubmedDate(date)},
       {raw_xml:fragment,academic:{pmid,doi:doi?scalar(doi):null,status:types.includes('Preprint')?'preprint':'indexed',version:null,
-        journal:scalar(details.Journal?.Title),publication_types:types,publication_date_text:date||null}},state,response);
+        journal:scalar(details.Journal?.Title),issns:[scalar(details.Journal?.ISSN),scalar(citation.MedlineJournalInfo?.ISSNLinking)].filter(Boolean),
+        publication_types:types,publication_date_text:date||null}},state,response);
     if(row)records.push(row);
   }
   const offset=state.offset+expected.length,updated=counts({...state,offset},response,articles.length,records.length);
@@ -224,6 +244,61 @@ async function bioRxiv(source,state,env) {
   }
   const offset=state.offset+items.length,updated=counts({...state,offset,last_page_ids:pageIds},response,items.length,records.length);
   return offset>=total?{...advanceWindow(updated,source.adapter),records,response}:{done:false,state:updated,records,response};
+}
+
+function crossrefDate(item) {
+  for(const field of ['published-online','published','published-print','issued']) {
+    const parts=item[field]?.['date-parts']?.[0];
+    // Missing day/month is unknown, never converted into a fictitious first day.
+    if(!Array.isArray(parts)||parts.length!==3||parts.some(part=>!Number.isInteger(part)))continue;
+    const date=parts[0]+'-'+String(parts[1]).padStart(2,'0')+'-'+String(parts[2]).padStart(2,'0'),parsed=iso(date);
+    if(parsed?.slice(0,10)===date)return parsed;
+  }
+  return null;
+}
+
+async function crossref(source,state,env) {
+  const configured=source.config.journal_ids;
+  if(configured!==undefined && (!Array.isArray(configured)||!configured.length||new Set(configured).size!==configured.length||configured.some(id=>!SELECTED_JOURNALS.some(journal=>journal.id===id)))) {
+    throw new IngestionError('Crossref journal list is outside the selected journal policy',{permanent:true});
+  }
+  const journals=configured?configured.map(id=>SELECTED_JOURNALS.find(journal=>journal.id===id)):SELECTED_JOURNALS;
+  const index=Number(state.journal_index||0),journal=journals[index];
+  if(!Number.isInteger(index)||!journal)throw new IngestionError('Crossref journal checkpoint is invalid',{permanent:true});
+  const offset=Number(state.offset||0);
+  if(!Number.isInteger(offset)||offset<0||offset>10_000)throw new IngestionError('Crossref offset exceeds bounded window; query review required',{permanent:true});
+  // The documented ISSN-filter endpoint avoids /journals/{issn}/works failures
+  // observed for several real journals, while retaining an exact serial filter.
+  const args=new URLSearchParams({filter:'issn:'+journal.issns[0]+',type:journal-article,from-update-date:'+state.from+',until-update-date:'+state.to,rows:'20',offset:String(offset),sort:'deposited',order:'asc'});
+  const response=await request('https://api.crossref.org/works?'+args,API_HOSTS.crossref,env);
+  const data=json(response.body),message=data.message,items=message?.items,total=message?.['total-results'];
+  if(data.status!=='ok'||data['message-type']!=='work-list'||!Array.isArray(items)||items.length>20||!Number.isInteger(total)||total<0)throw new IngestionError('Crossref works response structure is invalid');
+  if(total>offset&&!items.length)throw new IngestionError('Crossref empty page before declared count');
+  const ids=items.map(item=>String(item.DOI||'').toLowerCase());
+  if(ids.some(id=>!/^10\.\d{4,9}\/\S+$/.test(id))||new Set(ids).size!==ids.length||(items.length&&JSON.stringify(ids)===JSON.stringify(state.last_page_ids)))throw new IngestionError('Crossref works identity or pagination is incomplete');
+  const records=[];
+  for(const item of items) {
+    if(item.type!=='journal-article')throw new IngestionError('Crossref returned a work outside the requested publication type');
+    const title=plain(asArray(item.title)[0]);
+    if(!title)throw new IngestionError('Crossref journal work lacks a title');
+    const academic={doi:item.DOI,status:'indexed',version:null,journal:asArray(item['container-title'])[0]||null,
+      issns:asArray(item.ISSN),publisher:item.publisher||null,publication_types:[item.type],
+      original_url:item.URL||'https://doi.org/'+item.DOI,registered_at:item.created?.['date-time']||null,
+      indexed_at:item.indexed?.['date-time']||null};
+    // Enforce the requested venue on every work. A serial registry can contain
+    // merged journal identities, so the endpoint URL alone is insufficient.
+    if(selectJournal(academic).journal_id!==journal.id)continue;
+    const row=await record({...source,config:{...source.config,selected_journals_only:true}},
+      {external_id:'DOI:'+item.DOI.toLowerCase(),canonical_url:'https://doi.org/'+item.DOI,title,
+        content_text:plain(item.abstract)||title,published_at:crossrefDate(item)},
+      {original:item,academic,retrieved_journal_id:journal.id},state,response);
+    if(row)records.push(row);
+  }
+  const seen=offset+items.length;
+  let updated=counts({...state,offset:seen,last_page_ids:ids},response,items.length,records.length);
+  if(seen<total)return {done:false,state:updated,records,response};
+  if(index+1<journals.length)return {done:false,state:{...updated,journal_index:index+1,offset:0,last_page_ids:[]},records,response};
+  return {...advanceWindow(updated,source.adapter),records,response};
 }
 
 async function rss(source,state,env) {
@@ -289,13 +364,15 @@ export async function consume(batch,env,sql) {
       claimed=claim;
       const {job,source}=claim;
       let checkpoint=job.checkpoint;
-      if(job.attempts===1 && !checkpoint?.target_date && source.adapter!=='rss') {
+      const dateWindowAdapter=!['rss','official_html'].includes(source.adapter);
+      if(job.attempts===1 && !checkpoint?.target_date && dateWindowAdapter) {
         const history=await sql.query("SELECT id,checkpoint FROM ingestion_jobs WHERE source_id=$1::uuid AND id<>$2::uuid AND status='dead' AND checkpoint->>'query_version'=$3 AND checkpoint ? 'target_date' AND ($4::text IS NULL OR checkpoint->>'target_date'>$4) ORDER BY created_at DESC LIMIT 1",
           [source.id,job.id,source.config.query_version||QUERY_VERSION,source.config.cursor_date||null]);
         if(history[0])checkpoint={...history[0].checkpoint,resumed_from_job_id:history[0].id};
       }
       const state=initialState(source,checkpoint,env.NOW?.()||Date.now());
-      const adapter={europepmc:europePMC,pubmed,biorxiv:bioRxiv,rss}[source.adapter];
+      const adapter={europepmc:europePMC,pubmed,biorxiv:bioRxiv,crossref,rss,
+        official_html:(s,st,e)=>officialHTML(s,st,e,{request,record})}[source.adapter];
       if(!adapter)throw new IngestionError('Unsupported cloud adapter',{permanent:true});
       const page=await adapter(source,state,env);
       const metrics={http_status:page.response.status,duration_ms:Date.now()-started,bytes_fetched:page.response.bytes,
@@ -303,7 +380,7 @@ export async function consume(batch,env,sql) {
         rejected_links:page.state.rejected_links||0,query_version:page.state.query_version};
       let result;
       if(page.done) {
-        const cursor={query_version:page.state.query_version,...(source.adapter!=='rss'?{cursor_date:page.state.target_date}:{}),
+        const cursor={query_version:page.state.query_version,...(dateWindowAdapter?{cursor_date:page.state.target_date}:{}),
           etag:page.response.headers.get('etag'),last_modified:page.response.headers.get('last-modified')};
         result=rpcResult(await sql.query('SELECT ingestion_finish($1::uuid,$2::uuid,$3::jsonb,$4::jsonb,$5::jsonb) AS result',
           [id,job.lease_token,JSON.stringify(page.records),JSON.stringify(cursor),JSON.stringify(metrics)]));

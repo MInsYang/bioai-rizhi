@@ -1,0 +1,71 @@
+{
+  "origin": "https://bioai-rizhi.pages.dev",
+  "transport": "Streamable HTTP / JSON-RPC with SSE responses",
+  "client": "httpx wire-level acceptance",
+  "started_at": "2026-10-08T09:19:22.213992+00:00",
+  "calls": [
+    {
+      "method": "initialize",
+      "tool": null,
+      "http_status": 200,
+      "result": "passed"
+    },
+    {
+      "method": "tools/list",
+      "tool": null,
+      "http_status": 200,
+      "result": "passed"
+    },
+    {
+      "method": "tools/call",
+      "tool": "search_resources",
+      "http_status": 200,
+      "result": "passed"
+    },
+    {
+      "method": "tools/call",
+      "tool": "get_resource",
+      "http_status": 200,
+      "result": "passed"
+    },
+    {
+      "method": "tools/call",
+      "tool": "search_companies",
+      "http_status": 200,
+      "result": "passed"
+    },
+    {
+      "method": "tools/call",
+      "tool": "get_company",
+      "http_status": 200,
+      "result": "passed"
+    },
+    {
+      "method": "tools/call",
+      "tool": "get_source_status",
+      "http_status": 200,
+      "result": "passed"
+    },
+    {
+      "method": "tools/call",
+      "tool": "search_resources",
+      "http_status": 200,
+      "result": "passed"
+    }
+  ],
+  "server": {
+    "name": "bioai-rizhi",
+    "version": "3.1.0"
+  },
+  "tools": [
+    "search_resources",
+    "get_resource",
+    "search_companies",
+    "get_company",
+    "get_source_status"
+  ],
+  "industry_result_count": 2,
+  "selected_academic_records_checked": 10,
+  "status": "passed",
+  "finished_at": "2026-10-08T09:19:26.785404+00:00"
+}

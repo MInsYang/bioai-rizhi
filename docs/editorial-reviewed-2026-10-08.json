@@ -1,0 +1,145 @@
+{
+  "reviewed_at": "2026-10-08",
+  "review_method": "agent-assisted-source-review",
+  "scope": "Dated official announcements checked by the implementing agent, not human editorial review or independent verification of corporate claims. Event occurrence remains unknown; display uses original publication date. Unresolved parent/brand mappings do not create edges.",
+  "items": [
+    {
+      "key": "iambic-abbvie-20260921",
+      "summary": "据双方在 Iambic 官网发布的公告，将利用 Iambic 的 AI 平台合作开展药物发现，提高候选药物识别效率。属于公司宣布的合作，未独立验证研发成效。",
+      "company_slugs": [
+        "iambic-therapeutics",
+        "abbvie"
+      ],
+      "relations": [
+        [
+          "iambic-therapeutics",
+          "collaborates_with",
+          "abbvie"
+        ]
+      ]
+    },
+    {
+      "key": "iambic-bayer-20260622",
+      "summary": "据 Iambic 官方公告，拜耳将通过合作使用 Iambic 的 AI 平台开展新药发现；尚非临床疗效结论。",
+      "company_slugs": [
+        "iambic-therapeutics",
+        "bayer-pharmaceuticals"
+      ],
+      "relations": [
+        [
+          "iambic-therapeutics",
+          "collaborates_with",
+          "bayer-pharmaceuticals"
+        ]
+      ]
+    },
+    {
+      "key": "iambic-iam217-ind-20261005",
+      "summary": "据 Iambic 官方公告，已提交 IAM217 的 IND 申请。提交申请不等于监管批准，也不代表临床疗效已获证实。",
+      "company_slugs": [
+        "iambic-therapeutics"
+      ],
+      "relations": []
+    },
+    {
+      "key": "isomorphic-series-b-20260512",
+      "summary": "据 Isomorphic Labs 官方公告，已完成 21 亿美元 B 轮融资。当前证据说明融资公告，不证明药物研发成效。",
+      "company_slugs": [
+        "isomorphic-labs"
+      ],
+      "relations": []
+    },
+    {
+      "key": "isomorphic-jnj-20260120",
+      "summary": "据 Isomorphic Labs 官方公告，与 Johnson & Johnson 开展研究合作，结合 AI 药物发现与药物开发能力。此公告中的强生集团暂不强行归为本库某个业务实体。",
+      "company_slugs": [
+        "isomorphic-labs"
+      ],
+      "relations": []
+    },
+    {
+      "key": "isomorphic-vbi-20261007",
+      "summary": "据 Isomorphic Labs 官方公告，加入由 Biohub 召集的 Virtual Biology Initiative，参与组织将投入数据、计算与测量技术。Biohub 尚未完成本库实体归属核验，暂不绘制关系边。",
+      "company_slugs": [
+        "isomorphic-labs"
+      ],
+      "relations": []
+    },
+    {
+      "key": "owkin-sanofi-kpro-20260605",
+      "summary": "据 Owkin 官方公告，与赛诺菲开展多年合作，共同开发生物医药 AI 智能体，安排包含五年许可。该信息属于商业研发安排。",
+      "company_slugs": [
+        "owkin",
+        "sanofi"
+      ],
+      "relations": [
+        [
+          "owkin",
+          "collaborates_with",
+          "sanofi"
+        ]
+      ]
+    },
+    {
+      "key": "owkin-astrazeneca-kpro-20260513",
+      "summary": "据 Owkin 官方公告，与阿斯利康达成安排，基于三年 K Pro 许可开发生物医药 AI 智能体。不是已验证的临床效果。",
+      "company_slugs": [
+        "owkin",
+        "astrazeneca"
+      ],
+      "relations": [
+        [
+          "astrazeneca",
+          "licenses_from",
+          "owkin"
+        ]
+      ]
+    },
+    {
+      "key": "nvidia-lilly-ai-lab-20260112",
+      "summary": "据 NVIDIA 官方公告，与礼来宣布 AI 药物发现联合实验室，计划五年内在人才、基础设施和计算方面投入最多 10 亿美元；此为上限计划。",
+      "company_slugs": [
+        "nvidia",
+        "eli-lilly"
+      ],
+      "relations": [
+        [
+          "nvidia",
+          "collaborates_with",
+          "eli-lilly"
+        ]
+      ]
+    },
+    {
+      "key": "recursion-genentech-neuroscience-20260805",
+      "summary": "据 Recursion 官方公告，Genentech 已将双方合作的首个神经科学靶点推进至联合早期发现项目。属于研发阶段进展，不是临床试验结果。",
+      "company_slugs": [
+        "recursion",
+        "genentech"
+      ],
+      "relations": [
+        [
+          "recursion",
+          "collaborates_with",
+          "genentech"
+        ]
+      ]
+    },
+    {
+      "key": "xtalpi-xglue-20261006",
+      "summary": "据晶泰官方 RSS 中的公告，XGlue 工作结合计算与实验数据训练 AI 模型，对 E3 与目标蛋白组合进行优先级判断；不把公司表述转换为临床疗效证据。",
+      "company_slugs": [
+        "xtalpi"
+      ],
+      "relations": []
+    },
+    {
+      "key": "absci-abs201-phase2-plan-20260924",
+      "summary": "据 Absci 官方公告，AI 设计抗体 ABS-201 的 II 期试验预计于 2027 年中启动。当前披露为初步计划，不能写成 II 期已经开展。",
+      "company_slugs": [
+        "absci"
+      ],
+      "relations": []
+    }
+  ]
+}

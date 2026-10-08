@@ -1,4 +1,5 @@
 import { TOPICS } from './topics.js';
+import { selectedJournalSQL } from './journals.js';
 
 export const escape = (s) => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const origin = (request, env) => env.SITE_ORIGIN || new URL(request.url).origin;
@@ -11,10 +12,16 @@ export async function getDigest(sql, day) {
   const rows = await sql.query(`SELECT * FROM daily_digests WHERE ($1::date IS NULL OR digest_date=$1::date) ORDER BY digest_date DESC LIMIT 1`, [day || null]);
   if (!rows.length) return null;
   const d = rows[0];
+  const params = [d.record_ids];
+  const journalGate = selectedJournalSQL('raw_payload', value => { params.push(value); return '$'+params.length; });
   d.items = await sql.query(`SELECT id,title,canonical_url,published_at,fetched_at,source_name,registry_key,
     left(content_text,400) AS excerpt,raw_payload->'academic' AS academic,
     raw_payload->'classification'->'topic_ids' AS topics
-    FROM public_records WHERE id=ANY($1::uuid[]) ORDER BY fetched_at DESC,id`, [d.record_ids]);
+    FROM public_records WHERE id=ANY($1::uuid[])
+    AND (raw_payload->'academic' IS NULL OR (${journalGate} AND raw_payload->'classification'->>'ai_related'='true'))
+    ORDER BY CASE WHEN raw_payload->'academic' IS NULL THEN 0 ELSE 1 END,fetched_at DESC,id`, params);
+  d.original_selection_count = d.total_records;
+  d.total_records = d.items.length;
   delete d.record_ids;
   return d;
 }
@@ -44,7 +51,7 @@ export async function publication(request, env, sql, apiRead) {
   // Human-shareable pages with server-rendered metadata and content for search engines.
   // The same app takes over navigation; there is no separate directory application.
   if (path === '/' || path === '/connect' || /^\/(topics|companies|records|events|digest)\/[^/]+$/.test(path)) {
-    let title='BioAI 日知 · 问象', description='追踪 AI 虚拟细胞、类器官、虚拟胚胎、虚拟器官与 AI 制药。每小时检查来源，每条内容保留出处。', body='', schema=null;
+    let title='BioAI 日知 · 问象', description='关注 AI 生物制药的行业动态、融资合作与重点期刊研究。追踪虚拟细胞、类器官、虚拟胚胎、虚拟器官和 AI 制药，每条内容保留出处。', body='', schema=null;
     const [_, kind, id] = path.split('/');
     if (kind === 'companies') {
       const c=await apiRead('/api/companies/'+encodeURIComponent(id),{});
@@ -70,7 +77,7 @@ export async function publication(request, env, sql, apiRead) {
       title='连接你的 AI · BioAI 日知 MCP'; description='通过只读 MCP 和 RSS，将可追溯的虚拟生命科学信息带到个人 AI 工作流。';
       body=`<h1>${title}</h1><p>${description}</p><p>MCP: ${escape(base)}/mcp</p><a href="/feed.xml">订阅 RSS</a>`;
     } else {
-      body=`<h1>AI × 虚拟生命科学</h1><p>${escape(description)}</p><ul>${TOPICS.map(t=>`<li><a href="/topics/${t.id}">${escape(t.label)}</a></li>`).join('')}</ul>`;
+      body=`<h1>BioAI 日知 · AI 生物制药行业报</h1><p>${escape(description)}</p><nav><a href="/#news">行业动态</a> · <a href="/#hot">合作关系</a> · <a href="/#academic">重点期刊</a> · <a href="/#directory">公司黄页</a></nav><ul>${TOPICS.map(t=>`<li><a href="/topics/${t.id}">${escape(t.label)}</a></li>`).join('')}</ul>`;
     }
     const template=await (await env.ASSETS.fetch(new Request(base+'/index.html'))).text();
     const metadata=`<link rel="canonical" href="${escape(base+path)}"><meta property="og:title" content="${escape(title)}"><meta property="og:description" content="${escape(description)}"><meta property="og:url" content="${escape(base+path)}"><meta property="og:image" content="${escape(base)}/assets/wenxiang-mark.png">${schema?`<script type="application/ld+json">${JSON.stringify(schema).replace(/</g,'\\u003c')}</script>`:''}`;

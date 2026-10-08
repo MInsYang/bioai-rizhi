@@ -1,0 +1,397 @@
+{
+  "version": "3.1.0",
+  "checked_at": "2026-10-08T09:20:45.763779+00:00",
+  "origin": "https://bioai-rizhi.pages.dev",
+  "worker_version": "d38af6a3-9e4c-4515-9ed6-333e75f69b13",
+  "database_migrations": 14,
+  "tests": {
+    "javascript": {
+      "passed": 100,
+      "failed": 0,
+      "skipped": 0
+    },
+    "python": {
+      "passed": 49,
+      "failed": 0
+    },
+    "ui_contract": "passed"
+  },
+  "browser_checks": {
+    "local_real_browser": true,
+    "desktop": [
+      1366,
+      768
+    ],
+    "mobile": [
+      390,
+      844
+    ],
+    "horizontal_overflow": false,
+    "navigation": [
+      "frontpage to overview",
+      "mobile menu to directory"
+    ],
+    "limits": "Local newspaper screenshots and DOM inspected; final public page browser re-open timed out in desktop tool. Public HTML/assets/API are separately verified by HTTP."
+  },
+  "known_runtime_limits": [
+    "Crossref initial full date-window backfill is ongoing; individual real pages persisted, transient 500 is checkpoint-retried.",
+    "Daily dedicated cron and subsequent scheduled backup need actual cross-day observation.",
+    "Historical MCP CPU samples exceed nominal Workers Free HTTP CPU; no paid upgrade, no free-capacity guarantee."
+  ],
+  "counts": {
+    "companies": 134,
+    "directory_companies": 132,
+    "raw_records": 4787,
+    "approved_events": 12,
+    "relations": 6
+  },
+  "hourly_run": {
+    "scheduled_at": "2026-10-08 09:00:00+00:00",
+    "trigger_kind": "cron",
+    "status": "succeeded",
+    "started_at": "2026-10-08 09:07:17.312845+00:00",
+    "finished_at": "2026-10-08 09:07:17.960209+00:00",
+    "dispatched_count": 14
+  },
+  "cloud_jobs": [
+    {
+      "registry_key": "absci-official-rss",
+      "id": "47321eb2-b34b-4526-aeb7-9400f25dfcd6",
+      "status": "succeeded",
+      "attempts": 1,
+      "failure_count": 0,
+      "last_error": null,
+      "finished_at": "2026-10-08 09:07:26.040029+00:00"
+    },
+    {
+      "registry_key": "crossref",
+      "id": "dc881645-059c-4241-a892-464ef6fd70bd",
+      "status": "retry",
+      "attempts": 48,
+      "failure_count": 1,
+      "last_error": "Official source HTTP 500",
+      "finished_at": null
+    },
+    {
+      "registry_key": "emulate-official-rss",
+      "id": "2a54074c-b1f0-4fff-8264-363861cce0fd",
+      "status": "succeeded",
+      "attempts": 1,
+      "failure_count": 0,
+      "last_error": null,
+      "finished_at": "2026-10-08 09:07:21.926570+00:00"
+    },
+    {
+      "registry_key": "europe-pmc",
+      "id": "e50bb415-ce87-4187-bb89-382300e6b489",
+      "status": "succeeded",
+      "attempts": 6,
+      "failure_count": 0,
+      "last_error": null,
+      "finished_at": "2026-10-08 09:08:50.121960+00:00"
+    },
+    {
+      "registry_key": "generate-biomedicines-official-rss",
+      "id": "7708e538-d5e2-494f-b425-37b2fc6930cc",
+      "status": "succeeded",
+      "attempts": 1,
+      "failure_count": 0,
+      "last_error": null,
+      "finished_at": "2026-10-08 09:07:27.187412+00:00"
+    },
+    {
+      "registry_key": "hub-organoids-official-rss",
+      "id": "daab89ce-6fb7-4257-b614-7b0a2e33c6e3",
+      "status": "succeeded",
+      "attempts": 1,
+      "failure_count": 0,
+      "last_error": null,
+      "finished_at": "2026-10-08 09:07:32.846803+00:00"
+    },
+    {
+      "registry_key": "iambic-official-newsroom",
+      "id": "532669ae-1fe8-4ddb-a890-57f3ea43c1cb",
+      "status": "succeeded",
+      "attempts": 9,
+      "failure_count": 0,
+      "last_error": null,
+      "finished_at": "2026-10-08 09:09:23.950121+00:00"
+    },
+    {
+      "registry_key": "isomorphic-labs-official-announcements",
+      "id": "5676121e-08a9-4b01-b0d2-95592943643e",
+      "status": "succeeded",
+      "attempts": 9,
+      "failure_count": 0,
+      "last_error": null,
+      "finished_at": "2026-10-08 09:09:23.397153+00:00"
+    },
+    {
+      "registry_key": "lilly-official-rss",
+      "id": "f2384131-a3e0-440d-b822-213beaec7e07",
+      "status": "succeeded",
+      "attempts": 1,
+      "failure_count": 0,
+      "last_error": null,
+      "finished_at": "2026-10-08 09:07:23.384571+00:00"
+    },
+    {
+      "registry_key": "nvidia-life-sciences-rss",
+      "id": "a8b7d9a9-5ee4-436b-8358-8590ce8c191e",
+      "status": "succeeded",
+      "attempts": 1,
+      "failure_count": 0,
+      "last_error": null,
+      "finished_at": "2026-10-08 09:07:24.624696+00:00"
+    },
+    {
+      "registry_key": "owkin-official-newsroom",
+      "id": "984cc5c1-f279-40a9-8f03-9061ed2ff321",
+      "status": "succeeded",
+      "attempts": 9,
+      "failure_count": 0,
+      "last_error": null,
+      "finished_at": "2026-10-08 09:09:24.588119+00:00"
+    },
+    {
+      "registry_key": "pubmed-eutils",
+      "id": "3ca995b7-4514-4a00-8831-862dbb25616c",
+      "status": "succeeded",
+      "attempts": 10,
+      "failure_count": 0,
+      "last_error": null,
+      "finished_at": "2026-10-08 09:09:29.127135+00:00"
+    },
+    {
+      "registry_key": "recursion-official-newsroom",
+      "id": "5b0e9fcc-4360-4fa3-908b-bd11230e352a",
+      "status": "succeeded",
+      "attempts": 9,
+      "failure_count": 0,
+      "last_error": null,
+      "finished_at": "2026-10-08 09:09:20.535582+00:00"
+    },
+    {
+      "registry_key": "xtalpi-official-rss",
+      "id": "6ad7e74e-00fc-4e97-b38a-30d5687f95f1",
+      "status": "succeeded",
+      "attempts": 2,
+      "failure_count": 0,
+      "last_error": null,
+      "finished_at": "2026-10-08 09:09:12.618918+00:00"
+    }
+  ],
+  "review_provenance": [
+    {
+      "extraction_version": "agent-assisted-review-v1",
+      "method": "agent-assisted-source-review",
+      "events": 12
+    }
+  ],
+  "source_states": [
+    {
+      "registry_key": "absci-official-rss",
+      "adapter": "rss",
+      "enabled": true,
+      "verified": true,
+      "cloud_runtime_enabled": "true",
+      "last_success_at": "2026-10-08 09:07:26.040029+00:00",
+      "consecutive_failures": 0
+    },
+    {
+      "registry_key": "biorxiv",
+      "adapter": "biorxiv",
+      "enabled": false,
+      "verified": true,
+      "cloud_runtime_enabled": "false",
+      "last_success_at": null,
+      "consecutive_failures": 3
+    },
+    {
+      "registry_key": "crossref",
+      "adapter": "crossref",
+      "enabled": true,
+      "verified": true,
+      "cloud_runtime_enabled": "true",
+      "last_success_at": null,
+      "consecutive_failures": 11
+    },
+    {
+      "registry_key": "emulate-official-rss",
+      "adapter": "rss",
+      "enabled": true,
+      "verified": true,
+      "cloud_runtime_enabled": "true",
+      "last_success_at": "2026-10-08 09:07:21.926570+00:00",
+      "consecutive_failures": 0
+    },
+    {
+      "registry_key": "europe-pmc",
+      "adapter": "europepmc",
+      "enabled": true,
+      "verified": true,
+      "cloud_runtime_enabled": "true",
+      "last_success_at": "2026-10-08 09:08:50.121960+00:00",
+      "consecutive_failures": 0
+    },
+    {
+      "registry_key": "generate-biomedicines-official-rss",
+      "adapter": "rss",
+      "enabled": true,
+      "verified": true,
+      "cloud_runtime_enabled": "true",
+      "last_success_at": "2026-10-08 09:07:27.187412+00:00",
+      "consecutive_failures": 0
+    },
+    {
+      "registry_key": "hub-organoids-official-rss",
+      "adapter": "rss",
+      "enabled": true,
+      "verified": true,
+      "cloud_runtime_enabled": "true",
+      "last_success_at": "2026-10-08 09:07:32.846803+00:00",
+      "consecutive_failures": 0
+    },
+    {
+      "registry_key": "iambic-official-newsroom",
+      "adapter": "official_html",
+      "enabled": true,
+      "verified": true,
+      "cloud_runtime_enabled": "true",
+      "last_success_at": "2026-10-08 09:09:23.950121+00:00",
+      "consecutive_failures": 0
+    },
+    {
+      "registry_key": "isomorphic-labs-official-announcements",
+      "adapter": "official_html",
+      "enabled": true,
+      "verified": true,
+      "cloud_runtime_enabled": "true",
+      "last_success_at": "2026-10-08 09:09:23.397153+00:00",
+      "consecutive_failures": 0
+    },
+    {
+      "registry_key": "lilly-official-rss",
+      "adapter": "rss",
+      "enabled": true,
+      "verified": true,
+      "cloud_runtime_enabled": "true",
+      "last_success_at": "2026-10-08 09:07:23.384571+00:00",
+      "consecutive_failures": 0
+    },
+    {
+      "registry_key": "nvidia-life-sciences-rss",
+      "adapter": "rss",
+      "enabled": true,
+      "verified": true,
+      "cloud_runtime_enabled": "true",
+      "last_success_at": "2026-10-08 09:07:24.624696+00:00",
+      "consecutive_failures": 0
+    },
+    {
+      "registry_key": "owkin-official-newsroom",
+      "adapter": "official_html",
+      "enabled": true,
+      "verified": true,
+      "cloud_runtime_enabled": "true",
+      "last_success_at": "2026-10-08 09:09:24.588119+00:00",
+      "consecutive_failures": 0
+    },
+    {
+      "registry_key": "pubmed-eutils",
+      "adapter": "pubmed",
+      "enabled": true,
+      "verified": true,
+      "cloud_runtime_enabled": "true",
+      "last_success_at": "2026-10-08 09:09:29.127135+00:00",
+      "consecutive_failures": 0
+    },
+    {
+      "registry_key": "recursion-official-newsroom",
+      "adapter": "official_html",
+      "enabled": true,
+      "verified": true,
+      "cloud_runtime_enabled": "true",
+      "last_success_at": "2026-10-08 09:09:20.535582+00:00",
+      "consecutive_failures": 0
+    },
+    {
+      "registry_key": "tahoe-official-rss",
+      "adapter": "rss",
+      "enabled": true,
+      "verified": true,
+      "cloud_runtime_enabled": "false",
+      "last_success_at": "2026-10-08 07:03:31.255149+00:00",
+      "consecutive_failures": 5
+    },
+    {
+      "registry_key": "xtalpi-official-rss",
+      "adapter": "rss",
+      "enabled": true,
+      "verified": true,
+      "cloud_runtime_enabled": "true",
+      "last_success_at": "2026-10-08 09:09:12.618918+00:00",
+      "consecutive_failures": 0
+    }
+  ],
+  "public_endpoints": {
+    "/": 200,
+    "/health": 200,
+    "/api/config": 200,
+    "/api/journals": 200,
+    "/api/overview": 200,
+    "/api/events?days=3660": 200,
+    "/api/graph?days=3660": 200,
+    "/api/records?academic=true&days=30": 200,
+    "/feed.xml": 200,
+    "/sitemap.xml": 200,
+    "/llms.txt": 200,
+    "/connect": 200
+  },
+  "overview": {
+    "companies": 132,
+    "events": 12,
+    "records": 134,
+    "selected_academic_records": 46,
+    "all_records": 4716,
+    "connected_sources": 15,
+    "cloud_connected_sources": 14,
+    "sources": 165,
+    "last_success_at": "2026-10-08T09:09:29.127Z",
+    "relations": 6,
+    "scheduler_last_dispatch_at": "2026-10-08T09:00:00.000Z",
+    "scheduler_latest_run": {
+      "status": "succeeded",
+      "started_at": "2026-10-08T09:07:17.312845+00:00",
+      "finished_at": "2026-10-08T09:07:17.960209+00:00",
+      "scheduled_at": "2026-10-08T09:00:00+00:00",
+      "trigger_kind": "cron",
+      "dispatched_count": 14,
+      "dispatch_attempts": 1
+    },
+    "tracks": [
+      {
+        "count": 48,
+        "track": "AI与模型数据"
+      },
+      {
+        "count": 40,
+        "track": "测序与多组学"
+      },
+      {
+        "count": 44,
+        "track": "生物医药"
+      }
+    ],
+    "cadence_hours": 1,
+    "selected_journals": 17,
+    "journal_policy_version": "selected-journals-2026-10-v1"
+  },
+  "backup_run": "https://github.com/MInsYang/bioai-rizhi/actions/runs/37752897575",
+  "personal_codex": {
+    "name": "bioai",
+    "url": "https://bioai-rizhi.pages.dev/mcp",
+    "configured": true,
+    "current_conversation_hot_reload": false
+  }
+}

@@ -17,7 +17,7 @@ test('resource share page embeds escaped metadata and canonical URL',async()=>{
 });
 test('digest read passes stored IDs through publication view to honor source revocation',async()=>{
   const calls=[];const sql={async query(text,args){calls.push({text,args});return calls.length===1?[{digest_date:'2026-10-08',record_ids:['test-id']}]:[];}};
-  const d=await getDigest(sql,'2026-10-08');assert.deepEqual(d.items,[]);assert.match(calls[1].text,/FROM public_records/);assert.deepEqual(calls[1].args,[['test-id']]);assert.equal(d.record_ids,undefined);
+  const d=await getDigest(sql,'2026-10-08');assert.deepEqual(d.items,[]);assert.match(calls[1].text,/FROM public_records/);assert.deepEqual(calls[1].args[0],['test-id']);assert.match(calls[1].text,/ai_related/);assert.ok(calls[1].args[1].includes('nature'));assert.equal(d.total_records,0);assert.equal(d.record_ids,undefined);
 });
 test('replacement metacharacters remain literal and impossible dates never reach PostgreSQL',async()=>{
   const title="Dollar $& $' $` report";

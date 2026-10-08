@@ -3,6 +3,7 @@ import { apiRead, handleApi } from './api.js';
 import { dispatch, consume } from './ingestion.js';
 import { handleMcp } from './mcp.js';
 import { publication } from './publication.js';
+import { candidateApi } from './candidates.js';
 
 const json = (data, status=200) => Response.json(data,{status,headers:{'Cache-Control':'no-store'}});
 async function admin(request, env) {
@@ -28,18 +29,22 @@ export function createWorker(dbFactory=database) {
       try {
         const url=new URL(request.url), path=url.pathname;
         if(path.startsWith('/internal/') && !(await admin(request,env)))return json({detail:'Admin token required'},401);
+        if(path.startsWith('/api/admin/candidates') && !(await admin(request,env)))return json({detail:'Admin token required'},401);
         if(path.startsWith('/api/') && env.API_RATE_LIMITER){
           const check=await env.API_RATE_LIMITER.limit({key:request.headers.get('cf-connecting-ip') || 'unknown'});
           if(!check.success)return new Response('Too many requests',{status:429,headers:{'Retry-After':'60'}});
         }
         // Static assets do not need a database connection.
         if(!path.startsWith('/api/') && !path.startsWith('/internal/') && path!='/mcp' && path!='/health' && !['/','/feed.xml','/robots.txt','/llms.txt','/sitemap.xml','/connect'].includes(path) && !/^\/(topics|companies|records|events|digest)\//.test(path))return secure(await env.ASSETS.fetch(request));
-        if(path==='/api/config')return json({version:'3.0.0',github_url:env.GITHUB_URL || null,cadence_hours:1,daily_digest_time:'08:00',timezone:'Asia/Shanghai',mcp_url:(env.SITE_ORIGIN || url.origin)+'/mcp'});
+        if(path==='/api/config')return json({version:'3.1.0',github_url:env.GITHUB_URL || null,cadence_hours:1,daily_digest_time:'08:00',timezone:'Asia/Shanghai',mcp_url:(env.SITE_ORIGIN || url.origin)+'/mcp'});
         const sql=dbFactory(env), read=(p,params={})=>apiRead(p,params,sql);
+        if(path.startsWith('/api/admin/candidates')) {
+          return secure(await candidateApi(request,sql));
+        }
         if(path==='/mcp')return secure(await handleMcp(request,env,ctx,read));
         if(path==='/health'){
           const rows=await sql.query('SELECT 1 AS ok');
-          return json({database:rows[0].ok,version:'3.0.0',runtime:'cloudflare',cadence_hours:1});
+          return json({database:rows[0].ok,version:'3.1.0',runtime:'cloudflare',cadence_hours:1});
         }
         if(path==='/internal/dispatch' && request.method==='POST')return json(await dispatch(sql,env.INGEST_QUEUE,Date.now(),'manual'));
         if(path==='/internal/digest' && request.method==='POST')return json((await sql.query('SELECT generate_daily_digest(now()) AS digest'))[0]);
@@ -60,6 +65,7 @@ export function createWorker(dbFactory=database) {
       if(controller.cron==='0 0 * * *')ctx.waitUntil(sql.query('SELECT generate_daily_digest($1::timestamptz)',[new Date(controller.scheduledTime).toISOString()]));
       else {
         ctx.waitUntil(dispatch(sql,env.INGEST_QUEUE,controller.scheduledTime));
+        ctx.waitUntil(sql.query('SELECT propose_industry_candidates()'));
         // Retry the immutable daily selection on hourly ticks if 08:00 invocation failed.
         ctx.waitUntil(sql.query('SELECT generate_daily_digest($1::timestamptz)',[new Date(controller.scheduledTime).toISOString()]));
       }

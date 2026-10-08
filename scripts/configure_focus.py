@@ -23,7 +23,7 @@ NS = uuid.UUID('b5b62e53-9a2a-4dbf-9c95-e3366b875730')
 
 
 def topic_contract():
-    code = "import {FOCUSED_QUERY,PUBMED_QUERY,QUERY_VERSION,TOPICS} from './cloudflare/site/topics.js'; console.log(JSON.stringify({FOCUSED_QUERY,PUBMED_QUERY,QUERY_VERSION,TOPICS}));"
+    code = "import {FOCUSED_QUERY,PUBMED_QUERY,QUERY_VERSION,TOPICS} from './cloudflare/site/topics.js'; import {JOURNAL_POLICY_VERSION,SELECTED_JOURNALS} from './cloudflare/site/journals.js'; console.log(JSON.stringify({FOCUSED_QUERY,PUBMED_QUERY,QUERY_VERSION,TOPICS,JOURNAL_POLICY_VERSION,SELECTED_JOURNALS}));"
     result = subprocess.run(['node', '--input-type=module', '-e', code], cwd=ROOT, capture_output=True, text=True, check=True)
     return json.loads(result.stdout)
 
@@ -35,18 +35,49 @@ def source_query_version(base_version, adapter, query):
 
 
 def backfill(conn):
-    code = "import fs from 'node:fs'; import {classify} from './cloudflare/site/topics.js'; const rows=JSON.parse(fs.readFileSync(0,'utf8')); console.log(JSON.stringify(rows.map(r=>({id:r.id,classification:classify(r.title,r.content_text)}))));"
+    code = """import {classify} from './cloudflare/site/topics.js';
+      import {selectJournal} from './cloudflare/site/journals.js'; import {classifyIndustry} from './cloudflare/site/industry.js';
+      process.stdin.setEncoding('utf8');let input='';for await(const chunk of process.stdin)input+=chunk;
+      const rows=JSON.parse(input);
+      console.log(JSON.stringify(rows.map(r=>{
+        const classification=classify(r.title,r.content_text),priorIndustry=r.raw_payload?.industry_classification;
+        // Dated curated evidence is an independent review context; a short excerpt
+        // must not overwrite it with a full-text keyword classifier's outcome.
+        const curated=r.raw_payload?.curated_event_candidate&&priorIndustry?.method==='dated-official-curated-candidate'&&priorIndustry.relevant===true;
+        const industry=curated?priorIndustry:classifyIndustry(r.title,r.content_text,r.config);
+        if(industry.relevant){classification.ai_related=classification.ai_related||industry.ai_related;if(!classification.topic_ids.length)classification.topic_ids.push('drug-discovery');}
+        const journal=r.raw_payload?.original?.journalInfo?.journal,prior=r.raw_payload?.academic;
+        const academic=prior?{...prior,...(journal?{issns:[journal.issn,journal.eissn].filter(Boolean)}:{})}:null;
+        if(academic)academic.journal_selection=selectJournal(academic);
+        return {id:r.id,classification,academic,industry:industry.relevant?industry:null};
+      })));"""
     changed = 0
     after = '00000000-0000-0000-0000-000000000000'
     while True:
-        rows = conn.execute('SELECT id,title,content_text FROM raw_items WHERE id>%s::uuid ORDER BY id LIMIT 100', (after,)).fetchall()
+        rows = conn.execute('''SELECT r.id,r.title,r.content_text,r.raw_payload,s.config FROM raw_items r
+          JOIN sources s ON s.id=r.source_id WHERE r.id>%s::uuid ORDER BY r.id LIMIT 100''', (after,)).fetchall()
         if not rows:
             break
         payload = json.dumps(rows, default=str, ensure_ascii=False)
-        result = subprocess.run(['node', '--input-type=module', '-e', code], cwd=ROOT, input=payload, capture_output=True, text=True, check=True)
+        result = subprocess.run(['node', '--input-type=module', '-e', code], cwd=ROOT, input=payload, capture_output=True, text=True)
+        if result.returncode:
+            raise RuntimeError('Metadata backfill classifier failed (exit '+str(result.returncode)+'): '+result.stderr[:1500])
+        prior_payloads = {str(item['id']): item['raw_payload'] for item in rows}
+        updates = []
         for row in json.loads(result.stdout):
-            changed += conn.execute("UPDATE raw_items SET raw_payload=jsonb_set(raw_payload,'{classification}',%s) WHERE id=%s AND raw_payload->'classification' IS DISTINCT FROM %s RETURNING id",
-                                    (Jsonb(row['classification']), row['id'], Jsonb(row['classification']))).rowcount
+            prior = prior_payloads[row['id']]
+            updated = {**prior, 'classification': row['classification']}
+            if row['academic']:
+                updated['academic'] = row['academic']
+            if row['industry']:
+                updated['industry_classification'] = row['industry']
+            else:
+                updated.pop('industry_classification', None)
+            updates.append({'id': row['id'], 'raw_payload': updated})
+        changed += conn.execute('''UPDATE raw_items r SET raw_payload=u.raw_payload
+          FROM jsonb_to_recordset(%s::jsonb) AS u(id uuid,raw_payload jsonb)
+          WHERE r.id=u.id AND r.raw_payload IS DISTINCT FROM u.raw_payload RETURNING r.id''',
+                                (Jsonb(updates),)).rowcount
         after = str(rows[-1]['id'])
     return changed
 
@@ -54,6 +85,14 @@ def backfill(conn):
 def configure(do_backfill=False):
     contract = topic_contract()
     version = contract['QUERY_VERSION']
+    validation_path = ROOT / 'docs/literature-live-validation-2026-10-08.json'
+    validation = json.loads(validation_path.read_text()) if validation_path.exists() else {}
+    crossref_validation = next((item for item in validation.get('sources', []) if item.get('registry_key') == 'crossref'), {})
+    journal_ids = [item['id'] for item in contract['SELECTED_JOURNALS']
+                   if item['id'] in crossref_validation.get('enabled_journal_ids', [])]
+    validated_crossref = (validation.get('real_network') is True
+                          and validation.get('journal_policy_version') == contract['JOURNAL_POLICY_VERSION']
+                          and crossref_validation.get('status') in ('passed','partial') and bool(journal_ids))
     public = [
         ('europe-pmc', 'Europe PMC', 'academic_api', 'europepmc', 'https://www.ebi.ac.uk/europepmc/webservices/rest/',
          'https://europepmc.org/RestfulWebService', contract['FOCUSED_QUERY'], True),
@@ -61,8 +100,16 @@ def configure(do_backfill=False):
          'https://www.ncbi.nlm.nih.gov/books/NBK25501/', contract['PUBMED_QUERY'], True),
         ('biorxiv', 'bioRxiv API', 'preprint_api', 'biorxiv', 'https://api.biorxiv.org/details/biorxiv/',
          'https://api.biorxiv.org/', 'Shared automated topic filter; see topics.js', False),
+        ('crossref', 'Crossref / 精选期刊 DOI 元数据', 'academic_api', 'crossref', 'https://api.crossref.org/',
+         'https://www.crossref.org/documentation/retrieve-metadata/rest-api/',
+         'Selected journal work windows; type=journal-article; from-update-date/until-update-date; '
+         +contract['JOURNAL_POLICY_VERSION']+'; journals='+','.join(journal_ids), validated_crossref),
     ]
-    summary = {'query_version': version, 'source_query_versions': {}, 'enabled_cloud_sources': [], 'degraded_sources': ['biorxiv'], 'backfilled_records': 0}
+    summary = {'query_version': version, 'journal_policy_version': contract['JOURNAL_POLICY_VERSION'],
+               'selected_journals': len(contract['SELECTED_JOURNALS']), 'source_query_versions': {}, 'enabled_cloud_sources': [],
+               'degraded_sources': ['biorxiv']+(['crossref-partial'] if crossref_validation.get('status')=='partial' else [] if validated_crossref else ['crossref-unvalidated']),
+               'crossref_enabled_journal_ids':journal_ids, 'crossref_degraded_journal_ids':crossref_validation.get('degraded_journal_ids', []),
+               'backfilled_records': 0}
     with connection() as conn:
         conn.execute('SELECT pg_advisory_xact_lock(724091410)')
         conn.execute("UPDATE polling_profiles SET ttl_hours=1 WHERE id='P0'")
@@ -76,23 +123,34 @@ def configure(do_backfill=False):
             legacy_same_query = config.get('query_version') == version and config.get('query') == query
             if not legacy_same_query and (config.get('query_version') != query_version or config.get('query') != query):
                 config.pop('cursor_date', None)
-            config.update(cloud_runtime_enabled=enabled, integration_status='implemented', query=query, query_version=query_version,
+            config.update(cloud_runtime_enabled=enabled, integration_status='implemented' if adapter != 'crossref' or validated_crossref else 'awaiting_live_validation', query=query, query_version=query_version,
                           api_documentation=documentation, bootstrap_days=30, lookback_days=3, window_days=7,
-                          scope='Five focused topics; automated keyword classification, original metadata retained')
+                          scope='Selected journals and AI biomedical topics; original metadata and wider archive retained',
+                          journal_policy_version=contract['JOURNAL_POLICY_VERSION'], selected_journals_only=adapter!='biorxiv')
             if adapter == 'biorxiv':
                 config.update(operational_status='degraded', fallback_registry_key='europe-pmc',
-                              operational_note='Direct API returned HTTP 500 during dated live validation; Europe PMC PPR records are the alternate discovery source.',
+                              operational_note='Direct API returned HTTP 500 during dated live validation. Existing preprint records remain in explicit journal_tier=all archive; default journal collection excludes preprints.',
                               upstream_validation_report='docs/academic-e2e-result.json')
             else:
                 config.update(operational_status='configured')
+            if adapter == 'crossref':
+                config.update(journal_ids=journal_ids, request_interval_seconds=1,
+                              degraded_journal_ids=crossref_validation.get('degraded_journal_ids', []),
+                              live_validation_report=str(validation_path.relative_to(ROOT)) if validated_crossref else None,
+                              operational_status='partial' if validated_crossref and crossref_validation.get('status')=='partial' else 'configured' if validated_crossref else 'awaiting_live_validation')
             conn.execute('''INSERT INTO sources(id,registry_key,name,source_type,url,poll_profile,adapter,config,enabled,verified,verification_status,verified_at)
-                VALUES (%s,%s,%s,%s,%s,'P0',%s,%s,%s,true,'verified',now())
+                VALUES (%s,%s,%s,%s,%s,'P0',%s,%s,%s,%s,%s,CASE WHEN %s THEN now() ELSE NULL END)
                 ON CONFLICT(registry_key) DO UPDATE SET adapter=EXCLUDED.adapter,config=EXCLUDED.config,poll_profile='P0',
-                 enabled=EXCLUDED.enabled,verified=true,verification_status='verified',verified_at=COALESCE(sources.verified_at,now()),next_poll_at=now()''',
-                         (sid, key, name, kind, url, adapter, Jsonb(config), enabled))
-            if not old or not old['verified']:
+                 enabled=EXCLUDED.enabled,verified=EXCLUDED.verified,verification_status=EXCLUDED.verification_status,
+                 verified_at=COALESCE(sources.verified_at,EXCLUDED.verified_at),next_poll_at=now()''',
+                         (sid, key, name, kind, url, adapter, Jsonb(config), enabled,
+                          adapter!='crossref' or validated_crossref, 'verified' if adapter!='crossref' or validated_crossref else 'pending',
+                          adapter!='crossref' or validated_crossref))
+            if (adapter!='crossref' or validated_crossref) and (not old or not old['verified']):
                 conn.execute("INSERT INTO verification_reviews(id,source_id,decision,method,evidence_url,evidence_text,reviewer) VALUES (%s,%s,'verified','manual_review',%s,%s,'operator:focus-config')",
-                             (uuid.uuid4(), sid, documentation, 'Official public API documentation identifies this endpoint. Source identity verification does not claim uptime, completeness or peer review.'))
+                             (uuid.uuid4(), sid, documentation,
+                              'Official public API documentation identifies this endpoint. Source identity verification does not claim uptime, completeness or peer review.'
+                              + (' Real-network validation: '+str(validation_path.relative_to(ROOT)) if adapter=='crossref' else '')))
             audit(conn, 'operator:focus-config', 'configure_focused_public_api', 'source', sid,
                   after={'adapter': adapter, 'cloud_runtime_enabled': enabled, 'query_version': query_version, 'query': query})
             summary['source_query_versions'][key] = query_version
@@ -136,8 +194,9 @@ def main():
     parser.add_argument('--backfill', action='store_true')
     args = parser.parse_args()
     if args.dry_run:
-        print(json.dumps({'contract': topic_contract(), 'cloud_adapters': ['europepmc','pubmed','verified-official-rss'],
-                          'biorxiv': 'degraded; Europe PMC alternate', 'keeps_existing_company_registry': True}, ensure_ascii=False, indent=2))
+        print(json.dumps({'contract': topic_contract(), 'cloud_adapters': ['europepmc','pubmed','crossref','verified-official-rss','verified-official-html'],
+                          'biorxiv': 'degraded; preprint archive access only', 'crossref_requires_live_validation_report':True,
+                          'keeps_existing_company_registry': True}, ensure_ascii=False, indent=2))
         return
     load_env()
     print(json.dumps(configure(args.backfill), ensure_ascii=False, indent=2))

@@ -2,18 +2,18 @@
 
 BioAI 日知提供匿名、只读的远程 MCP，供个人 AI 查询本站已收录的研究与产业原文、公司目录和来源覆盖情况。网页、RSS 与 MCP 使用同一公开读取模型：已验证来源的原文记录，与经过编辑审核并附有有效证据的事件保持区分。
 
-公开服务已上线：[BioAI 日知](https://bioai-rizhi.328558608.workers.dev)。2026-10-08 已通过真实公网 initialize、tools/list 和只读 tools/call；官方 MCP SDK 客户端也已完成两种协商模式的连接、工具发现和全部五项工具调用，见 [SDK 客户端验收](mcp-client-acceptance.json)。Claude/Cursor/Codex 个人应用接入尚未安装，部署与待观察项目见 [生产验收记录](production-acceptance.json)。
+公开服务已上线：[BioAI 日知](https://bioai-rizhi.pages.dev)。2026-10-08 短域名与 3.1.0 服务已通过真实公网 initialize、tools/list 和全部五项只读工具调用，并确认默认学术结果满足精选政策，见 [短域名验收](mcp-shortdomain-acceptance.json)；官方 MCP SDK 客户端也已完成两种协商模式的连接、工具发现和全部五项工具调用，见 [SDK 客户端验收](mcp-client-acceptance.json)。个人 Codex 已安装名为 `bioai` 的全局连接配置；当前会话需在后续新会话加载。Claude/Cursor 配置示例已提供，未擅自修改其他个人应用，部署与待观察项目见 [生产验收记录](production-acceptance.json)。
 
 ## 接入地址与工具
 
 - 传输：Streamable HTTP。
-- 地址：`https://bioai-rizhi.328558608.workers.dev/mcp`，路径末尾没有斜杠。
+- 地址：`https://bioai-rizhi.pages.dev/mcp`，路径末尾没有斜杠。
 - 认证：公开读取不要求登录或 API Key。
 - 接入文档与内容入口使用普通 HTTPS 地址；MCP URL 供客户端连接，并非文章网页。
 
 | 工具 | 用途 | 常用参数 |
 |---|---|---|
-| `search_resources` | 检索来源记录，包括研究摘要与产业原文 | `query`、`topic`、`academic`、`company`、`days`、`limit`、`offset` |
+| `search_resources` | 检索来源记录，包括研究摘要与产业原文 | `query`、`topic`、`academic`、`company`、`journal_tier`、`days`、`limit`、`offset` |
 | `get_resource` | 读取一条来源记录或已发布事件及其出处 | `id`；`kind=record` 或 `kind=event` |
 | `search_companies` | 检索公司目录 | `query`、`topic`、`track`、`region_group`、`history`、`limit`、`offset` |
 | `get_company` | 读取公司资料、别名验证状态、公开来源与已发布事件 | `slug` |
@@ -21,7 +21,7 @@ BioAI 日知提供匿名、只读的远程 MCP，供个人 AI 查询本站已收
 
 专题 ID 为 `virtual-cell`、`organoid`、`virtual-embryo`、`virtual-organ`、`drug-discovery`。`get_source_status` 返回来自 `/api/topics` 的当前名称与说明。分类中的 `classification.method=automated_keyword_v1` 表示自动关键词导航分类；它不意味着编辑审核或完整学术领域覆盖。保留 `model_form`、`biological_model`、`ai_related` 和 `query_version`，区分实体模型与计算模型，并标明分类版本。
 
-`search_resources` 的 `academic` 可选 `all`、`academic`、`industry`，默认 `all`；`days` 默认 30，`days=0` 检索全部已存日期。站点公开 API 默认返回主题范围内的资源。查询是存量关键词检索，不承诺语义检索或实时搜索整个互联网。
+`search_resources` 的 `academic` 可选 `all`、`academic`、`industry`，默认 `all`；`days` 默认 30，`days=0` 检索全部已存日期。`journal_tier` 默认 `selected`：学术资料需在 17 期刊名单且有 AI 主题相关性；显式 `all` 才检索更宽的历史资料和预印本。`get_source_status` 也返回当前期刊政策。站点公开 API 默认返回主题范围内的资源。查询是存量关键词检索，不承诺语义检索或实时搜索整个互联网。
 
 公司地区分类：`cn` 为中国大陆，`hk` 为中国香港，`global` 为海外，`cross` 为跨地区登记。公司属于目录元数据；`official_website` 字段与来源所有权验证状态分别保留，不能把目录收录当成来源验证证书。
 
@@ -32,15 +32,15 @@ BioAI 日知提供匿名、只读的远程 MCP，供个人 AI 查询本站已收
 在终端执行：
 
 ```sh
-codex mcp add bioaiRizhi --url https://bioai-rizhi.328558608.workers.dev/mcp
+codex mcp add bioai --url https://bioai-rizhi.pages.dev/mcp
 codex mcp list
 ```
 
 也可以在 Codex 的 `~/.codex/config.toml` 中配置：
 
 ```toml
-[mcp_servers.bioaiRizhi]
-url = "https://bioai-rizhi.328558608.workers.dev/mcp"
+[mcp_servers.bioai]
+url = "https://bioai-rizhi.pages.dev/mcp"
 ```
 
 Codex 支持 Streamable HTTP URL；公开服务不需要运行 OAuth 登录。CLI 和 IDE 扩展共用配置。可在 IDE 的 MCP servers 设置中添加 URL。这些方法依据 [OpenAI Docs MCP 文档](https://developers.openai.com/resources/docs-mcp) 和 [Codex MCP 配置文档](https://learn.chatgpt.com/docs/extend/mcp?surface=cli)。
@@ -48,8 +48,8 @@ Codex 支持 Streamable HTTP URL；公开服务不需要运行 OAuth 登录。CL
 ### Claude Code
 
 ```sh
-claude mcp add --transport http bioaiRizhi --scope user https://bioai-rizhi.328558608.workers.dev/mcp
-claude mcp get bioaiRizhi
+claude mcp add --transport http bioai --scope user https://bioai-rizhi.pages.dev/mcp
+claude mcp get bioai
 ```
 
 `--scope user` 使这项个人工具可在多个项目中使用。Claude Code 的 JSON 配置需要显式 `type: "http"`；不应直接把只含 `url` 的 Cursor 配置当作 Claude Code 的 stdio 配置。见 [Claude Code 官方 MCP 文档](https://code.claude.com/docs/en/mcp)。
@@ -67,8 +67,8 @@ claude mcp get bioaiRizhi
 ```json
 {
   "mcpServers": {
-    "bioaiRizhi": {
-      "url": "https://bioai-rizhi.328558608.workers.dev/mcp"
+    "bioai": {
+      "url": "https://bioai-rizhi.pages.dev/mcp"
     }
   }
 }
@@ -119,7 +119,7 @@ return handleMcp(request, env, ctx, (path, params) => apiRead(path, params, sql)
 
 | 配置或限制 | 当前实现 |
 |---|---|
-| `SITE_ORIGIN` | `https://bioai-rizhi.328558608.workers.dev`，不含末尾 `/` |
+| `SITE_ORIGIN` | `https://bioai-rizhi.pages.dev`，不含末尾 `/` |
 | `MCP_ALLOWED_ORIGINS` | 可选的逗号分隔浏览器 origin 白名单；默认只允许站点本身 |
 | `MCP_RATE_LIMITER` | 可选 Cloudflare Rate Limiting binding；超限返回 429 与重试时间 |
 | 原生/云端客户端 | 不带 `Origin` 的请求允许；不要求额外登录 |
@@ -151,7 +151,7 @@ MCP 静态工具 Schema 缓存优化已部署；站点 61 项 JavaScript 全套�
 
 官方 `@modelcontextprotocol/client@2.0.0` 已用 `versionNegotiation: {mode: "legacy"}` 和 `{mode: "auto"}` 分别真实公网 connect/listTools，两种模式均发现并调用全部五项工具通过。结果、版本与时间记录在 [mcp-client-acceptance.json](mcp-client-acceptance.json)。
 
-Claude/Cursor/Codex 个人应用接入尚未安装；后续需用 [MCP Inspector](https://github.com/modelcontextprotocol/inspector) 和实际个人应用分别保存工具发现与读取记录。地址可以打开、代码 dry-run 成功或配置写入成功，都不足以单独证明个人应用已调用数据。
+个人 Codex 已安装名为 `bioai` 的全局连接配置；当前会话需在后续新会话加载。Claude/Cursor 配置示例已提供，未擅自修改其他个人应用；后续需用 [MCP Inspector](https://github.com/modelcontextprotocol/inspector) 和实际个人应用分别保存工具发现与读取记录。地址可以打开、代码 dry-run 成功或配置写入成功，都不足以单独证明个人应用已调用数据。
 
 ## 分享与订阅
 

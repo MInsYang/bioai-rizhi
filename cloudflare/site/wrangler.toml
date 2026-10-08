@@ -45,5 +45,5 @@ head_sampling_rate = 1
 # Set SITE_ORIGIN after Cloudflare returns the actual workers.dev hostname.
 
 [vars]
-SITE_ORIGIN = "https://bioai-rizhi.328558608.workers.dev"
+SITE_ORIGIN = "https://bioai-rizhi.pages.dev"
 GITHUB_URL = "https://github.com/MInsYang/bioai-rizhi"

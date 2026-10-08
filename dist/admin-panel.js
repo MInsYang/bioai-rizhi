@@ -1,7 +1,7 @@
 window.AdminPanel = {
   mount(root) {
     root.innerHTML =
-      '<p>人工确认公司来源及社交账号归属；验证记录与修改均保存审计。</p><div class="filters"><input type="password" id="token" placeholder="管理员访问密钥（仅本次页面有效）" aria-label="管理员访问密钥" autocomplete="off"><button id="login" class="primary">连接后台</button><button id="logout">退出</button></div><div id="controls" hidden><div class="filters"><select id="status" aria-label="验证状态"><option value="pending">待验证</option><option value="verified">已验证</option><option value="rejected">已拒绝</option><option value="">全部</option></select><label><input type="checkbox" id="social"> 只看社交账号</label><button id="refresh">刷新来源</button><button id="add">添加候选来源</button><button id="company-edit">编辑公司与别名</button><button id="jobs">任务与失败重试</button><button id="raw-review">原文与事件复核</button></div></div><div id="message" role="status"></div><div id="admin-content"></div><dialog id="dialog" aria-label="管理操作与核验"><button id="close" class="admin-dialog-close" aria-label="关闭管理弹窗">关闭 ×</button><div id="dialog-content"></div></dialog>';
+      '<p>人工确认公司来源及社交账号归属；验证记录与修改均保存审计。</p><div class="filters"><input type="password" id="token" placeholder="管理员访问密钥（仅本次页面有效）" aria-label="管理员访问密钥" autocomplete="off"><button id="login" class="primary">连接后台</button><button id="logout">退出</button></div><div id="controls" hidden><div class="filters"><select id="status" aria-label="验证状态"><option value="pending">待验证</option><option value="verified">已验证</option><option value="rejected">已拒绝</option><option value="">全部</option></select><label><input type="checkbox" id="social"> 只看社交账号</label><button id="refresh">刷新来源</button><button id="add">添加候选来源</button><button id="company-edit">编辑公司与别名</button><button id="jobs">任务与失败重试</button><button id="raw-review">原文与事件复核</button><button id="candidate-review">行业候选事件</button></div></div><div id="message" role="status"></div><div id="admin-content"></div><dialog id="dialog" aria-label="管理操作与核验"><button id="close" class="admin-dialog-close" aria-label="关闭管理弹窗">关闭 ×</button><div id="dialog-content"></div></dialog>';
     const $ = (s) => root.querySelector(s),
       esc = (s) =>
         String(s ?? "").replace(
@@ -136,6 +136,17 @@ window.AdminPanel = {
 
     let rawRows = [],
       rawPage = 0;
+    $("#candidate-review").onclick = async () => {
+      try {
+        await api('/api/admin/candidates/generate','POST',{});
+        rawRows = await api('/api/admin/candidates');
+        $('#admin-content').innerHTML = '<h2>行业候选事件</h2><p>以下由规则提出，尚未发布。请阅读原文，核实事件类型、公司和证据后再发布。</p>' + (rawRows.length ? rawRows.map(r=>`<article class="admin-raw"><small>${esc(r.source_name)} · 建议类型 ${esc(r.suggested_type)} · ${esc(r.published_at || '日期待核')}</small><h3>${esc(r.title)}</h3><p>${esc((r.content_text || '').slice(0,250))}</p>${anchor(r.canonical_url,'原始出处')} <button data-publish="${r.id}">复核并发布</button><button data-dismiss-candidate="${r.candidate_id}">忽略</button></article>`).join('') : '<p>暂无待复核候选。</p>');
+      } catch(e) { error(e); }
+    };
+    root.addEventListener('click',async e=>{
+      const b=e.target.closest('[data-dismiss-candidate]');if(!b)return;
+      try {await api('/api/admin/candidates/'+b.dataset.dismissCandidate+'/dismiss','POST',{});$('#candidate-review').click();}catch(e){error(e);}
+    });
     $("#raw-review").onclick = async () => {
       try {
         rawRows = await api(
@@ -198,6 +209,10 @@ window.AdminPanel = {
               "",
             )}</select></label><label>发生日期（来源未说明可留空）<input name="occurred_at" type="date"></label><label>涉及公司（可多选）<select name="company_ids" multiple size="6">${opts}</select></label><label>金额（保留原文币种，可空）<input name="amount"></label><label>阶段（可空）<input name="stage"></label><label><input type="checkbox" name="editor_pick"> 编辑精选</label><details><summary>添加一条明确公司关系（可选）</summary><label>主体<select name="subject_id"><option value="" selected>不添加关系</option>${opts.replaceAll("selected", "")}</select></label><label>关系<select name="predicate"><option value="collaborates_with">合作</option><option value="invests_in">投资</option><option value="acquires">收购</option><option value="licenses_from">获得授权</option><option value="co_develops">共同开发</option><option value="adopts_platform">采用平台</option><option value="co_publishes">共同发表</option></select></label><label>对象<select name="object_id"><option value="" selected>选择另一公司</option>${opts.replaceAll("selected", "")}</select></label><label>明确关系证据（必须在上述证据句内）<textarea name="relation_evidence"></textarea></label></details><button class="primary" id="publish-submit">确认核验并发布</button><p id="form-error"></p></form>`,
         );
+        if(r.suggested_type) {
+          $('#publish-form [name="event_type"]').value=r.suggested_type;
+          $('#publish-form [name="track"]').value='生物医药';
+        }
         $("#publish-form").onsubmit = async (e) => {
           e.preventDefault();
           const f = new FormData(e.target);
@@ -228,8 +243,13 @@ window.AdminPanel = {
           $("#publish-submit").disabled = true;
           try {
             const published = await api("/api/admin/events", "POST", body);
+            let candidateWarning='';
+            if(r.candidate_id) {
+              try {await api('/api/admin/candidates/'+r.candidate_id+'/complete','POST',{event_id:published.id});}
+              catch {candidateWarning='<p class="source-note">事件已成功发布，候选状态同步暂未成功。请刷新候选列表核对，无需重复发布。</p>';}
+            }
             modal(
-              `<h2>事件已发布</h2><p>时间线、公司详情与关系图已同步使用该事件。</p><button id="unpublish">撤回该事件</button>`,
+              `<h2>事件已发布</h2>${candidateWarning}<p>时间线、公司详情与关系图已同步使用该事件。</p><button id="unpublish">撤回该事件</button>`,
             );
             $("#unpublish").onclick = async () => {
               try {
@@ -258,11 +278,11 @@ window.AdminPanel = {
       try {
         const rows = await api("/api/admin/jobs");
         $("#admin-content").innerHTML =
-          '<h2>最近任务</h2><p>失败按 60、120 秒退避，最多 3 次尝试；租约过期后可由其他 worker 领取。</p><div class="table-wrap"><table><tr><th>来源</th><th>状态</th><th>尝试</th><th>HTTP / 耗时 / 字节</th><th>错误</th></tr>' +
+          '<h2>最近任务</h2><p>按连续失败次数退避，重试上限以任务记录为准；成功分页不消耗失败预算。租约过期后可重新领取。</p><div class="table-wrap"><table><tr><th>来源</th><th>状态</th><th>处理轮次 / 连续失败</th><th>HTTP / 耗时 / 字节</th><th>错误</th></tr>' +
           rows
             .map(
               (j) =>
-                `<tr><td>${esc(j.name)}</td><td>${esc(j.status)}</td><td>${j.attempts}/${j.max_attempts}</td><td>${esc(j.last_attempt?.http_status ?? "—")} / ${esc(j.last_attempt?.duration_ms ?? "—")} ms / ${esc(j.last_attempt?.bytes_fetched ?? "—")}</td><td>${esc(j.last_error || "")}</td></tr>`,
+                `<tr><td>${esc(j.name)}</td><td>${esc(j.status)}</td><td>${j.attempts} 次 / ${j.failure_count ?? 0} / ${j.max_attempts}</td><td>${esc(j.last_attempt?.http_status ?? "—")} / ${esc(j.last_attempt?.duration_ms ?? "—")} ms / ${esc(j.last_attempt?.bytes_fetched ?? "—")}</td><td>${esc(j.last_error || "")}</td></tr>`,
             )
             .join("") +
           "</table></div>";

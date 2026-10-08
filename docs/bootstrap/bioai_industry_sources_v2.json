@@ -1,0 +1,1489 @@
+{
+  "metadata": {
+    "version": "industry-2026-10-v2",
+    "generated_at": "2026-10-08T08:45:28.720980+00:00",
+    "company_count": 1,
+    "source_count": 9,
+    "candidate_count": 12,
+    "polling_profile": {
+      "id": "P0",
+      "ttl_hours": 1
+    },
+    "purpose": "Official AI biopharma industry collaborations, financing, licensing and pipeline news. Academic queries are a separate source set.",
+    "activation_contract": "Apply only after official_html + request_interval_seconds runtime migrations; checksum-atomic import; pending events only.",
+    "observation_scope": "Live direct HTTP on the local host; does not certify Cloudflare connectivity, API completeness, availability tomorrow, or company scientific claims."
+  },
+  "companies": [
+    {
+      "slug": "nvidia",
+      "name_en": "NVIDIA",
+      "name_zh": "",
+      "aliases": [],
+      "official_website": "https://www.nvidia.com/",
+      "track": "AI科技",
+      "region": "全球",
+      "priority": "P0",
+      "status": "active",
+      "include_in_company_wall": true,
+      "focus": [
+        "AI计算平台",
+        "生命科学AI基础设施"
+      ],
+      "notes": "Official corporate identity confirmed by a dated live About NVIDIA page. Source identity does not establish drug-development efficacy.",
+      "identity_evidence": {
+        "url": "https://www.nvidia.com/en-us/about-nvidia/",
+        "observed_at": "2026-10-08T08:33:00.159734+00:00",
+        "http_status": 200,
+        "http_date": "Thu, 08 Oct 2026 08:32:59 GMT",
+        "body_sha256": "bccab8e0d25ecd1618bc689c15b4a3a99e8828fb84e21ac2ff1d508c1d1b3143",
+        "bytes": 485270
+      }
+    }
+  ],
+  "sources": [
+    {
+      "registry_key": "xtalpi-official-rss",
+      "company_slug": "xtalpi",
+      "name": "XtalPi official Chinese RSS",
+      "source_type": "rss",
+      "adapter": "rss",
+      "url": "https://www.xtalpi.com/feed/",
+      "poll_profile": "P0",
+      "config": {
+        "content_domain": "industry",
+        "official_industry_source": true,
+        "ai_biopharma_identity_verified": false,
+        "cloud_runtime_enabled": true,
+        "official_feed_verified": true,
+        "allowed_hosts": [
+          "www.xtalpi.com"
+        ],
+        "request_interval_seconds": 1,
+        "query_version": "industry-2026-10-v2",
+        "integration_status": "implemented",
+        "operational_status": "dated_http_validated",
+        "deployment_status": "not_deployed_by_this_audit",
+        "company_identity": {
+          "canonical_slug": "xtalpi",
+          "official_website": "https://www.xtalpi.com/",
+          "evidence": {
+            "url": "https://www.xtalpi.com/",
+            "observed_at": "2026-10-08T08:22:18.060813+00:00",
+            "http_status": 200,
+            "http_date": "Thu, 08 Oct 2026 08:22:17 GMT",
+            "body_sha256": "239a95a3983fbbe5a8773d38bf6215ab7497135f398df9990d8fad2256e26120",
+            "bytes": 1964477,
+            "quote": "人工智能 × 机器人技术平台赋能行业创新"
+          }
+        },
+        "provenance": {
+          "method": "official_backlink",
+          "discovered_on": "https://www.xtalpi.com/",
+          "chain": [
+            {
+              "page_url": "https://www.xtalpi.com/",
+              "href": "https://www.xtalpi.com/feed/",
+              "target_url": "https://www.xtalpi.com/feed/",
+              "observed_at": "2026-10-08T08:22:18.060813+00:00",
+              "http_status": 200,
+              "http_date": "Thu, 08 Oct 2026 08:22:17 GMT",
+              "body_sha256": "239a95a3983fbbe5a8773d38bf6215ab7497135f398df9990d8fad2256e26120",
+              "bytes": 1964477
+            }
+          ],
+          "live_validated_at": "2026-10-08T08:23:52.200082+00:00"
+        },
+        "http_observation": {
+          "requested_url": "https://www.xtalpi.com/feed/",
+          "resolved_url": "https://www.xtalpi.com/feed/",
+          "observed_at": "2026-10-08T08:23:52.200082+00:00",
+          "http_status": 200,
+          "http_date": "Thu, 08 Oct 2026 05:26:13 GMT",
+          "body_sha256": "d932283ad7f29741ed89626f867e69d22d1dcaec9a770d0646e4a36608b75827",
+          "bytes": 147166,
+          "format": "rss",
+          "item_count": 10,
+          "latest_article_published_at": "2026-10-08T05:26:00+00:00",
+          "latest_article_date_raw": "Thu, 08 Oct 2026 05:26:00 +0000",
+          "latest_article_url": "https://www.xtalpi.com/%e7%ab%99%e5%9c%a8%e8%af%ba%e5%a5%96%e7%9a%84%e8%82%a9%e8%86%80%e4%b8%8a%ef%bc%8c%e5%8c%96%e5%ad%a6%e6%ad%a3%e5%9c%a8%e4%bb%8e%e5%8f%91%e7%8e%b0%e8%a7%84%e5%be%8b%e8%b5%b0%e5%90%91/",
+          "latest_article_title": "站在诺奖的肩膀上，化学正在从“发现规律”走向“设计规律”"
+        },
+        "robots": {
+          "url": "https://www.xtalpi.com/robots.txt",
+          "observed_at": "2026-10-08T08:26:30.897074+00:00",
+          "http_status": 200,
+          "http_date": "Sat, 03 Oct 2026 20:51:39 GMT",
+          "body_sha256": "c28fa8660459e5b554ebcf3d2f0d98d6511717d257626a17eb65ace2da04aafa",
+          "bytes": 119,
+          "body": "User-agent: *\r\nDisallow: /wp-admin/\r\nAllow: /wp-admin/admin-ajax.php\r\nSitemap: https://www.xtalpi.com/sitemap_index.xml",
+          "allowed_source": true,
+          "crawl_delay_seconds": 0
+        },
+        "scope": "Official metadata, filtered for AI biopharma industry events; publisher claims remain attributed, candidate events require review."
+      }
+    },
+    {
+      "registry_key": "lilly-official-rss",
+      "company_slug": "eli-lilly",
+      "name": "Eli Lilly official news RSS",
+      "source_type": "rss",
+      "adapter": "rss",
+      "url": "https://investor.lilly.com/rss/news-releases.xml?items=10",
+      "poll_profile": "P0",
+      "config": {
+        "content_domain": "industry",
+        "official_industry_source": true,
+        "ai_biopharma_identity_verified": false,
+        "cloud_runtime_enabled": true,
+        "official_feed_verified": true,
+        "allowed_hosts": [
+          "investor.lilly.com"
+        ],
+        "request_interval_seconds": 1,
+        "query_version": "industry-2026-10-v2",
+        "integration_status": "implemented",
+        "operational_status": "dated_http_validated",
+        "deployment_status": "not_deployed_by_this_audit",
+        "company_identity": {
+          "canonical_slug": "eli-lilly",
+          "official_website": "https://www.lilly.com/",
+          "evidence": {
+            "url": "https://investor.lilly.com/rss-news-feeds",
+            "observed_at": "2026-10-08T08:22:17.476131+00:00",
+            "http_status": 200,
+            "http_date": "Thu, 08 Oct 2026 08:22:17 GMT",
+            "body_sha256": "429f5f1ddbbeac35b792fd174ad06024138e28754e6d5a9082876796fd0b1260",
+            "bytes": 87901,
+            "quote": "RSS News Feeds"
+          }
+        },
+        "provenance": {
+          "method": "official_backlink",
+          "discovered_on": "https://investor.lilly.com/rss-news-feeds",
+          "chain": [
+            {
+              "page_url": "https://investor.lilly.com/rss-news-feeds",
+              "href": "/rss/news-releases.xml?items=10",
+              "target_url": "https://investor.lilly.com/rss/news-releases.xml?items=10",
+              "observed_at": "2026-10-08T08:22:17.476131+00:00",
+              "http_status": 200,
+              "http_date": "Thu, 08 Oct 2026 08:22:17 GMT",
+              "body_sha256": "429f5f1ddbbeac35b792fd174ad06024138e28754e6d5a9082876796fd0b1260",
+              "bytes": 87901
+            }
+          ],
+          "live_validated_at": "2026-10-08T08:23:52.838244+00:00"
+        },
+        "http_observation": {
+          "requested_url": "https://investor.lilly.com/rss/news-releases.xml?items=10",
+          "resolved_url": "https://investor.lilly.com/rss/news-releases.xml?items=10",
+          "observed_at": "2026-10-08T08:23:52.838244+00:00",
+          "http_status": 200,
+          "http_date": "Thu, 08 Oct 2026 08:23:52 GMT",
+          "body_sha256": "54dfe8744ee5bd5bf87e9c5125246b2c92c6c80be7752b98dfbd60e5faf94025",
+          "bytes": 8764,
+          "format": "rss",
+          "item_count": 10,
+          "latest_article_published_at": "2026-10-05T07:50:00-04:00",
+          "latest_article_date_raw": "Mon, 05 Oct 2026 07:50:00 -0400",
+          "latest_article_url": "https://investor.lilly.com/news-releases/news-release-details/lilly-present-new-data-across-its-dermatology-portfolio-21",
+          "latest_article_title": "Lilly to present new data across its dermatology portfolio with 21 presentations at Fall Clinical 2026, in pursuit of advancing care for chronic skin conditions"
+        },
+        "robots": {
+          "url": "https://investor.lilly.com/robots.txt",
+          "observed_at": "2026-10-08T08:26:31.707234+00:00",
+          "http_status": 200,
+          "http_date": "Thu, 08 Oct 2026 08:26:31 GMT",
+          "body_sha256": "3e5e1fda588b1d191a1f83325b131004b4ac8269dba8125b43567a89a6e3cb9f",
+          "bytes": 1684,
+          "body": "#\n# robots.txt\n#\n# This file is to prevent the crawling and indexing of certain parts\n# of your site by web crawlers and spiders run by sites like Yahoo!\n# and Google. By telling these \"robots\" where not to go on your site,\n# you save bandwidth and server resources.\n#\n# This file will be ignored unless it is at the root of your host:\n# Used:    http://example.com/robots.txt\n# Ignored: http://example.com/site/robots.txt\n#\n# For more information about the robots.txt standard, see:\n# http://www.robotstxt.org/robotstxt.html\n\nUser-agent: *\n# CSS, JS, Images\nAllow: /core/*.css$\nAllow: /core/*.css?\nAllow: /core/*.js$\nAllow: /core/*.js?\nAllow: /core/*.gif\nAllow: /core/*.jpg\nAllow: /core/*.jpeg\nAllow: /core/*.png\nAllow: /core/*.svg\nAllow: /profiles/*.css$\nAllow: /profiles/*.css?\nAllow: /profiles/*.js$\nAllow: /profiles/*.js?\nAllow: /profiles/*.gif\nAllow: /profiles/*.jpg\nAllow: /profiles/*.jpeg\nAllow: /profiles/*.png\nAllow: /profiles/*.svg\n# Directories\nDisallow: /core/\nDisallow: /profiles/\n# Files\nDisallow: /README.txt\nDisallow: /web.config\n# Paths (clean URLs)\nDisallow: /admin/\nDisallow: /comment/reply/\nDisallow: /filter/tips/\nDisallow: /search/\nDisallow: /user/register\nDisallow: /user/password\nDisallow: /user/login\nDisallow: /user/logout\n# Paths (no clean URLs)\nDisallow: /index.php/admin/\nDisallow: /index.php/comment/reply/\nDisallow: /index.php/filter/tips/\nDisallow: /index.php/search/\nDisallow: /index.php/user/password\nDisallow: /index.php/user/register\nDisallow: /index.php/user/login\nDisallow: /index.php/user/logout\n# Meta external agent\nUser-agent: facebookexternalhit\nDisallow: /\nUser-agent: facebookcatalog\nDisallow: /\nUser-agent: meta-externalagent\nDisallow: /",
+          "allowed_source": true,
+          "crawl_delay_seconds": 0
+        },
+        "scope": "Official metadata, filtered for AI biopharma industry events; publisher claims remain attributed, candidate events require review."
+      }
+    },
+    {
+      "registry_key": "nvidia-life-sciences-rss",
+      "company_slug": "nvidia",
+      "name": "NVIDIA Healthcare and Life Sciences official RSS",
+      "source_type": "rss",
+      "adapter": "rss",
+      "url": "https://nvidianews.nvidia.com/cats/healthcare_and_life_sciences.xml",
+      "poll_profile": "P0",
+      "config": {
+        "content_domain": "industry",
+        "official_industry_source": true,
+        "ai_biopharma_identity_verified": false,
+        "cloud_runtime_enabled": true,
+        "official_feed_verified": true,
+        "allowed_hosts": [
+          "nvidianews.nvidia.com"
+        ],
+        "request_interval_seconds": 1,
+        "query_version": "industry-2026-10-v2",
+        "integration_status": "implemented",
+        "operational_status": "dated_http_validated",
+        "deployment_status": "not_deployed_by_this_audit",
+        "company_identity": {
+          "canonical_slug": "nvidia",
+          "official_website": "https://www.nvidia.com/",
+          "evidence": {
+            "url": "https://www.nvidia.com/en-us/about-nvidia/",
+            "observed_at": "2026-10-08T08:33:00.159734+00:00",
+            "http_status": 200,
+            "http_date": "Thu, 08 Oct 2026 08:32:59 GMT",
+            "body_sha256": "bccab8e0d25ecd1618bc689c15b4a3a99e8828fb84e21ac2ff1d508c1d1b3143",
+            "bytes": 485270
+          }
+        },
+        "provenance": {
+          "method": "official_backlink",
+          "discovered_on": "https://nvidianews.nvidia.com/rss",
+          "chain": [
+            {
+              "page_url": "https://nvidianews.nvidia.com/rss",
+              "href": "https://nvidianews.nvidia.com/cats/healthcare_and_life_sciences.xml",
+              "target_url": "https://nvidianews.nvidia.com/cats/healthcare_and_life_sciences.xml",
+              "observed_at": "2026-10-08T08:22:20.266362+00:00",
+              "http_status": 200,
+              "http_date": "Thu, 08 Oct 2026 08:22:19 GMT",
+              "body_sha256": "7350780a6e772b789023f67a6c77a524f68293791a45b7cf7aa3979e83cac46b",
+              "bytes": 62925
+            }
+          ],
+          "live_validated_at": "2026-10-08T08:23:52.868123+00:00"
+        },
+        "http_observation": {
+          "requested_url": "https://nvidianews.nvidia.com/cats/healthcare_and_life_sciences.xml",
+          "resolved_url": "https://nvidianews.nvidia.com/cats/healthcare_and_life_sciences.xml",
+          "observed_at": "2026-10-08T08:23:52.868123+00:00",
+          "http_status": 200,
+          "http_date": "Thu, 08 Oct 2026 08:23:52 GMT",
+          "body_sha256": "d9233490f9aeb1c0c0f3f62496349f616ad8b01907ac1a3531bdb42c64cb5b86",
+          "bytes": 109307,
+          "format": "rss",
+          "item_count": 10,
+          "latest_article_published_at": "2026-06-23T13:00:00+00:00",
+          "latest_article_date_raw": "Tue, 23 Jun 2026 13:00:00 GMT",
+          "latest_article_url": "https://nvidianews.nvidia.com/news/nvidia-launches-bionemo-agent-toolkit-giving-ai-agents-the-tools-to-accelerate-scientific-discovery",
+          "latest_article_title": "NVIDIA Announces BioNeMo Agent Toolkit — Tools for Agents to Accelerate Scientific Discovery"
+        },
+        "robots": {
+          "url": "https://nvidianews.nvidia.com/robots.txt",
+          "observed_at": "2026-10-08T08:26:32.302284+00:00",
+          "http_status": 200,
+          "http_date": "Thu, 08 Oct 2026 08:26:32 GMT",
+          "body_sha256": "cddb9007c0b5fe9498798bbea95b1532d93341fc5c5344098dcf21656d3f0364",
+          "bytes": 306,
+          "body": "#\r\n# Welcome to NVIDIA \r\n#\r\n# We like people who read our code!\r\n# Check out our careers section while you're here\r\n#\r\n# https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite\r\n#\r\n# Last updated 12 March 2019\r\n#\r\n\r\nUser-agent: *\r\nDisallow: /file\r\n\r\nSitemap: https://nvidianews.nvidia.com/sitemap.xml",
+          "allowed_source": true,
+          "crawl_delay_seconds": 0
+        },
+        "scope": "Official metadata, filtered for AI biopharma industry events; publisher claims remain attributed, candidate events require review."
+      }
+    },
+    {
+      "registry_key": "absci-official-rss",
+      "company_slug": "absci",
+      "name": "Absci official news RSS",
+      "source_type": "rss",
+      "adapter": "rss",
+      "url": "https://investors.absci.com/rss/news-releases.xml",
+      "poll_profile": "P0",
+      "config": {
+        "content_domain": "industry",
+        "official_industry_source": true,
+        "ai_biopharma_identity_verified": true,
+        "cloud_runtime_enabled": true,
+        "official_feed_verified": true,
+        "allowed_hosts": [
+          "investors.absci.com"
+        ],
+        "request_interval_seconds": 1,
+        "query_version": "industry-2026-10-v2",
+        "integration_status": "implemented",
+        "operational_status": "dated_http_validated",
+        "deployment_status": "not_deployed_by_this_audit",
+        "company_identity": {
+          "canonical_slug": "absci",
+          "official_website": "https://www.absci.com/",
+          "evidence": {
+            "url": "https://www.absci.com/",
+            "observed_at": "2026-10-08T08:26:32.896928+00:00",
+            "http_status": 200,
+            "http_date": "Thu, 08 Oct 2026 08:26:32 GMT",
+            "body_sha256": "f76a920931584a6b449a7388d5377c4c15197f8e818cdef049fc32792e09a750",
+            "bytes": 342349,
+            "quote": "We're unlocking novel biology and creating better biologics with AI"
+          }
+        },
+        "provenance": {
+          "method": "official_backlink",
+          "discovered_on": "https://investors.absci.com/rss-feeds",
+          "chain": [
+            {
+              "page_url": "https://investors.absci.com/rss-feeds",
+              "href": "/rss/news-releases.xml",
+              "target_url": "https://investors.absci.com/rss/news-releases.xml",
+              "observed_at": "2026-10-08T08:23:53.353171+00:00",
+              "http_status": 200,
+              "http_date": "Thu, 08 Oct 2026 08:23:53 GMT",
+              "body_sha256": "ba785b369a4b424cde93c7e2aaac3e0e40b1ea6ee0ac62e13171f65739e980e9",
+              "bytes": 28548
+            }
+          ],
+          "live_validated_at": "2026-10-08T08:27:51.775945+00:00"
+        },
+        "http_observation": {
+          "requested_url": "https://investors.absci.com/rss/news-releases.xml",
+          "resolved_url": "https://investors.absci.com/rss/news-releases.xml",
+          "observed_at": "2026-10-08T08:27:51.775945+00:00",
+          "http_status": 200,
+          "http_date": "Thu, 08 Oct 2026 08:27:51 GMT",
+          "body_sha256": "6cca52cc40662af51523c41a69a08a108e515efc888111a726a64e7ff6a6faa8",
+          "bytes": 7811,
+          "format": "rss",
+          "item_count": 10,
+          "latest_article_published_at": "2026-09-24T08:00:49-04:00",
+          "latest_article_date_raw": "Thu, 24 Sep 2026 08:00:49 -0400",
+          "latest_article_url": "https://investors.absci.com/news-releases/news-release-details/absci-announces-preliminary-details-phase-2-storylinetm-trial-ai",
+          "latest_article_title": "Absci Announces Preliminary Details for Phase 2 STORYLINE™ Trial of AI-Designed Antibody ABS-201™ for Endometriosis"
+        },
+        "robots": {
+          "url": "https://investors.absci.com/robots.txt",
+          "observed_at": "2026-10-08T08:26:32.158146+00:00",
+          "http_status": 200,
+          "http_date": "Thu, 08 Oct 2026 08:26:32 GMT",
+          "body_sha256": "3e5e1fda588b1d191a1f83325b131004b4ac8269dba8125b43567a89a6e3cb9f",
+          "bytes": 1684,
+          "body": "#\n# robots.txt\n#\n# This file is to prevent the crawling and indexing of certain parts\n# of your site by web crawlers and spiders run by sites like Yahoo!\n# and Google. By telling these \"robots\" where not to go on your site,\n# you save bandwidth and server resources.\n#\n# This file will be ignored unless it is at the root of your host:\n# Used:    http://example.com/robots.txt\n# Ignored: http://example.com/site/robots.txt\n#\n# For more information about the robots.txt standard, see:\n# http://www.robotstxt.org/robotstxt.html\n\nUser-agent: *\n# CSS, JS, Images\nAllow: /core/*.css$\nAllow: /core/*.css?\nAllow: /core/*.js$\nAllow: /core/*.js?\nAllow: /core/*.gif\nAllow: /core/*.jpg\nAllow: /core/*.jpeg\nAllow: /core/*.png\nAllow: /core/*.svg\nAllow: /profiles/*.css$\nAllow: /profiles/*.css?\nAllow: /profiles/*.js$\nAllow: /profiles/*.js?\nAllow: /profiles/*.gif\nAllow: /profiles/*.jpg\nAllow: /profiles/*.jpeg\nAllow: /profiles/*.png\nAllow: /profiles/*.svg\n# Directories\nDisallow: /core/\nDisallow: /profiles/\n# Files\nDisallow: /README.txt\nDisallow: /web.config\n# Paths (clean URLs)\nDisallow: /admin/\nDisallow: /comment/reply/\nDisallow: /filter/tips/\nDisallow: /search/\nDisallow: /user/register\nDisallow: /user/password\nDisallow: /user/login\nDisallow: /user/logout\n# Paths (no clean URLs)\nDisallow: /index.php/admin/\nDisallow: /index.php/comment/reply/\nDisallow: /index.php/filter/tips/\nDisallow: /index.php/search/\nDisallow: /index.php/user/password\nDisallow: /index.php/user/register\nDisallow: /index.php/user/login\nDisallow: /index.php/user/logout\n# Meta external agent\nUser-agent: facebookexternalhit\nDisallow: /\nUser-agent: facebookcatalog\nDisallow: /\nUser-agent: meta-externalagent\nDisallow: /",
+          "allowed_source": true,
+          "crawl_delay_seconds": 0
+        },
+        "scope": "Official metadata, filtered for AI biopharma industry events; publisher claims remain attributed, candidate events require review."
+      }
+    },
+    {
+      "registry_key": "generate-biomedicines-official-rss",
+      "company_slug": "generate-biomedicines",
+      "name": "Generate Biomedicines official news-release RSS",
+      "source_type": "rss",
+      "adapter": "rss",
+      "url": "https://generatebiomedicines.com/news-releases/feed/",
+      "poll_profile": "P0",
+      "config": {
+        "content_domain": "industry",
+        "official_industry_source": true,
+        "ai_biopharma_identity_verified": true,
+        "cloud_runtime_enabled": true,
+        "official_feed_verified": true,
+        "allowed_hosts": [
+          "generatebiomedicines.com"
+        ],
+        "request_interval_seconds": 10.0,
+        "query_version": "industry-2026-10-v2",
+        "integration_status": "implemented",
+        "operational_status": "dated_http_validated",
+        "deployment_status": "not_deployed_by_this_audit",
+        "company_identity": {
+          "canonical_slug": "generate-biomedicines",
+          "official_website": "https://generatebiomedicines.com/",
+          "evidence": {
+            "url": "https://generatebiomedicines.com/",
+            "observed_at": "2026-10-08T08:22:18.290420+00:00",
+            "http_status": 200,
+            "http_date": "Thu, 08 Oct 2026 08:22:18 GMT",
+            "body_sha256": "dc4e71325e05ae406027c4548b6b0edf27f8067a58775a64c85c00cdb5b38010",
+            "bytes": 91122,
+            "quote": "intersection of machine learning, biological engineering, and medicine"
+          }
+        },
+        "provenance": {
+          "method": "official_backlink",
+          "discovered_on": "https://generatebiomedicines.com/news-releases/",
+          "chain": [
+            {
+              "page_url": "https://generatebiomedicines.com/news-releases/",
+              "href": "https://generatebiomedicines.com/news-releases/feed/",
+              "target_url": "https://generatebiomedicines.com/news-releases/feed/",
+              "observed_at": "2026-10-08T08:26:33.719325+00:00",
+              "http_status": 200,
+              "http_date": "Thu, 08 Oct 2026 08:26:33 GMT",
+              "body_sha256": "58a6207a347f13ffd62499670c21b37d069bc3dc11a5b8aa44bdd673fc72843d",
+              "bytes": 65091
+            }
+          ],
+          "live_validated_at": "2026-10-08T08:30:27.538435+00:00"
+        },
+        "http_observation": {
+          "requested_url": "https://generatebiomedicines.com/news-releases/feed/",
+          "resolved_url": "https://generatebiomedicines.com/news-releases/feed/",
+          "observed_at": "2026-10-08T08:30:27.538435+00:00",
+          "http_status": 200,
+          "http_date": "Thu, 08 Oct 2026 08:30:27 GMT",
+          "body_sha256": "9f57ce2b2e79ae2195e2ec9564cf02c42297124bf927349a50f1d9af1c3f7669",
+          "bytes": 70175,
+          "format": "rss",
+          "item_count": 10,
+          "latest_article_published_at": "2026-10-01T11:00:00+00:00",
+          "latest_article_date_raw": "Thu, 01 Oct 2026 11:00:00 +0000",
+          "latest_article_url": "https://generatebiomedicines.com/news-releases/roswell-park-generate-biomedicines-launch-exclusive-clinical-trial-of-armored-car-t-therapy-for-ovarian-cancer/",
+          "latest_article_title": "Roswell Park, Generate Biomedicines Launch Exclusive Clinical Trial of ‘Armored’ CAR T Therapy for Ovarian Cancer"
+        },
+        "robots": {
+          "url": "https://generatebiomedicines.com/robots.txt",
+          "observed_at": "2026-10-08T08:26:31.739229+00:00",
+          "http_status": 200,
+          "http_date": "Thu, 08 Oct 2026 08:26:31 GMT",
+          "body_sha256": "4404de6524bc72bcc780430ec4fb474dabe90a1e0556746fafb2f3b7674ea17c",
+          "bytes": 198,
+          "body": "Crawl-delay: 10\n# START YOAST BLOCK\n# ---------------------------\nUser-agent: *\nDisallow:\n\nSitemap: https://generatebiomedicines.com/sitemap_index.xml\n# ---------------------------\n# END YOAST BLOCK",
+          "allowed_source": true,
+          "crawl_delay_seconds": 10.0
+        },
+        "scope": "Official metadata, filtered for AI biopharma industry events; publisher claims remain attributed, candidate events require review."
+      }
+    },
+    {
+      "registry_key": "recursion-official-newsroom",
+      "company_slug": "recursion",
+      "name": "Recursion official investor newsroom",
+      "source_type": "newsroom",
+      "adapter": "official_html",
+      "url": "https://ir.recursion.com/news-events/press-releases",
+      "poll_profile": "P0",
+      "config": {
+        "content_domain": "industry",
+        "official_industry_source": true,
+        "ai_biopharma_identity_verified": true,
+        "cloud_runtime_enabled": true,
+        "official_html_verified": true,
+        "allowed_hosts": [
+          "ir.recursion.com"
+        ],
+        "article_path_prefixes": [
+          "/news-releases/news-release-details/"
+        ],
+        "article_selector": "article",
+        "publication_date_selector": ".field--name-field-nir-news-date",
+        "index_max_articles": 8,
+        "request_interval_seconds": 1,
+        "query_version": "industry-2026-10-v2",
+        "integration_status": "implemented",
+        "operational_status": "dated_http_and_parser_validated",
+        "deployment_status": "not_deployed_by_this_audit",
+        "company_identity": {
+          "canonical_slug": "recursion",
+          "official_website": "https://www.recursion.com/",
+          "evidence": {
+            "url": "https://www.recursion.com/",
+            "observed_at": "2026-10-08T08:22:18.502316+00:00",
+            "http_status": 200,
+            "http_date": "Thu, 08 Oct 2026 08:22:18 GMT",
+            "body_sha256": "60a782c95a3310992d3c24533ce0bb6aa42ea1cb254357107a9d26307a271a70",
+            "bytes": 95896,
+            "quote": "The AI engine uncovering novel medicines that matter"
+          }
+        },
+        "provenance": {
+          "method": "official_controlled_newsroom",
+          "discovered_on": "https://ir.recursion.com/news-events/press-releases",
+          "index_observation": {
+            "requested_url": "https://ir.recursion.com/news-events/press-releases",
+            "resolved_url": "https://ir.recursion.com/news-events/press-releases",
+            "observed_at": "2026-10-08T08:22:19.195701+00:00",
+            "http_status": 200,
+            "http_date": "Thu, 08 Oct 2026 08:22:19 GMT",
+            "body_sha256": "0f590b6e4b2e144651721edaabbd556990e3f6da24290db7167e9026b302aa79",
+            "bytes": 42284
+          },
+          "live_validated_at": "2026-10-08T08:22:19.195701+00:00"
+        },
+        "parse_validation": [
+          {
+            "url": "https://ir.recursion.com/news-releases/news-release-details/recursion-reports-second-quarter-financial-results-genentech",
+            "observed_at": "2026-10-08T08:27:54.980760+00:00",
+            "http_status": 200,
+            "http_date": "Thu, 08 Oct 2026 08:27:54 GMT",
+            "body_sha256": "41139b6ca16cbae129b6ec3b3755e2eaf564c32f2fa5d1fd68378dba271e03c1",
+            "bytes": 148878,
+            "title": "Recursion Reports Second Quarter Financial Results; Genentech Options First Neuroscience Target into Early Discovery Program",
+            "published_at": "2026-08-05T10:30:38.000Z"
+          }
+        ],
+        "robots": {
+          "url": "https://ir.recursion.com/robots.txt",
+          "observed_at": "2026-10-08T08:26:31.910875+00:00",
+          "http_status": 200,
+          "http_date": "Thu, 08 Oct 2026 08:26:31 GMT",
+          "body_sha256": "3e5e1fda588b1d191a1f83325b131004b4ac8269dba8125b43567a89a6e3cb9f",
+          "bytes": 1684,
+          "body": "#\n# robots.txt\n#\n# This file is to prevent the crawling and indexing of certain parts\n# of your site by web crawlers and spiders run by sites like Yahoo!\n# and Google. By telling these \"robots\" where not to go on your site,\n# you save bandwidth and server resources.\n#\n# This file will be ignored unless it is at the root of your host:\n# Used:    http://example.com/robots.txt\n# Ignored: http://example.com/site/robots.txt\n#\n# For more information about the robots.txt standard, see:\n# http://www.robotstxt.org/robotstxt.html\n\nUser-agent: *\n# CSS, JS, Images\nAllow: /core/*.css$\nAllow: /core/*.css?\nAllow: /core/*.js$\nAllow: /core/*.js?\nAllow: /core/*.gif\nAllow: /core/*.jpg\nAllow: /core/*.jpeg\nAllow: /core/*.png\nAllow: /core/*.svg\nAllow: /profiles/*.css$\nAllow: /profiles/*.css?\nAllow: /profiles/*.js$\nAllow: /profiles/*.js?\nAllow: /profiles/*.gif\nAllow: /profiles/*.jpg\nAllow: /profiles/*.jpeg\nAllow: /profiles/*.png\nAllow: /profiles/*.svg\n# Directories\nDisallow: /core/\nDisallow: /profiles/\n# Files\nDisallow: /README.txt\nDisallow: /web.config\n# Paths (clean URLs)\nDisallow: /admin/\nDisallow: /comment/reply/\nDisallow: /filter/tips/\nDisallow: /search/\nDisallow: /user/register\nDisallow: /user/password\nDisallow: /user/login\nDisallow: /user/logout\n# Paths (no clean URLs)\nDisallow: /index.php/admin/\nDisallow: /index.php/comment/reply/\nDisallow: /index.php/filter/tips/\nDisallow: /index.php/search/\nDisallow: /index.php/user/password\nDisallow: /index.php/user/register\nDisallow: /index.php/user/login\nDisallow: /index.php/user/logout\n# Meta external agent\nUser-agent: facebookexternalhit\nDisallow: /\nUser-agent: facebookcatalog\nDisallow: /\nUser-agent: meta-externalagent\nDisallow: /",
+          "allowed_source": true,
+          "crawl_delay_seconds": 0
+        },
+        "scope": "Latest eight official index links per hourly poll. One index request, then one official article per durable checkpoint. This is bounded recent monitoring, not a complete historical crawl."
+      }
+    },
+    {
+      "registry_key": "isomorphic-labs-official-announcements",
+      "company_slug": "isomorphic-labs",
+      "name": "Isomorphic Labs official announcements",
+      "source_type": "newsroom",
+      "adapter": "official_html",
+      "url": "https://www.isomorphiclabs.com/announcements",
+      "poll_profile": "P0",
+      "config": {
+        "content_domain": "industry",
+        "official_industry_source": true,
+        "ai_biopharma_identity_verified": true,
+        "cloud_runtime_enabled": true,
+        "official_html_verified": true,
+        "allowed_hosts": [
+          "www.isomorphiclabs.com"
+        ],
+        "article_path_prefixes": [
+          "/articles/",
+          "/press/"
+        ],
+        "article_selector": ".news-detail-body_main",
+        "publication_date_selector": ".news-detail-hero_meta-item",
+        "index_max_articles": 8,
+        "request_interval_seconds": 1,
+        "query_version": "industry-2026-10-v2",
+        "integration_status": "implemented",
+        "operational_status": "dated_http_and_parser_validated",
+        "deployment_status": "not_deployed_by_this_audit",
+        "company_identity": {
+          "canonical_slug": "isomorphic-labs",
+          "official_website": "https://www.isomorphiclabs.com/",
+          "evidence": {
+            "url": "https://www.isomorphiclabs.com/",
+            "observed_at": "2026-10-08T08:26:34.369083+00:00",
+            "http_status": 200,
+            "http_date": "Thu, 08 Oct 2026 08:26:33 GMT",
+            "body_sha256": "5bcb10d7efee36bcb6ed31480dedca14fb413c6557ee868a4d5c4f72e24dd64e",
+            "bytes": 66775,
+            "quote": "Reimagining Drug Discovery Process with AI"
+          }
+        },
+        "provenance": {
+          "method": "official_controlled_newsroom",
+          "discovered_on": "https://www.isomorphiclabs.com/announcements",
+          "index_observation": {
+            "requested_url": "https://www.isomorphiclabs.com/announcements",
+            "resolved_url": "https://www.isomorphiclabs.com/announcements",
+            "observed_at": "2026-10-08T08:22:21.140561+00:00",
+            "http_status": 200,
+            "http_date": "Thu, 08 Oct 2026 08:22:20 GMT",
+            "body_sha256": "0a3e8862e7461d976695f685cc543a5c9ddea445cc9b62ec1f6663d37efc5fe6",
+            "bytes": 80214
+          },
+          "live_validated_at": "2026-10-08T08:22:21.140561+00:00"
+        },
+        "parse_validation": [
+          {
+            "url": "https://www.isomorphiclabs.com/articles/isomorphic-labs-announces-series-b-investment-round",
+            "observed_at": "2026-10-08T08:27:51.489936+00:00",
+            "http_status": 200,
+            "http_date": "Thu, 08 Oct 2026 08:27:51 GMT",
+            "body_sha256": "c272ac7745af32a4fc8ff8856dd1bde870dc5cd10cb80d0ceafc2fbd94da02ae",
+            "bytes": 58269,
+            "title": "Isomorphic Labs announces Series B investment round",
+            "published_at": "2026-05-12T00:00:00.000Z"
+          },
+          {
+            "url": "https://www.isomorphiclabs.com/press/isomorphic-labs-funding",
+            "observed_at": "2026-10-08T08:27:55.175633+00:00",
+            "http_status": 200,
+            "http_date": "Thu, 08 Oct 2026 08:27:53 GMT",
+            "body_sha256": "f1d10d3fba8da6e5e37c15b75eefc5fc77a29553e03800d24ceea1a817510ab3",
+            "bytes": 49535,
+            "title": "Isomorphic Labs secures $2.1 Billion funding to scale its AI drug design engine",
+            "published_at": "2026-05-12T00:00:00.000Z"
+          },
+          {
+            "url": "https://www.isomorphiclabs.com/articles/isomorphic-labs-enters-into-a-research-collaboration-with-johnson-johnson",
+            "observed_at": "2026-10-08T08:27:58.078349+00:00",
+            "http_status": 200,
+            "http_date": "Thu, 08 Oct 2026 08:27:58 GMT",
+            "body_sha256": "e65c6cb8ae96c077631113810abf1ab12f4ba4da1411ae6f8cca2d5f3871563f",
+            "bytes": 58771,
+            "title": "Isomorphic Labs Enters into a Research Collaboration with Johnson & Johnson",
+            "published_at": "2026-01-20T00:00:00.000Z"
+          },
+          {
+            "url": "https://www.isomorphiclabs.com/articles/isomorphic-labs-joins-the-virtual-biology-initiative",
+            "observed_at": "2026-10-08T08:28:01.768973+00:00",
+            "http_status": 200,
+            "http_date": "Thu, 08 Oct 2026 08:27:59 GMT",
+            "body_sha256": "f7846e436a51ece977c434533830425e5abaf0c962d6d2a6f1461ebed863ca23",
+            "bytes": 58839,
+            "title": "Isomorphic Labs joins the Virtual Biology Initiative to build foundational data for AI models to predict and treat disease",
+            "published_at": "2026-10-07T00:00:00.000Z"
+          }
+        ],
+        "robots": {
+          "url": "https://www.isomorphiclabs.com/robots.txt",
+          "observed_at": "2026-10-08T08:23:55.279166+00:00",
+          "http_status": 200,
+          "http_date": "Thu, 08 Oct 2026 08:23:55 GMT",
+          "body_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0,
+          "body": "",
+          "allowed_source": true,
+          "crawl_delay_seconds": 0
+        },
+        "scope": "Latest eight official index links per hourly poll. One index request, then one official article per durable checkpoint. This is bounded recent monitoring, not a complete historical crawl."
+      }
+    },
+    {
+      "registry_key": "iambic-official-newsroom",
+      "company_slug": "iambic-therapeutics",
+      "name": "Iambic official newsroom",
+      "source_type": "newsroom",
+      "adapter": "official_html",
+      "url": "https://www.iambic.ai/news",
+      "poll_profile": "P0",
+      "config": {
+        "content_domain": "industry",
+        "official_industry_source": true,
+        "ai_biopharma_identity_verified": true,
+        "cloud_runtime_enabled": true,
+        "official_html_verified": true,
+        "allowed_hosts": [
+          "www.iambic.ai"
+        ],
+        "article_path_prefixes": [
+          "/post/"
+        ],
+        "article_selector": ".rich-text",
+        "publication_date_selector": "._50",
+        "index_max_articles": 8,
+        "request_interval_seconds": 1,
+        "query_version": "industry-2026-10-v2",
+        "integration_status": "implemented",
+        "operational_status": "dated_http_and_parser_validated",
+        "deployment_status": "not_deployed_by_this_audit",
+        "company_identity": {
+          "canonical_slug": "iambic-therapeutics",
+          "official_website": "https://www.iambic.ai/",
+          "evidence": {
+            "url": "https://www.iambic.ai/",
+            "observed_at": "2026-10-08T08:22:21.431746+00:00",
+            "http_status": 200,
+            "http_date": "Thu, 08 Oct 2026 08:22:21 GMT",
+            "body_sha256": "bbaf0f965d5b556d9170d72896977bc9b05ef25446e29ecb03f169e45bcd3279",
+            "bytes": 42434,
+            "quote": "Our AI technologies, Enchant and NeuralPLexer, drive a high-throughput experimental platform"
+          }
+        },
+        "provenance": {
+          "method": "official_controlled_newsroom",
+          "discovered_on": "https://www.iambic.ai/news",
+          "index_observation": {
+            "requested_url": "https://www.iambic.ai/news",
+            "resolved_url": "https://www.iambic.ai/news",
+            "observed_at": "2026-10-08T08:23:55.445274+00:00",
+            "http_status": 200,
+            "http_date": "Thu, 08 Oct 2026 08:23:53 GMT",
+            "body_sha256": "7d56e0251fea19f50806dd79185873373702645aab15ba1889133b9fd4c1b315",
+            "bytes": 91423
+          },
+          "live_validated_at": "2026-10-08T08:23:55.445274+00:00"
+        },
+        "parse_validation": [
+          {
+            "url": "https://www.iambic.ai/post/abbvie-and-iambic-announce-collaboration-to-accelerate-ai-driven-drug-discovery",
+            "observed_at": "2026-10-08T08:27:51.348329+00:00",
+            "http_status": 200,
+            "http_date": "Thu, 08 Oct 2026 08:27:51 GMT",
+            "body_sha256": "8b682d3151ec0d78e15686fa98623f56c28cb4343228aca9760c521fcd6bb740",
+            "bytes": 29811,
+            "title": "AbbVie and Iambic Announce Collaboration to Accelerate AI-driven Drug Discovery",
+            "published_at": "2026-09-21T00:00:00.000Z"
+          },
+          {
+            "url": "https://www.iambic.ai/post/bayer-and-iambic-collab",
+            "observed_at": "2026-10-08T08:27:54.320365+00:00",
+            "http_status": 200,
+            "http_date": "Thu, 08 Oct 2026 08:27:53 GMT",
+            "body_sha256": "8a119ef195996960a48254f22c801622588d27667ccf93c72dc470efde6348b1",
+            "bytes": 26486,
+            "title": "Bayer and Iambic collaborate to advance drug discovery with AI",
+            "published_at": "2026-06-22T00:00:00.000Z"
+          },
+          {
+            "url": "https://www.iambic.ai/post/iambic-submits-ind-for-a-potentially-brain-penetrant-kif18a-inhibitor-iam217-its-second-wholly-owned-ai-discovered-candidate",
+            "observed_at": "2026-10-08T08:27:56.551050+00:00",
+            "http_status": 200,
+            "http_date": "Thu, 08 Oct 2026 08:27:56 GMT",
+            "body_sha256": "4fa0c7636a301430d1d0011a469bad3091fc96f8f9cab025ddbc1e810ed9a584",
+            "bytes": 29245,
+            "title": "Iambic Submits IND for a Potentially Brain-Penetrant KIF18A Inhibitor IAM217, Its Second Wholly Owned AI-Discovered Candidate",
+            "published_at": "2026-10-05T00:00:00.000Z"
+          }
+        ],
+        "robots": {
+          "url": "https://www.iambic.ai/robots.txt",
+          "observed_at": "2026-10-08T08:23:57.080936+00:00",
+          "http_status": 200,
+          "http_date": "Thu, 08 Oct 2026 08:23:57 GMT",
+          "body_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0,
+          "body": "",
+          "allowed_source": true,
+          "crawl_delay_seconds": 0
+        },
+        "scope": "Latest eight official index links per hourly poll. One index request, then one official article per durable checkpoint. This is bounded recent monitoring, not a complete historical crawl."
+      }
+    },
+    {
+      "registry_key": "owkin-official-newsroom",
+      "company_slug": "owkin",
+      "name": "Owkin official newsroom",
+      "source_type": "newsroom",
+      "adapter": "official_html",
+      "url": "https://www.owkin.com/news",
+      "poll_profile": "P0",
+      "config": {
+        "content_domain": "industry",
+        "official_industry_source": true,
+        "ai_biopharma_identity_verified": true,
+        "cloud_runtime_enabled": true,
+        "official_html_verified": true,
+        "allowed_hosts": [
+          "www.owkin.com"
+        ],
+        "article_path_prefixes": [
+          "/newsfeed/"
+        ],
+        "article_selector": ".text-rich-text",
+        "publication_date_selector": ".cms-card-text",
+        "index_max_articles": 8,
+        "request_interval_seconds": 1,
+        "query_version": "industry-2026-10-v2",
+        "integration_status": "implemented",
+        "operational_status": "dated_http_and_parser_validated",
+        "deployment_status": "not_deployed_by_this_audit",
+        "company_identity": {
+          "canonical_slug": "owkin",
+          "official_website": "https://www.owkin.com/",
+          "evidence": {
+            "url": "https://www.owkin.com/",
+            "observed_at": "2026-10-08T08:22:22.310776+00:00",
+            "http_status": 200,
+            "http_date": "Thu, 08 Oct 2026 08:22:22 GMT",
+            "body_sha256": "3eed7143c940307e7aa33a981bfce50dd0fed855535e7e3f01201797c5df1832",
+            "bytes": 80972,
+            "quote": "We built the first solution that automates AI in biology."
+          }
+        },
+        "provenance": {
+          "method": "official_controlled_newsroom",
+          "discovered_on": "https://www.owkin.com/news",
+          "index_observation": {
+            "requested_url": "https://www.owkin.com/news",
+            "resolved_url": "https://www.owkin.com/news",
+            "observed_at": "2026-10-08T08:26:33.643987+00:00",
+            "http_status": 200,
+            "http_date": "Thu, 08 Oct 2026 08:26:33 GMT",
+            "body_sha256": "f6398e81eb19431a8c511fe31b39a3b0af9e259898ff24d38119f69e922121a1",
+            "bytes": 80762
+          },
+          "live_validated_at": "2026-10-08T08:26:33.643987+00:00"
+        },
+        "parse_validation": [
+          {
+            "url": "https://www.owkin.com/newsfeed/owkin-to-build-ai-agents-as-part-of-a-multi-year-k-pro-collaboration-with-sanofi",
+            "observed_at": "2026-10-08T08:27:51.516912+00:00",
+            "http_status": 200,
+            "http_date": "Thu, 08 Oct 2026 08:27:51 GMT",
+            "body_sha256": "2cb525338ab3f09565bef7c0da3a4f3e1b18c5f61af283a6f358904644606e32",
+            "bytes": 54277,
+            "title": "Owkin to Build AI Agents as Part of a Multi-Year K Pro Collaboration with Sanofi",
+            "published_at": "2026-06-05T00:00:00.000Z"
+          },
+          {
+            "url": "https://www.owkin.com/newsfeed/owkin-to-build-ai-agents-as-part-of-a-multi-year-k-pro-license-agreement-with-astrazeneca",
+            "observed_at": "2026-10-08T08:27:54.116070+00:00",
+            "http_status": 200,
+            "http_date": "Thu, 08 Oct 2026 08:27:54 GMT",
+            "body_sha256": "09afd138f19cdf22527236d0489b8362e297161a4a5fbe1e6fe14e9d64f81b8a",
+            "bytes": 54054,
+            "title": "Owkin to Build AI Agents as Part of a Multi-Year K Pro License Agreement with AstraZeneca",
+            "published_at": "2026-05-13T00:00:00.000Z"
+          }
+        ],
+        "robots": {
+          "url": "https://www.owkin.com/robots.txt",
+          "observed_at": "2026-10-08T08:23:55.354653+00:00",
+          "http_status": 200,
+          "http_date": "Thu, 08 Oct 2026 08:23:54 GMT",
+          "body_sha256": "ccf4dbd0651881f812d5e0686a6cf2bb0b0b8489faaacf0fca3ed5ec6a9f47a7",
+          "bytes": 266,
+          "body": "User-agent: *\nDisallow: /vault/\nDisallow: /content-hub/\nDisallow: /hub-content/\nDisallow: /our-events/\nDisallow: /ifu/\n\nUser-agent: *\nAllow: /\n\nUser-agent: OAI-SearchBot Allow: /\n\nSitemap: https://www.owkin.com/sitemap.xml\n\nSitemap: https://www.owkin.com/sitemap.xml",
+          "allowed_source": true,
+          "crawl_delay_seconds": 0
+        },
+        "scope": "Latest eight official index links per hourly poll. One index request, then one official article per durable checkpoint. This is bounded recent monitoring, not a complete historical crawl."
+      }
+    }
+  ],
+  "event_candidates": [
+    {
+      "candidate_key": "iambic-abbvie-20260921",
+      "source_registry_key": "iambic-official-newsroom",
+      "canonical_url": "https://www.iambic.ai/post/abbvie-and-iambic-announce-collaboration-to-accelerate-ai-driven-drug-discovery",
+      "title_original": "AbbVie and Iambic Announce Collaboration to Accelerate AI-driven Drug Discovery",
+      "title": "Iambic 与 AbbVie 宣布 AI 药物发现合作",
+      "summary": "双方宣布多年期小分子发现合作，覆盖免疫、神经科学与肿瘤；首付款、里程碑和分级版税金额未披露。",
+      "event_type": "partnership",
+      "published_on": "2026-09-21",
+      "occurred_on": "2026-09-21",
+      "date_basis": "official article publication date; occurrence not independently established beyond announcement",
+      "review_status": "pending",
+      "participants": [
+        {
+          "canonical_slug": "iambic-therapeutics",
+          "name": "Iambic Therapeutics",
+          "role": "participant"
+        },
+        {
+          "canonical_slug": "abbvie",
+          "name": "AbbVie",
+          "role": "participant"
+        }
+      ],
+      "evidence": {
+        "text": "The companies will leverage Iambic's AI platform to improve the efficiency and success of identifying promising new drug candidates.",
+        "start": 80,
+        "end": 212,
+        "retained_content_text": "AbbVie and Iambic Announce Collaboration to Accelerate AI-driven Drug Discovery\nThe companies will leverage Iambic's AI platform to improve the efficiency and success of identifying promising new drug candidates.",
+        "observation": {
+          "url": "https://www.iambic.ai/post/abbvie-and-iambic-announce-collaboration-to-accelerate-ai-driven-drug-discovery",
+          "observed_at": "2026-10-08T08:27:51.348329+00:00",
+          "http_status": 200,
+          "http_date": "Thu, 08 Oct 2026 08:27:51 GMT",
+          "body_sha256": "8b682d3151ec0d78e15686fa98623f56c28cb4343228aca9760c521fcd6bb740",
+          "bytes": 29811
+        }
+      },
+      "details": {
+        "claim_status": "official_announcement",
+        "not_independent_validation": true,
+        "original_url": "https://www.iambic.ai/post/abbvie-and-iambic-announce-collaboration-to-accelerate-ai-driven-drug-discovery",
+        "ai_related": true,
+        "financial_amount_disclosed": false
+      }
+    },
+    {
+      "candidate_key": "iambic-bayer-20260622",
+      "source_registry_key": "iambic-official-newsroom",
+      "canonical_url": "https://www.iambic.ai/post/bayer-and-iambic-collab",
+      "title_original": "Bayer and Iambic collaborate to advance drug discovery with AI",
+      "title": "Iambic 与拜耳合作推进 AI 小分子发现",
+      "summary": "合作聚焦具有挑战性的药物靶点和小分子发现；公告中的研发提速目标属于预期。",
+      "event_type": "partnership",
+      "published_on": "2026-06-22",
+      "occurred_on": "2026-06-22",
+      "date_basis": "official article publication date; occurrence not independently established beyond announcement",
+      "review_status": "pending",
+      "participants": [
+        {
+          "canonical_slug": "iambic-therapeutics",
+          "name": "Iambic Therapeutics",
+          "role": "participant"
+        },
+        {
+          "canonical_slug": "bayer-pharmaceuticals",
+          "name": "Bayer",
+          "role": "participant"
+        }
+      ],
+      "evidence": {
+        "text": "today announced a drug discovery collaboration in which Bayer will discover new medicines using Iambic’s AI-driven platform.",
+        "start": 63,
+        "end": 187,
+        "retained_content_text": "Bayer and Iambic collaborate to advance drug discovery with AI\ntoday announced a drug discovery collaboration in which Bayer will discover new medicines using Iambic’s AI-driven platform.",
+        "observation": {
+          "url": "https://www.iambic.ai/post/bayer-and-iambic-collab",
+          "observed_at": "2026-10-08T08:27:54.320365+00:00",
+          "http_status": 200,
+          "http_date": "Thu, 08 Oct 2026 08:27:53 GMT",
+          "body_sha256": "8a119ef195996960a48254f22c801622588d27667ccf93c72dc470efde6348b1",
+          "bytes": 26486
+        }
+      },
+      "details": {
+        "claim_status": "official_announcement",
+        "not_independent_validation": true,
+        "original_url": "https://www.iambic.ai/post/bayer-and-iambic-collab",
+        "ai_related": true
+      }
+    },
+    {
+      "candidate_key": "iambic-iam217-ind-20261005",
+      "source_registry_key": "iambic-official-newsroom",
+      "canonical_url": "https://www.iambic.ai/post/iambic-submits-ind-for-a-potentially-brain-penetrant-kif18a-inhibitor-iam217-its-second-wholly-owned-ai-discovered-candidate",
+      "title_original": "Iambic Submits IND for a Potentially Brain-Penetrant KIF18A Inhibitor IAM217, Its Second Wholly Owned AI-Discovered Candidate",
+      "title": "Iambic 提交第二款自有 AI 发现候选药 IAM217 的 IND",
+      "summary": "Iambic 公告提交 IAM217 的 IND。所述脑渗透性与肿瘤退缩来自非临床模型；公告不等于 IND 获批或临床疗效证实。",
+      "event_type": "clinical_trial_milestone",
+      "published_on": "2026-10-05",
+      "occurred_on": "2026-10-05",
+      "date_basis": "official article publication date; occurrence not independently established beyond announcement",
+      "review_status": "pending",
+      "participants": [
+        {
+          "canonical_slug": "iambic-therapeutics",
+          "name": "Iambic Therapeutics",
+          "role": "participant"
+        }
+      ],
+      "evidence": {
+        "text": "today announced the submission of an Investigational New Drug (IND) application",
+        "start": 126,
+        "end": 205,
+        "retained_content_text": "Iambic Submits IND for a Potentially Brain-Penetrant KIF18A Inhibitor IAM217, Its Second Wholly Owned AI-Discovered Candidate\ntoday announced the submission of an Investigational New Drug (IND) application",
+        "observation": {
+          "url": "https://www.iambic.ai/post/iambic-submits-ind-for-a-potentially-brain-penetrant-kif18a-inhibitor-iam217-its-second-wholly-owned-ai-discovered-candidate",
+          "observed_at": "2026-10-08T08:27:56.551050+00:00",
+          "http_status": 200,
+          "http_date": "Thu, 08 Oct 2026 08:27:56 GMT",
+          "body_sha256": "4fa0c7636a301430d1d0011a469bad3091fc96f8f9cab025ddbc1e810ed9a584",
+          "bytes": 29245
+        }
+      },
+      "details": {
+        "claim_status": "official_announcement",
+        "not_independent_validation": true,
+        "original_url": "https://www.iambic.ai/post/iambic-submits-ind-for-a-potentially-brain-penetrant-kif18a-inhibitor-iam217-its-second-wholly-owned-ai-discovered-candidate",
+        "ai_related": true,
+        "milestone": "IND_submission",
+        "clinical_benefit_demonstrated": false
+      }
+    },
+    {
+      "candidate_key": "isomorphic-series-b-20260512",
+      "source_registry_key": "isomorphic-labs-official-announcements",
+      "canonical_url": "https://www.isomorphiclabs.com/press/isomorphic-labs-funding",
+      "title_original": "Isomorphic Labs secures $2.1 Billion funding to scale its AI drug design engine",
+      "title": "Isomorphic Labs 宣布完成 21 亿美元 B 轮融资",
+      "summary": "官方公告称完成 21 亿美元 B 轮融资，用于扩展 AI 药物设计引擎与候选管线；投资方尚未建立本库企业实体。",
+      "event_type": "financing",
+      "published_on": "2026-05-12",
+      "occurred_on": "2026-05-12",
+      "date_basis": "official article publication date; occurrence not independently established beyond announcement",
+      "review_status": "pending",
+      "participants": [
+        {
+          "canonical_slug": "isomorphic-labs",
+          "name": "Isomorphic Labs",
+          "role": "participant"
+        },
+        {
+          "canonical_slug": null,
+          "name": "Thrive Capital",
+          "role": "lead_investor"
+        }
+      ],
+      "evidence": {
+        "text": "an AI-first drug design and development company, today announced it has raised $2.1 Billion in Series B funding",
+        "start": 80,
+        "end": 191,
+        "retained_content_text": "Isomorphic Labs secures $2.1 Billion funding to scale its AI drug design engine\nan AI-first drug design and development company, today announced it has raised $2.1 Billion in Series B funding",
+        "observation": {
+          "url": "https://www.isomorphiclabs.com/press/isomorphic-labs-funding",
+          "observed_at": "2026-10-08T08:27:55.175633+00:00",
+          "http_status": 200,
+          "http_date": "Thu, 08 Oct 2026 08:27:53 GMT",
+          "body_sha256": "f1d10d3fba8da6e5e37c15b75eefc5fc77a29553e03800d24ceea1a817510ab3",
+          "bytes": 49535
+        }
+      },
+      "details": {
+        "claim_status": "official_announcement",
+        "not_independent_validation": true,
+        "original_url": "https://www.isomorphiclabs.com/press/isomorphic-labs-funding",
+        "ai_related": true,
+        "amount_usd": 2100000000,
+        "round": "Series B",
+        "investor_names": [
+          "Thrive Capital",
+          "Alphabet",
+          "GV",
+          "MGX",
+          "Temasek",
+          "CapitalG",
+          "UK Sovereign AI Fund"
+        ]
+      }
+    },
+    {
+      "candidate_key": "isomorphic-jnj-20260120",
+      "source_registry_key": "isomorphic-labs-official-announcements",
+      "canonical_url": "https://www.isomorphiclabs.com/articles/isomorphic-labs-enters-into-a-research-collaboration-with-johnson-johnson",
+      "title_original": "Isomorphic Labs Enters into a Research Collaboration with Johnson & Johnson",
+      "title": "Isomorphic Labs 与强生宣布跨模态、多靶点研究合作",
+      "summary": "合作涵盖小分子、抗体、肽及分子胶等发现能力，公告未披露交易金额。强生企业映射使用本库现有创新制药实体，保留原文参与方名称。",
+      "event_type": "partnership",
+      "published_on": "2026-01-20",
+      "occurred_on": "2026-01-20",
+      "date_basis": "official article publication date; occurrence not independently established beyond announcement",
+      "review_status": "pending",
+      "participants": [
+        {
+          "canonical_slug": "isomorphic-labs",
+          "name": "Isomorphic Labs",
+          "role": "participant"
+        },
+        {
+          "canonical_slug": "johnson-johnson-innovative-medicine",
+          "name": "Johnson & Johnson",
+          "role": "participant"
+        }
+      ],
+      "evidence": {
+        "text": "This partnership brings together Iso’s AI-first approach to drug discovery with Johnson & Johnson’s expertise in drug discovery and development.",
+        "start": 76,
+        "end": 220,
+        "retained_content_text": "Isomorphic Labs Enters into a Research Collaboration with Johnson & Johnson\nThis partnership brings together Iso’s AI-first approach to drug discovery with Johnson & Johnson’s expertise in drug discovery and development.",
+        "observation": {
+          "url": "https://www.isomorphiclabs.com/articles/isomorphic-labs-enters-into-a-research-collaboration-with-johnson-johnson",
+          "observed_at": "2026-10-08T08:27:58.078349+00:00",
+          "http_status": 200,
+          "http_date": "Thu, 08 Oct 2026 08:27:58 GMT",
+          "body_sha256": "e65c6cb8ae96c077631113810abf1ab12f4ba4da1411ae6f8cca2d5f3871563f",
+          "bytes": 58771
+        }
+      },
+      "details": {
+        "claim_status": "official_announcement",
+        "not_independent_validation": true,
+        "original_url": "https://www.isomorphiclabs.com/articles/isomorphic-labs-enters-into-a-research-collaboration-with-johnson-johnson",
+        "ai_related": true,
+        "participant_mapping_note": "The announcement names Johnson & Johnson; registry uses its existing Innovative Medicine entity. Legal signatory is not independently established."
+      }
+    },
+    {
+      "candidate_key": "isomorphic-vbi-20261007",
+      "source_registry_key": "isomorphic-labs-official-announcements",
+      "canonical_url": "https://www.isomorphiclabs.com/articles/isomorphic-labs-joins-the-virtual-biology-initiative",
+      "title_original": "Isomorphic Labs joins the Virtual Biology Initiative to build foundational data for AI models to predict and treat disease",
+      "title": "Isomorphic Labs 加入 Virtual Biology Initiative",
+      "summary": "Isomorphic 官方公告加入由 Biohub 召集的生物数据协作计划，面向 AI 模型与疾病研究。Biohub 在当前种子库中未匹配，不伪造合作图边。",
+      "event_type": "partnership",
+      "published_on": "2026-10-07",
+      "occurred_on": "2026-10-07",
+      "date_basis": "official article publication date; occurrence not independently established beyond announcement",
+      "review_status": "pending",
+      "participants": [
+        {
+          "canonical_slug": "isomorphic-labs",
+          "name": "Isomorphic Labs",
+          "role": "participant"
+        },
+        {
+          "canonical_slug": null,
+          "name": "Biohub",
+          "role": "convener"
+        }
+      ],
+      "evidence": {
+        "text": "Convened by Biohub, participating organisations are investing funding, data, computation and new measurement technology",
+        "start": 123,
+        "end": 242,
+        "retained_content_text": "Isomorphic Labs joins the Virtual Biology Initiative to build foundational data for AI models to predict and treat disease\nConvened by Biohub, participating organisations are investing funding, data, computation and new measurement technology",
+        "observation": {
+          "url": "https://www.isomorphiclabs.com/articles/isomorphic-labs-joins-the-virtual-biology-initiative",
+          "observed_at": "2026-10-08T08:28:01.768973+00:00",
+          "http_status": 200,
+          "http_date": "Thu, 08 Oct 2026 08:27:59 GMT",
+          "body_sha256": "f7846e436a51ece977c434533830425e5abaf0c962d6d2a6f1461ebed863ca23",
+          "bytes": 58839
+        }
+      },
+      "details": {
+        "claim_status": "official_announcement",
+        "not_independent_validation": true,
+        "original_url": "https://www.isomorphiclabs.com/articles/isomorphic-labs-joins-the-virtual-biology-initiative",
+        "ai_related": true,
+        "unresolved_participant_names": [
+          "Biohub"
+        ]
+      }
+    },
+    {
+      "candidate_key": "owkin-sanofi-kpro-20260605",
+      "source_registry_key": "owkin-official-newsroom",
+      "canonical_url": "https://www.owkin.com/newsfeed/owkin-to-build-ai-agents-as-part-of-a-multi-year-k-pro-collaboration-with-sanofi",
+      "title_original": "Owkin to Build AI Agents as Part of a Multi-Year K Pro Collaboration with Sanofi",
+      "title": "Owkin 与赛诺菲合作开发药物研发 AI 智能体",
+      "summary": "合作包含五年 K Pro 许可及定制生物医药智能体开发，属于宣布的研发部署安排。",
+      "event_type": "partnership",
+      "published_on": "2026-06-05",
+      "occurred_on": "2026-06-05",
+      "date_basis": "official article publication date; occurrence not independently established beyond announcement",
+      "review_status": "pending",
+      "participants": [
+        {
+          "canonical_slug": "owkin",
+          "name": "Owkin",
+          "role": "participant"
+        },
+        {
+          "canonical_slug": "sanofi",
+          "name": "Sanofi",
+          "role": "participant"
+        }
+      ],
+      "evidence": {
+        "text": "today announced a multi-year collaboration with Sanofi to co-develop next-generation biopharma agents, to be backed by a five-year license",
+        "start": 81,
+        "end": 219,
+        "retained_content_text": "Owkin to Build AI Agents as Part of a Multi-Year K Pro Collaboration with Sanofi\ntoday announced a multi-year collaboration with Sanofi to co-develop next-generation biopharma agents, to be backed by a five-year license",
+        "observation": {
+          "url": "https://www.owkin.com/newsfeed/owkin-to-build-ai-agents-as-part-of-a-multi-year-k-pro-collaboration-with-sanofi",
+          "observed_at": "2026-10-08T08:27:51.516912+00:00",
+          "http_status": 200,
+          "http_date": "Thu, 08 Oct 2026 08:27:51 GMT",
+          "body_sha256": "2cb525338ab3f09565bef7c0da3a4f3e1b18c5f61af283a6f358904644606e32",
+          "bytes": 54277
+        }
+      },
+      "details": {
+        "claim_status": "official_announcement",
+        "not_independent_validation": true,
+        "original_url": "https://www.owkin.com/newsfeed/owkin-to-build-ai-agents-as-part-of-a-multi-year-k-pro-collaboration-with-sanofi",
+        "ai_related": true,
+        "license_years": 5
+      }
+    },
+    {
+      "candidate_key": "owkin-astrazeneca-kpro-20260513",
+      "source_registry_key": "owkin-official-newsroom",
+      "canonical_url": "https://www.owkin.com/newsfeed/owkin-to-build-ai-agents-as-part-of-a-multi-year-k-pro-license-agreement-with-astrazeneca",
+      "title_original": "Owkin to Build AI Agents as Part of a Multi-Year K Pro License Agreement with AstraZeneca",
+      "title": "Owkin 与阿斯利康签订三年 K Pro 许可安排",
+      "summary": "双方宣布三年 K Pro 许可及 AI 智能体开发，面向研发决策流程；未将许可声明解释为独立的临床疗效结果。",
+      "event_type": "licensing",
+      "published_on": "2026-05-13",
+      "occurred_on": "2026-05-13",
+      "date_basis": "official article publication date; occurrence not independently established beyond announcement",
+      "review_status": "pending",
+      "participants": [
+        {
+          "canonical_slug": "owkin",
+          "name": "Owkin",
+          "role": "participant"
+        },
+        {
+          "canonical_slug": "astrazeneca",
+          "name": "AstraZeneca",
+          "role": "participant"
+        }
+      ],
+      "evidence": {
+        "text": "today announced an agreement with AstraZeneca to build biopharma agents as part of their three-year licensing of K Pro",
+        "start": 90,
+        "end": 208,
+        "retained_content_text": "Owkin to Build AI Agents as Part of a Multi-Year K Pro License Agreement with AstraZeneca\ntoday announced an agreement with AstraZeneca to build biopharma agents as part of their three-year licensing of K Pro",
+        "observation": {
+          "url": "https://www.owkin.com/newsfeed/owkin-to-build-ai-agents-as-part-of-a-multi-year-k-pro-license-agreement-with-astrazeneca",
+          "observed_at": "2026-10-08T08:27:54.116070+00:00",
+          "http_status": 200,
+          "http_date": "Thu, 08 Oct 2026 08:27:54 GMT",
+          "body_sha256": "09afd138f19cdf22527236d0489b8362e297161a4a5fbe1e6fe14e9d64f81b8a",
+          "bytes": 54054
+        }
+      },
+      "details": {
+        "claim_status": "official_announcement",
+        "not_independent_validation": true,
+        "original_url": "https://www.owkin.com/newsfeed/owkin-to-build-ai-agents-as-part-of-a-multi-year-k-pro-license-agreement-with-astrazeneca",
+        "ai_related": true,
+        "license_years": 3
+      }
+    },
+    {
+      "candidate_key": "nvidia-lilly-ai-lab-20260112",
+      "source_registry_key": "nvidia-life-sciences-rss",
+      "canonical_url": "https://nvidianews.nvidia.com/news/nvidia-and-lilly-announce-co-innovation-lab-to-reinvent-drug-discovery-in-the-age-of-ai",
+      "title_original": "NVIDIA and Lilly Announce Co-Innovation AI Lab to Reinvent Drug Discovery in the Age of AI",
+      "title": "NVIDIA 与礼来宣布共建 AI 药物发现联合实验室",
+      "summary": "双方宣布五年内最多投入 10 亿美元用于人才、基础设施与计算，依托 BioNeMo 平台推进药物研发；该金额为计划上限。",
+      "event_type": "partnership",
+      "published_on": "2026-01-12",
+      "occurred_on": "2026-01-12",
+      "date_basis": "official article publication date; occurrence not independently established beyond announcement",
+      "review_status": "pending",
+      "participants": [
+        {
+          "canonical_slug": "nvidia",
+          "name": "NVIDIA",
+          "role": "participant"
+        },
+        {
+          "canonical_slug": "eli-lilly",
+          "name": "Eli Lilly",
+          "role": "participant"
+        }
+      ],
+      "evidence": {
+        "text": "The two companies will invest up to $1 billion in talent, infrastructure and compute over five years",
+        "start": 91,
+        "end": 191,
+        "retained_content_text": "NVIDIA and Lilly Announce Co-Innovation AI Lab to Reinvent Drug Discovery in the Age of AI\nThe two companies will invest up to $1 billion in talent, infrastructure and compute over five years",
+        "observation": {
+          "url": "https://nvidianews.nvidia.com/news/nvidia-and-lilly-announce-co-innovation-lab-to-reinvent-drug-discovery-in-the-age-of-ai",
+          "observed_at": "2026-10-08T08:27:51.972803+00:00",
+          "http_status": 200,
+          "http_date": "Thu, 08 Oct 2026 08:27:51 GMT",
+          "body_sha256": "5c9cf860820fa81455b7b8f81789061d5ae2ba95f19db9282cd71145f1ecb257",
+          "bytes": 86062
+        }
+      },
+      "details": {
+        "claim_status": "official_announcement",
+        "not_independent_validation": true,
+        "original_url": "https://nvidianews.nvidia.com/news/nvidia-and-lilly-announce-co-innovation-lab-to-reinvent-drug-discovery-in-the-age-of-ai",
+        "ai_related": true,
+        "announced_investment_ceiling_usd": 1000000000,
+        "investment_years": 5,
+        "amount_is_committed_revenue": false
+      }
+    },
+    {
+      "candidate_key": "recursion-genentech-neuroscience-20260805",
+      "source_registry_key": "recursion-official-newsroom",
+      "canonical_url": "https://ir.recursion.com/news-releases/news-release-details/recursion-reports-second-quarter-financial-results-genentech",
+      "title_original": "Recursion Reports Second Quarter Financial Results; Genentech Options First Neuroscience Target into Early Discovery Program",
+      "title": "Genentech 将与 Recursion 合作的首个神经科学靶点推进至联合早期发现",
+      "summary": "Recursion 季报公告称 Genentech 已选择首个神经科学靶点推进联合早期发现。此处为合作管线里程碑，未宣称临床疗效。",
+      "event_type": "partnership",
+      "published_on": "2026-08-05",
+      "occurred_on": "2026-08-05",
+      "date_basis": "official article publication date; occurrence not independently established beyond announcement",
+      "review_status": "pending",
+      "participants": [
+        {
+          "canonical_slug": "recursion",
+          "name": "Recursion",
+          "role": "participant"
+        },
+        {
+          "canonical_slug": "genentech",
+          "name": "Genentech",
+          "role": "participant"
+        }
+      ],
+      "evidence": {
+        "text": "Genentech advanced the collaboration's first neuroscience target into a joint early discovery program",
+        "start": 125,
+        "end": 226,
+        "retained_content_text": "Recursion Reports Second Quarter Financial Results; Genentech Options First Neuroscience Target into Early Discovery Program\nGenentech advanced the collaboration's first neuroscience target into a joint early discovery program",
+        "observation": {
+          "url": "https://ir.recursion.com/news-releases/news-release-details/recursion-reports-second-quarter-financial-results-genentech",
+          "observed_at": "2026-10-08T08:27:54.980760+00:00",
+          "http_status": 200,
+          "http_date": "Thu, 08 Oct 2026 08:27:54 GMT",
+          "body_sha256": "41139b6ca16cbae129b6ec3b3755e2eaf564c32f2fa5d1fd68378dba271e03c1",
+          "bytes": 148878
+        }
+      },
+      "details": {
+        "claim_status": "official_announcement",
+        "not_independent_validation": true,
+        "original_url": "https://ir.recursion.com/news-releases/news-release-details/recursion-reports-second-quarter-financial-results-genentech",
+        "ai_related": true,
+        "milestone": "target_optioned_into_early_discovery",
+        "discovery_stage": "early_discovery"
+      }
+    },
+    {
+      "candidate_key": "xtalpi-xglue-20261006",
+      "source_registry_key": "xtalpi-official-rss",
+      "canonical_url": "https://www.xtalpi.com/%e6%b4%bb%e6%80%a7%e6%8f%90%e5%8d%87%e8%b6%85%e5%8d%83%e5%80%8d%ef%bc%81%e6%99%b6%e6%b3%b0%e5%88%86%e5%ad%90%e8%83%b6%e7%ae%a1%e7%ba%bf%e5%85%ac%e5%b8%83%e6%9c%80%e6%96%b0%e8%bf%9b%e5%b1%95/",
+      "title_original": "活性提升超千倍！晶泰分子胶管线公布最新进展",
+      "title": "晶泰公布 XGlue 分子胶平台与临床前管线进展",
+      "summary": "晶泰发布分子胶项目优化进展，使用计算、AI 与实验迭代筛选。公告明确项目仍向 PCC 阶段迈进；不是临床试验结果。",
+      "event_type": "other",
+      "published_on": "2026-10-06",
+      "occurred_on": "2026-10-06",
+      "date_basis": "Original RSS pubDate; announcement date only",
+      "review_status": "pending",
+      "participants": [
+        {
+          "canonical_slug": "xtalpi",
+          "name": "XtalPi",
+          "role": "participant"
+        }
+      ],
+      "evidence": {
+        "text": "并结合计算和实验数据训练 AI 模型，对不同 E3-目标蛋白组合进行优先级判断。",
+        "start": 22,
+        "end": 62,
+        "retained_content_text": "活性提升超千倍！晶泰分子胶管线公布最新进展\n并结合计算和实验数据训练 AI 模型，对不同 E3-目标蛋白组合进行优先级判断。",
+        "observation": {
+          "url": "https://www.xtalpi.com/feed/",
+          "observed_at": "2026-10-08T08:23:52.200082+00:00",
+          "http_status": 200,
+          "http_date": "Thu, 08 Oct 2026 05:26:13 GMT",
+          "body_sha256": "d932283ad7f29741ed89626f867e69d22d1dcaec9a770d0646e4a36608b75827",
+          "bytes": 147166,
+          "article_url": "https://www.xtalpi.com/%e6%b4%bb%e6%80%a7%e6%8f%90%e5%8d%87%e8%b6%85%e5%8d%83%e5%80%8d%ef%bc%81%e6%99%b6%e6%b3%b0%e5%88%86%e5%ad%90%e8%83%b6%e7%ae%a1%e7%ba%bf%e5%85%ac%e5%b8%83%e6%9c%80%e6%96%b0%e8%bf%9b%e5%b1%95/",
+          "publication_date_raw": "Tue, 06 Oct 2026 03:29:09 +0000",
+          "evidence_transport": "official_rss_item"
+        }
+      },
+      "details": {
+        "claim_status": "official_announcement",
+        "not_independent_validation": true,
+        "original_url": "https://www.xtalpi.com/%e6%b4%bb%e6%80%a7%e6%8f%90%e5%8d%87%e8%b6%85%e5%8d%83%e5%80%8d%ef%bc%81%e6%99%b6%e6%b3%b0%e5%88%86%e5%ad%90%e8%83%b6%e7%ae%a1%e7%ba%bf%e5%85%ac%e5%b8%83%e6%9c%80%e6%96%b0%e8%bf%9b%e5%b1%95/",
+        "ai_related": true,
+        "milestone": "preclinical_pipeline_update",
+        "clinical_benefit_demonstrated": false
+      }
+    },
+    {
+      "candidate_key": "absci-abs201-phase2-plan-20260924",
+      "source_registry_key": "absci-official-rss",
+      "canonical_url": "https://investors.absci.com/news-releases/news-release-details/absci-announces-preliminary-details-phase-2-storylinetm-trial-ai",
+      "title_original": "Absci Announces Preliminary Details for Phase 2 STORYLINE™ Trial of AI-Designed Antibody ABS-201™ for Endometriosis",
+      "title": "Absci 公布 AI 设计抗体 ABS-201 的 II 期试验初步计划",
+      "summary": "Absci 公告 II 期 STORYLINE 试验初步计划，预计 2027 年中启动；2026 年公告不能表述为 II 期已开展或疗效已证实。",
+      "event_type": "clinical_trial_milestone",
+      "published_on": "2026-09-24",
+      "occurred_on": "2026-09-24",
+      "date_basis": "Original RSS pubDate; announcement date only",
+      "review_status": "pending",
+      "participants": [
+        {
+          "canonical_slug": "absci",
+          "name": "Absci",
+          "role": "participant"
+        }
+      ],
+      "evidence": {
+        "text": "Anticipated initiation of Phase 2 trial in mid-2027",
+        "start": 116,
+        "end": 167,
+        "retained_content_text": "Absci Announces Preliminary Details for Phase 2 STORYLINE™ Trial of AI-Designed Antibody ABS-201™ for Endometriosis\nAnticipated initiation of Phase 2 trial in mid-2027",
+        "observation": {
+          "url": "https://investors.absci.com/rss/news-releases.xml",
+          "observed_at": "2026-10-08T08:27:51.775945+00:00",
+          "http_status": 200,
+          "http_date": "Thu, 08 Oct 2026 08:27:51 GMT",
+          "body_sha256": "6cca52cc40662af51523c41a69a08a108e515efc888111a726a64e7ff6a6faa8",
+          "bytes": 7811,
+          "article_url": "https://investors.absci.com/news-releases/news-release-details/absci-announces-preliminary-details-phase-2-storylinetm-trial-ai",
+          "publication_date_raw": "Thu, 24 Sep 2026 08:00:49 -0400",
+          "evidence_transport": "official_rss_item"
+        }
+      },
+      "details": {
+        "claim_status": "official_announcement",
+        "not_independent_validation": true,
+        "original_url": "https://investors.absci.com/news-releases/news-release-details/absci-announces-preliminary-details-phase-2-storylinetm-trial-ai",
+        "ai_related": true,
+        "milestone": "phase_2_trial_plan",
+        "planned_initiation": "mid-2027",
+        "trial_started": false
+      }
+    }
+  ],
+  "unavailable_or_rejected_sources": [
+    {
+      "url": "https://www.tempus.com/news/",
+      "observed_at": "2026-10-08T08:23:53.124643+00:00",
+      "http_status": 403,
+      "http_date": "Thu, 08 Oct 2026 08:23:53 GMT",
+      "body_sha256": "9a335c7d67323b976f765bd345380007d2e090bb8fb9c27cbe0c337e7e2d3915",
+      "bytes": 59,
+      "reason": "HTTP403 direct access. Search-index official pages show relevant current Tempus–Recursion and BMS collaborations; no successful local-fetch claim and no automatic activation.",
+      "cloud_runtime_enabled": false
+    },
+    {
+      "url": "https://ir.schrodinger.com/rss-news-feeds",
+      "observed_at": "2026-10-08T08:22:20.741080+00:00",
+      "http_status": 403,
+      "http_date": "Thu, 08 Oct 2026 08:22:20 GMT",
+      "body_sha256": "b362f5544e892bcfe4ed9eab9129a6730c81f1f015cef5195519b209063243ab",
+      "bytes": 5515,
+      "reason": "HTTP403 direct access; feed identity and payload not locally validated.",
+      "cloud_runtime_enabled": false
+    },
+    {
+      "url": "https://generatebiomedicines.com/feed/",
+      "observed_at": "2026-10-08T08:23:52.473652+00:00",
+      "http_status": 200,
+      "http_date": "Thu, 08 Oct 2026 08:23:52 GMT",
+      "body_sha256": "ff738dc1ead81198ae6b8bf2043845d0a7f2d15d35a53c4c10a5e5f1254140bd",
+      "bytes": 807,
+      "reason": "HTTP200 but zero items; use the officially linked /news-releases/feed/ instead.",
+      "cloud_runtime_enabled": false
+    },
+    {
+      "url": "https://investors.generatebiomedicines.com/feed/",
+      "observed_at": "2026-10-08T08:23:52.352036+00:00",
+      "http_status": 200,
+      "http_date": "Thu, 08 Oct 2026 08:23:52 GMT",
+      "body_sha256": "39ee052fc2ae47f2cb40899339b7fa2ea7d9088fdc03224be1b77485a7b6cd64",
+      "bytes": 1106,
+      "reason": "HTTP200 but zero items; not a working recent news ingestion source.",
+      "cloud_runtime_enabled": false
+    },
+    {
+      "url": "https://en.xtalpi.com/",
+      "observed_at": "2026-10-08T08:24:20.447593+00:00",
+      "http_status": 403,
+      "http_date": "Thu, 08 Oct 2026 08:24:20 GMT",
+      "body_sha256": "ea8078a49c648e22f8a34a39ce04b1ce70afd24037bae3935df2a98ac48c166c",
+      "bytes": 5489,
+      "reason": "HTTP403 direct access; use the working official Chinese RSS.",
+      "cloud_runtime_enabled": false
+    },
+    {
+      "url": "https://insilico.com/news/",
+      "observed_at": "2026-10-08T08:22:23.755931+00:00",
+      "http_status": 200,
+      "http_date": "Thu, 08 Oct 2026 08:22:22 GMT",
+      "body_sha256": "2d7986a8feb60a5667db4a28a8dec2d41158c04a5bf86b52a8b4ac24b584a759",
+      "bytes": 322379,
+      "reason": "HTTP200 index contains dynamic Tilda feed configuration; current article list is not static anchors. Dedicated API adapter requires separate provenance and transport validation; direct Qilu article timed out.",
+      "cloud_runtime_enabled": false
+    },
+    {
+      "url": "https://www.benevolent.com/news-and-media/",
+      "observed_at": "2026-10-08T08:22:22.714620+00:00",
+      "http_status": 200,
+      "http_date": "Thu, 08 Oct 2026 08:22:22 GMT",
+      "body_sha256": "7741fca7f1ad8610a4c60ee748c950b5387a4c4a10887969c0263e9a8cb078c4",
+      "bytes": 24226,
+      "reason": "HTTP200 but latest visible press release dated 2025-03-12; retained as historical candidate, not prioritized as current industry coverage.",
+      "cloud_runtime_enabled": false
+    },
+    {
+      "url": "https://blog.tahoebio.ai/feed",
+      "http_status": 429,
+      "observation_source": "docs/supplement-ingestion-e2e.json (existing run; not retried by this audit)",
+      "reason": "Historical RSS returned429 in the preceding run. Current official homepage is Webflow with /news/ links and no RSS backlink. No query/host/proxy workaround attempted. New canonical HTML source can be validated separately.",
+      "cloud_runtime_enabled": false,
+      "current_homepage_observation": {
+        "url": "https://www.tahoebio.ai/",
+        "observed_at": "2026-10-08T08:23:58.951780+00:00",
+        "http_status": 200,
+        "http_date": "Thu, 08 Oct 2026 08:23:58 GMT",
+        "body_sha256": "4b19cbee4df1205b06a938ecaa655bfaa1aaed754e2cf954936cc3713d04bc04",
+        "bytes": 87541
+      },
+      "root_feed_probe": {
+        "url": "https://tahoebio.ai/feed/",
+        "http_status": 404,
+        "body_sha256": "b37b74c6eb6f2d3d6c5f2837667019e6743991aa6c8415cd5989cde925ffa1f7"
+      }
+    }
+  ]
+}

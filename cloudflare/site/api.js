@@ -1,4 +1,5 @@
 import { TOPICS } from './topics.js';
+import {JOURNAL_POLICY_VERSION,SELECTED_JOURNALS,journalPolicy,selectJournal,selectedJournalSQL} from './journals.js';
 
 // PostgreSQL remains the publication authority. Cloudflare messages and browser
 // retries may be duplicated; every admin mutation runs on one DB transaction.
@@ -118,8 +119,25 @@ function topicConditions(params, c, payload, defaultFocused = false) {
   if (scope && !['all', 'focused'].includes(scope)) fail(422, '未知范围');
   const focused = scope === 'all' ? false : scope === 'focused' ? true : boolean(params, 'focused', defaultFocused);
   if (topic) c.clauses.push(`COALESCE(${payload}->'classification'->'topic_ids','[]'::jsonb) ? ${c.p(topic)}`);
-  else if (focused) c.clauses.push(`jsonb_array_length(CASE WHEN jsonb_typeof(${payload}->'classification'->'topic_ids')='array' THEN ${payload}->'classification'->'topic_ids' ELSE '[]'::jsonb END)>0`);
+  else if (focused) c.clauses.push(`(jsonb_array_length(CASE WHEN jsonb_typeof(${payload}->'classification'->'topic_ids')='array' THEN ${payload}->'classification'->'topic_ids' ELSE '[]'::jsonb END)>0 OR ${payload}->'industry_classification'->>'relevant'='true')`);
   return { topic, focused };
+}
+function isAcademicSQL(alias='r') {
+  return `(jsonb_typeof(${alias}.raw_payload->'academic')='object' OR ${alias}.source_type IN ('academic_api','preprint_api') OR ${alias}.registry_key IN ('pubmed-eutils','biorxiv','medrxiv','europe-pmc','crossref'))`;
+}
+function journalConditions(params,c,academic,payload='r.raw_payload') {
+  const tier=params.get('journal_tier')||'selected';
+  if(!['selected','all'].includes(tier))fail(422,'journal_tier must be selected or all');
+  if(tier==='selected' && academic!==false) {
+    const selected=selectedJournalSQL(payload,value=>c.p(value));
+    const relevant=`${selected} AND ${payload}->'classification'->>'ai_related'='true'`;
+    c.clauses.push(academic===true?`(${relevant})`:`(NOT COALESCE(${isAcademicSQL()},false) OR (${relevant}))`);
+  }
+  return tier;
+}
+function decorateRecord(row) {
+  if(row.academic && typeof row.academic==='object')row.academic={...row.academic,journal_selection:selectJournal(row.academic)};
+  return row;
 }
 function eventConditions(params) {
   const c = conditions();
@@ -163,22 +181,29 @@ const eventNumbers = row => counts(row, ['evidence_count', 'confidence']);
 export async function apiRead(path, input, sql) {
   const params = parameters(input);
   if (path === '/api/topics') return { items: TOPICS };
+  if (path === '/api/journals') return journalPolicy();
   if (path === '/health') return { database: (await first(sql, 'SELECT 1 AS ok')).ok, version: '2.0.0' };
   if (path === '/api/overview') {
+    const selected=conditions(),selectedJournal=selectedJournalSQL('r.raw_payload',value=>selected.p(value));
+    const relevantAcademic=`${selectedJournal} AND r.raw_payload->'classification'->>'ai_related'='true'`;
     const row = await first(sql, `SELECT
      (SELECT count(*) FROM companies WHERE status='active' AND include_in_company_wall) AS companies,
      (SELECT count(*) FROM public_events) AS events,
-     (SELECT count(*) FROM public_resources r WHERE jsonb_array_length(CASE WHEN jsonb_typeof(r.raw_payload->'classification'->'topic_ids')='array' THEN r.raw_payload->'classification'->'topic_ids' ELSE '[]'::jsonb END)>0) AS records,
+     (SELECT count(*) FROM public_resources r WHERE (jsonb_array_length(CASE WHEN jsonb_typeof(r.raw_payload->'classification'->'topic_ids')='array' THEN r.raw_payload->'classification'->'topic_ids' ELSE '[]'::jsonb END)>0 OR r.raw_payload->'industry_classification'->>'relevant'='true')
+      AND (NOT COALESCE(${isAcademicSQL()},false) OR (${relevantAcademic}))) AS records,
+     (SELECT count(*) FROM public_resources r WHERE ${isAcademicSQL()} AND (${relevantAcademic})
+      AND jsonb_array_length(CASE WHEN jsonb_typeof(r.raw_payload->'classification'->'topic_ids')='array' THEN r.raw_payload->'classification'->'topic_ids' ELSE '[]'::jsonb END)>0) AS selected_academic_records,
      (SELECT count(*) FROM public_records) AS all_records,
      (SELECT count(*) FROM sources WHERE verified AND enabled AND adapter<>'unsupported') AS connected_sources,
-     (SELECT count(*) FROM sources WHERE verified AND enabled AND config->>'cloud_runtime_enabled'='true' AND adapter IN ('europepmc','pubmed','biorxiv','rss')) AS cloud_connected_sources,
+     (SELECT count(*) FROM sources WHERE verified AND enabled AND config->>'cloud_runtime_enabled'='true' AND adapter IN ('europepmc','pubmed','biorxiv','crossref','rss','official_html')) AS cloud_connected_sources,
      (SELECT count(*) FROM sources) AS sources,
      (SELECT max(last_success_at) FROM sources WHERE verified) AS last_success_at,
      (SELECT count(*) FROM relations r JOIN public_events e ON e.id=r.event_id) AS relations,
      (SELECT max(scheduled_at) FROM scheduler_runs WHERE status='succeeded' AND trigger_kind='cron') AS scheduler_last_dispatch_at,
      (SELECT jsonb_build_object('scheduled_at',sr.scheduled_at,'trigger_kind',sr.trigger_kind,'started_at',sr.started_at,'finished_at',sr.finished_at,'status',sr.status,'dispatched_count',sr.dispatched_count,'dispatch_attempts',sr.dispatch_attempts) FROM scheduler_runs sr WHERE sr.trigger_kind='cron' ORDER BY scheduled_at DESC LIMIT 1) AS scheduler_latest_run,
-     COALESCE((SELECT jsonb_agg(t) FROM (SELECT track,count(*)::integer AS count FROM companies WHERE status='active' AND include_in_company_wall GROUP BY track ORDER BY track) t),'[]') AS tracks`);
-    return { ...counts(row, ['companies', 'events', 'records', 'all_records', 'connected_sources', 'cloud_connected_sources', 'sources', 'relations']), cadence_hours: 1 };
+     COALESCE((SELECT jsonb_agg(t) FROM (SELECT track,count(*)::integer AS count FROM companies WHERE status='active' AND include_in_company_wall GROUP BY track ORDER BY track) t),'[]') AS tracks`,selected.args);
+    return { ...counts(row, ['companies', 'events', 'records', 'selected_academic_records', 'all_records', 'connected_sources', 'cloud_connected_sources', 'sources', 'relations']), cadence_hours: 1,
+      selected_journals:SELECTED_JOURNALS.length,journal_policy_version:JOURNAL_POLICY_VERSION };
   }
   if (path === '/api/companies') {
     const c = conditions();
@@ -258,7 +283,8 @@ export async function apiRead(path, input, sql) {
     const effectiveTime = 'LEAST(COALESCE(r.published_at,r.fetched_at),r.fetched_at)';
     dates(c, integer(params, 'days', 30, 0, 3660), null, null, effectiveTime);
     const academic = boolean(params, 'academic', null);
-    if (academic !== null) c.clauses.push("(r.registry_key IN ('pubmed-eutils','biorxiv','medrxiv','europe-pmc','crossref')) IS " + (academic ? 'TRUE' : 'NOT TRUE'));
+    if (academic !== null) c.clauses.push(isAcademicSQL()+' IS '+(academic?'TRUE':'NOT TRUE'));
+    const journalTier=journalConditions(params,c,academic);
     const q = params.get('q') || '';
     if (q) c.clauses.push(`(r.title ILIKE ${c.p('%' + q + '%')} OR r.content_text ILIKE ${c.p('%' + q + '%')})`);
     if (params.get('company')) c.clauses.push(`r.company_slug=${c.p(params.get('company'))}`);
@@ -268,21 +294,25 @@ export async function apiRead(path, input, sql) {
     const [total, items] = await Promise.all([
       sql.query('SELECT count(*) n FROM public_resources r WHERE ' + c.where, c.args),
       sql.query(`SELECT r.id,r.title,left(r.content_text,400) AS excerpt,r.canonical_url,r.published_at,r.fetched_at,r.source_name,r.source_type,r.company_slug,r.company_name,r.company_name_en,r.registry_key,r.external_id,
-        r.raw_payload->'academic' AS academic,r.raw_payload->'classification' AS classification FROM public_resources r WHERE ${c.where}
+        r.raw_payload->'academic' AS academic,r.raw_payload->'classification' AS classification,r.raw_payload->'industry_classification' AS industry_classification FROM public_resources r WHERE ${c.where}
         ORDER BY ${effectiveTime} DESC,r.id LIMIT $${c.args.length + 1} OFFSET $${c.args.length + 2}`, [...c.args, limit, offset]),
     ]);
-    return { total: count(total), items, limit, offset, ...focus };
+    return { total: count(total), items:items.map(decorateRecord), limit, offset, ...focus,journal_tier:journalTier,journal_policy_version:JOURNAL_POLICY_VERSION };
   }
   const recordMatch = path.match(/^\/api\/records\/([^/]+)$/);
   if (recordMatch) {
     const row = await first(sql, `SELECT r.id,r.title,r.content_text,r.canonical_url,r.published_at,r.fetched_at,r.source_name,r.source_type,r.company_slug,r.company_name,r.registry_key,r.external_id,r.content_hash,
-      r.raw_payload->'academic' AS academic,r.raw_payload->'classification' AS classification FROM public_records r WHERE r.id=$1`, [uuid(recordMatch[1], 'record_id')]);
+      r.raw_payload->'academic' AS academic,r.raw_payload->'classification' AS classification,r.raw_payload->'industry_classification' AS industry_classification FROM public_records r WHERE r.id=$1`, [uuid(recordMatch[1], 'record_id')]);
     if (!row) fail(404, '原文不存在或来源尚未验证');
-    return row;
+    return decorateRecord(row);
   }
   if (path === '/api/sources') {
     const rows = await sql.query(`SELECT s.id,s.name,s.registry_key,s.source_type,s.url,s.verified,s.verification_status,s.enabled,s.adapter,s.last_success_at,s.next_poll_at,s.consecutive_failures,
-      c.slug AS company_slug,c.name_zh,c.name_en,p.ttl_hours,COALESCE(s.config->>'cloud_runtime_enabled'='true',false) AS cloud_runtime_enabled,(SELECT count(*) FROM raw_items r WHERE r.source_id=s.id) AS raw_count
+      c.slug AS company_slug,c.name_zh,c.name_en,p.ttl_hours,COALESCE(s.config->>'cloud_runtime_enabled'='true',false) AS cloud_runtime_enabled,
+      s.config->>'integration_status' AS integration_status,s.config->>'operational_status' AS operational_status,
+      s.config->>'api_documentation' AS api_documentation,s.config->>'journal_policy_version' AS journal_policy_version,
+      COALESCE(s.config->>'selected_journals_only'='true',false) AS selected_journals_only,
+      (SELECT count(*) FROM raw_items r WHERE r.source_id=s.id) AS raw_count
       FROM sources s LEFT JOIN companies c ON c.id=s.company_id JOIN polling_profiles p ON p.id=s.poll_profile
       WHERE s.source_type<>'social' OR s.verified ORDER BY s.last_success_at DESC NULLS LAST,s.name`);
     return rows.map(row => counts(row, ['raw_count']));
@@ -394,14 +424,16 @@ async function adminApi(request, path, params, env, sql) {
     const data = { request_id: uuid(body.request_id, 'request_id'), raw_item_id: uuid(body.raw_item_id, 'raw_item_id'), title: textField(body, 'title', 5, 500), summary: textField(body, 'summary', 10, 2000), evidence_text: textField(body, 'evidence_text', 20, 10000), track: choice(body, 'track', TRACKS), event_type: choice(body, 'event_type', EVENT_TYPES), occurred_at: datetime(body.occurred_at, 'occurred_at'), company_ids: listField(body, 'company_ids', 20, []).map(id => uuid(id, 'company_id')), relations: listField(body, 'relations', 20, []).map(edge => {
       if (!edge || typeof edge !== 'object') fail(422, 'Invalid relation');
       return { subject_id: uuid(edge.subject_id, 'subject_id'), object_id: uuid(edge.object_id, 'object_id'), predicate: choice(edge, 'predicate', PREDICATES), evidence_text: textField(edge, 'evidence_text', 10, 10000) };
-    }), editor_pick: bodyBoolean(body, 'editor_pick'), amount: textField(body, 'amount', 0, 100, ''), stage: textField(body, 'stage', 0, 100, '') };
+    }), editor_pick: bodyBoolean(body, 'editor_pick'), amount: textField(body, 'amount', 0, 100, ''), stage: textField(body, 'stage', 0, 100, ''),
+      review_method:choice(body,'review_method',['operator','agent-assisted-source-review'],'operator') };
     return sql.transaction(async tx => {
       await tx.query('SELECT pg_advisory_xact_lock(hashtext($1))', [data.request_id]);
       const existing = await first(tx, 'SELECT id FROM events WHERE request_id=$1', [data.request_id]);
       if (existing) return { id: existing.id, status: 'already_published' };
-      const raw = await first(tx, 'SELECT r.*,s.verified FROM raw_items r JOIN sources s ON s.id=r.source_id WHERE r.id=$1 FOR SHARE OF s', [data.raw_item_id]);
+      const raw = await first(tx, 'SELECT r.*,s.verified,s.enabled FROM raw_items r JOIN sources s ON s.id=r.source_id WHERE r.id=$1 FOR SHARE OF s', [data.raw_item_id]);
       if (!raw) fail(404, '找不到原始记录');
       if (!raw.verified) fail(422, '请先验证来源归属');
+      if (!raw.enabled) fail(422, '来源已停用，无法发布新事件');
       const content = raw.content_text || '', start = content.indexOf(data.evidence_text);
       if (start < 0) fail(422, '证据句必须完整摘自已保存的原文正文');
       const ids = [...new Set(data.company_ids)], found = ids.length ? await tx.query('SELECT id FROM companies WHERE id=ANY($1::uuid[])', [ids]) : [];
@@ -412,7 +444,9 @@ async function adminApi(request, path, params, env, sql) {
       }
       const id = crypto.randomUUID();
       await tx.query(`INSERT INTO events(id,request_id,event_type,title,summary,occurred_at,published_at,confidence,review_status,editor_pick,extraction_version,track,details)
-        VALUES ($1,$2,$3,$4,$5,$6,$7,0.9,'approved',$8,'manual-review-v1',$9,$10::jsonb)`, [id, data.request_id, data.event_type, data.title, data.summary, data.occurred_at, raw.published_at, data.editor_pick, data.track, JSON.stringify({ amount: data.amount, stage: data.stage, reviewed_by: actor })]);
+        VALUES ($1,$2,$3,$4,$5,$6,$7,0.9,'approved',$8,$9,$10,$11::jsonb)`, [id, data.request_id, data.event_type, data.title, data.summary, data.occurred_at, raw.published_at, data.editor_pick,
+        data.review_method==='agent-assisted-source-review'?'agent-assisted-review-v1':'manual-review-v1',data.track,
+        JSON.stringify({ amount: data.amount, stage: data.stage, reviewed_by: actor,review_method:data.review_method })]);
       const codepointStart = Array.from(content.slice(0, start)).length;
       await tx.query('INSERT INTO event_evidence(event_id,raw_item_id,evidence_text,evidence_start,evidence_end) VALUES ($1,$2,$3,$4,$5)', [id, raw.id, data.evidence_text, codepointStart, codepointStart + Array.from(data.evidence_text).length]);
       for (const companyId of ids) await tx.query("INSERT INTO event_entities VALUES ($1,'company',$2,'participant')", [id, companyId]);

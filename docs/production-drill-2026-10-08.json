@@ -1,0 +1,73 @@
+{
+  "started_at": "2026-10-08T09:12:35.218289+00:00",
+  "status": "passed",
+  "scope": "Live production PostgreSQL, rollback-only source revocation/restoration and repeated terminal-job claim",
+  "limitations": [
+    "Source revocation is isolated in one transaction; public Worker requests never observe it.",
+    "Repeated ingestion_claim calls exercise the production database gate, not actual Cloudflare Queue transport or consumer retries.",
+    "No synthetic companies, news, events, relations or source content are inserted. No production mutation is committed."
+  ],
+  "stage": "completed",
+  "source": {
+    "id": "3e7497e2-5218-5f47-8e78-73bcb2a6baea",
+    "registry_key": "isomorphic-labs-official-announcements",
+    "name": "Isomorphic Labs official announcements"
+  },
+  "revocation": {
+    "status": "passed",
+    "before": {
+      "records": 10,
+      "evidence": 3,
+      "events": 3
+    },
+    "inside_revocation_transaction": {
+      "records": 0,
+      "evidence": 0,
+      "events": 0
+    },
+    "events_depending_only_on_source": 3,
+    "dependent_events_still_visible": 0,
+    "event_evidence_exercised": true,
+    "sole_source_event_visibility_exercised": true,
+    "relations_via_public_event_gate_before": 0,
+    "relations_via_public_event_gate_revoked": 0,
+    "rollback_required": true,
+    "public_http_visibility_changed": false,
+    "rollback_confirmed": true,
+    "after_rollback": {
+      "records": 10,
+      "evidence": 3,
+      "events": 3
+    },
+    "relations_via_public_event_gate_after_rollback": 0,
+    "restoration_check": "Flags match exactly; existing source records/evidence are visible. Counts may grow through concurrent ingestion.",
+    "relation_visibility_exercised": false
+  },
+  "duplicate_claim": {
+    "status": "passed",
+    "job_id": "5676121e-08a9-4b01-b0d2-95592943643e",
+    "returned_statuses": [
+      "succeeded",
+      "succeeded"
+    ],
+    "job_row_unchanged": true,
+    "attempt_rows_unchanged": true,
+    "attempt_row_count": 9,
+    "new_jobs_created": 0,
+    "queue_transport_exercised": false,
+    "rollback_required": true,
+    "rollback_confirmed": true
+  },
+  "finished_at": "2026-10-08T09:12:38.888442+00:00",
+  "duration_seconds": 3.67,
+  "previous_attempts": [
+    {
+      "started_at": "2026-10-08T08:57:58.398352+00:00",
+      "finished_at": "2026-10-08T08:58:01.661697+00:00",
+      "status": "failed",
+      "duration_seconds": 3.263,
+      "error_type": "LockNotAvailable",
+      "problem": "database_or_network_error"
+    }
+  ]
+}

@@ -107,6 +107,7 @@ test("source search keeps preprint status and keyword provenance while using bou
   assert.equal(data.items[0].site_url, `${ORIGIN}/records/${RECORD_ID}`);
   assert.equal(calls[0].path, "/api/records");
   assert.equal(calls[0].params.academic, true);
+  assert.equal(calls[0].params.journal_tier, "selected");
   assert.equal(calls[0].params.limit, 2);
   assert.equal(calls[0].params.q, "virtual cell");
   assert.equal(calls[0].params.days, 30);

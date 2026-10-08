@@ -1,12 +1,19 @@
-# Cloudflare Worker 与 Neon 部署说明
+# Cloudflare Pages 入口、Worker 与 Neon 部署
 
-截至 2026-10-08，独立 Worker 已上线至 [bioai-rizhi.328558608.workers.dev](https://bioai-rizhi.328558608.workers.dev)，真实 Queue `bioai-ingestion` 已创建并注册 1 个 producer、1 个 consumer。Neon Free 项目位于 Singapore / `aws-ap-southeast-1`，PostgreSQL 17；真实本地数据库恢复到空库成功，恢复时为 133 companies、4,669 raw_items、4,012 public_resources，迁移 001–008 校验和通过。公网读取、远程 MCP、手动管理接口及管理员 Neon WebSocket 事务已验证；正式小时 Cron → Queue → 数据库完整链路通过，五个到期来源的新任务全部成功、零失败。Tahoe 首轮五次 HTTP 429 达到预算、任务 `dead`，云端未成功，本地历史真实内容已保留；每日专用回调与长期运行仍需观察。
+当前正式入口为 [bioai-rizhi.pages.dev](https://bioai-rizhi.pages.dev)，移除了读者地址中的账号数字。Pages 的 Service Binding 将请求转给既有 `bioai-rizhi` Worker；原 Worker、Queue、Neon 数据库与真实采集记录继续使用，没有复制静态假内容。旧 Sites 与 ResearchHub 未被删除或替换。
 
-正式版本为 `3ab3ee44-c284-455e-8485-fa8fcc253edb`，仅保留 `7 * * * *`、`0 0 * * *` 两条 Cron，无分钟诊断任务。2026-10-08 08:07:43.981 UTC（北京时间 16:07）真实小时回调已触发，CPU 4 ms、墙钟 1,803 ms、`outcome=ok`；每日 00:00 UTC（北京时间 08:00）专用 tick 尚未跨日观察。
+2026-10-08 本轮已运行迁移 001–014。当前部署版本与逐来源实测状态以 [本轮验收](newspaper-acceptance.json) 为准；旧版本记录仍保留在 [首次生产验收](production-acceptance.json)，避免混淆不同时点的计数。正式定时任务仍为每小时第 7 分钟采集、北京时间 08:00 日报。每日 09:23 在 GitHub Actions 做加密备份与独立恢复，见 [备份验收](backup-acceptance-2026-10-08.json)。
 
-源码已公开在 [MInsYang/bioai-rizhi](https://github.com/MInsYang/bioai-rizhi)，默认分支 `codex/bioai-resource-site`，初始 CI 全部通过。本站与旧 Sites 站及 ResearchHub 保持独立。已完成和待观察的证据见 [生产验收记录](production-acceptance.json)，目前不声称已跑满一天或可永久免费运行。
+## 短域名入口
 
-[本地真实采集报告](cloud-ingestion-e2e.json) 使用本地 PostgreSQL、真实上游与同一 Worker 处理器，队列是进程内验收工具。它证明该组合的采集路径，不能证明 Cloudflare CPU、生产 Queue 投递、Cron 或 Neon 容量。源码和构建配置见 [cloudflare/site](../cloudflare/site/)，日常处理见 [运维手册](../UPDATE_RUNBOOK.md)。
+`cloudflare/gateway/wrangler.toml` 绑定 `BIOAI_SITE` → `bioai-rizhi` Worker。Pages 仅转发请求，没有存放生产数据库密钥。主 Worker `SITE_ORIGIN` 设置为 `https://bioai-rizhi.pages.dev`，MCP Host/Origin 校验、canonical、RSS、分享页都使用该正式地址。
+
+```sh
+cd cloudflare/gateway
+../site/node_modules/.bin/wrangler pages deploy public --project-name bioai-rizhi --branch codex/bioai-resource-site --commit-dirty=true
+```
+
+已有项目正常更新不要添加 `--force`，也无需更改账号级 workers.dev 子域名。
 
 ## 组件与调度
 
@@ -51,7 +58,7 @@ npm run check --prefix cloudflare/site
 
 仅在网络依赖已配置的环境代理时使用 `node --use-env-proxy cloudflare/site/local.mjs --ingest`。真实采集会写本地数据库并更新验收报告；测试使用独立本地测试库。`npm run check` 是 Wrangler 构建 dry-run，不部署、不测实际计费 CPU。补充来源导入默认只输出 dry-run，`--apply` 才写入；上述顺序先配置聚焦来源，再导入 [补充清单](bootstrap/bioai_focus_supplement_v1.json)。
 
-当前 61 项 JavaScript 全套检查通过、无跳过，33 项 Python 检查通过，包含未来刊期记录的实际 SQL 回归；360/390px 手机、1366×768 PC、1366×600 矮屏页面验证通过。它们与公网、队列及定时验证分别记录。
+本轮测试、浏览器与公网验收分别记录在 newspaper-acceptance.json；不以构建成功替代实际生产运行。
 
 ## 账号、队列与 Neon 初始化
 
@@ -74,7 +81,7 @@ npx --no-install wrangler queues info bioai-ingestion
 
 登录 [Neon Console](https://console.neon.tech/)，新建本站独立项目、生产分支、数据库与角色，取得 PostgreSQL 连接串，保留 `sslmode=require`。管理迁移和备份优先使用直接连接；Worker 接受 Neon PostgreSQL 连接串，经 Neon HTTP 查询和需要事务时的 WebSocket 访问。生产 URI 不写入 `.env`、仓库或 shell 参数。
 
-新建空库从根目录按下列顺序初始化，隐藏输入只传给子进程环境。当前迁移包含 001–008，迁移器持有 advisory lock 并检查已应用文件校验和；不编辑历史迁移。基础 seed 和来源清单用于新库初始化，**不会复制本地已采集原文**。若要迁移完整历史，先按 [备份恢复](../UPDATE_RUNBOOK.md#备份与灾难恢复) 恢复到空库，再追加缺失迁移，保留已审核来源决定。
+新建空库从根目录按下列顺序初始化，隐藏输入只传给子进程环境。当前迁移包含 001–014，迁移器持有 advisory lock 并检查已应用文件校验和；不编辑历史迁移。基础 seed 和来源清单用于新库初始化，**不会复制本地已采集原文**。若要迁移完整历史，先按 [备份恢复](../UPDATE_RUNBOOK.md#备份与灾难恢复) 恢复到空库，再追加缺失迁移，保留已审核来源决定。
 
 ```sh
 .venv/bin/python - <<'PY'
@@ -130,7 +137,7 @@ npm run deploy
 
 ```toml
 [vars]
-SITE_ORIGIN = "https://bioai-rizhi.328558608.workers.dev"
+SITE_ORIGIN = "https://bioai-rizhi.pages.dev"
 GITHUB_URL = "https://github.com/MInsYang/bioai-rizhi"
 ```
 

@@ -9,9 +9,18 @@ test('hourly tick also retries the due daily digest without coupling queue failu
   await worker.scheduled({cron:'7 * * * *',scheduledTime:Date.parse('2026-10-08T03:07:00Z')},
     {INGEST_QUEUE:{async send(){throw new Error('Queue temporarily unavailable');}}},{waitUntil(p){tasks.push(p);}});
   const results=await Promise.allSettled(tasks);
-  assert.equal(results[0].status,'rejected');assert.equal(results[1].status,'fulfilled');
+  assert.equal(results.length,3);
+  assert.equal(results[0].status,'rejected');assert.equal(results[1].status,'fulfilled');assert.equal(results[2].status,'fulfilled');
+  assert(queries.some(q=>q.text.includes('propose_industry_candidates')));
   assert(queries.some(q=>q.text.includes('generate_daily_digest')&&q.params[0]==='2026-10-08T03:07:00.000Z'));
   assert(queries.some(q=>q.text.includes("status='failed'")));
+});
+test('candidate actions reject anonymous callers before opening the database',async()=>{
+  const worker=createWorker(()=>{throw new Error('database should not be opened');});
+  for (const [path,method] of [['/api/admin/candidates','GET'],['/api/admin/candidates/generate','POST'],['/api/admin/candidates/'+crypto.randomUUID()+'/complete','POST']]) {
+    const response=await worker.fetch(new Request('https://bioai.example'+path,{method}),{ADMIN_TOKEN:'a'.repeat(40)},{});
+    assert.equal(response.status,401,path);
+  }
 });
 test('internal actions reject anonymous callers before opening the database',async()=>{
   const worker=createWorker(()=>{throw new Error('database should not be opened');});
