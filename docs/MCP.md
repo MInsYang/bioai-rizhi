@@ -2,7 +2,7 @@
 
 BioAI 日知提供匿名、只读的远程 MCP，供个人 AI 查询本站已收录的研究与产业原文、公司目录和来源覆盖情况。网页、RSS 与 MCP 使用同一公开读取模型：已验证来源的原文记录，与经过编辑审核并附有有效证据的事件保持区分。
 
-公开服务已上线：[BioAI 日知](https://bioai-rizhi.pages.dev)。2026-10-08 短域名与 3.1.0 服务已通过真实公网 initialize、tools/list 和全部五项只读工具调用，并确认默认学术结果满足精选政策，见 [短域名验收](mcp-shortdomain-acceptance.json)；官方 MCP SDK 客户端也已完成两种协商模式的连接、工具发现和全部五项工具调用，见 [SDK 客户端验收](mcp-client-acceptance.json)。个人 Codex 已安装名为 `bioai` 的全局连接配置；当前会话需在后续新会话加载。Claude/Cursor 配置示例已提供，未擅自修改其他个人应用，部署与待观察项目见 [生产验收记录](production-acceptance.json)。
+公开服务已上线：[BioAI 日知](https://bioai-rizhi.pages.dev)。2026-10-08 短域名与 3.1.0 服务已通过真实公网 initialize、tools/list 和全部五项只读工具调用，并确认默认学术结果满足精选政策，见 [短域名验收](mcp-shortdomain-acceptance.json)；官方 MCP SDK 客户端也已完成两种协商模式的连接、工具发现和全部五项工具调用，见 [SDK 客户端验收](mcp-client-acceptance.json)。个人 Codex 已安装名为 `bioai` 的全局连接配置；当前会话需在后续新会话加载。Claude/Cursor 配置示例已提供，未擅自修改其他个人应用，当前部署与待观察项目见 [报纸版验收](newspaper-acceptance.json)。官方 Registry 的 `io.github.MInsYang/bioai-rizhi` / `3.1.0` 条目已发布并回读 `active`，见 [Registry 记录](mcp-registry.md)。
 
 ## 接入地址与工具
 
@@ -147,7 +147,7 @@ node --test mcp.test.mjs
 
 测试使用真实已安装 SDK 与伪造的公开读取回调，检查初始化、发现、工具调用、2026 header 校验、非法工具/参数、Origin/Host、大小限制、文本截断、预印本/分类来源、错误与内部字段隔离。它验证协议和边界，不替代生产数据库、来源实际采集或客户端界面验收。
 
-MCP 静态工具 Schema 缓存优化已部署；站点 61 项 JavaScript 全套检查通过、无跳过。公开数据响应使用表列 `no-store`。优化后 initialize、tools/list、search_resources、get_source_status 四次公网调用均 HTTP 200、`outcome=ok`，CPU 为 22/15/21/26 ms，仍高于 Workers Free 的名义 HTTP 10 ms。长期免费容量尚未验收，仍需观察和按授权选择运行计划；本次未执行付费升级。详情见 [Cloudflare 部署说明](cloudflare-deployment.md#额度与成本验收)。
+MCP 静态工具 Schema 缓存优化已部署。本轮站点 100 项 JavaScript 检查通过、无跳过；以下 CPU 为此前初次上线样本，未将其冒充本轮重新测量值。公开数据响应使用表列 `no-store`。优化后 initialize、tools/list、search_resources、get_source_status 四次公网调用均 HTTP 200、`outcome=ok`，CPU 为 22/15/21/26 ms，仍高于 Workers Free 的名义 HTTP 10 ms。长期免费容量尚未验收，仍需观察和按授权选择运行计划；本次未执行付费升级。详情见 [Cloudflare 部署说明](cloudflare-deployment.md#额度与成本验收)。
 
 官方 `@modelcontextprotocol/client@2.0.0` 已用 `versionNegotiation: {mode: "legacy"}` 和 `{mode: "auto"}` 分别真实公网 connect/listTools，两种模式均发现并调用全部五项工具通过。结果、版本与时间记录在 [mcp-client-acceptance.json](mcp-client-acceptance.json)。
 
@@ -159,6 +159,6 @@ MCP 静态工具 Schema 缓存优化已部署；站点 61 项 JavaScript 全套�
 
 来源资源 RSS 位于 `/feed.xml`，专题订阅可用 `/feed.xml?topic=virtual-cell` 等五个已知专题 ID。日摘要页面为 `/digest/YYYY-MM-DD`，对应结构化数据为 `/api/digest?date=YYYY-MM-DD`。它们沿用网站的公开读取门槛；原文资源与已核验事件仍分别表述。
 
-正式版本仅保留每小时第 7 分钟派发、北京时间 08:00 日报两条 Cron，无分钟诊断任务。2026-10-08 08:07:43.981 UTC（北京时间 16:07）真实小时 Cron → Queue → 数据库完整链路通过，五个到期来源的新任务全部成功、零失败。每日 00:00 UTC（北京时间 08:00）专用 tick 尚未跨日观察；手动日报接口和小时补偿实现已验证，不替代每日专用回调验收。
+正式版本每小时第 7 分钟派发、北京时间 08:00 日报。2026-10-08 09:07 UTC 原生 Cron 派发 14 个来源，13 个完成，Crossref 首次完整窗口正在回填；最新计数见 [本轮验收](newspaper-acceptance.json)。每日专用 tick 与后续自动备份仍需跨日观察，手动验证不能替代。
 
-本轮云端五个来源成功，Tahoe 五次 HTTP 429 达到预算、本轮任务 `dead`，云端未成功；此前本地历史真实内容已保留，后续轮询受来源 `next_poll_at` 与退避控制。来源 TTL 与失败退避会影响收录时间，查询存量数据不触发采集。页面每 5 分钟检查可见更新。运行证据以生产验收记录和成功采集时间为准，不能仅从计划推断。推广入口与衡量方法见 [promotion-strategy.md](promotion-strategy.md)。
+Tahoe 旧 RSS 在云端持续失败且旧入口已失效，已停止该源云端调度，保留历史真实内容。来源 TTL、失败退避与主题筛选会影响收录时间；查询存量数据不触发采集，页面每 5 分钟检查可见更新。运行证据以实际任务与成功时间为准。推广入口与衡量方法见 [promotion-strategy.md](promotion-strategy.md)。

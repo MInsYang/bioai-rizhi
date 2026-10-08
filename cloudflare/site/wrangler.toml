@@ -42,7 +42,7 @@ enabled = true
 head_sampling_rate = 1
 
 # DATABASE_URL and ADMIN_TOKEN are deployed as Worker secrets.
-# Set SITE_ORIGIN after Cloudflare returns the actual workers.dev hostname.
+# Canonical public origin uses the Pages gateway service binding.
 
 [vars]
 SITE_ORIGIN = "https://bioai-rizhi.pages.dev"

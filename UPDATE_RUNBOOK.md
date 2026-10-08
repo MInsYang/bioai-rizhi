@@ -1,21 +1,23 @@
 # BioAI 日知更新与恢复手册
 
-截至 2026-10-08，[生产 Worker](https://bioai-rizhi.pages.dev) 与 Neon PostgreSQL 已上线，`bioai-ingestion` 已创建并注册 1 个 producer、1 个 consumer。真实本地数据库恢复到 Neon Free 的 Singapore / `aws-ap-southeast-1`、PostgreSQL 17 空库成功，恢复时为 133 companies、4,669 raw_items、4,012 public_resources，迁移 001–008 校验和通过。公网读取、远程 MCP、手动管理接口及管理员 Neon WebSocket 事务已验证；正式小时 Cron → Queue → 数据库完整链路通过，五个到期来源的新任务全部成功、零失败。Tahoe 首轮五次 HTTP 429 达到预算、任务 `dead`，云端未成功，本地历史真实内容已保留。MCP 四次优化后公网调用 CPU 为 22/15/21/26 ms、均 `outcome=ok`，仍高于 Workers Free 的名义 HTTP 10 ms；长期免费容量与每日专用定时回调尚未验收。
+截至 2026-10-08，3.1 报纸版已部署到 [bioai-rizhi.pages.dev](https://bioai-rizhi.pages.dev)，Pages 通过 Service Binding 使用同一生产 Worker 与 Neon PostgreSQL。001–014 迁移已执行，134 个目录实体、132 个默认黄页实体；9 个本轮新增/核验产业源完成真实云端采集。09:07 UTC 原生小时 Cron 派发 14 个来源，13 个完成，Crossref 首次完整窗口回填仍在推进；实时状态以数据库和 [报纸版验收](docs/newspaper-acceptance.json) 为准。
 
-本地结果见 [采集验收记录](docs/cloud-ingestion-e2e.json)，云端结果及未完成项目见 [生产验收记录](docs/production-acceptance.json)，部署与额度见 [Cloudflare 部署说明](docs/cloudflare-deployment.md)。官方 `@modelcontextprotocol/client@2.0.0` 已用 legacy/auto 两种协商模式真实公网 connect/listTools，各调用全部五项工具通过，见 [SDK 客户端验收](docs/mcp-client-acceptance.json)；Claude/Cursor/Codex 个人应用接入尚未安装。不以构建通过、手动调用或本地内存队列代替云端 Cron/Queues 验收。
+本轮新增 12 条带官方证据的行业事件和 6 条关系，明确标记代理辅助审核；默认学术、混合列表、RSS、日报与 MCP 只展示 17 个重点期刊中的 AI 生物医药相关内容。期刊政策见 `/api/journals`；历史非重点期刊/预印本仅通过显式历史筛选访问。Tahoe 旧 RSS 已停用云端调度，不能把历史本地成功当作当前云接通。
+
+[短域名 MCP 验收](docs/mcp-shortdomain-acceptance.json) 完成真实协议与五项工具调用，个人 Codex 已配置，后续新会话生效；官方 Registry `3.1.0` 已发布并回读 active，见 [Registry 说明](docs/mcp-registry.md)。旧 [生产验收](docs/production-acceptance.json) 和 [SDK 验收](docs/mcp-client-acceptance.json) 保留为首次上线历史，不代表当前版本计数。每日专用 tick 仍需跨日观察；先前 MCP CPU 样本高于 Workers Free 名义 10ms，不承诺长期免费容量。
 
 生产入口为 [cloudflare/site](cloudflare/site/)，同一 Worker 提供页面、API、RSS、日报和只读 MCP，并消费 Cloudflare Queue。旧 `refresh_all.py` 静态快照 heartbeat 已暂停；`cloudflare/dispatcher` 和 Python consumer 仅保留给独立自托管模式，不与新方案同时调度同一个数据库。ResearchHub 保持独立，不删除或替换。
 
 ## 时间、来源与状态
 
-正式版本 `3ab3ee44-c284-455e-8485-fa8fcc253edb` 已发布以下两条 Cron，无分钟诊断任务。2026-10-08 08:07:43.981 UTC（北京时间 16:07）已取得真实 `7 * * * *` 回调，CPU 4 ms、墙钟 1,803 ms、`outcome=ok`。数据库 `scheduler_runs` 于 08:07:44.813 开始、08:07:45.836 完成，`status='succeeded'`、`dispatched_count=5`；随后 Emulate、HUB、晶泰、Europe PMC、PubMed 五个新任务分别于 08:07:47、08:07:49、08:08:00、08:08:23、08:08:30 UTC 完成，全部 `succeeded`、`failure_count=0`。完整证据见生产验收记录；每日专用 tick 尚未跨日观察。
+当前正式 Worker 同时提供以下两条 Cron，无分钟诊断任务。2026-10-08 09:07:17 UTC 的原生小时派发已在 `scheduler_runs` 与实际消费者入库结果中验证；任务成功和派发成功分别记录。最新 Worker 版本 ID、来源明细及计数见 [报纸版验收](docs/newspaper-acceptance.json)，每日专用 tick 尚未跨日观察。
 
 - `7 * * * *`：每小时第 7 分钟派发到期采集任务；来源仍受 TTL、主机间隔和失败退避约束，并非每个来源每小时必抓。
 - `0 0 * * *`：UTC 00:00，即北京时间 08:00，目标为生成当日日报；手动日报接口、小时补偿实现与两项独立 `waitUntil` 已验证，每日专用回调尚未跨日观察，不声称其已执行通过。
 - 日报按此前 24 小时的**首次采集时间**选取最多 100 条聚焦资源，日期和记录 ID 固定，同日重跑不追加。小时补偿只处理当前北京日期，停机数日后不会自动补历史日报。
 - 前端每 5 分钟尝试刷新，后台标签页或超过 2 分钟未交互时暂停。页面刷新不派发采集任务。
 
-来源配置见 [configure_focus.py](scripts/configure_focus.py) 与 [补充来源清单](docs/bootstrap/bioai_focus_supplement_v1.json)。PubMed、Europe PMC 和经核验的公司 RSS 可采集；bioRxiv 直连接口因此前 HTTP 500 停用，Europe PMC 的预印本发现是降级路径，不能保证全部版本或全文。来源已核验只说明其身份门槛，预印本标签、原文及引用链仍须保留。
+来源配置见 [学术政策配置](scripts/configure_focus.py)、[产业来源配置](scripts/configure_industry.py) 与 [实际来源清单](docs/bootstrap/bioai_industry_sources_v2.json)。PubMed、Europe PMC、Crossref 与已核验公司 RSS/限定 Newsroom HTML 为当前适配器；Crossref 完整回填状态单独检查。bioRxiv 直连停用，预印本不再通过默认精选入口推荐。来源核验、采集成功、主题命中和事件审核是不同门槛，不能相互代替。
 
 `configure_focus.py --backfill` 会重新配置并启用核心来源，不应作为日常修复或恢复脚本反复运行，以免覆盖管理员停用决定。补充导入默认 dry-run，只有 `--apply` 写入；同一清单校验和只应用一次，保留后续管理员修改。
 
@@ -48,7 +50,7 @@ SELECT (SELECT count(*) FROM raw_items) AS raw_items,
 
 旧本地发现模式留下的 `cloud_runtime_enabled=false` 或未设置该值的 queued 任务不属于云队列积压；不要把全库 queued 数量视为云端未完成任务。检查 Cloudflare Worker 错误和 CPU、Queues 积压/重试及 Neon 存储/CU 用量，特别关注连续缺失的小时 Cron、过期 running 租约、持续增长的 retry/dead 和北京时间 08:07 后仍缺失的当日日报。
 
-HTTP 304 是有效检查成功；零新增也可能是重复数据、未变化或时间窗内没有匹配项。原文数量、去重后的聚焦资源、人工审核新闻和公司数量是不同指标，不能补造内容来改善数字。日报读取重新应用来源门槛，撤销后可见条目可能少于固定的 `total_records`。
+HTTP 304 是有效检查成功；零新增也可能是重复数据、未变化或时间窗内没有匹配项。原文数量、去重后的聚焦资源、已审核新闻和公司数量是不同指标，不能补造内容来改善数字。日报读取重新应用来源门槛，撤销后可见条目可能少于固定的 `total_records`。
 
 ## 手动派发与日报补偿
 
@@ -108,7 +110,7 @@ API/MCP 新读取即时应用数据库门槛；动态 HTML 与 RSS 设置 no-sto
 
 ## 备份与灾难恢复
 
-Neon 当前 Free 计划公布的即时恢复窗口为 6 小时，不能代替独立备份；以账户实际计划为准，参见 [Neon 官方说明](https://neon.com/blog/neon-free-plan-1-gb-per-project)。首次本地数据库到 Neon 空库的真实恢复及迁移校验和已通过，项目尚无自动备份任务；仍需安排受控的日备份、异地保存和定期独立恢复演练。RPO 取决于最后验证的备份，不能承诺零数据丢失。
+Neon 当前 Free 计划公布的即时恢复窗口为 6 小时，不能代替独立备份；以账户实际计划为准，参见 [Neon 官方说明](https://neon.com/blog/neon-free-plan-1-gb-per-project)。首次本地数据库到 Neon 空库的真实恢复及迁移校验和已通过。现已启用每日北京时间 09:23 的 GitHub Actions 加密备份，使用只读数据库角色、独立 PG17 恢复与同一 MVCC 快照计数核验，密文保留 7 天；首次真实云端运行已通过，见 [备份运维](docs/operations-backup.md) 和 [备份验收](docs/backup-acceptance-2026-10-08.json)。后续按日自动执行仍需持续观察。RPO 取决于最后验证的备份，不能承诺零数据丢失。
 
 以下命令需 PostgreSQL 客户端在 PATH，`pg_dump` 主版本不得低于服务端。默认导出；恢复时先设置 `BIOAI_BACKUP_MODE=restore`，连接**新建的空数据库**，并输入备份路径。连接密码仅放入子进程环境，不进入命令参数或输出；`artifacts/` 和 `*.dump` 已在 Git 忽略中，备份仍需受控保存。
 

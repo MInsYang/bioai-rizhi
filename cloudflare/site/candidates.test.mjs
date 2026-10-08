@@ -59,10 +59,15 @@ test('candidate generation, publication evidence, revocation and audit use isola
   const control = new Client({connectionString: controlUrl.href});
   const name = 'bioai_candidates_test_' + crypto.randomUUID().replaceAll('-', '');
   await control.connect(); let pool;
+  const connectedClients = new Set();
   try {
     await control.query(`CREATE DATABASE "${name}"`);
     const testUrl = new URL(connectionString); testUrl.pathname = '/' + name;
     pool = new Pool({connectionString: testUrl.href});
+    pool.on('connect', client => {
+      connectedClients.add(client);
+      client.once('end', () => connectedClients.delete(client));
+    });
     const sql = {query: async (text, params = []) => (await pool.query(text, params)).rows,
       async transaction(fn) {const c = await pool.connect(); try {await c.query('BEGIN'); const result = await fn({query: async (text, params = []) => (await c.query(text, params)).rows}); await c.query('COMMIT'); return result;} catch (error) {await c.query('ROLLBACK'); throw error;} finally {c.release();}}};
     const migrations = new URL('../../backend/migrations/', import.meta.url);
@@ -95,6 +100,20 @@ test('candidate generation, publication evidence, revocation and audit use isola
     assert.equal((await again.json()).already_applied, true);
     assert.equal((await candidateApi(request('/' + candidate.id + '/dismiss'), sql)).status, 409);
   } finally {
-    await pool?.end(); await control.query(`DROP DATABASE IF EXISTS "${name}" WITH (FORCE)`); await control.end();
+    try {
+      // pg-pool can resolve end() after removing idle clients but before their
+      // sockets emit end. Force-dropping in that gap terminates a closing client.
+      await pool?.end();
+      await Promise.all([...connectedClients].map(client => new Promise(resolve => client.once('end', resolve))));
+      for (let attempt = 0; attempt < 20; attempt++) {
+        const sessions = (await control.query('SELECT count(*)::integer n FROM pg_stat_activity WHERE datname=$1', [name])).rows[0].n;
+        if (!sessions) break;
+        if (attempt === 19) throw new Error('Disposable candidate database still has active connections after pool shutdown');
+        await new Promise(resolve => setTimeout(resolve, 50));
+      }
+      await control.query(`DROP DATABASE IF EXISTS "${name}"`);
+    } finally {
+      await control.end();
+    }
   }
 });

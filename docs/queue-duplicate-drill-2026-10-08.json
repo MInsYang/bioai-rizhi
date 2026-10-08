@@ -1,0 +1,257 @@
+{
+  "started_at": "2026-10-08T09:28:07.795595+00:00",
+  "status": "passed",
+  "queue": "bioai-ingestion",
+  "job_id": "5676121e-08a9-4b01-b0d2-95592943643e",
+  "scope": "Two actual HTTP Queue pushes of the same existing succeeded production job; read-only PostgreSQL comparisons.",
+  "official_references": [
+    "https://developers.cloudflare.com/api/resources/queues/subresources/messages/methods/push/",
+    "https://developers.cloudflare.com/api/resources/queues/subresources/messages/methods/peek/"
+  ],
+  "limitations": [
+    "The Queue consumer tail envelope identifies the queue and batch size, not individual job ids or its returned terminal status.",
+    "Correlation uses two initially empty peek results, two accepted push receipts and successful consumer invocations after the delivery delay. Peek is a point-in-time sample and does not establish absence of delayed or in-flight messages.",
+    "Only this real source and job are compared; unrelated sources may legitimately ingest concurrently.",
+    "No consumer code, queue configuration, source content or database rows are changed by this script. No fake records are created.",
+    "Push responses expose best-effort backlog metrics and do not return a message id. A push is never automatically retried.",
+    "No per-message ids were exposed by peek during the 15-second delay; job-level attribution is based on the accepted request payloads, isolated two-message window and unchanged database state, not a message-id consumer trace."
+  ],
+  "before": {
+    "registry_key": "isomorphic-labs-official-announcements",
+    "source_jobs": 1,
+    "active_source_jobs": 0,
+    "attempts": 9,
+    "attempts_fingerprint": "b1aefcc69f473d2f4b55acc2abb8eb67",
+    "source_raw_records": 10,
+    "source_records_fingerprint": "e9a60f5290bea377a92197a944537a06",
+    "job_raw_records": 7,
+    "job_id": "5676121e-08a9-4b01-b0d2-95592943643e",
+    "source_id": "3e7497e2-5218-5f47-8e78-73bcb2a6baea",
+    "job_status": "succeeded",
+    "job_fingerprint": "4569bdf0999c3163f0b53c6855c9c0f33e0862a43bdb20426c672f28faecdf1b",
+    "observed_at": "2026-10-08T09:28:08.981141+00:00"
+  },
+  "baseline_peek": {
+    "at": "2026-10-08T09:28:10.885317+00:00",
+    "http_status": 200,
+    "cf_ray": "a4741d223ee35fb5-SIN",
+    "success": true,
+    "error_codes": [],
+    "metrics": {},
+    "matching_messages": [],
+    "returned_message_count": 0
+  },
+  "health_probe_receipts": [
+    {
+      "at": "2026-10-08T09:28:11.701159+00:00",
+      "http_status": 200
+    },
+    {
+      "at": "2026-10-08T09:28:15.838527+00:00",
+      "http_status": 200
+    },
+    {
+      "at": "2026-10-08T09:28:19.401008+00:00",
+      "http_status": 200
+    },
+    {
+      "at": "2026-10-08T09:28:23.399771+00:00",
+      "http_status": 200
+    },
+    {
+      "at": "2026-10-08T09:28:26.896741+00:00",
+      "http_status": 200
+    },
+    {
+      "at": "2026-10-08T09:28:30.843402+00:00",
+      "http_status": 200
+    },
+    {
+      "at": "2026-10-08T09:28:34.374698+00:00",
+      "http_status": 200
+    }
+  ],
+  "tail_ready_at": "2026-10-08T09:28:35.051457+00:00",
+  "pre_push_peek": {
+    "at": "2026-10-08T09:28:36.654115+00:00",
+    "http_status": 200,
+    "cf_ray": "a4741dc4f8bf9c2c-SIN",
+    "success": true,
+    "error_codes": [],
+    "metrics": {},
+    "matching_messages": [],
+    "returned_message_count": 0
+  },
+  "push_receipts": [
+    {
+      "at": "2026-10-08T09:28:37.685984+00:00",
+      "http_status": 200,
+      "cf_ray": "a4741dcf4f435fd8-SIN",
+      "success": true,
+      "error_codes": [],
+      "metrics": {
+        "backlog_count": 0,
+        "backlog_bytes": 49,
+        "oldest_message_timestamp_ms": 0
+      },
+      "delivery_number": 1
+    },
+    {
+      "at": "2026-10-08T09:28:38.646132+00:00",
+      "http_status": 200,
+      "cf_ray": "a4741dd59cc8ff83-SIN",
+      "success": true,
+      "error_codes": [],
+      "metrics": {
+        "backlog_count": 1,
+        "backlog_bytes": 147,
+        "oldest_message_timestamp_ms": 1791451677797
+      },
+      "delivery_number": 2
+    }
+  ],
+  "push_start_ms": 1791451716654,
+  "after_push_peek": {
+    "at": "2026-10-08T09:28:40.020850+00:00",
+    "http_status": 200,
+    "cf_ray": "a4741ddb7e59a110-SIN",
+    "success": true,
+    "error_codes": [],
+    "metrics": {},
+    "matching_messages": [],
+    "returned_message_count": 0
+  },
+  "after_delivery_peek": {
+    "at": "2026-10-08T09:29:02.200609+00:00",
+    "http_status": 200,
+    "cf_ray": "a4741e654c3d9aaf-SIN",
+    "success": true,
+    "error_codes": [],
+    "metrics": {},
+    "matching_messages": [],
+    "returned_message_count": 0
+  },
+  "after": {
+    "registry_key": "isomorphic-labs-official-announcements",
+    "source_jobs": 1,
+    "active_source_jobs": 0,
+    "attempts": 9,
+    "attempts_fingerprint": "b1aefcc69f473d2f4b55acc2abb8eb67",
+    "source_raw_records": 10,
+    "source_records_fingerprint": "e9a60f5290bea377a92197a944537a06",
+    "job_raw_records": 7,
+    "job_id": "5676121e-08a9-4b01-b0d2-95592943643e",
+    "source_id": "3e7497e2-5218-5f47-8e78-73bcb2a6baea",
+    "job_status": "succeeded",
+    "job_fingerprint": "4569bdf0999c3163f0b53c6855c9c0f33e0862a43bdb20426c672f28faecdf1b",
+    "observed_at": "2026-10-08T09:29:02.291976+00:00"
+  },
+  "consumer_events": [
+    {
+      "eventTimestamp": 1791451737504,
+      "outcome": "ok",
+      "cpuTime": 1,
+      "wallTime": 186,
+      "scriptVersion": {
+        "id": "d38af6a3-9e4c-4515-9ed6-333e75f69b13"
+      },
+      "observed_at": "2026-10-08T09:28:58.364238+00:00",
+      "queue": "bioai-ingestion",
+      "batch_size": 1,
+      "exception_count": 0
+    },
+    {
+      "eventTimestamp": 1791451738971,
+      "outcome": "ok",
+      "cpuTime": 1,
+      "wallTime": 187,
+      "scriptVersion": {
+        "id": "d38af6a3-9e4c-4515-9ed6-333e75f69b13"
+      },
+      "observed_at": "2026-10-08T09:28:59.221212+00:00",
+      "queue": "bioai-ingestion",
+      "batch_size": 1,
+      "exception_count": 0
+    }
+  ],
+  "assertions": {
+    "two_pushes_accepted": true,
+    "two_or_more_queue_messages_processed_without_exception": true,
+    "job_attempts_source_jobs_and_source_records_unchanged": true,
+    "no_visible_messages_in_final_peek": true
+  },
+  "finished_at": "2026-10-08T09:29:03.875887+00:00",
+  "duration_seconds": 56.079,
+  "previous_attempts": [
+    {
+      "started_at": "2026-10-08T09:24:31.801697+00:00",
+      "finished_at": "2026-10-08T09:25:16.203166+00:00",
+      "status": "failed",
+      "problem": "tail_readiness_not_observed_no_messages_sent",
+      "consumer_events": [
+        {
+          "eventTimestamp": 1791451505857,
+          "outcome": "ok",
+          "cpuTime": 8,
+          "wallTime": 848,
+          "scriptVersion": {
+            "id": "d38af6a3-9e4c-4515-9ed6-333e75f69b13"
+          },
+          "observed_at": "2026-10-08T09:25:07.344842+00:00",
+          "queue": "bioai-ingestion",
+          "batch_size": 1,
+          "exception_count": 0
+        },
+        {
+          "eventTimestamp": 1791451507782,
+          "outcome": "ok",
+          "cpuTime": 10,
+          "wallTime": 871,
+          "scriptVersion": {
+            "id": "d38af6a3-9e4c-4515-9ed6-333e75f69b13"
+          },
+          "observed_at": "2026-10-08T09:25:08.715512+00:00",
+          "queue": "bioai-ingestion",
+          "batch_size": 1,
+          "exception_count": 0
+        },
+        {
+          "eventTimestamp": 1791451509745,
+          "outcome": "ok",
+          "cpuTime": 1,
+          "wallTime": 505,
+          "scriptVersion": {
+            "id": "d38af6a3-9e4c-4515-9ed6-333e75f69b13"
+          },
+          "observed_at": "2026-10-08T09:25:10.312808+00:00",
+          "queue": "bioai-ingestion",
+          "batch_size": 1,
+          "exception_count": 0
+        }
+      ]
+    },
+    {
+      "started_at": "2026-10-08T09:26:26.645558+00:00",
+      "finished_at": "2026-10-08T09:27:13.287320+00:00",
+      "status": "failed",
+      "problem": "tail_readiness_not_observed_no_messages_sent",
+      "consumer_events": []
+    }
+  ],
+  "push_attempted_count": 2,
+  "request_contract": {
+    "method": "POST",
+    "endpoint_template": "/accounts/{account_id}/queues/{queue_id}/messages",
+    "identical_message_bodies": [
+      {
+        "job_id": "5676121e-08a9-4b01-b0d2-95592943643e"
+      },
+      {
+        "job_id": "5676121e-08a9-4b01-b0d2-95592943643e"
+      }
+    ],
+    "content_type": "json",
+    "delay_seconds": 15,
+    "automatic_push_retries": 0
+  }
+}

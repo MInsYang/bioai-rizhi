@@ -1,6 +1,6 @@
 # BioAI 日知的官方 MCP Registry 发布
 
-仓库已准备 [server.json](../server.json) 和仅手动触发的 [publish-mcp.yml](../.github/workflows/publish-mcp.yml)。此次准备没有登录 Registry、调用 publish、推送 Git 或创建 Registry 条目。MCP 公网服务验收和 Registry 入库是不同的验证；服务可连接不能证明已进入目录。
+2026-10-08 09:23 UTC，已通过 [GitHub Actions OIDC 发布](https://github.com/MInsYang/bioai-rizhi/actions/runs/37756319209) 将 `io.github.MInsYang/bioai-rizhi` 的 `3.1.0` 版本登记到官方 MCP Registry。工作流和随后独立 HTTP 回读均确认 `active`，远程地址为 `https://bioai-rizhi.pages.dev/mcp`，见 [实际回读证据](mcp-registry-acceptance.json)。登记不等于所有客户端会自动展示，也不保证目录推荐或访问量。
 
 | 字段 | 固定值 |
 |---|---|
@@ -33,7 +33,7 @@
 
 这仅证明当次 manifest 的 schema 与语义校验通过，没有证明 namespace 已获授权、MCP 端点正常运行或版本已发布。API 某些无效输入会返回 HTTP 422，语义检查也可能以 HTTP 200 返回 `valid=false`；workflow 同时要求 HTTP 成功和 `.valid == true`，不会仅凭 200 发布。[官方 Registry API](https://github.com/modelcontextprotocol/registry/blob/9cbf0b3e4c4b088fe580bcfdee9e58f8947d4384/docs/reference/api/official-registry-api.md)、[验证处理器](https://github.com/modelcontextprotocol/registry/blob/9cbf0b3e4c4b088fe580bcfdee9e58f8947d4384/internal/api/handlers/v0/validate.go)。
 
-2026-10-08 09:08:39 UTC，下载并核验的 Darwin arm64 官方 v1.8.1 CLI 执行 `mcp-publisher validate server.json`，退出码 0，返回 `server.json is valid`。workflow 的 YAML 解析、仅手动触发约束与 6 个 run 步骤的 Bash 语法检查通过；manifest guard 对当前文件通过，对错误 namespace 和额外 package 拒绝。未在 GitHub Actions 内执行 OIDC 或 publish，不能将上述检查写为发布成功。
+2026-10-08 09:08:39 UTC，下载并核验的 Darwin arm64 官方 v1.8.1 CLI 执行 `mcp-publisher validate server.json`，退出码 0，返回 `server.json is valid`。随后修正工作流临时目录上下文后，09:23 UTC 在 GitHub Actions 中实际完成官方 API/CLI 校验、OIDC 登录、publish 和 active 状态回读。初次静态校验与最终真实发布分别记录，不将校验结果充作发布证据。
 
 ## 固定 Publisher 与校验和
 

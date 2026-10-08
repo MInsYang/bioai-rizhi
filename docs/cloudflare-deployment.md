@@ -161,7 +161,7 @@ npx --no-install wrangler deployments list --name bioai-rizhi
 5. 区分管理 `/internal/dispatch` 与真实 `trigger_kind='cron'` 小时任务：小时原生回调、Queue 消费及数据库任务已通过；继续跨日观察北京时间 08:00 的每日专用 tick 与日报。手动调用或小时补偿实现不能替代每日专用回调验收。
 6. 在独立验证分支演练重复消息、重试、来源撤销与恢复，核对公开门槛；线上观测 CPU、错误、队列积压和 Neon 用量后再确认所选计划能运行。
 
-当前公网 health、config、HTML、公司/专题、RSS、sitemap、llms、搜索入口均返回 HTTP 200；远程 MCP initialize、tools/list 和只读 tools/call 通过，共发现五项工具；`/internal/dispatch`、`/internal/digest` 管理调用返回 HTTP 200。官方 `@modelcontextprotocol/client@2.0.0` 已用 legacy/auto 两种协商模式真实公网 connect/listTools，各调用全部五项工具通过；Claude/Cursor/Codex 个人应用接入尚未安装。管理员原值保存确认字段未变且审计已写入。真实 Queue 六条启动任务中五个来源 `succeeded`：PubMed 经 13 次处理（含两次 HTTP 429）自动退避后完成、`failure_count` 归零；Tahoe 五次 HTTP 429 达到预算、本轮任务 `dead`，云端未成功，后续轮询受来源 `next_poll_at` 与退避控制。
+以下为首次上线历史验收，当前版本新增来源和个人 Codex 状态见文首本轮验收。首次公网 health、config、HTML、公司/专题、RSS、sitemap、llms、搜索入口均返回 HTTP 200；远程 MCP initialize、tools/list 和只读 tools/call 通过，共发现五项工具；`/internal/dispatch`、`/internal/digest` 管理调用返回 HTTP 200。官方 `@modelcontextprotocol/client@2.0.0` 已用 legacy/auto 两种协商模式真实公网 connect/listTools，各调用全部五项工具通过；当时尚未配置个人客户端；本轮个人 Codex 已配置，Claude/Cursor 未改动。管理员原值保存确认字段未变且审计已写入。真实 Queue 六条启动任务中五个来源 `succeeded`：PubMed 经 13 次处理（含两次 HTTP 429）自动退避后完成、`failure_count` 归零；Tahoe 五次 HTTP 429 达到预算、本轮任务 `dead`，云端未成功，后续轮询受来源 `next_poll_at` 与退避控制。
 
 正式小时回调的数据库记录于 08:07:44.813 UTC 开始、08:07:45.836 UTC 完成，`scheduler_runs.status='succeeded'`、`dispatched_count=5`；随后 Emulate、HUB、晶泰、Europe PMC、PubMed 的新任务分别于 08:07:47、08:07:49、08:08:00、08:08:23、08:08:30 UTC 全部完成，`status='succeeded'`、`failure_count=0`。这轮原生小时 Cron → Queue → 数据库完整链路通过。
 
