@@ -4,10 +4,12 @@
 
 > **3.2 统计与搜索版（2026-10-08）：** 管理员可查看网页浏览、匿名会话、点击和 MCP 实际工具执行；新增有来源的专题指南、本周收录概要与分页 sitemap。每小时采集、每日摘要、问象报纸首页和手机/PC 布局保持整合。统计口径见 [使用统计](docs/analytics.md)，搜索入口与验证边界见 [搜索建设](docs/search-growth.md)；当前部署验收见 [统计验收](docs/analytics-acceptance.json) 和 [搜索验收](docs/search-acceptance.json)。
 
-访问 [BioAI 日知](https://bioai-rizhi.pages.dev)，公开源码在 [MInsYang/bioai-rizhi](https://github.com/MInsYang/bioai-rizhi)，默认分支为 `codex/bioai-resource-site`。MCP 地址为 `https://bioai-rizhi.pages.dev/mcp`；当前验收与待观察项目见 [本轮验收](docs/newspaper-acceptance.json)。已登记到官方 MCP Registry，见 [接入与登记说明](docs/mcp-registry.md)。
+访问 [BioAI 日知](https://bioai-rizhi.pages.dev)，公开源码在 [MInsYang/bioai-rizhi](https://github.com/MInsYang/bioai-rizhi)，默认分支为 `codex/bioai-resource-site`。MCP 地址为 `https://bioai-rizhi.pages.dev/mcp`；当前验收与待观察项目见 [统计验收](docs/analytics-acceptance.json)、[搜索验收](docs/search-acceptance.json) 和 [TODO](TODO.md)。已登记到官方 MCP Registry，见 [接入与登记说明](docs/mcp-registry.md)。
 
 ## 能做什么
 
+- 管理员统计看板：PV、匿名会话、点击、MCP 真实执行与耗时；支持 1/7/30 天，排除测试与已识别网页机器人，不补造历史流量。
+- 有原始出处的专题指南、本周收录概要，Google 网站验证与 sitemap 提交，每日 08:35 IndexNow 变更通知。
 - 报纸式头版与四个栏目导读；行业消息、合作与布局优先，学术作为研究依据。
 - 五个专题的真实原文检索、来源链接、发表/收录日期；学术默认 17 期刊白名单加 AI 相关性，历史预印本仅在明确选择全部存档后检索。
 - 国内外公司目录、官网、中英文及历史别名；包括新格元、寻因、诺禾致源。地区依据所在地/布局，不推断内外资股权。

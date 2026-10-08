@@ -28,7 +28,7 @@
 - [x] 个人 Codex 全局安装 `bioai` Streamable HTTP 配置；短域名 MCP 真实 initialize/工具发现/调用验证。当前聊天不会热加载新工具，后续新会话生效；未声称其他个人应用已安装。
 - [x] 网站内 RSS 赛道选择、复制地址与订阅说明；本机关注 JSON 导出/合并导入，实现手动跨设备迁移，明确不是云同步。
 - [x] MCP 官方 Registry `io.github.MInsYang/bioai-rizhi` / `3.2.0` 已经手动 OIDC 工作流发布，并由官方 API 回读确认为 active。实际发布状态另见 [Registry 说明](docs/mcp-registry.md)。
-- [x] 112 项 JavaScript 测试无跳过、49 项 Python 测试及 UI 契约通过；真实浏览器完成桌面/手机报纸布局与栏目导航检查。后续最终 CI 以本轮验收链接为准。
+- [x] 3.2.0 的 137 项 Worker、17 项统计界面、66 项 Python 测试无跳过及既有 UI 契约通过；真实浏览器完成桌面/手机报纸布局与栏目导航检查。GitHub Actions [完整 CI](https://github.com/MInsYang/bioai-rizhi/actions/runs/37771161687) 通过。
 
 - [x] 真实 Queue 重复投递验收：同一已完成任务投递两次均获 HTTP 200，随后观察两个成功消费日志；任务、尝试与来源原始记录指纹不变。日志不含逐消息 ID，报告明确关联证据边界。[队列演练](docs/queue-duplicate-drill-2026-10-08.json)
 - [x] 真实公网来源撤销/恢复：Iambic 的原文、事件、关系图、公司动态和 MCP 同步隐藏，独立 watchdog 在 4.662 秒后恢复；来源其他字段与所有内容/任务指纹不变。[公网演练](docs/public-revocation-drill-2026-10-08.json)
@@ -41,7 +41,7 @@
 
 - [ ] Google Sitemap 提交已受理，实时抓取成功，但 Sitemap 报告首次仍显示“无法抓取”；需等待 Google 后续处理并复查。搜索展现和排名尚未形成数据，未接入后台的 Search Console API。
 
-- [ ] 跨日观察每日 00:00 UTC 原生 tick、翌日摘要和后续自动备份。这需要实际跨过时间边界，手动调用与模拟时间不能替代。
+- [ ] 跨日观察每日 00:00 UTC 原生 tick、翌日摘要、08:35 IndexNow 通知和后续自动备份。这需要实际跨过时间边界，手动调用与模拟时间不能替代。
 - [ ] 持续 CPU/请求/Queue/Neon 用量观察。既往 MCP 样本 CPU 高于 Workers Free 名义 10ms；不承诺长期免费，不自动升级付费。新增源后需按真实请求数更新预算，不能沿用旧六源估算。
 - [ ] 真实用户检索、漏检与客户端体验反馈；实现者测试不能冒充真实用户访谈。
 

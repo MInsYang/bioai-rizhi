@@ -24,6 +24,15 @@
     "workflow": "https://github.com/MInsYang/bioai-rizhi/actions/runs/37770649000",
     "status": "passed",
     "analytics_tables_included": true,
-    "public_usage_counts_exported": false
+    "public_usage_counts_exported": false,
+    "manifest_privacy_checked": true
+  },
+  "ci": {
+    "url": "https://github.com/MInsYang/bioai-rizhi/actions/runs/37771161687",
+    "status": "passed",
+    "worker_tests": 137,
+    "frontend_tests": 17,
+    "python_tests": 66,
+    "skipped": 0
   }
 }

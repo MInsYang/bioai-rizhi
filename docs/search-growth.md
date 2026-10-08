@@ -93,3 +93,5 @@ node --test publication.test.mjs guides.test.mjs
 ### 2026-10-08 Google 账号验收
 
 URL 前缀 `https://bioai-rizhi.pages.dev/` 已通过 HTML 标签所有权验证，Sitemap 提交已受理。首次 Sitemap 报告显示“无法抓取”，随后 Google 自身实时网址检查于北京时间 19:28:55 确认 `/sitemap.xml` 抓取成功、允许抓取；据此重提一次，后续报告状态单独保存。不要把实时可访问等同于 Sitemap 已完成处理、页面已收录或搜索已有流量。Google 搜索表现页当前提示处理中，约一天后再查看。[Google Sitemap 报告说明](https://support.google.com/webmasters/answer/7451001)
+
+IndexNow 手动云端工作流已真实验收：2026-10-08 11:36:58 UTC，258 个公开 URL 获 HTTP 200，成功保存提交状态；[运行记录](https://github.com/MInsYang/bioai-rizhi/actions/runs/37771185066)。首次运行曾遭 HTTP 拉取失败，未推进状态；补充最多三次短暂故障重试与固定阶段/状态码诊断后，重跑通过。尚未跨日观察 08:35 自动触发；200 不代表收录。Google Sitemap 最后复查仍显示无法抓取，保留为外部待观察项。
