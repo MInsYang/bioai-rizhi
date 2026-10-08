@@ -112,12 +112,16 @@ function dates(c, days, start, end, field) {
   else if (days) c.clauses.push(`${field} >= now()-make_interval(days=>${c.p(days)}::integer)`);
   if (end) c.clauses.push(`${field} < ${c.p(end)}::date+interval '1 day'`);
 }
+export function scopeEligibilitySQL(payload) {
+  return `(${payload}->'classification'->>'in_scope' IS DISTINCT FROM 'false' AND ${payload}->'industry_classification'->>'relevant' IS DISTINCT FROM 'false')`;
+}
 function topicConditions(params, c, payload, defaultFocused = false) {
   const topic = params.get('topic') || params.get('topic_id') || '';
   if (topic && !TOPICS.some(item => item.id === topic)) fail(422, '未知主题');
   const scope = params.get('scope');
   if (scope && !['all', 'focused'].includes(scope)) fail(422, '未知范围');
   const focused = scope === 'all' ? false : scope === 'focused' ? true : boolean(params, 'focused', defaultFocused);
+  if (topic || focused) c.clauses.push(scopeEligibilitySQL(payload));
   if (topic) c.clauses.push(`COALESCE(${payload}->'classification'->'topic_ids','[]'::jsonb) ? ${c.p(topic)}`);
   else if (focused) c.clauses.push(`(jsonb_array_length(CASE WHEN jsonb_typeof(${payload}->'classification'->'topic_ids')='array' THEN ${payload}->'classification'->'topic_ids' ELSE '[]'::jsonb END)>0 OR ${payload}->'industry_classification'->>'relevant'='true')`);
   return { topic, focused };
@@ -182,15 +186,15 @@ export async function apiRead(path, input, sql) {
   const params = parameters(input);
   if (path === '/api/topics') return { items: TOPICS };
   if (path === '/api/journals') return journalPolicy();
-  if (path === '/health') return { database: (await first(sql, 'SELECT 1 AS ok')).ok, version: '2.0.0' };
+  if (path === '/health') return { database: (await first(sql, 'SELECT 1 AS ok')).ok, version: '3.1.0' };
   if (path === '/api/overview') {
     const selected=conditions(),selectedJournal=selectedJournalSQL('r.raw_payload',value=>selected.p(value));
-    const relevantAcademic=`${selectedJournal} AND r.raw_payload->'classification'->>'ai_related'='true'`;
+    const relevantAcademic=`${selectedJournal} AND r.raw_payload->'classification'->>'ai_related'='true' AND ${scopeEligibilitySQL('r.raw_payload')}`;
     const row = await first(sql, `SELECT
      (SELECT count(*) FROM companies WHERE status='active' AND include_in_company_wall) AS companies,
      (SELECT count(*) FROM public_events) AS events,
      (SELECT count(*) FROM public_resources r WHERE (jsonb_array_length(CASE WHEN jsonb_typeof(r.raw_payload->'classification'->'topic_ids')='array' THEN r.raw_payload->'classification'->'topic_ids' ELSE '[]'::jsonb END)>0 OR r.raw_payload->'industry_classification'->>'relevant'='true')
-      AND (NOT COALESCE(${isAcademicSQL()},false) OR (${relevantAcademic}))) AS records,
+      AND ${scopeEligibilitySQL('r.raw_payload')} AND (NOT COALESCE(${isAcademicSQL()},false) OR (${relevantAcademic}))) AS records,
      (SELECT count(*) FROM public_resources r WHERE ${isAcademicSQL()} AND (${relevantAcademic})
       AND jsonb_array_length(CASE WHEN jsonb_typeof(r.raw_payload->'classification'->'topic_ids')='array' THEN r.raw_payload->'classification'->'topic_ids' ELSE '[]'::jsonb END)>0) AS selected_academic_records,
      (SELECT count(*) FROM public_records) AS all_records,

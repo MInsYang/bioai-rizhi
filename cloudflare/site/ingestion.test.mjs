@@ -63,6 +63,17 @@ test('selected scholarly source drops preprints, unknown journals and unrelated 
   assert.equal(rows[0].raw_payload.academic.journal_selection.journal_id,'nature-biotechnology');
   const metrics=JSON.parse(finish.params[4]);assert.equal(metrics.retrieved_total,4);assert.equal(metrics.matched_total,1);
 });
+test('selected scholarly pages drop a general AI policy article with incidental protein examples',async()=>{
+  const s=source('europepmc');s.config.selected_journals_only=true;
+  const base={...epmcItem('123'),source:'MED',pubTypeList:{pubType:['Journal Article']},journalInfo:{journal:{title:'Science',issn:'0036-8075'}}};
+  const policy={...base,id:'124',title:'Making AI-supported science accountable',abstractText:'AlphaFold transformed protein structure prediction. Researchers must be able to contest automated claims and research governance.'};
+  const protein={...base,title:'Generative protein design with RFdiffusion',abstractText:'We design therapeutic antibody proteins and validate binding affinity.'};
+  const sql=mockSQL(s),m=msg();await consume({messages:[m]},envFor(JSON.stringify({hitCount:2,resultList:{result:[policy,protein]}})),sql);
+  const finish=callOf(sql,'ingestion_finish'),rows=JSON.parse(finish.params[2]);assert.equal(rows.length,1);
+  assert.equal(rows[0].title,protein.title);assert.equal(rows[0].raw_payload.classification.in_scope,true);
+  assert.equal(rows[0].raw_payload.classification.policy_version,'biomedical-focus-2026-10-v3');
+  assert.equal(JSON.parse(finish.params[4]).retrieved_total,2);
+});
 test('one bounded Europe PMC page checkpoints before sending continuation',async()=>{
   const items=Array.from({length:25},(_,i)=>epmcItem('PPR'+i)),sql=mockSQL(source('europepmc')),m=msg();
   const env=envFor(JSON.stringify({hitCount:26,resultList:{result:items},nextCursorMark:'next'}));
@@ -197,6 +208,14 @@ test('official industry virtual biology coverage keeps the evidence topic withou
   await consume({messages:[m]},envFor(body),sql);const row=JSON.parse(callOf(sql,'ingestion_finish').params[2])[0];
   assert.equal(row.raw_payload.industry_classification.relevant,true);
   assert.deepEqual(row.raw_payload.classification.topic_ids,['virtual-cell']);
+});
+test('an explicit industry rejection cannot be bypassed by otherwise matching virtual-cell topic keywords',async()=>{
+  const s=source('rss');s.config={...s.config,allowed_hosts:['www.xtalpi.com'],official_feed_verified:true,official_industry_source:true,content_domain:'industry',ai_biopharma_identity_verified:true};
+  const title='Quarterly financial results for a virtual cell model company',content='Artificial intelligence foundation models predict single-cell perturbation responses.';
+  assert.equal(classify(title,content).in_scope,true);
+  const sql=mockSQL(s),m=msg(),body='<rss><channel><item><title>'+title+'</title><link>https://www.xtalpi.com/news/earnings/</link><description>'+content+'</description></item></channel></rss>';
+  await consume({messages:[m]},envFor(body),sql);
+  assert.deepEqual(JSON.parse(callOf(sql,'ingestion_finish').params[2]),[]);assert.equal(m.acked,1);
 });
 test('304 conditional RSS success has no fabricated new records',async()=>{
   const s=source('rss');s.config={...s.config,allowed_hosts:['www.xtalpi.com'],official_feed_verified:true};s.etag='"one"';const sql=mockSQL(s),m=msg();

@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile, readdir } from 'node:fs/promises';
 import { ApiError, apiRead, canonicalUrl, handleApi, normalizeIdentity } from './api.js';
+import { getDigest } from './publication.js';
 
 const env = { ADMIN_TOKEN: 'a'.repeat(40) };
 const auth = { authorization: 'Bearer ' + env.ADMIN_TOKEN, 'content-type': 'application/json' };
@@ -323,6 +324,31 @@ test('PostgreSQL public views, publication transactions and source revocation', 
       assert(new Date(returned.published_at) > new Date());
       assert.equal(new Date(returned.fetched_at).getTime(), new Date(saved.fetched_at).getTime());
       assert.equal(recent.items.find(row => row.id === undated.rid).published_at, null);
+    });
+    await t.test('explicit content exclusions override old topic tags across lists counts and stored digests while preserving archives',async()=>{
+      const before=await apiRead('/api/overview',{},sql);
+      const good=await fixture({title:'POLICY_FIXTURE AI drug partnership',academic:null});
+      const material=await fixture({title:'POLICY_FIXTURE unrelated materials',academic:null});
+      await sql.query(`UPDATE raw_items SET raw_payload=raw_payload||'{"industry_classification":{"relevant":false}}'::jsonb WHERE id=$1`,[material.rid]);
+      const commentary=await fixture({title:'POLICY_FIXTURE generic AI governance',academic:{status:'indexed',journal:'Nature'},classification:{topic_ids:['virtual-cell'],ai_related:true,in_scope:false}});
+      for(const filter of [{},{topic:'virtual-cell'},{scope:'all',topic:'virtual-cell'}]) {
+        const current=await apiRead('/api/records',{q:'POLICY_FIXTURE',days:0,...filter},sql);
+        assert.equal(current.total,1);assert.equal(current.items[0].id,good.rid);
+      }
+      const archive=await apiRead('/api/records',{q:'POLICY_FIXTURE',days:0,scope:'all',journal_tier:'all'},sql);
+      assert.equal(archive.total,3);
+      assert.equal((await apiRead('/api/records/'+material.rid,{},sql)).id,material.rid);
+      const after=await apiRead('/api/overview',{},sql);
+      assert.equal(after.records-before.records,1);
+      assert.equal(after.selected_academic_records,before.selected_academic_records);
+      const generated=(await sql.query(`SELECT generate_daily_digest((date_trunc('day',now() AT TIME ZONE 'Asia/Shanghai')+interval '1 day 8 hours') AT TIME ZONE 'Asia/Shanghai') AS value`))[0].value;
+      assert.ok(generated.record_ids.includes(good.rid));
+      assert.ok(!generated.record_ids.includes(material.rid));
+      assert.ok(!generated.record_ids.includes(commentary.rid));
+      await sql.query(`INSERT INTO daily_digests(digest_date,window_start,window_end,record_ids,total_records) VALUES ('2001-01-01',now()-interval '1 day',now(),$1,3)`,[[good.rid,material.rid,commentary.rid]]);
+      const digest=await getDigest(sql,'2001-01-01');
+      assert.equal(digest.original_selection_count,3);assert.equal(digest.total_records,1);
+      assert.deepEqual(digest.items.map(r=>r.id),[good.rid]);
     });
   } finally {
     try {

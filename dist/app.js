@@ -445,7 +445,7 @@
         "RESEARCH OBSERVATORY",
         "默认展示重点期刊中与本站主题相关的已发表研究。期刊名单用于筛选范围，不替代对单篇研究质量与产业价值的判断。",
       ) + journalGuide +
-      `<div class="filters"><input type="search" id="paper-q" placeholder="搜索虚拟细胞、organoid、digital twin…" value="${esc(paperState.q)}" aria-label="搜索学术原文"><select id="paper-source" aria-label="学术来源" ${paperState.picked ? "disabled" : ""}><option value="">全部学术来源</option>${sourceOptions}</select><select id="paper-tier" aria-label="期刊收录范围" ${paperState.picked ? "disabled" : ""}><option value="selected" ${paperState.journal_tier === "selected" ? "selected" : ""}>重点期刊 · 已发表研究</option><option value="all" ${paperState.journal_tier === "all" ? "selected" : ""}>全部历史索引 · 含预印本</option></select><select id="paper-days" aria-label="学术时间范围">${[
+      `<div class="filters"><input type="search" id="paper-q" placeholder="搜索虚拟细胞、organoid、digital twin…" value="${esc(paperState.q)}" aria-label="搜索学术原文"><select id="paper-source" aria-label="学术来源" ${paperState.picked ? "disabled" : ""}><option value="">全部学术来源</option>${sourceOptions}</select><select id="paper-tier" aria-label="期刊收录范围" ${paperState.picked ? "disabled" : ""}><option value="selected" ${paperState.journal_tier === "selected" ? "selected" : ""}>重点期刊 · 已发表文献</option><option value="all" ${paperState.journal_tier === "all" ? "selected" : ""}>全部历史索引 · 含预印本</option></select><select id="paper-days" aria-label="学术时间范围">${[
         ["7", "最近 7 天"],
         ["30", "最近 30 天"],
         ["90", "最近 90 天"],
@@ -490,12 +490,13 @@
       p.set("academic", "true");
       p.set("source", paperState.source);
       p.set("journal_tier", paperState.journal_tier);
+      if (paperState.journal_tier === "all") p.set("scope", "all");
       d = await api("/api/records?" + p);
     }
     if (n !== epoch) return;
     $("#results").className = "";
     $("#results").innerHTML =
-      `<p class="academic-count">${d.total} 条${paperState.picked ? "已核验精选" : paperState.journal_tier === "selected" ? "重点期刊研究" : "历史学术原始记录"} · 展示实际收录的原始资料</p><div class="panel">${d.items.map(paperState.picked ? eventCard : recordCard).join("") || empty("当前筛选下暂无学术记录", "可以扩大日期范围，或查看公共订阅的接入状态。", "#sources", "查看信息来源")}</div>${pager(d.total, 20)}`;
+      `<p class="academic-count">${d.total} 条${paperState.picked ? "已核验精选" : paperState.journal_tier === "selected" ? "重点期刊文献" : "历史学术原始记录"} · 展示实际收录的原始资料</p><div class="panel">${d.items.map(paperState.picked ? eventCard : recordCard).join("") || empty("当前筛选下暂无学术记录", "可以扩大日期范围，或查看公共订阅的接入状态。", "#sources", "查看信息来源")}</div>${pager(d.total, 20)}`;
   }
   async function sources(n) {
     const [rows, o] = await Promise.all([

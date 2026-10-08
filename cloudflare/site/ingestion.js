@@ -108,9 +108,16 @@ async function record(source,fields,payload,state,response) {
   const title=String(fields.title||'').slice(0,1000),content_text=String(fields.content_text||title).slice(0,200000);
   if (!title || !fields.canonical_url) throw new IngestionError('Official record lacks title or URL');
   const classification=classify(title,content_text),industry=classifyIndustry(title,content_text,source.config);
-  if (!classification.topic_ids.length && !industry.relevant) return null;
-  if(industry.relevant)classification.ai_related=classification.ai_related||industry.ai_related;
-  if(industry.relevant && !classification.topic_ids.length)classification.topic_ids.push('drug-discovery');
+  const industrySource=source.config.official_industry_source===true||source.config.content_domain==='industry';
+  // An industry decision is authoritative for its source; broad model-topic
+  // keywords cannot readmit an out-of-scope materials or boilerplate notice.
+  if(industrySource&&industry.relevant!==true)return null;
+  if (classification.in_scope===false&&!industry.relevant) return null;
+  if(industry.relevant){classification.ai_related=classification.ai_related||industry.ai_related;classification.in_scope=true;}
+  if(industry.relevant && !classification.topic_ids.length){
+    classification.topic_ids.push('drug-discovery');classification.scope_reason='official-ai-biopharma-business-update';
+    classification.topic_evidence['drug-discovery']='verified-industry-context';
+  }
   let academic=payload.academic;
   if(academic) {
     academic={...academic,journal_selection:selectJournal(academic)};
@@ -123,7 +130,7 @@ async function record(source,fields,payload,state,response) {
   const digest=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(stable));
   const content_hash=Array.from(new Uint8Array(digest),b=>b.toString(16).padStart(2,'0')).join('');
   return {...fields,canonical_url:canonical.href,title,content_text,content_hash,raw_payload:{...payload,...(academic?{academic}:{}),classification,
-    ...(industry.relevant?{industry_classification:industry}:{}),
+    ...(industrySource||industry.relevant?{industry_classification:industry}:{}),
     http_status:response.status,fetched_url:response.url,parser_version:'cloud-ingestion-v1',
     retrieval:{adapter:source.adapter,from:state.from||null,to:state.to||null,query:source.config.query||null,
       query_version:state.query_version,page_cursor:state.page_cursor??state.offset??null,complete_window:false}}};

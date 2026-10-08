@@ -151,6 +151,8 @@ function classification(row) {
     topic_ids: topicIds(row), model_form: text(value.model_form, 100),
     biological_model: text(value.biological_model, 100),
     ai_related: typeof value.ai_related === "boolean" ? value.ai_related : null,
+    in_scope: typeof value.in_scope === "boolean" ? value.in_scope : null,
+    policy_version: text(value.policy_version, 100),
     method: text(value.method, 100), query_version: text(value.query_version, 100),
   };
 }

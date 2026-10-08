@@ -1,6 +1,6 @@
 # BioAI 日知更新与恢复手册
 
-截至 2026-10-08，3.1 报纸版已部署到 [bioai-rizhi.pages.dev](https://bioai-rizhi.pages.dev)，Pages 通过 Service Binding 使用同一生产 Worker 与 Neon PostgreSQL。001–014 迁移已执行，134 个目录实体、132 个默认黄页实体；9 个本轮新增/核验产业源完成真实云端采集。09:07 UTC 原生小时 Cron 派发 14 个来源，13 个完成，Crossref 首次完整窗口回填仍在推进；实时状态以数据库和 [报纸版验收](docs/newspaper-acceptance.json) 为准。
+截至 2026-10-08，3.1 报纸版已部署到 [bioai-rizhi.pages.dev](https://bioai-rizhi.pages.dev)，Pages 通过 Service Binding 使用同一生产 Worker 与 Neon PostgreSQL。001–015 迁移已执行，134 个目录实体、132 个默认黄页实体；9 个本轮新增/核验产业源完成真实云端采集。09:07 UTC 原生小时 Cron 派发 14 个来源，14 个全部完成，Crossref 首次完整窗口于 10:06 UTC 完成；实时状态以数据库和 [报纸版验收](docs/newspaper-acceptance.json) 为准。
 
 本轮新增 12 条带官方证据的行业事件和 6 条关系，明确标记代理辅助审核；默认学术、混合列表、RSS、日报与 MCP 只展示 17 个重点期刊中的 AI 生物医药相关内容。期刊政策见 `/api/journals`；历史非重点期刊/预印本仅通过显式历史筛选访问。Tahoe 旧 RSS 已停用云端调度，不能把历史本地成功当作当前云接通。
 

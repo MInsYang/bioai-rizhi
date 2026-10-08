@@ -1,5 +1,6 @@
 import { TOPICS } from './topics.js';
 import { selectedJournalSQL } from './journals.js';
+import { scopeEligibilitySQL } from './api.js';
 
 export const escape = (s) => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const origin = (request, env) => env.SITE_ORIGIN || new URL(request.url).origin;
@@ -18,6 +19,8 @@ export async function getDigest(sql, day) {
     left(content_text,400) AS excerpt,raw_payload->'academic' AS academic,
     raw_payload->'classification'->'topic_ids' AS topics
     FROM public_records WHERE id=ANY($1::uuid[])
+    AND ${scopeEligibilitySQL('raw_payload')}
+    AND (jsonb_array_length(CASE WHEN jsonb_typeof(raw_payload->'classification'->'topic_ids')='array' THEN raw_payload->'classification'->'topic_ids' ELSE '[]'::jsonb END)>0 OR raw_payload->'industry_classification'->>'relevant'='true')
     AND (raw_payload->'academic' IS NULL OR (${journalGate} AND raw_payload->'classification'->>'ai_related'='true'))
     ORDER BY CASE WHEN raw_payload->'academic' IS NULL THEN 0 ELSE 1 END,fetched_at DESC,id`, params);
   d.original_selection_count = d.total_records;

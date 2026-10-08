@@ -1,0 +1,95 @@
+{
+  "checked_at": "2026-10-08T10:03:50.003736+00:00",
+  "query_version_unchanged": true,
+  "policy_version": "biomedical-focus-2026-10-v3",
+  "targets": {
+    "local": {
+      "migrations": 15,
+      "metadata_rows_changed": 4681,
+      "original_fields": {
+        "before": {
+          "n": 4681,
+          "checksum": "50726cd36547469b59017a6cd88cf173"
+        },
+        "after": {
+          "n": 4681,
+          "checksum": "50726cd36547469b59017a6cd88cf173"
+        },
+        "unchanged": true
+      },
+      "curated_records_preserved": 12,
+      "public_events": 12,
+      "examples": [
+        {
+          "title": "Isomorphic Labs joins the Virtual Biology Initiative to build foundational data for AI models to predict and treat disease",
+          "in_scope": "true",
+          "scope_reason": "substantive-topic-focus",
+          "industry_relevant": "true"
+        },
+        {
+          "title": "成本可降近90%！赋澈生物造出可“按温度拆解”的新塑料，登上Nature Biotechnology",
+          "in_scope": "false",
+          "scope_reason": "industry-source-out-of-scope",
+          "industry_relevant": "false"
+        }
+      ]
+    },
+    "production": {
+      "migrations": 15,
+      "metadata_rows_changed": 4794,
+      "original_fields": {
+        "before": {
+          "n": 4794,
+          "checksum": "55c461aad18a89b98f482792b64c3c7a"
+        },
+        "after": {
+          "n": 4794,
+          "checksum": "55c461aad18a89b98f482792b64c3c7a"
+        },
+        "unchanged": true
+      },
+      "curated_records_preserved": 12,
+      "public_events": 12,
+      "examples": [
+        {
+          "title": "Isomorphic Labs joins the Virtual Biology Initiative to build foundational data for AI models to predict and treat disease",
+          "in_scope": "true",
+          "scope_reason": "substantive-topic-focus",
+          "industry_relevant": "true"
+        },
+        {
+          "title": "Isomorphic Labs joins the Virtual Biology Initiative to build foundational data for AI models to predict and treat disease",
+          "in_scope": "true",
+          "scope_reason": "substantive-topic-focus",
+          "industry_relevant": "true"
+        },
+        {
+          "title": "Keep AI-augmented science contestable",
+          "in_scope": "false",
+          "scope_reason": "general-ai-policy",
+          "industry_relevant": null
+        },
+        {
+          "title": "Keep AI-augmented science contestable.",
+          "in_scope": "false",
+          "scope_reason": "general-ai-policy",
+          "industry_relevant": null
+        },
+        {
+          "title": "Keep AI-augmented science contestable.",
+          "in_scope": "false",
+          "scope_reason": "general-ai-policy",
+          "industry_relevant": null
+        },
+        {
+          "title": "成本可降近90%！赋澈生物造出可“按温度拆解”的新塑料，登上Nature Biotechnology",
+          "in_scope": "false",
+          "scope_reason": "industry-source-out-of-scope",
+          "industry_relevant": "false"
+        }
+      ]
+    }
+  },
+  "completed_at": "2026-10-08T10:06:10.456397+00:00",
+  "status": "passed"
+}

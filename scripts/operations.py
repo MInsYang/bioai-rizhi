@@ -52,7 +52,7 @@ def write_report(path, result):
 def health(report):
     origin = os.environ.get('BIOAI_SITE_ORIGIN') or 'https://bioai-rizhi.pages.dev'
     now = dt.datetime.now(dt.timezone.utc)
-    problems, warnings, stale = [], [], []
+    problems, warnings, stale, no_success = [], [], [], []
     http_status, age, sources_enabled = None, None, None
     try:
         with httpx.Client(timeout=30) as client:
@@ -72,8 +72,11 @@ def health(report):
                 FROM sources WHERE enabled AND verified AND config->>'cloud_runtime_enabled'='true'""").fetchall()
             sources_enabled = len(sources)
             warnings = [{'source': row[0] or row[1], 'failures': row[2]} for row in sources if row[2] > 0]
+            no_success = [row[0] or row[1] for row in sources if row[3] is None]
             stale = [row[0] or row[1] for row in sources
-                     if not row[3] or (now - row[3]).total_seconds() > 172800]
+                     if row[3] is not None and (now - row[3]).total_seconds() > 172800]
+            if no_success:
+                problems.append('sources_without_success_record')
             if stale:
                 problems.append('sources_stale_over_48h')
             digest = connection.execute('SELECT max(digest_date) FROM daily_digests').fetchone()[0]
@@ -87,7 +90,8 @@ def health(report):
         problems.append('database_health_unavailable')
     result = {'checked_at': now.isoformat(), 'status': 'failed' if problems else 'passed',
               'http_status': http_status, 'scheduler_age_hours': age, 'sources_enabled': sources_enabled,
-              'source_warnings': warnings, 'stale_sources': stale, 'problems': problems}
+              'source_warnings': warnings, 'stale_sources': stale,
+              'no_success_sources': no_success, 'problems': problems}
     write_report(report, result)
     # A separate final step marks an unhealthy run failed AFTER artifact upload.
     return result

@@ -36,7 +36,7 @@ function sourceRecord() {
     excerpt: "Stored abstract.", content_text: "x".repeat(6500), source_name: "bioRxiv", source_type: "publications",
     registry_key: "biorxiv", published_at: "2026-10-05T00:00:00Z", fetched_at: "2026-10-06T00:00:00Z",
     academic: { status: "preprint", version: "3", doi: "10.1234/example", journal_doi: null },
-    topics: ["virtual-cell"], classification: { topic_ids: ["virtual-cell"], model_form: "computational", biological_model: null, ai_related: true, method: "automated_keyword_v1", query_version: "focus-2026-10-v1" },
+    topics: ["virtual-cell"], classification: { topic_ids: ["virtual-cell"], model_form: "computational", biological_model: null, ai_related: true, in_scope: true, policy_version: "biomedical-focus-2026-10-v3", method: "automated_keyword_v1", query_version: "focus-2026-10-v1" },
     raw_payload: { secret: "NOT_PUBLIC" }, config: { token: "NOT_PUBLIC" }, last_error: "NOT_PUBLIC",
   };
 }
@@ -102,6 +102,8 @@ test("source search keeps preprint status and keyword provenance while using bou
   assert.equal(data.items[0].classification.method, "automated_keyword_v1");
   assert.equal(data.items[0].classification.query_version, "focus-2026-10-v1");
   assert.equal(data.items[0].classification.ai_related, true);
+  assert.equal(data.items[0].classification.in_scope, true);
+  assert.equal(data.items[0].classification.policy_version, "biomedical-focus-2026-10-v3");
   assert.equal(data.items[0].classification.biological_model, null);
   assert.equal(data.items[0].publication_status, "source_record");
   assert.equal(data.items[0].site_url, `${ORIGIN}/records/${RECORD_ID}`);

@@ -1,12 +1,12 @@
 {
   "version": "3.1.0",
-  "checked_at": "2026-10-08T09:20:45.763779+00:00",
+  "checked_at": "2026-10-08T10:06:53.991149+00:00",
   "origin": "https://bioai-rizhi.pages.dev",
-  "worker_version": "d38af6a3-9e4c-4515-9ed6-333e75f69b13",
-  "database_migrations": 14,
+  "worker_version": "fd4a3b3c-d71c-484b-bee1-cbfcaea5e7e6",
+  "database_migrations": 15,
   "tests": {
     "javascript": {
-      "passed": 100,
+      "passed": 112,
       "failed": 0,
       "skipped": 0
     },
@@ -34,14 +34,13 @@
     "limits": "Local newspaper screenshots and DOM inspected; final public page browser re-open timed out in desktop tool. Public HTML/assets/API are separately verified by HTTP."
   },
   "known_runtime_limits": [
-    "Crossref initial full date-window backfill is ongoing; individual real pages persisted, transient 500 is checkpoint-retried.",
     "Daily dedicated cron and subsequent scheduled backup need actual cross-day observation.",
     "Historical MCP CPU samples exceed nominal Workers Free HTTP CPU; no paid upgrade, no free-capacity guarantee."
   ],
   "counts": {
     "companies": 134,
     "directory_companies": 132,
-    "raw_records": 4787,
+    "raw_records": 4794,
     "approved_events": 12,
     "relations": 6
   },
@@ -66,11 +65,11 @@
     {
       "registry_key": "crossref",
       "id": "dc881645-059c-4241-a892-464ef6fd70bd",
-      "status": "retry",
-      "attempts": 48,
-      "failure_count": 1,
-      "last_error": "Official source HTTP 500",
-      "finished_at": null
+      "status": "succeeded",
+      "attempts": 190,
+      "failure_count": 0,
+      "last_error": null,
+      "finished_at": "2026-10-08 10:06:18.881305+00:00"
     },
     {
       "registry_key": "emulate-official-rss",
@@ -213,8 +212,8 @@
       "enabled": true,
       "verified": true,
       "cloud_runtime_enabled": "true",
-      "last_success_at": null,
-      "consecutive_failures": 11
+      "last_success_at": "2026-10-08 10:06:18.881305+00:00",
+      "consecutive_failures": 0
     },
     {
       "registry_key": "emulate-official-rss",
@@ -351,13 +350,13 @@
   "overview": {
     "companies": 132,
     "events": 12,
-    "records": 134,
-    "selected_academic_records": 46,
-    "all_records": 4716,
+    "records": 99,
+    "selected_academic_records": 41,
+    "all_records": 4723,
     "connected_sources": 15,
     "cloud_connected_sources": 14,
     "sources": 165,
-    "last_success_at": "2026-10-08T09:09:29.127Z",
+    "last_success_at": "2026-10-08T10:06:18.881Z",
     "relations": 6,
     "scheduler_last_dispatch_at": "2026-10-08T09:00:00.000Z",
     "scheduler_latest_run": {
@@ -393,5 +392,11 @@
     "url": "https://bioai-rizhi.pages.dev/mcp",
     "configured": true,
     "current_conversation_hot_reload": false
-  }
+  },
+  "crossref_initial_backfill": "completed",
+  "registry_acceptance": "mcp-registry-acceptance.json",
+  "queue_redelivery_acceptance": "queue-duplicate-drill-2026-10-08.json",
+  "public_revocation_acceptance": "public-revocation-drill-2026-10-08.json",
+  "scope_backfill_acceptance": "scope-backfill-acceptance.json",
+  "ci_status_url": "https://github.com/MInsYang/bioai-rizhi/actions/workflows/checks.yml"
 }

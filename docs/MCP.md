@@ -147,7 +147,7 @@ node --test mcp.test.mjs
 
 测试使用真实已安装 SDK 与伪造的公开读取回调，检查初始化、发现、工具调用、2026 header 校验、非法工具/参数、Origin/Host、大小限制、文本截断、预印本/分类来源、错误与内部字段隔离。它验证协议和边界，不替代生产数据库、来源实际采集或客户端界面验收。
 
-MCP 静态工具 Schema 缓存优化已部署。本轮站点 100 项 JavaScript 检查通过、无跳过；以下 CPU 为此前初次上线样本，未将其冒充本轮重新测量值。公开数据响应使用表列 `no-store`。优化后 initialize、tools/list、search_resources、get_source_status 四次公网调用均 HTTP 200、`outcome=ok`，CPU 为 22/15/21/26 ms，仍高于 Workers Free 的名义 HTTP 10 ms。长期免费容量尚未验收，仍需观察和按授权选择运行计划；本次未执行付费升级。详情见 [Cloudflare 部署说明](cloudflare-deployment.md#额度与成本验收)。
+MCP 静态工具 Schema 缓存优化已部署。本轮站点 112 项 JavaScript 检查通过、无跳过；以下 CPU 为此前初次上线样本，未将其冒充本轮重新测量值。公开数据响应使用表列 `no-store`。优化后 initialize、tools/list、search_resources、get_source_status 四次公网调用均 HTTP 200、`outcome=ok`，CPU 为 22/15/21/26 ms，仍高于 Workers Free 的名义 HTTP 10 ms。长期免费容量尚未验收，仍需观察和按授权选择运行计划；本次未执行付费升级。详情见 [Cloudflare 部署说明](cloudflare-deployment.md#额度与成本验收)。
 
 官方 `@modelcontextprotocol/client@2.0.0` 已用 `versionNegotiation: {mode: "legacy"}` 和 `{mode: "auto"}` 分别真实公网 connect/listTools，两种模式均发现并调用全部五项工具通过。结果、版本与时间记录在 [mcp-client-acceptance.json](mcp-client-acceptance.json)。
 
@@ -159,6 +159,6 @@ MCP 静态工具 Schema 缓存优化已部署。本轮站点 100 项 JavaScript 
 
 来源资源 RSS 位于 `/feed.xml`，专题订阅可用 `/feed.xml?topic=virtual-cell` 等五个已知专题 ID。日摘要页面为 `/digest/YYYY-MM-DD`，对应结构化数据为 `/api/digest?date=YYYY-MM-DD`。它们沿用网站的公开读取门槛；原文资源与已核验事件仍分别表述。
 
-正式版本每小时第 7 分钟派发、北京时间 08:00 日报。2026-10-08 09:07 UTC 原生 Cron 派发 14 个来源，13 个完成，Crossref 首次完整窗口正在回填；最新计数见 [本轮验收](newspaper-acceptance.json)。每日专用 tick 与后续自动备份仍需跨日观察，手动验证不能替代。
+正式版本每小时第 7 分钟派发、北京时间 08:00 日报。2026-10-08 09:07 UTC 原生 Cron 派发 14 个来源，14 个全部完成，Crossref 首次完整窗口于 10:06 UTC 完成；最新计数见 [本轮验收](newspaper-acceptance.json)。每日专用 tick 与后续自动备份仍需跨日观察，手动验证不能替代。
 
 Tahoe 旧 RSS 在云端持续失败且旧入口已失效，已停止该源云端调度，保留历史真实内容。来源 TTL、失败退避与主题筛选会影响收录时间；查询存量数据不触发采集，页面每 5 分钟检查可见更新。运行证据以实际任务与成功时间为准。推广入口与衡量方法见 [promotion-strategy.md](promotion-strategy.md)。

@@ -2,9 +2,9 @@
 
 聚焦 **AI 虚拟细胞、类器官、虚拟胚胎、虚拟器官、AI 药物发现** 的研究与产业资源站。新闻文章、公司黄页、学术进展、产业时间线、合作关系图和来源状态共用 PostgreSQL；保留问象原 Logo 和统一导航。
 
-> **3.1 报纸版（2026-10-08）：** 首页聚焦 AI 生物制药行业动态；四个栏目进入原有看板。采用不带账号数字的 Cloudflare Pages 地址，后端仍为原 Worker、Queue 与 Neon。新闻每小时更新，学术默认筛选 17 种重点期刊，另有每日加密备份与独立恢复演练。完整验收与真实限制见 [本轮验收](docs/newspaper-acceptance.json) 和 [TODO](TODO.md)。
+> **3.1 报纸版（2026-10-08）：** 首页聚焦 AI 生物制药行业动态；四个栏目进入原有看板。采用不带账号数字的 Cloudflare Pages 地址，后端仍为原 Worker、Queue 与 Neon。每小时检查新闻更新，学术默认筛选 17 种重点期刊，另有每日加密备份与独立恢复演练。完整验收与真实限制见 [本轮验收](docs/newspaper-acceptance.json) 和 [TODO](TODO.md)。
 
-访问 [BioAI 日知](https://bioai-rizhi.pages.dev)，公开源码在 [MInsYang/bioai-rizhi](https://github.com/MInsYang/bioai-rizhi)，默认分支为 `codex/bioai-resource-site`。MCP 地址为 `https://bioai-rizhi.pages.dev/mcp`；上线记录与待观察项目见 [生产验收记录](docs/production-acceptance.json)。
+访问 [BioAI 日知](https://bioai-rizhi.pages.dev)，公开源码在 [MInsYang/bioai-rizhi](https://github.com/MInsYang/bioai-rizhi)，默认分支为 `codex/bioai-resource-site`。MCP 地址为 `https://bioai-rizhi.pages.dev/mcp`；当前验收与待观察项目见 [本轮验收](docs/newspaper-acceptance.json)。已登记到官方 MCP Registry，见 [接入与登记说明](docs/mcp-registry.md)。
 
 ## 能做什么
 

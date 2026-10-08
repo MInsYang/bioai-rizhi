@@ -2,7 +2,7 @@
 
 当前正式入口为 [bioai-rizhi.pages.dev](https://bioai-rizhi.pages.dev)，移除了读者地址中的账号数字。Pages 的 Service Binding 将请求转给既有 `bioai-rizhi` Worker；原 Worker、Queue、Neon 数据库与真实采集记录继续使用，没有复制静态假内容。旧 Sites 与 ResearchHub 未被删除或替换。
 
-2026-10-08 本轮已运行迁移 001–014。当前部署版本与逐来源实测状态以 [本轮验收](newspaper-acceptance.json) 为准；旧版本记录仍保留在 [首次生产验收](production-acceptance.json)，避免混淆不同时点的计数。正式定时任务仍为每小时第 7 分钟采集、北京时间 08:00 日报。每日 09:23 在 GitHub Actions 做加密备份与独立恢复，见 [备份验收](backup-acceptance-2026-10-08.json)。
+2026-10-08 本轮已运行迁移 001–015。当前部署版本与逐来源实测状态以 [本轮验收](newspaper-acceptance.json) 为准；旧版本记录仍保留在 [首次生产验收](production-acceptance.json)，避免混淆不同时点的计数。正式定时任务仍为每小时第 7 分钟采集、北京时间 08:00 日报。每日 09:23 在 GitHub Actions 做加密备份与独立恢复，见 [备份验收](backup-acceptance-2026-10-08.json)。
 
 ## 短域名入口
 
@@ -81,7 +81,7 @@ npx --no-install wrangler queues info bioai-ingestion
 
 登录 [Neon Console](https://console.neon.tech/)，新建本站独立项目、生产分支、数据库与角色，取得 PostgreSQL 连接串，保留 `sslmode=require`。管理迁移和备份优先使用直接连接；Worker 接受 Neon PostgreSQL 连接串，经 Neon HTTP 查询和需要事务时的 WebSocket 访问。生产 URI 不写入 `.env`、仓库或 shell 参数。
 
-新建空库从根目录按下列顺序初始化，隐藏输入只传给子进程环境。当前迁移包含 001–014，迁移器持有 advisory lock 并检查已应用文件校验和；不编辑历史迁移。基础 seed 和来源清单用于新库初始化，**不会复制本地已采集原文**。若要迁移完整历史，先按 [备份恢复](../UPDATE_RUNBOOK.md#备份与灾难恢复) 恢复到空库，再追加缺失迁移，保留已审核来源决定。
+新建空库从根目录按下列顺序初始化，隐藏输入只传给子进程环境。当前迁移包含 001–015，迁移器持有 advisory lock 并检查已应用文件校验和；不编辑历史迁移。基础 seed 和来源清单用于新库初始化，**不会复制本地已采集原文**。若要迁移完整历史，先按 [备份恢复](../UPDATE_RUNBOOK.md#备份与灾难恢复) 恢复到空库，再追加缺失迁移，保留已审核来源决定。
 
 ```sh
 .venv/bin/python - <<'PY'

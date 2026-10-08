@@ -1,0 +1,501 @@
+{
+  "started_at": "2026-10-08T09:51:30.754249+00:00",
+  "status": "passed",
+  "operational_test_id": "9a9945ab-f0e7-4c41-803f-0434cf84ab40",
+  "origin": "https://bioai-rizhi.pages.dev",
+  "scope": "Committed, temporary production source flags; real public Worker API and MCP requests",
+  "limits": {
+    "public_window_seconds": 35,
+    "independent_watchdog": true,
+    "http_retries": 0,
+    "http_max_parallel": 3
+  },
+  "limitations": [
+    "Representative real record, sole-source event and relation are checked; this is not an exhaustive site audit.",
+    "Source/company directory metadata may remain visible while source content and dependent events are hidden.",
+    "A commit-to-lock handoff is guarded by exact row comparison; an intervening administrator change is never overwritten.",
+    "Restoration is bounded under normal process/network operation; a host outage plus database outage cannot be certified by a local watchdog."
+  ],
+  "previous_attempts": [
+    {
+      "started_at": "2026-10-08T09:42:40.858957+00:00",
+      "finished_at": "2026-10-08T09:42:47.735377+00:00",
+      "status": "failed",
+      "problem": "baseline_public_visibility_failed_no_revocation",
+      "flags_restored_exactly": true,
+      "other_source_columns_unchanged": true,
+      "stored_entities_and_jobs_unchanged": true,
+      "revocation_committed": false,
+      "failed_baseline_checks": [
+        "record_list_contains_target",
+        "mcp_search_target_visibility"
+      ]
+    },
+    {
+      "started_at": "2026-10-08T09:44:51.742116+00:00",
+      "finished_at": "2026-10-08T09:45:02.974363+00:00",
+      "status": "failed",
+      "problem": "public_surface_transport_or_format_failure",
+      "flags_restored_exactly": true,
+      "other_source_columns_unchanged": true,
+      "stored_entities_and_jobs_unchanged": true,
+      "revocation_committed": false,
+      "failed_baseline_checks": [],
+      "diagnostic_limit": "Per-surface details were not retained in that earlier run; cause remains unknown. No revocation was committed."
+    }
+  ],
+  "target": {
+    "source_id": "dc201082-adf3-5368-8746-11de72fda916",
+    "registry_key": "iambic-official-newsroom",
+    "name": "Iambic official newsroom",
+    "company_slug": "iambic-therapeutics",
+    "event_id": "0e567ce2-8af6-4e84-92ad-214b02c1c79e",
+    "record_id": "ab050bdc-a633-4361-9668-1cf777901fd1",
+    "evidence_record_id": "022f7b6c-2d59-548b-a7a5-db4b1d4ad59e",
+    "relation_id": "a2b34f75-c79b-42c3-b953-76795b70425e",
+    "record_title": "AbbVie and Iambic Announce Collaboration to Accelerate AI-driven Drug Discovery",
+    "canonical_url": "https://www.iambic.ai/post/abbvie-and-iambic-announce-collaboration-to-accelerate-ai-driven-drug-discovery"
+  },
+  "backup": {
+    "flags": {
+      "verified": true,
+      "verification_status": "verified"
+    },
+    "nonflag_source_sha256": "b47fa143913fb26c12e7bba71f03e8df3fbaca0fa2b1933f480072e00c26549d",
+    "public_visibility": {
+      "records": 11,
+      "evidence": 3,
+      "selected_event": 1,
+      "selected_relation": 1
+    },
+    "stored_entity_fingerprints": {
+      "raw_items": "195cdbdda3c8c7451f6851341f431f25",
+      "event": "7f3dd0a4ff8b0e63bf4eb6d93dbb136d",
+      "evidence": "ce34b6a0ce8f30679a35bc3aed6a89bf",
+      "relations": "8b67adb546163ea11f302385ff5e0639",
+      "ingestion_jobs": "f4bdf64b7a1c8a01a13d3135f355702c",
+      "company": "2cb62526f6feac778939de2b52291514"
+    }
+  },
+  "watchdog": {
+    "pid": 5247,
+    "detached_session": true,
+    "backup_persisted_before_commit": true,
+    "deadline_seconds": 35
+  },
+  "original_lock_probe": {
+    "administrator_update_serialized": true,
+    "sqlstate": "55P03",
+    "probe_changed_flags": false
+  },
+  "before": {
+    "observed_at": "2026-10-08T09:51:36.110347+00:00",
+    "all_checks_passed": true,
+    "checks": {
+      "records_list_http_200": true,
+      "events_list_http_200": true,
+      "graph_http_200": true,
+      "company_http_200": true,
+      "mcp_record_http_200": true,
+      "mcp_event_http_200": true,
+      "mcp_search_http_200": true,
+      "record_detail_status": true,
+      "event_detail_status": true,
+      "record_list_contains_target": true,
+      "event_list_target_visibility": true,
+      "graph_relation_target_visibility": true,
+      "company_directory_retained": true,
+      "company_event_target_visibility": true,
+      "company_relation_target_visibility": true,
+      "mcp_record_returns_target": true,
+      "mcp_event_returns_target": true,
+      "mcp_search_target_visibility": true,
+      "mcp_search_success": true
+    },
+    "responses": {
+      "record_detail": {
+        "status": 200,
+        "bytes": 8251,
+        "body_sha256": "f584c1ce879aa2261979454f3a5ddb4af13414be752413cdf4b0409f7cde63c9"
+      },
+      "events_list": {
+        "status": 200,
+        "bytes": 3120,
+        "body_sha256": "445a9dff9b699ca64d61f56e09b01564430ee5729a89273b346832b28ffc3e29"
+      },
+      "records_list": {
+        "status": 200,
+        "bytes": 11735,
+        "body_sha256": "6595e606f8aec0a1ee568542487487835a2778bac94deb1b1ce0f1cfab8e48c8"
+      },
+      "graph": {
+        "status": 200,
+        "bytes": 1233,
+        "body_sha256": "885ed833d1d29c04a1d104d47bec42c2b585e0cb0a1785ec13cfbc4e9fcaf283"
+      },
+      "event_detail": {
+        "status": 200,
+        "bytes": 2315,
+        "body_sha256": "2d1e8898392ec132ef6e598a6840be98e147c8070e753c2e819f651254192a70"
+      },
+      "company": {
+        "status": 200,
+        "bytes": 4520,
+        "body_sha256": "d1a91a7f85a0487b98bf9a0debea961a03868ee0c664d9750f3432318be8da33"
+      },
+      "mcp_event": {
+        "status": 200,
+        "bytes": 4184,
+        "body_sha256": "32c134c278313bd0ededc18c94b9546dfb870a0a08525cfd4e13659b308a5a8c"
+      },
+      "mcp_record": {
+        "status": 200,
+        "bytes": 16069,
+        "body_sha256": "af0b0dc9bfc51d6a1f15f10160430e2fe12737648d3e8cfe185f498872ba1e05"
+      },
+      "mcp_search": {
+        "status": 200,
+        "bytes": 3675,
+        "body_sha256": "8c726a69fd09cc09fde3ddc7dab6458d325eb1c82ce3fc54ddce40c53772c24e"
+      }
+    },
+    "source_record_count": 8,
+    "graph_edge_count": 2,
+    "reviewed_event_count": 3
+  },
+  "revoked_at": "2026-10-08T09:51:36.425419+00:00",
+  "revocation_audit_id": 205,
+  "revoked_lock_probe": {
+    "administrator_update_serialized": true,
+    "sqlstate": "55P03",
+    "probe_changed_flags": false
+  },
+  "during_database": {
+    "flags": {
+      "verified": false,
+      "verification_status": "pending"
+    },
+    "nonflag_source_sha256": "b47fa143913fb26c12e7bba71f03e8df3fbaca0fa2b1933f480072e00c26549d",
+    "public_visibility": {
+      "records": 0,
+      "evidence": 0,
+      "selected_event": 0,
+      "selected_relation": 0
+    },
+    "stored_entity_fingerprints": {
+      "raw_items": "195cdbdda3c8c7451f6851341f431f25",
+      "event": "7f3dd0a4ff8b0e63bf4eb6d93dbb136d",
+      "evidence": "ce34b6a0ce8f30679a35bc3aed6a89bf",
+      "relations": "8b67adb546163ea11f302385ff5e0639",
+      "ingestion_jobs": "f4bdf64b7a1c8a01a13d3135f355702c",
+      "company": "2cb62526f6feac778939de2b52291514"
+    }
+  },
+  "during": {
+    "observed_at": "2026-10-08T09:51:40.383972+00:00",
+    "all_checks_passed": true,
+    "checks": {
+      "records_list_http_200": true,
+      "events_list_http_200": true,
+      "graph_http_200": true,
+      "company_http_200": true,
+      "mcp_record_http_200": true,
+      "mcp_event_http_200": true,
+      "mcp_search_http_200": true,
+      "record_detail_status": true,
+      "event_detail_status": true,
+      "all_source_records_hidden": true,
+      "event_list_target_visibility": true,
+      "graph_relation_target_visibility": true,
+      "company_directory_retained": true,
+      "company_event_target_visibility": true,
+      "company_relation_target_visibility": true,
+      "mcp_record_denied_without_data": true,
+      "mcp_event_denied_without_data": true,
+      "mcp_search_target_visibility": true,
+      "mcp_search_success": true
+    },
+    "responses": {
+      "record_detail": {
+        "status": 404,
+        "bytes": 49,
+        "body_sha256": "79e98ac628ab1fb37c69b379a5cc23a64b159c10ff9c1a447737884b52bcaab2"
+      },
+      "events_list": {
+        "status": 200,
+        "bytes": 45,
+        "body_sha256": "33217e2f3ccec89b75752cc0189ded373d004028355b4b12156afa74ce7a366d"
+      },
+      "event_detail": {
+        "status": 404,
+        "bytes": 43,
+        "body_sha256": "c03750a8d95049f70ed0c2dbb3a04b5fdcf01e7f531715bfadbbd82a177debe6"
+      },
+      "records_list": {
+        "status": 200,
+        "bytes": 148,
+        "body_sha256": "c3d7ef69e453434f26fb634c6d391f1f2ab168c5a8e48e955f74d4d70ba87b50"
+      },
+      "graph": {
+        "status": 200,
+        "bytes": 35,
+        "body_sha256": "5919008eb0fe65eaf9af853903085a351dd25531dc1259a28bcdc06e9a02d5dc"
+      },
+      "company": {
+        "status": 200,
+        "bytes": 1600,
+        "body_sha256": "eb19b547e45bf84a61b44290ab7b650a7a7208a8aebe2fe92b94943298b80ed9"
+      },
+      "mcp_event": {
+        "status": 200,
+        "bytes": 226,
+        "body_sha256": "1f7da81488e839d8ee9c70ef817eef6848abd7e8be99c73eb38f53bf8da11795"
+      },
+      "mcp_record": {
+        "status": 200,
+        "bytes": 226,
+        "body_sha256": "3fb97a7868f5e6f31a64ec137560ebcfac33ecada26c085a526b0a687e303960"
+      },
+      "mcp_search": {
+        "status": 200,
+        "bytes": 831,
+        "body_sha256": "0e96e9b282db29fdcb4ac156437957742b623b6e85ca574c0cf264f44f9ad53b"
+      }
+    },
+    "source_record_count": 0,
+    "graph_edge_count": 0,
+    "reviewed_event_count": 0
+  },
+  "watchdog_final": {
+    "pid": 5247,
+    "started_at": "2026-10-08T09:51:31.766580+00:00",
+    "stage": "restored",
+    "revocation_committed": true,
+    "backup": {
+      "flags": {
+        "verified": true,
+        "verification_status": "verified"
+      },
+      "nonflag_source_sha256": "b47fa143913fb26c12e7bba71f03e8df3fbaca0fa2b1933f480072e00c26549d",
+      "public_visibility": {
+        "records": 11,
+        "evidence": 3,
+        "selected_event": 1,
+        "selected_relation": 1
+      },
+      "stored_entity_fingerprints": {
+        "raw_items": "195cdbdda3c8c7451f6851341f431f25",
+        "event": "7f3dd0a4ff8b0e63bf4eb6d93dbb136d",
+        "evidence": "ce34b6a0ce8f30679a35bc3aed6a89bf",
+        "relations": "8b67adb546163ea11f302385ff5e0639",
+        "ingestion_jobs": "f4bdf64b7a1c8a01a13d3135f355702c",
+        "company": "2cb62526f6feac778939de2b52291514"
+      }
+    },
+    "commit_attempted": true,
+    "revoked_at": "2026-10-08T09:51:36.425419+00:00",
+    "revocation_audit_id": 205,
+    "restore_deadline_seconds": 35,
+    "restoration": {
+      "confirmed": true,
+      "reason": "main_finally",
+      "restored_at": "2026-10-08T09:51:41.087226+00:00",
+      "audit_id": 206,
+      "after": {
+        "flags": {
+          "verified": true,
+          "verification_status": "verified"
+        },
+        "nonflag_source_sha256": "b47fa143913fb26c12e7bba71f03e8df3fbaca0fa2b1933f480072e00c26549d",
+        "public_visibility": {
+          "records": 11,
+          "evidence": 3,
+          "selected_event": 1,
+          "selected_relation": 1
+        },
+        "stored_entity_fingerprints": {
+          "raw_items": "195cdbdda3c8c7451f6851341f431f25",
+          "event": "7f3dd0a4ff8b0e63bf4eb6d93dbb136d",
+          "evidence": "ce34b6a0ce8f30679a35bc3aed6a89bf",
+          "relations": "8b67adb546163ea11f302385ff5e0639",
+          "ingestion_jobs": "f4bdf64b7a1c8a01a13d3135f355702c",
+          "company": "2cb62526f6feac778939de2b52291514"
+        }
+      },
+      "public_window_seconds": 4.662
+    }
+  },
+  "after_database": {
+    "flags": {
+      "verified": true,
+      "verification_status": "verified"
+    },
+    "nonflag_source_sha256": "b47fa143913fb26c12e7bba71f03e8df3fbaca0fa2b1933f480072e00c26549d",
+    "public_visibility": {
+      "records": 11,
+      "evidence": 3,
+      "selected_event": 1,
+      "selected_relation": 1
+    },
+    "stored_entity_fingerprints": {
+      "raw_items": "195cdbdda3c8c7451f6851341f431f25",
+      "event": "7f3dd0a4ff8b0e63bf4eb6d93dbb136d",
+      "evidence": "ce34b6a0ce8f30679a35bc3aed6a89bf",
+      "relations": "8b67adb546163ea11f302385ff5e0639",
+      "ingestion_jobs": "f4bdf64b7a1c8a01a13d3135f355702c",
+      "company": "2cb62526f6feac778939de2b52291514"
+    }
+  },
+  "flags_restored_exactly": true,
+  "other_source_columns_unchanged": true,
+  "stored_entities_and_jobs_unchanged": true,
+  "after": {
+    "observed_at": "2026-10-08T09:51:44.237460+00:00",
+    "all_checks_passed": true,
+    "checks": {
+      "records_list_http_200": true,
+      "events_list_http_200": true,
+      "graph_http_200": true,
+      "company_http_200": true,
+      "mcp_record_http_200": true,
+      "mcp_event_http_200": true,
+      "mcp_search_http_200": true,
+      "record_detail_status": true,
+      "event_detail_status": true,
+      "record_list_contains_target": true,
+      "event_list_target_visibility": true,
+      "graph_relation_target_visibility": true,
+      "company_directory_retained": true,
+      "company_event_target_visibility": true,
+      "company_relation_target_visibility": true,
+      "mcp_record_returns_target": true,
+      "mcp_event_returns_target": true,
+      "mcp_search_target_visibility": true,
+      "mcp_search_success": true
+    },
+    "responses": {
+      "events_list": {
+        "status": 200,
+        "bytes": 3120,
+        "body_sha256": "445a9dff9b699ca64d61f56e09b01564430ee5729a89273b346832b28ffc3e29"
+      },
+      "record_detail": {
+        "status": 200,
+        "bytes": 8251,
+        "body_sha256": "f584c1ce879aa2261979454f3a5ddb4af13414be752413cdf4b0409f7cde63c9"
+      },
+      "event_detail": {
+        "status": 200,
+        "bytes": 2315,
+        "body_sha256": "2d1e8898392ec132ef6e598a6840be98e147c8070e753c2e819f651254192a70"
+      },
+      "records_list": {
+        "status": 200,
+        "bytes": 11735,
+        "body_sha256": "6595e606f8aec0a1ee568542487487835a2778bac94deb1b1ce0f1cfab8e48c8"
+      },
+      "graph": {
+        "status": 200,
+        "bytes": 1233,
+        "body_sha256": "885ed833d1d29c04a1d104d47bec42c2b585e0cb0a1785ec13cfbc4e9fcaf283"
+      },
+      "mcp_record": {
+        "status": 200,
+        "bytes": 16069,
+        "body_sha256": "af0b0dc9bfc51d6a1f15f10160430e2fe12737648d3e8cfe185f498872ba1e05"
+      },
+      "company": {
+        "status": 200,
+        "bytes": 4520,
+        "body_sha256": "d1a91a7f85a0487b98bf9a0debea961a03868ee0c664d9750f3432318be8da33"
+      },
+      "mcp_event": {
+        "status": 200,
+        "bytes": 4184,
+        "body_sha256": "32c134c278313bd0ededc18c94b9546dfb870a0a08525cfd4e13659b308a5a8c"
+      },
+      "mcp_search": {
+        "status": 200,
+        "bytes": 3675,
+        "body_sha256": "8c726a69fd09cc09fde3ddc7dab6458d325eb1c82ce3fc54ddce40c53772c24e"
+      }
+    },
+    "source_record_count": 8,
+    "graph_edge_count": 2,
+    "reviewed_event_count": 3
+  },
+  "finished_at": "2026-10-08T09:51:44.237649+00:00",
+  "independent_final_confirmation": {
+    "observed_at": "2026-10-08T09:53:23.552419+00:00",
+    "fresh_database_connection": true,
+    "flags": {
+      "verified": true,
+      "verification_status": "verified"
+    },
+    "nonflag_source_unchanged": true,
+    "stored_entities_and_jobs_unchanged": true,
+    "public_visibility": {
+      "records": 11,
+      "evidence": 3,
+      "selected_event": 1,
+      "selected_relation": 1
+    },
+    "source_idle": true,
+    "source_has_completed_job": true,
+    "audit_entries": [
+      {
+        "id": 205,
+        "actor": "operator:public-revocation-drill",
+        "action": "operational_test_source_revocation",
+        "entity_type": "source",
+        "entity_id": "dc201082-adf3-5368-8746-11de72fda916",
+        "before_value": {
+          "flags": {
+            "verified": true,
+            "verification_status": "verified"
+          },
+          "operational_test_id": "9a9945ab-f0e7-4c41-803f-0434cf84ab40"
+        },
+        "after_value": {
+          "flags": {
+            "verified": false,
+            "verification_status": "pending"
+          },
+          "reason": "Temporary public publication-gate test; not a new ownership assessment",
+          "operational_test_id": "9a9945ab-f0e7-4c41-803f-0434cf84ab40"
+        },
+        "created_at": "2026-10-08 09:51:32.444750+00:00"
+      },
+      {
+        "id": 206,
+        "actor": "operator:public-revocation-drill",
+        "action": "operational_test_source_restore",
+        "entity_type": "source",
+        "entity_id": "dc201082-adf3-5368-8746-11de72fda916",
+        "before_value": {
+          "flags": {
+            "verified": false,
+            "verification_status": "pending"
+          },
+          "operational_test_id": "9a9945ab-f0e7-4c41-803f-0434cf84ab40"
+        },
+        "after_value": {
+          "flags": {
+            "verified": true,
+            "verification_status": "verified"
+          },
+          "reason": "Temporary public publication-gate test; not a new ownership assessment",
+          "operational_test_id": "9a9945ab-f0e7-4c41-803f-0434cf84ab40"
+        },
+        "created_at": "2026-10-08 09:51:36.526570+00:00"
+      }
+    ]
+  },
+  "commit_reply_loss_regression": {
+    "status": "passed",
+    "method": "In-memory connection failure after simulated server COMMIT",
+    "independent_restore_called": true,
+    "unknown_commit_not_labelled_no_mutation": true,
+    "production_touched": false
+  }
+}

@@ -30,7 +30,7 @@ ALTER DEFAULT PRIVILEGES FOR ROLE bioai_owner IN SCHEMA public
 
 ## 实际执行顺序
 
-1. 检查公网 `/health`、最近成功的原生 Cron、启用来源的新鲜度、每日摘要。报告不会输出连接串或错误堆栈。小时调度超过 3 小时未成功、已启用来源超过 48 小时没有成功记录、北京时间 09:00 后仍缺当天摘要，均记为失败。单次来源错误单独记录为 warning。
+1. 检查公网 `/health`、最近成功的原生 Cron、启用来源的新鲜度、每日摘要。报告不会输出连接串或错误堆栈。小时调度超过 3 小时未成功、来源上次成功已超过 48 小时、北京时间 09:00 后仍缺当天摘要，均记为失败。尚无成功记录的启用来源单独列在 `no_success_sources`，记为 `sources_without_success_record`，仍使健康检查失败；它表示首次成功尚未确认，不表示已经等待超过 48 小时。`stale_sources` 与 `sources_stale_over_48h` 只用于确有成功时间且超过阈值的来源。单次来源错误单独记录为 warning。
 2. 连接生产库开启 `REPEATABLE READ READ ONLY` 事务，导出 MVCC 快照，并读取核心表计数。`pg_dump --snapshot` 使用同一份快照。采集继续运行也不会导致源库与备份计数出现竞态。
 3. 使用 PostgreSQL 17 `pg_dump` 生成完整 custom-format 备份，以 GnuPG AES-256 加密；口令通过标准输入传入，不作为命令行参数。
 4. 解密到临时目录并校验文件 SHA-256；使用 PostgreSQL 17 `pg_restore --exit-on-error --single-transaction` 恢复到临时容器的专用空库。

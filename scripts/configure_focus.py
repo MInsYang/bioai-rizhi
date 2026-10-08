@@ -23,7 +23,7 @@ NS = uuid.UUID('b5b62e53-9a2a-4dbf-9c95-e3366b875730')
 
 
 def topic_contract():
-    code = "import {FOCUSED_QUERY,PUBMED_QUERY,QUERY_VERSION,TOPICS} from './cloudflare/site/topics.js'; import {JOURNAL_POLICY_VERSION,SELECTED_JOURNALS} from './cloudflare/site/journals.js'; console.log(JSON.stringify({FOCUSED_QUERY,PUBMED_QUERY,QUERY_VERSION,TOPICS,JOURNAL_POLICY_VERSION,SELECTED_JOURNALS}));"
+    code = "import {FOCUSED_QUERY,PUBMED_QUERY,QUERY_VERSION,CLASSIFICATION_POLICY_VERSION,TOPICS} from './cloudflare/site/topics.js'; import {JOURNAL_POLICY_VERSION,SELECTED_JOURNALS} from './cloudflare/site/journals.js'; console.log(JSON.stringify({FOCUSED_QUERY,PUBMED_QUERY,QUERY_VERSION,CLASSIFICATION_POLICY_VERSION,TOPICS,JOURNAL_POLICY_VERSION,SELECTED_JOURNALS}));"
     result = subprocess.run(['node', '--input-type=module', '-e', code], cwd=ROOT, capture_output=True, text=True, check=True)
     return json.loads(result.stdout)
 
@@ -45,11 +45,13 @@ def backfill(conn):
         // must not overwrite it with a full-text keyword classifier's outcome.
         const curated=r.raw_payload?.curated_event_candidate&&priorIndustry?.method==='dated-official-curated-candidate'&&priorIndustry.relevant===true;
         const industry=curated?priorIndustry:classifyIndustry(r.title,r.content_text,r.config);
-        if(industry.relevant){classification.ai_related=classification.ai_related||industry.ai_related;if(!classification.topic_ids.length)classification.topic_ids.push('drug-discovery');}
+        const industrySource=r.config.official_industry_source===true||r.config.content_domain==='industry';
+        if(industry.relevant){classification.ai_related=classification.ai_related||industry.ai_related;classification.in_scope=true;if(!classification.topic_ids.length){classification.topic_ids.push('drug-discovery');classification.scope_reason='official-ai-biopharma-business-update';classification.topic_evidence['drug-discovery']='verified-industry-context';}}
+        else if(industrySource){classification.in_scope=false;classification.scope_reason='industry-source-out-of-scope';}
         const journal=r.raw_payload?.original?.journalInfo?.journal,prior=r.raw_payload?.academic;
         const academic=prior?{...prior,...(journal?{issns:[journal.issn,journal.eissn].filter(Boolean)}:{})}:null;
         if(academic)academic.journal_selection=selectJournal(academic);
-        return {id:r.id,classification,academic,industry:industry.relevant?industry:null};
+        return {id:r.id,classification,academic,industry:industrySource||industry.relevant?industry:null};
       })));"""
     changed = 0
     after = '00000000-0000-0000-0000-000000000000'
@@ -105,7 +107,7 @@ def configure(do_backfill=False):
          'Selected journal work windows; type=journal-article; from-update-date/until-update-date; '
          +contract['JOURNAL_POLICY_VERSION']+'; journals='+','.join(journal_ids), validated_crossref),
     ]
-    summary = {'query_version': version, 'journal_policy_version': contract['JOURNAL_POLICY_VERSION'],
+    summary = {'query_version': version, 'classification_policy_version': contract['CLASSIFICATION_POLICY_VERSION'], 'journal_policy_version': contract['JOURNAL_POLICY_VERSION'],
                'selected_journals': len(contract['SELECTED_JOURNALS']), 'source_query_versions': {}, 'enabled_cloud_sources': [],
                'degraded_sources': ['biorxiv']+(['crossref-partial'] if crossref_validation.get('status')=='partial' else [] if validated_crossref else ['crossref-unvalidated']),
                'crossref_enabled_journal_ids':journal_ids, 'crossref_degraded_journal_ids':crossref_validation.get('degraded_journal_ids', []),
@@ -126,7 +128,7 @@ def configure(do_backfill=False):
             config.update(cloud_runtime_enabled=enabled, integration_status='implemented' if adapter != 'crossref' or validated_crossref else 'awaiting_live_validation', query=query, query_version=query_version,
                           api_documentation=documentation, bootstrap_days=30, lookback_days=3, window_days=7,
                           scope='Selected journals and AI biomedical topics; original metadata and wider archive retained',
-                          journal_policy_version=contract['JOURNAL_POLICY_VERSION'], selected_journals_only=adapter!='biorxiv')
+                          journal_policy_version=contract['JOURNAL_POLICY_VERSION'], classification_policy_version=contract['CLASSIFICATION_POLICY_VERSION'], selected_journals_only=adapter!='biorxiv')
             if adapter == 'biorxiv':
                 config.update(operational_status='degraded', fallback_registry_key='europe-pmc',
                               operational_note='Direct API returned HTTP 500 during dated live validation. Existing preprint records remain in explicit journal_tier=all archive; default journal collection excludes preprints.',
