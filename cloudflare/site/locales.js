@@ -11,6 +11,21 @@ export const organizationName = language => language === 'en' ? 'Wenxiang' : lan
 // titles, abstracts, event summaries, evidence, names or unknown data through it.
 export const EN_COPY = Object.freeze({
   ...GUIDE_EN_COPY,
+  '收录记录': 'Indexed records',
+  "官方目录信息，正文未采集": "Official index metadata; full text not collected",
+  "仅收录官方列表中的标题、发布日期与原始链接；未采集摘要或正文。": "Only the title, publication date, and original link from the official index are stored. No abstract or full text has been collected.",
+  "目录来源": "Index source",
+  "官方新闻目录": "Official news index",
+  "目录获取时间：{date}": "Index fetched: {date}",
+  "未知": "Unknown",
+  "官方链接": "Official link",
+  "公开来源记录与官方目录": "Public source records and official index",
+  "目录信息与已保存正文分别标注；历史正文保留，目录条目不用于研究摘要或事件证据。": "Index metadata and stored source text are labeled separately. Historical text is preserved. Index entries are excluded from research digests and event evidence.",
+  "官方目录采集；不采集正文": "Official index collection; no full-text collection",
+  "浏览已收录条目": "Browse indexed records",
+  "来源收录": "Source collection",
+  "已收录条目：{count}": "Indexed records: {count}",
+
   '原始出处': 'Original sources',
   '来源未提供': 'Source not provided',
   '日期未提供': 'Date not provided',

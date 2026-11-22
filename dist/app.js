@@ -131,12 +131,19 @@
       ? `<div class="pager"><button data-page="${page - 1}" ${page === 0 ? "disabled" : ""}>${tr("上一页")}</button><span>${page + 1} / ${Math.ceil(total / limit)}</span><button data-page="${page + 1}" ${(page + 1) * limit >= total ? "disabled" : ""}>${tr("下一页")}</button></div>`
       : "";
   }
+  const isDirectory = r => r.content_level === 'index_metadata';
+  const recordDate = r => isDirectory(r) && r.provenance?.publication_date_raw ? r.provenance.publication_date_raw : date(r.published_at);
+  function directoryNotice(r) {
+    return `<aside class="note-banner" data-content-level="index_metadata"><strong>${tr("官方目录信息，正文未采集")}</strong><p>${tr("仅收录官方列表中的标题、发布日期与原始链接；未采集摘要或正文。")}</p><p>${tr("目录来源")}：${anchor(r.provenance?.index_url, tr("官方新闻目录"))} · ${esc(tr("目录获取时间：{date}", {date:r.provenance?.index_fetched_at || tr("未知")}))}</p></aside>`;
+  }
   function recordCard(r) {
+    if (isDirectory(r)) return `<article class="record" data-content-level="index_metadata"><div class="record-meta"><span class="pill gold">${tr("官方目录信息，正文未采集")}</span><span>${esc(r.source_name)}</span><time>${esc(recordDate(r))}</time></div><h3 data-source-original><button data-record="${esc(r.id)}">${esc(r.title)}</button></h3><div class="record-foot">${r.company_slug ? `<a href="#company/${esc(r.company_slug)}">${esc(l.companyName(r))}</a>` : ''}<span>${anchor(r.canonical_url,tr("官方链接"))} · <a href="/records/${esc(r.id)}">${tr("分享页 ↗")}</a></span></div></article>`;
     const a = r.academic;
     const recordTopics = r.topics || r.classification?.topic_ids || [];
     return `<article class="record"><div class="record-meta"><span class="pill ${a?.status === "preprint" ? "gold" : "green"}">${a ? (a.status === "preprint" ? tr("预印本") + (a.version ? " · v" + a.version : tr(" · 版本未标注")) : tr("学术索引收录")) : tr("原文线索")}</span><span>${esc(a?.journal || r.source_name)}${a?.journal ? " · " + esc(r.source_name) : ""}</span><time>${r.published_at ? (new Date(r.published_at) > new Date() ? tr("来源刊期（晚于当前日期） ") : "") + date(r.published_at) : tr("收录于 ") + date(r.fetched_at)}</time></div><h3 data-source-original><button data-record="${r.id}">${esc(r.title)}</button></h3><p>${esc(r.excerpt?.slice(0, 180) || tr("摘要暂未提供，点击查看原文。"))}</p><div class="record-foot">${r.company_slug ? `<a href="#company/${r.company_slug}">${esc(l.companyName(r))}</a>` : `<small>${a?.doi ? "DOI " + esc(a.doi) : tr("尚未转为已核验事件")}</small>`}<span>${anchor(r.canonical_url, tr("原文"))} · <a href="/records/${r.id}">${tr("分享页 ↗")}</a></span></div>${recordTopics.length ? `<div class="tags topic-tags">${recordTopics.map(t=>`<a class="tag" href="#topic/${esc(t)}">${esc(topicName(t))}</a>`).join("")}</div>` : ""}</article>`;
   }
   function newspaperRecord(r, lead = false) {
+    if (isDirectory(r)) return recordCard(r);
     return `<article class="newspaper-story ${lead ? "newspaper-lead" : ""}"><p class="newspaper-byline"><span>${esc(r.academic?.journal || l.companyName(r) || r.source_name)}</span><time>${r.published_at && new Date(r.published_at) <= new Date() ? date(r.published_at) : tr("收录 ") + date(r.fetched_at)}</time></p><h${lead ? "2" : "3"}><button data-record="${esc(r.id)}">${esc(r.title)}</button></h${lead ? "2" : "3"}>${lead ? `<p class="newspaper-excerpt">${esc(r.excerpt?.slice(0, 250) || tr("从公司官方披露与原始报道，追踪这条进展的细节与出处。"))}</p>` : ""}<div class="newspaper-story-foot"><span>${r.academic ? tr("重点期刊 · 学术原文") : tr("行业原文")}</span>${anchor(r.canonical_url, tr("阅读原文"))}</div></article>`;
   }
   function selectIndustryHeadlines(items) {
@@ -359,7 +366,17 @@
   async function resource(n, kind, id) {
     const d=await api('/api/'+(kind==='event'?'events':'records')+'/'+encodeURIComponent(id));if(n!==epoch)return;
     content.innerHTML=heading(d.title,kind==='event'?'VERIFIED EVENT':'SOURCE RECORD',d.source_name || tr("已核验事件"),true)+
-      `<section class="panel resource-page"><div class="record-meta">${paperLabels(d.academic ? (Array.isArray(d.academic)?d.academic:[d.academic]):[])}<span>${tr("发布")} ${date(d.published_at)}${d.fetched_at?tr(" · 收录 ")+date(d.fetched_at,true):''}</span></div><p>${d.canonical_url?anchor(d.canonical_url,tr("前往原始出处")):''} <button data-copy="${location.origin+'/'+(kind==='event'?'events':'records')+'/'+encodeURIComponent(id)}">${tr("复制页面链接")}</button></p><div class="raw-body" data-source-original>${esc(d.content_text || d.summary)}</div>${d.evidence?d.evidence.map(e=>`<blockquote data-source-original>${esc(e.evidence_text)}<br>${anchor(e.canonical_url,e.source_name)}</blockquote>`).join(''):''}<p class="source-note">${tr("自动收录与主题分类不等于事实核验。请结合原文、版本和来源状态阅读。")}</p></section>`;
+      `<section class="panel resource-page"><div class="record-meta">${paperLabels(d.academic ? (Array.isArray(d.academic)?d.academic:[d.academic]):[])}<span>${tr("发布")} ${esc(recordDate(d))}${d.fetched_at?tr(" · 收录 ")+date(d.fetched_at,true):''}</span></div><p>${d.canonical_url?anchor(d.canonical_url,tr(isDirectory(d)?"官方链接":"前往原始出处")):''} <button data-copy="${location.origin+'/'+(kind==='event'?'events':'records')+'/'+encodeURIComponent(id)}">${tr("复制页面链接")}</button></p>${isDirectory(d)?directoryNotice(d):`<div class="raw-body" data-source-original>${esc(d.content_text || d.summary)}</div>`}${d.evidence?d.evidence.map(e=>`<blockquote data-source-original>${esc(e.evidence_text)}<br>${anchor(e.canonical_url,e.source_name)}</blockquote>`).join(''):''}<p class="source-note">${tr("自动收录与主题分类不等于事实核验。请结合原文、版本和来源状态阅读。")}</p></section>`;
+  }
+  async function sourceRecords(n, registryKey) {
+    const [records, sources] = await Promise.all([
+      api('/api/records?'+new URLSearchParams({source:registryKey,days:0,limit:40,offset:page*40})),
+      sourceRows.length ? Promise.resolve(sourceRows) : api('/api/sources'),
+    ]);
+    if (n !== epoch) return;
+    const source = sources.find(s => s.registry_key === registryKey);
+    content.innerHTML = heading(source?.name || tr("来源收录"),'SOURCE COLLECTION',tr("目录信息与已保存正文分别标注；历史正文保留，目录条目不用于研究摘要或事件证据。"),true)+
+      `${source?.collection_mode === 'index_metadata' ? `<p class="note-banner">${tr("官方目录采集；不采集正文")}</p>` : ''}<p>${esc(tr("已收录条目：{count}",{count:records.total}))}</p><div class="panel">${records.items.map(recordCard).join('')}</div>${pager(records.total,40)}`;
   }
   async function timeline(n) {
     content.innerHTML =
@@ -535,7 +552,7 @@
             (s === "failed" && r.consecutive_failures >= 3),
         );
       $("#source-list").innerHTML =
-        `<p class="academic-count">${tr("来源：{count}", {count: filtered.length})}</p><div class="table-wrap"><table><thead><tr><th>${tr("来源 / 公司")}</th><th>${tr("归属与接入")}</th><th>${tr("最近成功")}</th><th>${tr("原文")}</th></tr></thead><tbody>${filtered.map((s) => `<tr><td class="url">${anchor(s.url, s.name)}${s.company_slug ? `<br><a class="text-link" href="#company/${s.company_slug}">${esc(l.companyName(s))}</a>` : ""}</td><td><span class="pill ${s.verified ? "green" : ""}">${s.verified ? tr("归属已验证") : s.verification_status === "rejected" ? tr("验证已拒绝") : tr("待验证")}</span><br><small>${s.adapter === "unsupported" ? tr("采集适配未接入") : s.enabled && s.cloud_runtime_enabled ? tr("已接入自动采集") : tr("待接入自动更新")} · ${s.ttl_hours} h${s.registry_key === "biorxiv" ? tr(" · 直连暂不可用，可从 Europe PMC 查找预印本") : ""}</small></td><td>${s.last_success_at ? date(s.last_success_at, true) : tr("尚无记录")}<br><small>${tr("连续失败：{count}", {count: s.consecutive_failures})}</small></td><td>${s.raw_count}</td></tr>`).join("")}</tbody></table></div>`;
+        `<p class="academic-count">${tr("来源：{count}", {count: filtered.length})}</p><div class="table-wrap"><table><thead><tr><th>${tr("来源 / 公司")}</th><th>${tr("归属与接入")}</th><th>${tr("最近成功")}</th><th>${tr("收录记录")}</th></tr></thead><tbody>${filtered.map((s) => `<tr><td class="url">${anchor(s.url, s.name)}${s.company_slug ? `<br><a class="text-link" href="#company/${s.company_slug}">${esc(l.companyName(s))}</a>` : ""}</td><td><span class="pill ${s.verified ? "green" : ""}">${s.verified ? tr("归属已验证") : s.verification_status === "rejected" ? tr("验证已拒绝") : tr("待验证")}</span><br><small>${s.adapter === "unsupported" ? tr("采集适配未接入") : s.enabled && s.cloud_runtime_enabled ? tr("已接入自动采集") : tr("待接入自动更新")} · ${s.ttl_hours} h${s.collection_mode === "index_metadata" ? `<br>${tr("官方目录采集；不采集正文")}` : ""}${s.registry_key === "biorxiv" ? tr(" · 直连暂不可用，可从 Europe PMC 查找预印本") : ""}</small></td><td>${s.last_success_at ? date(s.last_success_at, true) : tr("尚无记录")}<br><small>${tr("连续失败：{count}", {count: s.consecutive_failures})}</small></td><td>${s.raw_count}${s.registry_key ? `<br><a href="#source/${esc(encodeURIComponent(s.registry_key))}">${tr("浏览已收录条目")}</a>` : ""}</td></tr>`).join("")}</tbody></table></div>`;
     };
     $("#source-q").oninput = redraw;
     $("#source-state").onchange = redraw;
@@ -613,7 +630,7 @@
       $("#evidence-content").innerHTML =
         kind === "event"
           ? `<p class="eyebrow">${tr("VERIFIED EVENT · 已核验事件")}</p><h2 data-source-original>${esc(d.title)}</h2><div class="tags">${paperLabels(d.academic)}</div><p>${esc(d.summary)}</p>${d.details?.amount || d.details?.stage ? `<p>${esc(d.details.amount)} ${esc(d.details.stage)}</p>` : ""}<p class="raw-meta">${tr("发生日期")} ${date(d.occurred_at)} ${tr("· 发布日期")} ${date(d.published_at)}<br>${esc(l.label(d.track))} · ${esc(l.label(types[d.event_type] || d.event_type))} · ${tr("证据：{count}", {count: d.evidence_count})}</p><div class="tags">${d.companies.map((c) => `<a class="tag" data-close-dialog href="#company/${c.slug}">${esc(l.companyName(c))} ↗</a>`).join("")}</div>${d.evidence.map((v) => `<section class="evidence-source"><span class="pill green">${esc(v.source_name)}</span><blockquote data-source-original>${esc(v.evidence_text)}</blockquote>${anchor(v.canonical_url, tr("查看原始出处"))}<p class="raw-meta">${tr("正文位置")} ${v.evidence_start}—${v.evidence_end} ${tr("· 采集内容哈希")} ${esc(v.content_hash)}</p></section>`).join("")}`
-          : `<p class="eyebrow">${tr("SOURCE RECORD · 原始记录")}</p><h2 data-source-original>${esc(d.title)}</h2><p class="raw-meta">${esc(d.source_name)} ${tr("· 来源日期")} ${date(d.published_at)} ${tr("· 收录")} ${date(d.fetched_at, true)}</p><p>${anchor(d.canonical_url, tr("前往原文"))}</p>${d.academic?.status === "preprint" ? `<p class="note-banner">${tr("预印本：未经期刊同行评议。请结合原文和后续版本判断。")}</p>` : `<p class="source-note">${tr("以下为来源中保存的正文或摘要，尚未作为已核验事件发布。")}</p>`}${d.academic?.journal_doi ? `<p>${anchor("https://doi.org/" + d.academic.journal_doi, tr("来源提供的正式发表 DOI"))}</p>` : ""}<div class="raw-body" data-source-original>${esc(d.content_text)}</div>`;
+          : isDirectory(d) ? `<p class="eyebrow">${tr("官方目录信息，正文未采集")}</p><h2 data-source-original>${esc(d.title)}</h2><p class="raw-meta">${esc(d.source_name)} ${tr("· 来源日期")} ${esc(recordDate(d))} ${tr("· 收录")} ${date(d.fetched_at,true)}</p><p>${anchor(d.canonical_url,tr("官方链接"))}</p>${directoryNotice(d)}` : `<p class="eyebrow">${tr("SOURCE RECORD · 原始记录")}</p><h2 data-source-original>${esc(d.title)}</h2><p class="raw-meta">${esc(d.source_name)} ${tr("· 来源日期")} ${date(d.published_at)} ${tr("· 收录")} ${date(d.fetched_at, true)}</p><p>${anchor(d.canonical_url, tr("前往原文"))}</p>${d.academic?.status === "preprint" ? `<p class="note-banner">${tr("预印本：未经期刊同行评议。请结合原文和后续版本判断。")}</p>` : `<p class="source-note">${tr("以下为来源中保存的正文或摘要，尚未作为已核验事件发布。")}</p>`}${d.academic?.journal_doi ? `<p>${anchor("https://doi.org/" + d.academic.journal_doi, tr("来源提供的正式发表 DOI"))}</p>` : ""}<div class="raw-body" data-source-original>${esc(d.content_text)}</div>`;
     } catch (e) {
       if (n === dialogEpoch)
         $("#evidence-content").innerHTML =
@@ -642,7 +659,7 @@
       return;
     }
     current =
-      route === "topic" || route === "record" || route === "event"
+      route === "source" ? "sources" : route === "topic" || route === "record" || route === "event"
         ? "news"
         : route === "companies"
         ? "directory"
@@ -692,6 +709,7 @@
         return;
       }
       if (route === 'record' || route === 'event') await resource(n,route,slug || '');
+      else if (route === 'source') await sourceRecords(n,decodeURIComponent(slug || ''));
       else if (current === 'news') await news(n,route==='topic'?slug:null);
       else if (current === 'daily') await daily(n,slug);
       else await { frontpage, overview, timeline, hot, academic, sources, saved, connect }[current](n);

@@ -15,7 +15,7 @@ BioAI 日知提供匿名、只读的远程 MCP，供个人 AI 查询本站已收
 
 | 工具 | 用途 | 常用参数 |
 |---|---|---|
-| `search_resources` | 检索来源记录，包括研究摘要与产业原文 | `query`、`topic`、`academic`、`company`、`journal_tier`、`days`、`limit`、`offset` |
+| `search_resources` | 检索来源记录，包括研究摘要与产业原文 | `query`、`topic`、`academic`、`company`、`source`、`collection_mode`、`focused`、`journal_tier`、`days`、`limit`、`offset` |
 | `get_resource` | 读取一条来源记录或已发布事件及其出处 | `id`；`kind=record` 或 `kind=event` |
 | `search_companies` | 检索公司目录 | `query`、`topic`、`track`、`region_group`、`history`、`limit`、`offset` |
 | `get_company` | 读取公司资料、别名验证状态、公开来源与已发布事件 | `slug` |
@@ -32,6 +32,10 @@ English: all five read-only tools accept `language: "en"`. Explanatory copy and 
 专题 ID 为 `virtual-cell`、`organoid`、`virtual-embryo`、`virtual-organ`、`drug-discovery`。`get_source_status` 返回来自 `/api/topics` 的当前名称与说明。分类中的 `classification.method=automated_keyword_v1` 表示自动关键词导航分类；它不意味着编辑审核或完整学术领域覆盖。保留 `model_form`、`biological_model`、`ai_related` 和 `query_version`，区分实体模型与计算模型，并标明分类版本。
 
 `search_resources` 的 `academic` 可选 `all`、`academic`、`industry`，默认 `all`；`days` 默认 30，`days=0` 检索全部已存日期。`journal_tier` 默认 `selected`：学术资料需在 17 期刊名单且有 AI 主题相关性；显式 `all` 才检索更宽的历史资料和预印本。`get_source_status` 也返回当前期刊政策。站点公开 API 默认返回主题范围内的资源。查询是存量关键词检索，不承诺语义检索或实时搜索整个互联网。
+
+官方目录模式：`content_level=index_metadata` 的资源只保存官方列表的标题、发布日期与官方目标链接，`fulltext_status=not_fetched`，`excerpt` 和 `content_text` 均为空，不提供摘要或正文。`provenance` 只公开 `format`、`index_url`、`index_fetched_at`、`index_content_hash`、`publication_date_raw` 和 `publication_date_precision`；未知的实际目录获取时间保留 `null`，不使用文件修改时间代替。未标记的历史记录返回 `content_level=null`，不重新认证为全文，原有正文或摘要保持原样。
+
+全局研究列表、日报与本周概要不纳入目录条目。按已批准的 Iambic 公司 `company=iambic-therapeutics` 或来源 `source=iambic-official-newsroom` 定向检索时，默认可见其全部公开资源，包括历史正文和目录条目。其他公司、来源维持原有主题范围；显式 `focused=true` 或 `topic` 仍按真实分类筛选。`focused` 未提供时不覆盖 API 默认值。`collection_mode=index_metadata` 可显式只找目录记录，`existing` 则排除目录记录。历史正文优先，同一官方链接已保存正文时不另造一条空正文目录来凑数量。`get_source_status` / `get_company.sources` 的 `collection_mode=index_metadata` 表示当前采集范围为官方目录，最近成功也只证明该范围的采集成功，不证明新闻正文可访问。
 
 公司地区分类：`cn` 为中国大陆，`hk` 为中国香港，`global` 为海外，`cross` 为跨地区登记。公司属于目录元数据；`official_website` 字段与来源所有权验证状态分别保留，不能把目录收录当成来源验证证书。
 

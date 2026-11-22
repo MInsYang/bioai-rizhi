@@ -652,19 +652,32 @@
         "ai_biopharma_identity_verified": true,
         "cloud_runtime_enabled": true,
         "official_html_verified": true,
+        "collection_mode": "index_metadata",
+        "official_index_verified": true,
         "allowed_hosts": [
-          "www.iambic.ai"
+          "www.iambic.ai",
+          "ir.iambic.ai"
         ],
         "article_path_prefixes": [
-          "/post/"
+          "/post/",
+          "/news-releases/news-release-details/"
         ],
         "article_selector": ".rich-text",
         "publication_date_selector": "._50",
         "index_max_articles": 8,
         "request_interval_seconds": 1,
-        "query_version": "industry-2026-10-v2",
+        "query_version": "official-index-2026-11-v1",
         "integration_status": "implemented",
-        "operational_status": "dated_http_and_parser_validated",
+        "operational_status": "index_metadata_mode_approved",
+        "collection_mode_review": {
+          "reviewed_on": "2026-11-22",
+          "decision": "approved_index_metadata",
+          "index_url": "https://www.iambic.ai/news",
+          "content_level": "index_metadata",
+          "fulltext_status": "not_fetched",
+          "scope": "Only the fixed official news index data-news-featured and data-news-archive cards labelled Press, at most eight. Retain titles, official article URLs and publisher calendar dates; keep article bodies empty. Do not request article, investor-relations or PDF targets, and do not claim full-text recovery. The original dated provenance and full-text parser observations below remain historical evidence.",
+          "validated_index_sha256": "a64770a57a2c63a5d08d766e54a3ef0ac79bc4c46736b158b9d74aac06b9f845"
+        },
         "deployment_status": "not_deployed_by_this_audit",
         "company_identity": {
           "canonical_slug": "iambic-therapeutics",
@@ -736,7 +749,7 @@
           "allowed_source": true,
           "crawl_delay_seconds": 0
         },
-        "scope": "Latest eight official index links per hourly poll. One index request, then one official article per durable checkpoint. This is bounded recent monitoring, not a complete historical crawl."
+        "scope": "Approved official index metadata monitoring only: one fixed https://www.iambic.ai/news request per poll, up to eight visible Press cards from data-news-featured and data-news-archive. Store publisher titles, official URLs and calendar dates with empty article bodies. Exclude reviewed PDF cards and hidden tabs; do not request article, IR or PDF targets. Collection success reports index metadata availability, not full-text recovery or complete historical coverage."
       }
     },
     {

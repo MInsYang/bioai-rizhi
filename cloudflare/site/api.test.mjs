@@ -98,18 +98,47 @@ test('PostgreSQL public views, publication transactions and source revocation', 
       for (const alias of [zh, en, 'shared'].filter(Boolean)) await sql.query("INSERT INTO company_aliases(company_id,alias,normalized,alias_type) VALUES($1,$2,$3,'alias') ON CONFLICT DO NOTHING", [id, alias, normalizeIdentity(alias)]);
     }
     async function fixture({ title = 'UNIT TEST record', classification = { topic_ids: ['virtual-cell'],ai_related:true }, registryKey, verified = true, content,
-      academic={ status: 'preprint', doi: '10.1101/fixture', version: '2' },companyId=a,enabled=true } = {}) {
+      academic={ status: 'preprint', doi: '10.1101/fixture', version: '2' },companyId=a,enabled=true,rawPayload={},sourceConfig={} } = {}) {
       const sid = crypto.randomUUID(), rid = crypto.randomUUID();
       const quote = 'These two fixture companies collaborate on a test project with a virtual cell model.';
-      const text = content || '😀 Saved source text. ' + quote;
+      const text = content === undefined ? '😀 Saved source text. ' + quote : content;
       await sql.query(`INSERT INTO sources(id,company_id,name,source_type,url,poll_profile,verified,verification_status,adapter,registry_key,config,enabled)
-        VALUES ($1,$2,'UNIT TEST SOURCE','rss',$3,'P0',$4,$5,'rss',$6,$7::jsonb,$8)`, [sid, companyId, 'https://example.org/' + sid, verified, verified ? 'verified' : 'pending', registryKey || 'unit-' + sid, JSON.stringify({ cloud_runtime_enabled: true }),enabled]);
+        VALUES ($1,$2,'UNIT TEST SOURCE','rss',$3,'P0',$4,$5,'rss',$6,$7::jsonb,$8)`, [sid, companyId, 'https://example.org/' + sid, verified, verified ? 'verified' : 'pending', registryKey || 'unit-' + sid, JSON.stringify({ cloud_runtime_enabled: true,...sourceConfig }),enabled]);
       await sql.query(`INSERT INTO raw_items(id,source_id,external_id,title,canonical_url,published_at,content_text,content_hash,raw_payload)
-        VALUES ($1,$2,$3,$4,$5,now(),$6,$7,$8::jsonb)`, [rid, sid, rid, title, 'https://example.org/' + rid, text, rid, JSON.stringify({ classification,...(academic?{academic}:{}) })]);
+        VALUES ($1,$2,$3,$4,$5,now(),$6,$7,$8::jsonb)`, [rid, sid, rid, title, 'https://example.org/' + rid, text, rid, JSON.stringify({ classification,...(academic?{academic}:{}),...rawPayload })]);
       return { sid, rid, quote, text };
     }
     const publication = f => ({ request_id: crypto.randomUUID(), raw_item_id: f.rid, title: 'UNIT TEST: fixture collaboration', summary: 'UNIT TEST ONLY: explicit fixture relationship.', evidence_text: f.quote, track: '测序与多组学', event_type: 'partnership', company_ids: [a, b], relations: [{ subject_id: a, object_id: b, predicate: 'collaborates_with', evidence_text: f.quote }] });
     const post = (path, body, database = sql) => handleApi(req(path, 'POST', body, auth), env, database);
+
+    await t.test('approved Iambic directory includes title-only records while retaining historical text and real scope',async()=>{
+      const companyId=crypto.randomUUID();
+      await sql.query("INSERT INTO companies(id,slug,name_en,track,region,priority) VALUES($1,'iambic-therapeutics','Iambic fixture','生物医药','美国','P0')",[companyId]);
+      try {
+      const provenance={format:'official_index',index_url:'https://www.iambic.ai/news',index_fetched_at:null,index_content_hash:'a'.repeat(64),publication_date_raw:'November 18, 2026',publication_date_precision:'date'};
+      const metadata=await fixture({title:'INDEX_METADATA_FIXTURE financial announcement',academic:null,companyId,content:'',registryKey:'iambic-official-newsroom',
+        classification:{topic_ids:[],in_scope:false,input_scope:'title_only'},sourceConfig:{collection_mode:'index_metadata'},
+        rawPayload:{content_level:'index_metadata',fulltext_status:'not_fetched',...provenance,industry_classification:{relevant:false}}});
+      const old=await fixture({title:'INDEX_METADATA_FIXTURE historical source',academic:null,companyId});
+      const source=await apiRead('/api/records',{source:'iambic-official-newsroom',days:0},sql);
+      assert.equal(source.total,1);assert.equal(source.items[0].id,metadata.rid);assert.equal(source.items[0].excerpt,'');assert.equal(source.items[0].classification.in_scope,false);
+      assert.deepEqual(source.items[0].provenance,provenance);
+      assert.equal((await apiRead('/api/records',{source:'iambic-official-newsroom',days:0,focused:true},sql)).total,0);
+      const company=await apiRead('/api/records',{company:'iambic-therapeutics',q:'INDEX_METADATA_FIXTURE',days:0},sql);
+      assert.equal(company.total,2);assert.deepEqual(new Set(company.items.map(item=>item.id)),new Set([metadata.rid,old.rid]));
+      assert.equal((await apiRead('/api/records',{q:'INDEX_METADATA_FIXTURE',days:0},sql)).total,1);
+      const detail=await apiRead('/api/records/'+metadata.rid,{},sql);
+      assert.equal(detail.content_text,'');assert.equal(detail.content_level,'index_metadata');assert.equal(detail.fulltext_status,'not_fetched');
+      const historical=await apiRead('/api/records/'+old.rid,{},sql);
+      assert.equal(historical.content_text,old.text);assert.equal(historical.content_level,null);assert.equal(historical.fulltext_status,null);
+      const sources=await apiRead('/api/sources',{},sql);
+      assert.equal(sources.find(item=>item.id===metadata.sid).collection_mode,'index_metadata');assert.equal(sources.find(item=>item.id===old.sid).collection_mode,null);
+      } finally {
+        await sql.query('DELETE FROM raw_items WHERE source_id IN (SELECT id FROM sources WHERE company_id=$1)',[companyId]);
+        await sql.query('DELETE FROM sources WHERE company_id=$1',[companyId]);
+        await sql.query('DELETE FROM companies WHERE id=$1',[companyId]);
+      }
+    });
 
     await t.test('focused records use latest verified revision and retain an explicit history scope', async () => {
       const journalMetadata={status:'indexed',journal:'Nature Biotechnology'};

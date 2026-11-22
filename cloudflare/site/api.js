@@ -116,6 +116,16 @@ function dates(c, days, start, end, field) {
 export function scopeEligibilitySQL(payload) {
   return `(${payload}->'classification'->>'in_scope' IS DISTINCT FROM 'false' AND ${payload}->'industry_classification'->>'relevant' IS DISTINCT FROM 'false')`;
 }
+export function researchContentSQL(alias = 'r') {
+  return `(${alias}.raw_payload->>'content_level' IS DISTINCT FROM 'index_metadata' AND btrim(COALESCE(${alias}.content_text,''))<>'')`;
+}
+// Expose a small provenance contract, never the adapter's complete raw payload.
+const RECORD_CONTENT_FIELDS = `r.raw_payload->>'content_level' AS content_level,
+  r.raw_payload->>'fulltext_status' AS fulltext_status,
+  CASE WHEN r.raw_payload->>'content_level'='index_metadata' THEN jsonb_build_object(
+    'format',r.raw_payload->>'format','index_url',r.raw_payload->>'index_url',
+    'index_fetched_at',r.raw_payload->>'index_fetched_at','index_content_hash',r.raw_payload->>'index_content_hash',
+    'publication_date_raw',r.raw_payload->>'publication_date_raw','publication_date_precision',r.raw_payload->>'publication_date_precision') END AS provenance`;
 function topicConditions(params, c, payload, defaultFocused = false) {
   const topic = params.get('topic') || params.get('topic_id') || '';
   if (topic && !TOPICS.some(item => item.id === topic)) fail(422, '未知主题');
@@ -142,6 +152,16 @@ function journalConditions(params,c,academic,payload='r.raw_payload') {
 }
 function decorateRecord(row) {
   if(row.academic && typeof row.academic==='object')row.academic={...row.academic,journal_selection:selectJournal(row.academic)};
+  const directory = row.content_level === 'index_metadata';
+  row.content_level = directory ? 'index_metadata' : null;
+  row.fulltext_status = directory && row.fulltext_status === 'not_fetched' ? 'not_fetched' : null;
+  row.provenance = directory && row.provenance && typeof row.provenance === 'object'
+    ? Object.fromEntries(['format','index_url','index_fetched_at','index_content_hash','publication_date_raw','publication_date_precision']
+      .map(key => [key, typeof row.provenance[key] === 'string' ? row.provenance[key] : null])) : null;
+  if (directory) {
+    if ('excerpt' in row) row.excerpt = '';
+    if ('content_text' in row) row.content_text = '';
+  }
   return row;
 }
 function eventConditions(params) {
@@ -195,7 +215,7 @@ export async function apiRead(path, input, sql) {
      (SELECT count(*) FROM companies WHERE status='active' AND include_in_company_wall) AS companies,
      (SELECT count(*) FROM public_events) AS events,
      (SELECT count(*) FROM public_resources r WHERE (jsonb_array_length(CASE WHEN jsonb_typeof(r.raw_payload->'classification'->'topic_ids')='array' THEN r.raw_payload->'classification'->'topic_ids' ELSE '[]'::jsonb END)>0 OR r.raw_payload->'industry_classification'->>'relevant'='true')
-      AND ${scopeEligibilitySQL('r.raw_payload')} AND (NOT COALESCE(${isAcademicSQL()},false) OR (${relevantAcademic}))) AS records,
+      AND ${scopeEligibilitySQL('r.raw_payload')} AND r.raw_payload->>'content_level' IS DISTINCT FROM 'index_metadata' AND (NOT COALESCE(${isAcademicSQL()},false) OR (${relevantAcademic}))) AS records,
      (SELECT count(*) FROM public_resources r WHERE ${isAcademicSQL()} AND (${relevantAcademic})
       AND jsonb_array_length(CASE WHEN jsonb_typeof(r.raw_payload->'classification'->'topic_ids')='array' THEN r.raw_payload->'classification'->'topic_ids' ELSE '[]'::jsonb END)>0) AS selected_academic_records,
      (SELECT count(*) FROM public_records) AS all_records,
@@ -248,7 +268,7 @@ export async function apiRead(path, input, sql) {
     [row.alias_records, row.identity_links, row.sources, row.events, row.relations] = await Promise.all([
       sql.query('SELECT alias,alias_type,verification_status,valid_from,valid_to FROM company_aliases WHERE company_id=$1', [row.id]),
       sql.query('SELECT * FROM company_identity_links WHERE company_id=$1', [row.id]),
-      sql.query(`SELECT id,name,source_type,url,platform,verified,verification_status,enabled,adapter,last_success_at,next_poll_at,consecutive_failures,config->>'integration_status' AS integration_status,COALESCE(config->>'cloud_runtime_enabled'='true',false) AS cloud_runtime_enabled FROM sources WHERE company_id=$1 AND (source_type<>'social' OR verified) ORDER BY source_type,url`, [row.id]),
+      sql.query(`SELECT id,name,registry_key,source_type,url,platform,verified,verification_status,enabled,adapter,last_success_at,next_poll_at,consecutive_failures,config->>'collection_mode' AS collection_mode,config->>'integration_status' AS integration_status,COALESCE(config->>'cloud_runtime_enabled'='true',false) AS cloud_runtime_enabled FROM sources WHERE company_id=$1 AND (source_type<>'social' OR verified) ORDER BY source_type,url`, [row.id]),
       sql.query("SELECT DISTINCT e.* FROM public_events e JOIN event_entities ee ON ee.event_id=e.id WHERE ee.entity_id=$1 AND ee.entity_type='company' AND e.review_status='approved' ORDER BY e.published_at DESC NULLS LAST LIMIT 100", [row.id]),
       sql.query("SELECT r.* FROM relations r JOIN public_events e ON e.id=r.event_id WHERE (r.subject_id=$1 OR r.object_id=$2) AND e.review_status='approved' AND EXISTS(SELECT 1 FROM event_evidence v WHERE v.event_id=e.id)", [row.id, row.id]),
     ]);
@@ -294,27 +314,37 @@ export async function apiRead(path, input, sql) {
     if (q) c.clauses.push(`(r.title ILIKE ${c.p('%' + q + '%')} OR r.content_text ILIKE ${c.p('%' + q + '%')})`);
     if (params.get('company')) c.clauses.push(`r.company_slug=${c.p(params.get('company'))}`);
     if (params.get('source')) c.clauses.push(`r.registry_key=${c.p(params.get('source') === 'pubmed' ? 'pubmed-eutils' : params.get('source'))}`);
-    const focus = topicConditions(params, c, 'r.raw_payload', true);
+    const collectionMode = params.get('collection_mode') || '';
+    if (collectionMode && !['index_metadata','existing'].includes(collectionMode)) fail(422, 'Unknown collection_mode');
+    const directory = "r.raw_payload->>'content_level'='index_metadata'";
+    if (collectionMode === 'index_metadata') c.clauses.push(directory);
+    if (collectionMode === 'existing') c.clauses.push("r.raw_payload->>'content_level' IS DISTINCT FROM 'index_metadata'");
+    const directoryContext = params.get('company') === 'iambic-therapeutics'
+      || params.get('source') === 'iambic-official-newsroom' || collectionMode === 'index_metadata';
+    // Only the approved Iambic directory (or an explicit metadata query) widens
+    // the default scope. Other company/source searches keep their focused gate.
+    const focus = topicConditions(params, c, 'r.raw_payload', !directoryContext);
+    if (!directoryContext) c.clauses.push("r.raw_payload->>'content_level' IS DISTINCT FROM 'index_metadata'");
     const limit = integer(params, 'limit', 40, 1, 100), offset = integer(params, 'offset', 0, 0);
     const [total, items] = await Promise.all([
       sql.query('SELECT count(*) n FROM public_resources r WHERE ' + c.where, c.args),
       sql.query(`SELECT r.id,r.title,left(r.content_text,400) AS excerpt,r.canonical_url,r.published_at,r.fetched_at,r.source_name,r.source_type,r.company_slug,r.company_name,r.company_name_en,r.registry_key,r.external_id,
-        r.raw_payload->'academic' AS academic,r.raw_payload->'classification' AS classification,r.raw_payload->'industry_classification' AS industry_classification FROM public_resources r WHERE ${c.where}
+        ${RECORD_CONTENT_FIELDS},r.raw_payload->'academic' AS academic,r.raw_payload->'classification' AS classification,r.raw_payload->'industry_classification' AS industry_classification FROM public_resources r WHERE ${c.where}
         ORDER BY ${effectiveTime} DESC,r.id LIMIT $${c.args.length + 1} OFFSET $${c.args.length + 2}`, [...c.args, limit, offset]),
     ]);
-    return { total: count(total), items:items.map(decorateRecord), limit, offset, ...focus,journal_tier:journalTier,journal_policy_version:JOURNAL_POLICY_VERSION };
+    return { total: count(total), items:items.map(decorateRecord), limit, offset, ...focus,collection_mode:collectionMode || null,journal_tier:journalTier,journal_policy_version:JOURNAL_POLICY_VERSION };
   }
   const recordMatch = path.match(/^\/api\/records\/([^/]+)$/);
   if (recordMatch) {
     const row = await first(sql, `SELECT r.id,r.title,r.content_text,r.canonical_url,r.published_at,r.fetched_at,r.source_name,r.source_type,r.company_slug,r.company_name,r.registry_key,r.external_id,r.content_hash,
-      r.raw_payload->'academic' AS academic,r.raw_payload->'classification' AS classification,r.raw_payload->'industry_classification' AS industry_classification FROM public_records r WHERE r.id=$1`, [uuid(recordMatch[1], 'record_id')]);
+      ${RECORD_CONTENT_FIELDS},r.raw_payload->'academic' AS academic,r.raw_payload->'classification' AS classification,r.raw_payload->'industry_classification' AS industry_classification FROM public_records r WHERE r.id=$1`, [uuid(recordMatch[1], 'record_id')]);
     if (!row) fail(404, '原文不存在或来源尚未验证');
     return decorateRecord(row);
   }
   if (path === '/api/sources') {
     const rows = await sql.query(`SELECT s.id,s.name,s.registry_key,s.source_type,s.url,s.verified,s.verification_status,s.enabled,s.adapter,s.last_success_at,s.next_poll_at,s.consecutive_failures,
       c.slug AS company_slug,c.name_zh,c.name_en,p.ttl_hours,COALESCE(s.config->>'cloud_runtime_enabled'='true',false) AS cloud_runtime_enabled,
-      s.config->>'integration_status' AS integration_status,s.config->>'operational_status' AS operational_status,
+      s.config->>'collection_mode' AS collection_mode,s.config->>'integration_status' AS integration_status,s.config->>'operational_status' AS operational_status,
       s.config->>'api_documentation' AS api_documentation,s.config->>'journal_policy_version' AS journal_policy_version,
       COALESCE(s.config->>'selected_journals_only'='true',false) AS selected_journals_only,
       (SELECT count(*) FROM raw_items r WHERE r.source_id=s.id) AS raw_count

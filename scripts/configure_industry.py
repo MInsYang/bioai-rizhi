@@ -85,10 +85,28 @@ def load_manifest(path=DEFAULT_MANIFEST):
         required(source['adapter'] in ('rss','official_html') and source['poll_profile'] == 'P0', 'Unsupported industry adapter/profile')
         required(source['source_type'] == ('rss' if source['adapter'] == 'rss' else 'newsroom'), 'Industry source type differs from adapter')
         config = source['config']; identity = config['company_identity']
+        mode = config.get('collection_mode', 'fulltext')
+        required(mode in ('fulltext', 'index_metadata'), 'Unsupported industry collection mode')
+        if mode == 'index_metadata':
+            required(source['adapter'] == 'official_html' and source['registry_key'] == 'iambic-official-newsroom'
+                     and source['url'] == 'https://www.iambic.ai/news'
+                     and config.get('official_index_verified') is True
+                     and set(config.get('allowed_hosts', [])) == {'www.iambic.ai', 'ir.iambic.ai'}
+                     and set(config.get('article_path_prefixes', [])) == {'/post/', '/news-releases/news-release-details/'},
+                     'Index metadata requires the exact approved Iambic contract')
+            review = config.get('collection_mode_review', {})
+            required(isinstance(review, dict) and review.get('decision') == 'approved_index_metadata'
+                     and review.get('index_url') == source['url'] and review.get('content_level') == 'index_metadata'
+                     and review.get('fulltext_status') == 'not_fetched' and isinstance(review.get('reviewed_on'), str)
+                     and len(review.get('scope', '')) >= 50
+                     and re.fullmatch(r'[0-9a-f]{64}', review.get('validated_index_sha256', '')),
+                     'Index metadata requires its explicit dated mode review')
+            dt.date.fromisoformat(review['reviewed_on'])
         required(config.get('content_domain') == 'industry' and config.get('official_industry_source') is True
                  and config.get('cloud_runtime_enabled') is True, 'Official industry activation contract required')
         required(type(config.get('ai_biopharma_identity_verified')) is bool, 'Explicit industry company-scope flag required')
-        required(config.get('query_version') == metadata['version'], 'Industry query version mismatch')
+        required(config.get('query_version') == ('official-index-2026-11-v1' if mode == 'index_metadata' else metadata['version']),
+                 'Industry query version mismatch')
         required(identity['canonical_slug'] == source['company_slug']
                  and canonical(identity['official_website']) == canonical(identities[source['company_slug']]['official_website']),
                  'Industry source identity differs from the canonical seed')
@@ -172,7 +190,8 @@ def load_manifest(path=DEFAULT_MANIFEST):
 def plan(data, checksum):
     return {'status':'dry_run','checksum':checksum,'companies':[c['slug'] for c in data['companies']],
             'sources':[{'registry_key':s['registry_key'],'adapter':s['adapter'],'url':s['url'],
-                        'request_interval_seconds':s['config']['request_interval_seconds']} for s in data['sources']],
+                        'request_interval_seconds':s['config']['request_interval_seconds'],
+                        **({'collection_mode':s['config']['collection_mode']} if 'collection_mode' in s['config'] else {})} for s in data['sources']],
             'candidate_count':len(data['event_candidates']),'candidate_status':'pending',
             'writes_events':False,'writes_relationships':False,'writes_raw_records':False,
             'default_dry_run_loads_credentials':False}
@@ -219,6 +238,9 @@ def configure_sources(conn, data, checksum, filename):
         required(not old or old['verification_status'] != 'rejected', 'Preserve the operator source rejection')
         required(not old or old['registry_key'] in (None,source['registry_key']), 'Official URL belongs to another registry key')
         required(not old or (old['company_id'] == company['id'] and canonical(old['url']) == canonical(source['url'])), 'Industry source identity was edited; preserve the operator decision')
+        required(not old or old['config'].get('collection_mode') != 'index_metadata'
+                 or source['config'].get('collection_mode') == 'index_metadata',
+                 'Preserve the approved index metadata mode; a generic manifest import cannot restore fulltext')
         sid = old['id'] if old else uuid.uuid5(NS,'industry:source:' + source['registry_key'])
         active = conn.execute("SELECT id FROM ingestion_jobs WHERE source_id=%s AND status='running' AND lease_expires_at>now()",(sid,)).fetchone()
         required(not active, 'Industry source currently has a live ingestion lease; retry activation after it completes')
@@ -236,7 +258,8 @@ def configure_sources(conn, data, checksum, filename):
         conn.execute('''INSERT INTO verification_reviews(id,source_id,decision,method,evidence_url,evidence_text,reviewer)
           VALUES(%s,%s,'verified',%s,%s,%s,%s)''',
           (uuid.uuid4(),sid,method,config['provenance']['discovered_on'],json.dumps({'company_identity':config['company_identity'],
-           'provenance':config['provenance'],'http_observation':config.get('http_observation'),'parse_validation':config.get('parse_validation')},ensure_ascii=False),ACTOR))
+           'provenance':config['provenance'],'http_observation':config.get('http_observation'),'parse_validation':config.get('parse_validation'),
+           **({'collection_mode':'index_metadata','collection_mode_review':config['collection_mode_review']} if config.get('collection_mode') == 'index_metadata' else {})},ensure_ascii=False),ACTOR))
         audit(conn,ACTOR,'activate_official_industry_source','source',sid,before=old,after=source)
         summary['sources_activated'] += 1; summary['enabled_cloud_sources'].append(source['registry_key'])
     conn.execute('INSERT INTO seed_imports(filename,checksum,metadata) VALUES(%s,%s,%s)',(filename,checksum,Jsonb(data['metadata'])))
@@ -315,6 +338,7 @@ def verify_live(data):
                 for _ in range(4):
                     with client.stream('GET',current) as response:
                         if response.status_code in (301,302,303,307,308):
+                            required(config.get('collection_mode') != 'index_metadata', 'Fixed official index redirects are refused')
                             current = urljoin(current,response.headers.get('location',''))
                             required(public_url(current).hostname in config['allowed_hosts'],'Verification redirect leaves the official host allowlist')
                             continue
@@ -336,10 +360,16 @@ def verify_live(data):
                 required(1 <= len(items) <= 40,'Live official RSS is empty or exceeds the supported item bound')
                 result['item_count'] = len(items)
             else:
-                code = "import fs from 'node:fs';import {indexArticles} from './cloudflare/site/official-html.js';const input=JSON.parse(fs.readFileSync(0,'utf8'));console.log(JSON.stringify(indexArticles(input.body,input.source)));"
+                code = "import fs from 'node:fs';import {indexArticles,extractOfficialIndex} from './cloudflare/site/official-html.js';const input=JSON.parse(fs.readFileSync(0,'utf8'));console.log(JSON.stringify(input.source.config.collection_mode==='index_metadata'?extractOfficialIndex(input.body,input.source):indexArticles(input.body,input.source)));"
                 parsed = subprocess.run(['node','--input-type=module','-e',code],cwd=ROOT,input=json.dumps({'source':source,'body':body.decode('utf-8')}),
                                         text=True,capture_output=True,check=True)
-                result['bounded_index_articles'] = json.loads(parsed.stdout)
+                parsed_index = json.loads(parsed.stdout)
+                if config.get('collection_mode') == 'index_metadata':
+                    result.update(collection_mode='index_metadata', content_level='index_metadata', fulltext_status='not_fetched',
+                                  bounded_index_articles=[article['canonical_url'] for article in parsed_index['articles']],
+                                  excluded_pdf_count=parsed_index['excluded_pdf_count'])
+                else:
+                    result['bounded_index_articles'] = parsed_index
             return result
         except Exception as error:
             return {'registry_key':source['registry_key'],'status':'failed','error':str(error)[:250],'retried':False}

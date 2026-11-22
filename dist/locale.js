@@ -4,6 +4,21 @@
   const supportedLanguages = ["zh-CN", "zh-Hant", "en"];
   const STORAGE_KEY = "bioai-language";
   const messages = {
+  "收录记录": ["收錄記錄", "Indexed records"],
+  "官方目录信息，正文未采集": ["官方目錄資訊，正文未採集", "Official index metadata; full text not collected"],
+  "仅收录官方列表中的标题、发布日期与原始链接；未采集摘要或正文。": ["僅收錄官方列表中的標題、發布日期與原始連結；未採集摘要或正文。", "Only the title, publication date, and original link from the official index are stored. No abstract or full text has been collected."],
+  "目录来源": ["目錄來源", "Index source"],
+  "官方新闻目录": ["官方新聞目錄", "Official news index"],
+  "目录获取时间：{date}": ["目錄取得時間：{date}", "Index fetched: {date}"],
+  "未知": ["未知", "Unknown"],
+  "官方链接": ["官方連結", "Official link"],
+  "公开来源记录与官方目录": ["公開來源記錄與官方目錄", "Public source records and official index"],
+  "目录信息与已保存正文分别标注；历史正文保留，目录条目不用于研究摘要或事件证据。": ["目錄資訊與已保存正文分別標註；歷史正文保留，目錄條目不用於研究摘要或事件證據。", "Index metadata and stored source text are labeled separately. Historical text is preserved. Index entries are excluded from research digests and event evidence."],
+  "官方目录采集；不采集正文": ["官方目錄採集；不採集正文", "Official index collection; no full-text collection"],
+  "浏览已收录条目": ["瀏覽已收錄條目", "Browse indexed records"],
+  "来源收录": ["來源收錄", "Source collection"],
+  "已收录条目：{count}": ["已收錄條目：{count}", "Indexed records: {count}"],
+
   "日知头版": [
     "日知頭版",
     "Front page"

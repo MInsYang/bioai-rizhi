@@ -56,7 +56,7 @@ def company(slug:str):
         c.pop('seed_payload',None)
         c['alias_records']=conn.execute('SELECT alias,alias_type,verification_status,valid_from,valid_to FROM company_aliases WHERE company_id=%s',(c['id'],)).fetchall()
         c['identity_links']=conn.execute('SELECT * FROM company_identity_links WHERE company_id=%s',(c['id'],)).fetchall()
-        c['sources']=conn.execute('''SELECT id,name,source_type,url,platform,verified,verification_status,enabled,adapter,last_success_at,next_poll_at,consecutive_failures,config->>'integration_status' AS integration_status FROM sources WHERE company_id=%s AND (source_type<>'social' OR verified) ORDER BY source_type,url''',(c['id'],)).fetchall()
+        c['sources']=conn.execute('''SELECT id,name,registry_key,source_type,url,platform,verified,verification_status,enabled,adapter,last_success_at,next_poll_at,consecutive_failures,config->>'collection_mode' AS collection_mode,config->>'integration_status' AS integration_status FROM sources WHERE company_id=%s AND (source_type<>'social' OR verified) ORDER BY source_type,url''',(c['id'],)).fetchall()
         c['events']=conn.execute("SELECT DISTINCT e.* FROM public_events e JOIN event_entities ee ON ee.event_id=e.id WHERE ee.entity_id=%s AND ee.entity_type='company' AND e.review_status='approved' ORDER BY e.published_at DESC NULLS LAST LIMIT 100",(c['id'],)).fetchall()
         c['relations']=conn.execute("SELECT r.* FROM relations r JOIN public_events e ON e.id=r.event_id WHERE (r.subject_id=%s OR r.object_id=%s) AND e.review_status='approved' AND EXISTS(SELECT 1 FROM event_evidence v WHERE v.event_id=e.id)",(c['id'],c['id'])).fetchall()
     return c

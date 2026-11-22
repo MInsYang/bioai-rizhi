@@ -8,14 +8,14 @@ const COPY = Object.freeze({
     'zh-Hant': '來源標題、節選、已保存正文、事件說明、名稱與精確證據引文保留原始語言；不代表已翻譯來源或識別其語言。',
   },
   coverage: {
-    en: 'Results cover records stored by BioAI Daily, not the entire web. A verified source record is not an editor-reviewed event. Topic tags can be automated keyword matches; preserve classification.method and publication status. No result does not establish that no research or company exists.',
-    'zh-CN': '结果覆盖 BioAI 日知已保存的记录，不涵盖整个互联网。已验证来源的原文记录不等于编辑核验事件。主题标签可能来自自动关键词匹配；请保留 classification.method 与发布状态。没有结果不证明相关研究或公司不存在。',
-    'zh-Hant': '結果覆蓋 BioAI 日知已保存的記錄，不涵蓋整個網際網路。已驗證來源的原文記錄不等於編輯核驗事件。主題標籤可能來自自動關鍵詞匹配；請保留 classification.method 與發布狀態。沒有結果不證明相關研究或公司不存在。',
+    en: 'Results cover records stored by BioAI Daily, not the entire web. A verified source record is not an editor-reviewed event. content_level=index_metadata contains official title/date/link metadata only; no abstract or full text was collected. A null content_level does not certify full-text completeness. Topic tags can be automated keyword matches; preserve classification.method and publication status. No result does not establish that no research or company exists.',
+    'zh-CN': '结果覆盖 BioAI 日知已保存的记录，不涵盖整个互联网。已验证来源的记录不等于编辑核验事件。content_level=index_metadata 仅含官方标题、日期与链接，未采集摘要或正文；content_level 为空不认证全文完整度。主题标签可能来自自动关键词匹配；请保留 classification.method 与发布状态。没有结果不证明相关研究或公司不存在。',
+    'zh-Hant': '結果覆蓋 BioAI 日知已保存的記錄，不涵蓋整個網際網路。已驗證來源的記錄不等於編輯核驗事件。content_level=index_metadata 僅含官方標題、日期與連結，未採集摘要或正文；content_level 為空不認證全文完整度。主題標籤可能來自自動關鍵詞匹配；請保留 classification.method 與發布狀態。沒有結果不證明相關研究或公司不存在。',
   },
   status: {
-    en: 'verified identifies source ownership/review; enabled identifies collection permission. A source without last_success_at has no recorded successful collection. These fields do not certify peer review or scientific validity.',
-    'zh-CN': 'verified 表示来源归属/审核状态；enabled 表示采集许可。没有 last_success_at 的来源没有已记录的成功采集。这些字段不认证同行评议或科学有效性。',
-    'zh-Hant': 'verified 表示來源歸屬/審核狀態；enabled 表示採集許可。沒有 last_success_at 的來源沒有已記錄的成功採集。這些欄位不認證同行評議或科學有效性。',
+    en: 'verified identifies source ownership/review; enabled identifies collection permission. A source without last_success_at has no recorded successful collection. collection_mode=index_metadata reports official index collection, not full-text availability; null makes no completeness claim. These fields do not certify peer review or scientific validity.',
+    'zh-CN': 'verified 表示来源归属/审核状态；enabled 表示采集许可。没有 last_success_at 的来源没有已记录的成功采集。collection_mode=index_metadata 表示官方目录采集，不表示正文可用；为空不认证完整度。这些字段不认证同行评议或科学有效性。',
+    'zh-Hant': 'verified 表示來源歸屬/審核狀態；enabled 表示採集許可。沒有 last_success_at 的來源沒有已記錄的成功採集。collection_mode=index_metadata 表示官方目錄採集，不表示正文可用；為空不認證完整度。這些欄位不認證同行評議或科學有效性。',
   },
   interpretation: {
     en: 'display_labels are localized presentation only. IDs, keys, classification enums, dates, URLs, citation spans, and hashes retain their machine-readable meaning. PubMed indexing does not certify peer review; automated topic labels do not establish causality or clinical benefit.',
@@ -34,6 +34,9 @@ const LABELS = Object.freeze({
     reviewed_event: ['已核验事件', '已核驗事件', 'Reviewed event'],
   },
   data_status: { directory_metadata: ['目录元数据', '目錄中繼資料', 'Directory metadata'] },
+  content_level: { index_metadata: ['官方目录信息，正文未采集','官方目錄資訊，正文未採集','Official index metadata; full text not collected'] },
+  fulltext_status: { not_fetched: ['正文未采集','正文未採集','Full text not collected'] },
+  collection_mode: { index_metadata: ['官方目录采集；不采集正文','官方目錄採集；不採集正文','Official index collection; no full-text collection'] },
   event_type: {
     funding: ['融资', '融資', 'Funding'], partnership: ['合作', '合作', 'Partnership'], acquisition: ['并购', '併購', 'Acquisition'],
     licensing: ['许可', '許可', 'Licensing'], product: ['产品', '產品', 'Product'], clinical: ['临床', '臨床', 'Clinical'],
@@ -75,6 +78,9 @@ function decorate(value, language, origin) {
   for (const key of Object.keys(LABELS)) {
     const translated = label(copy[key], key, language);
     if (translated) labels[key] = translated;
+  }
+  if (copy.content_level === 'index_metadata' && copy.publication_status === 'source_record') {
+    labels.publication_status = language === 'en' ? 'Official index record' : language === 'zh-Hant' ? '官方目錄記錄' : '官方目录记录';
   }
   for (const key of ['track', 'region']) {
     if (typeof copy[key] === 'string') {

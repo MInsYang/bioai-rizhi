@@ -37,6 +37,7 @@ async function request(value,hosts,env,headers={},options={}) {
       response=await (env.FETCH||globalThis.fetch)(url.href,{method,...(requestBody===undefined?{}:{body:requestBody}),redirect:'manual',headers:{'User-Agent':'BioAIRegistry/3.0 public-news-metadata',...headers},signal:AbortSignal.timeout(15000)});
     } catch (error) { throw new IngestionError('Official source transport failed: '+transportCode(error),{permanent:false}); }
     if ([301,302,303,307,308].includes(response.status)) {
+      if(options.allow_redirects===false)throw new IngestionError('Official fixed index redirect was refused',{permanent:true,http_status:response.status});
       if (!response.headers.get('location')) throw new IngestionError('Redirect has no Location');
       url=safeURL(new URL(response.headers.get('location'),url).href,hosts);
       if(response.status===303){method='GET';requestBody=undefined;}
@@ -105,16 +106,23 @@ function pubmedDate(value) {
 }
 
 async function record(source,fields,payload,state,response) {
-  const title=String(fields.title||'').slice(0,1000),content_text=String(fields.content_text||title).slice(0,200000);
+  const indexMetadata=payload.content_level==='index_metadata';
+  if(indexMetadata && (source.registry_key!=='iambic-official-newsroom' || source.config.collection_mode!=='index_metadata' ||
+      source.config.official_index_verified!==true || payload.format!=='official_index' || payload.fulltext_status!=='not_fetched' || fields.content_text!=='')) {
+    throw new IngestionError('Official index metadata record violates its approved empty-body contract',{permanent:true});
+  }
+  const title=String(fields.title||'').slice(0,1000),content_text=indexMetadata?'':String(fields.content_text||title).slice(0,200000);
   if (!title || !fields.canonical_url) throw new IngestionError('Official record lacks title or URL');
   const classification=classify(title,content_text),industry=classifyIndustry(title,content_text,source.config);
   const industrySource=source.config.official_industry_source===true||source.config.content_domain==='industry';
   // An industry decision is authoritative for its source; broad model-topic
   // keywords cannot readmit an out-of-scope materials or boilerplate notice.
-  if(industrySource&&industry.relevant!==true)return null;
-  if (classification.in_scope===false&&!industry.relevant) return null;
-  if(industry.relevant){classification.ai_related=classification.ai_related||industry.ai_related;classification.in_scope=true;}
-  if(industry.relevant && !classification.topic_ids.length){
+  // The approved directory keeps all Press titles, including routine notices.
+  // Their actual title-only relevance remains unchanged for downstream gates.
+  if(!indexMetadata && industrySource&&industry.relevant!==true)return null;
+  if (!indexMetadata && classification.in_scope===false&&!industry.relevant) return null;
+  if(!indexMetadata && industry.relevant){classification.ai_related=classification.ai_related||industry.ai_related;classification.in_scope=true;}
+  if(!indexMetadata && industry.relevant && !classification.topic_ids.length){
     classification.topic_ids.push('drug-discovery');classification.scope_reason='official-ai-biopharma-business-update';
     classification.topic_evidence['drug-discovery']='verified-industry-context';
   }
@@ -129,10 +137,12 @@ async function record(source,fields,payload,state,response) {
   const stable=JSON.stringify([canonical.href,title,content_text,fields.published_at||null,fields.external_id||null,payload.academic||null]);
   const digest=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(stable));
   const content_hash=Array.from(new Uint8Array(digest),b=>b.toString(16).padStart(2,'0')).join('');
-  return {...fields,canonical_url:canonical.href,title,content_text,content_hash,raw_payload:{...payload,...(academic?{academic}:{}),classification,
-    ...(industrySource||industry.relevant?{industry_classification:industry}:{}),
+  return {...fields,canonical_url:canonical.href,title,content_text,content_hash,raw_payload:{...payload,...(academic?{academic}:{}),
+    classification:indexMetadata?{...classification,input_scope:'title_only'}:classification,
+    ...(industrySource||industry.relevant?{industry_classification:indexMetadata?{...industry,input_scope:'title_only'}:industry}:{}),
     http_status:response.status,fetched_url:response.url,parser_version:'cloud-ingestion-v1',
-    retrieval:{adapter:source.adapter,from:state.from||null,to:state.to||null,query:source.config.query||null,
+    retrieval:{adapter:source.adapter,...(indexMetadata?{collection_mode:'index_metadata',request_scope:'official_index_only'}:{}),
+      from:state.from||null,to:state.to||null,query:source.config.query||null,
       query_version:state.query_version,page_cursor:state.page_cursor??state.offset??null,complete_window:false}}};
 }
 
@@ -384,7 +394,10 @@ export async function consume(batch,env,sql) {
       const page=await adapter(source,state,env);
       const metrics={http_status:page.response.status,duration_ms:Date.now()-started,bytes_fetched:page.response.bytes,
         retrieved_total:page.state.retrieved_total,matched_total:page.state.matched_total,bytes_total:page.state.bytes_total,
-        rejected_links:page.state.rejected_links||0,query_version:page.state.query_version};
+        rejected_links:page.state.rejected_links||0,query_version:page.state.query_version,
+        ...(page.state.collection_mode==='index_metadata'?{collection_mode:'index_metadata',content_level:'index_metadata',
+          fulltext_status:'not_fetched',classification_scope:'title_only',index_url:source.url,
+          card_count:page.state.card_count,excluded_pdf_count:page.state.excluded_pdf_count}:{})};
       let result;
       if(page.done) {
         const cursor={query_version:page.state.query_version,...(dateWindowAdapter?{cursor_date:page.state.target_date}:{}),

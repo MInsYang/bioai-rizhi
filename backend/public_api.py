@@ -5,6 +5,26 @@ from fastapi import APIRouter, HTTPException, Query
 from .db import connection
 
 router = APIRouter(prefix='/api')
+RECORD_CONTENT_FIELDS = """r.raw_payload->>'content_level' AS content_level,
+ r.raw_payload->>'fulltext_status' AS fulltext_status,
+ CASE WHEN r.raw_payload->>'content_level'='index_metadata' THEN jsonb_build_object(
+ 'format',r.raw_payload->>'format','index_url',r.raw_payload->>'index_url',
+ 'index_fetched_at',r.raw_payload->>'index_fetched_at','index_content_hash',r.raw_payload->>'index_content_hash',
+ 'publication_date_raw',r.raw_payload->>'publication_date_raw','publication_date_precision',r.raw_payload->>'publication_date_precision') END AS provenance"""
+
+
+def decorate_record(row):
+    directory = row.get('content_level') == 'index_metadata'
+    row['content_level'] = 'index_metadata' if directory else None
+    row['fulltext_status'] = 'not_fetched' if directory and row.get('fulltext_status') == 'not_fetched' else None
+    provenance = row.get('provenance')
+    row['provenance'] = {key: provenance.get(key) if isinstance(provenance.get(key), str) else None
+                         for key in ('format', 'index_url', 'index_fetched_at', 'index_content_hash', 'publication_date_raw', 'publication_date_precision')} if directory and isinstance(provenance, dict) else None
+    if directory:
+        for key in ('excerpt', 'content_text'):
+            if key in row: row[key] = ''
+    return row
+
 # Expressions used with psycopg parameters must escape literal percent signs.
 def region_clause(region, alias='c'):
     expressions = {
@@ -102,7 +122,7 @@ def graph(q: str='', track: str='', region: str='', event_type: str='', days: in
     return dict(nodes=nodes,edges=edges,limit=300)
 
 @router.get('/records')
-def records(q: str='', academic: bool|None=None, company: str='', source: str='', days: int=Query(30,ge=0,le=3660),
+def records(q: str='', academic: bool|None=None, company: str='', source: str='', collection_mode: str='', days: int=Query(30,ge=0,le=3660),
             limit: int=Query(40,ge=1,le=100),offset: int=Query(0,ge=0)):
     clauses,args=dates(days,None,None,'COALESCE(r.published_at,r.fetched_at)')
     if academic is not None:
@@ -110,28 +130,32 @@ def records(q: str='', academic: bool|None=None, company: str='', source: str=''
     if q: clauses.append('(r.title ILIKE %s OR r.content_text ILIKE %s)'); args+=['%'+q+'%']*2
     if company: clauses.append('r.company_slug=%s');args.append(company)
     if source: clauses.append('r.registry_key=%s');args.append('pubmed-eutils' if source=='pubmed' else source)
+    if collection_mode not in ('', 'index_metadata', 'existing'):
+        raise HTTPException(422, 'Unknown collection_mode')
+    if collection_mode == 'index_metadata': clauses.append("r.raw_payload->>'content_level'='index_metadata'")
+    elif collection_mode == 'existing' or not (company or source): clauses.append("r.raw_payload->>'content_level' IS DISTINCT FROM 'index_metadata'")
     where=' AND '.join(clauses) or 'true'
     with connection() as c:
-        total=c.execute('SELECT count(*) n FROM public_records r WHERE '+where,args).fetchone()['n']
+        total=c.execute('SELECT count(*) n FROM public_resources r WHERE '+where,args).fetchone()['n']
         rows=c.execute('''SELECT r.id,r.title,left(r.content_text,400) AS excerpt,r.canonical_url,r.published_at,r.fetched_at,
          r.source_name,r.source_type,r.company_slug,r.company_name,r.company_name_en,r.registry_key,r.external_id,
-         r.raw_payload->'academic' AS academic FROM public_records r WHERE '''+where+
+         r.raw_payload->'academic' AS academic,'''+RECORD_CONTENT_FIELDS+''' FROM public_resources r WHERE '''+where+
          ' ORDER BY COALESCE(r.published_at,r.fetched_at) DESC,r.id LIMIT %s OFFSET %s',args+[limit,offset]).fetchall()
-    return dict(total=total,items=rows,limit=limit,offset=offset)
+    return dict(total=total,items=[decorate_record(row) for row in rows],limit=limit,offset=offset,collection_mode=collection_mode or None)
 
 @router.get('/records/{record_id}')
 def record_detail(record_id: uuid.UUID):
     with connection() as c:
         row=c.execute('''SELECT r.id,r.title,r.content_text,r.canonical_url,r.published_at,r.fetched_at,r.source_name,r.source_type,
-         r.company_slug,r.company_name,r.registry_key,r.external_id,r.content_hash,r.raw_payload->'academic' AS academic
+         r.company_slug,r.company_name,r.registry_key,r.external_id,r.content_hash,r.raw_payload->'academic' AS academic,'''+RECORD_CONTENT_FIELDS+'''
          FROM public_records r WHERE r.id=%s''',(record_id,)).fetchone()
         if not row: raise HTTPException(404,'原文不存在或来源尚未验证')
-        return row
+        return decorate_record(row)
 
 @router.get('/sources')
 def source_coverage():
     with connection() as c:
-        return c.execute('''SELECT s.id,s.name,s.source_type,s.url,s.verified,s.verification_status,s.enabled,s.adapter,
+        return c.execute('''SELECT s.id,s.name,s.registry_key,s.source_type,s.url,s.verified,s.verification_status,s.enabled,s.adapter,s.config->>'collection_mode' AS collection_mode,
          s.last_success_at,s.next_poll_at,s.consecutive_failures,c.slug AS company_slug,c.name_zh,c.name_en,p.ttl_hours,
          (SELECT count(*) FROM raw_items r WHERE r.source_id=s.id) AS raw_count
          FROM sources s LEFT JOIN companies c ON c.id=s.company_id JOIN polling_profiles p ON p.id=s.poll_profile
