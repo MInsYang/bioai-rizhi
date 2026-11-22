@@ -300,3 +300,83 @@ test("CORS allowlist supports browser preflight and makes rejected body errors v
   assert.equal(disallowed.status, 403);
   assert.equal(disallowed.headers.get("access-control-allow-origin"), null);
 });
+
+test('all five tools expose optional language without requiring it or repeating schema conversion', async () => {
+  const listed = await payload(await handleMcp(request(legacy('tools/list')),environment,context,()=>{throw new Error('No read for discovery');}));
+  for (const tool of listed.result.tools) {
+    assert.deepEqual(tool.inputSchema.properties.language.enum,['zh-CN','zh-Hant','en']);
+    assert.ok(!tool.inputSchema.required?.includes('language'));
+  }
+  const initialized = await payload(await handleMcp(request(legacy('initialize',{protocolVersion:'2025-11-25',capabilities:{},clientInfo:{name:'locale-test',version:'1'}})),environment,context,()=>{}));
+  assert.equal(initialized.result.serverInfo.version,'3.3.0');
+});
+
+test('explicit MCP languages localize copy and controlled labels while preserving all source and citation fields', async () => {
+  const event = {id:EVENT_ID,title:'原始出处',summary:'事件说明',event_type:'partnership',track:'生物医药',topic_ids:['drug-discovery'],review_status:'approved',evidence_count:1,
+    evidence:[{evidence_text:'条件性上限不等于当前交易现金。',canonical_url:'https://source.example/quote?lang=source',source_title:'专题指南',source_name:'原始出处',evidence_start:101,evidence_end:118,content_hash:'original-hash'}]};
+  const company = {slug:'fixture',name_zh:'不可翻译的名称',name_en:'Fixture',track:'AI与模型数据',topic_ids:['virtual-cell'],events:[{...event}],sources:[{name:'原始出处',source_type:'rss',verified:true,enabled:true}]};
+  const read = async path => path === '/api/topics' ? {items:[{id:'virtual-cell',label:'AI 虚拟细胞',description:'细胞状态、扰动响应与细胞基础模型'}]} : path === '/api/sources' ? {items:company.sources} : path.startsWith('/api/companies/') ? company : path === '/api/companies' ? {total:1,items:[company]} : path.startsWith('/api/events/') ? event : path === '/api/records' ? {total:1,items:[sourceRecord()]} : sourceRecord();
+  for (const language of ['zh-CN','zh-Hant','en']) {
+    for (const [name,args] of [['search_resources',{}],['get_resource',{id:RECORD_ID}],['search_companies',{}],['get_company',{slug:'fixture'}],['get_source_status',{}]]) {
+      const response = await payload(await handleMcp(request(legacy('tools/call',{name,arguments:{...args,language}})),environment,context,read));
+      assert.equal(response.result.isError,undefined,name);
+      const result = response.result.structuredContent;
+      assert.equal(result.language.requested_language,language);
+      assert.equal(result.language.presentation_language,language);
+      assert.equal(result.language.original_records,'preserved');
+      assert.ok(result.interpretation_note);
+      if (name === 'search_resources') {
+        assert.equal(result.items[0].title,sourceRecord().title);
+        assert.equal(result.items[0].excerpt,'Stored abstract.');
+        assert.equal(result.items[0].academic.status,'preprint');
+        assert.equal(result.items[0].classification.method,'automated_keyword_v1');
+        assert.equal(result.items[0].publication_status,'source_record');
+        assert.ok(result.items[0].site_url.endsWith('?lang='+language));
+        assert.ok(result.items[0].display_labels.publication_status);
+      }
+      if (name === 'get_company') {
+        assert.deepEqual(result.data.topics,['virtual-cell']);
+        assert.equal(result.data.name_zh,company.name_zh);
+        assert.equal(result.data.track,'AI与模型数据');
+        assert.equal(result.data.events[0].summary,'事件说明');
+        assert.equal(result.data.sources[0].name,'原始出处');
+      }
+      if (name === 'get_resource') {
+        assert.deepEqual(result.data.topics,['virtual-cell']);
+        assert.equal(result.data.topics.every(topic=>typeof topic==='string'),true);
+      }
+      if (name === 'get_source_status' && language === 'en') {
+        assert.equal(result.data.topics[0].label,'AI virtual cells');
+        assert.match(result.data.journal_policy.selection_basis,/editorial selection/);
+      }
+    }
+    const response = await payload(await handleMcp(request(legacy('tools/call',{name:'get_resource',arguments:{id:EVENT_ID,kind:'event',language}})),environment,context,read));
+    const data = response.result.structuredContent.data;
+    assert.equal(data.title,'原始出处');
+    assert.equal(data.summary,'事件说明');
+    assert.equal(data.evidence[0].evidence_text,event.evidence[0].evidence_text);
+    assert.equal(data.evidence[0].evidence_start,101);
+    assert.equal(data.evidence[0].evidence_end,118);
+    assert.equal(data.evidence[0].content_hash,'original-hash');
+    assert.equal(data.evidence[0].url,'https://source.example/quote?lang=source');
+    assert.equal(data.event_type,'partnership');
+    assert.deepEqual(data.topics,['drug-discovery']);
+  }
+});
+
+test('MCP legacy copy and URLs stay compatible, track aliases map to stable values, and bad languages reject before reads', async () => {
+  let reads=0;
+  const legacyResult = await payload(await handleMcp(request(legacy('tools/call',{name:'search_resources',arguments:{}})),environment,context,async()=>({total:1,items:[sourceRecord()]})));
+  assert.equal(legacyResult.result.structuredContent.language.presentation_language,'legacy');
+  assert.match(legacyResult.result.structuredContent.coverage_note,/Results cover records stored/);
+  assert.equal(legacyResult.result.structuredContent.items[0].site_url,ORIGIN+'/records/'+RECORD_ID);
+  for (const language of ['fr','en<script>']) {
+    const rejected = await payload(await handleMcp(request(legacy('tools/call',{name:'search_resources',arguments:{language}})),environment,context,()=>{reads++;}));
+    assert.ok(rejected.error || rejected.result?.isError);
+  }
+  assert.equal(reads,0);
+  const alias = await payload(await handleMcp(request(legacy('tools/call',{name:'search_companies',arguments:{language:'en',track:'ai-models-data'}})),environment,context,async(path,params)=>{
+    assert.equal(path,'/api/companies');assert.equal(params.track,'AI与模型数据');return {total:0,items:[]};
+  }));
+  assert.equal(alias.result.isError,undefined);
+});

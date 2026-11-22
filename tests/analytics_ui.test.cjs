@@ -311,7 +311,7 @@ test('Stats failure is visible and does not manufacture zero metrics', async () 
 
 test('The collector and accessible privacy note are included in the existing application', () => {
   const html = fs.readFileSync('dist/index.html', 'utf8');
-  assert(html.includes('<script src="/analytics.js"></script>'));
+  assert(/<script src="\/analytics\.js(?:\?v=[^"]+)?"><\/script>/.test(html));
   assert(html.includes('<details class="statistics-notice">'));
   assert(html.includes('id="analytics-privacy-state"'));
   assert(html.includes('href="/guides" data-nav="guides"'));

@@ -1,3 +1,5 @@
+import { brandName, languageOf, languageUrl, ownedText } from './locales.js';
+
 // Original reader guides. Source titles and short factual descriptions are cited;
 // no source article, abstract, performance league table or company claim is copied.
 // These are dated explanations, not an automatically updated news feed.
@@ -138,32 +140,49 @@ export const GUIDES = Object.freeze([
 
 export const guideById = id => GUIDES.find(guide => guide.id === id);
 const esc = value => String(value ?? '').replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char]));
-const references = ids => (ids || []).map(id => {
+const references = (ids, language) => (ids || []).map(id => {
   const source = GUIDE_SOURCES[id];
-  return source ? ` <a class="publication-citation" href="${esc(source.url)}" rel="noopener">[${esc(source.label)}]</a>` : '';
+  return source ? ` <a class="publication-citation" href="${esc(source.url)}" rel="noopener">[${esc(ownedText(source.label, language))}]</a>` : '';
 }).join('');
 
-export function guideCards(relatedTopic = '') {
+export function localizedGuide(guide, language = 'zh-CN') {
+  const t = value => ownedText(value, language);
+  return { ...guide, title: t(guide.title), description: t(guide.description),
+    sections: guide.sections.map(section => ({ ...section, heading: t(section.heading),
+      ...(section.paragraphs ? { paragraphs: section.paragraphs.map(p => ({ ...p, text: t(p.text) })) } : {}),
+      ...(section.table ? { table: { ...section.table, headers: section.table.headers.map(t), rows: section.table.rows.map(row => ({ ...row, cells: row.cells.map(t) })) } } : {}),
+    })), links: guide.links.map(link => ({ ...link, label: t(link.label) })),
+  };
+}
+
+export function guideCards(relatedTopic = '', language = 'zh-CN', explicit = false) {
   const guides = relatedTopic ? GUIDES.filter(guide => guide.topics.includes(relatedTopic)) : GUIDES;
-  return `<div class="publication-link-grid">${guides.map(guide => `<section class="panel"><h3><a href="/guides/${guide.id}">${esc(guide.title)}</a></h3><p>${esc(guide.description)}</p><p class="source-note">阅读指南 · 更新 ${GUIDE_REVIEW_DATE}</p></section>`).join('')}</div>`;
+  return `<div class="publication-link-grid">${guides.map(item => {
+    const guide = localizedGuide(item, language);
+    return `<section class="panel"><h3><a href="${esc(languageUrl('/guides/' + guide.id, language, explicit))}">${esc(guide.title)}</a></h3><p>${esc(guide.description)}</p><p class="source-note">${esc(ownedText('阅读指南 · 更新 {date}', language, { date: GUIDE_REVIEW_DATE }))}</p></section>`;
+  }).join('')}</div>`;
 }
 
-export function guideIndexPage() {
-  return `<article class="publication-article" data-publication-view="guides"><header><p class="eyebrow">BIOAI READER GUIDES</p><h1>专题指南</h1><p class="lede">从原文走向判断：比较模型任务，追踪合作进展，理解每周信息的证据与覆盖。</p></header><p class="source-note">BioAI 日知 · 原创阅读说明。各篇给出具体出处和更新日期；例子按原始发表版本与公告日期阅读。</p>${guideCards()}<p><a href="/briefings">本周收录 →</a> · <a href="/">返回日知头版</a></p></article>`;
+export function guideIndexPage(language = 'zh-CN', explicit = false) {
+  const t = value => esc(ownedText(value, language)), link = value => esc(languageUrl(value, language, explicit));
+  return `<article class="publication-article" data-publication-view="guides"><header><p class="eyebrow">BIOAI READER GUIDES</p><h1>${t('专题指南')}</h1><p class="lede">${t('从原文走向判断：比较模型任务，追踪合作进展，理解每周信息的证据与覆盖。')}</p></header><p class="source-note">${esc(brandName(language))} · ${t('原创阅读说明。各篇给出具体出处和更新日期；例子按原始发表版本与公告日期阅读。')}</p>${guideCards('', language, explicit)}<p><a href="${link('/briefings')}">${t('本周收录 →')}</a> · <a href="${link('/')}">${t('返回日知头版')}</a></p></article>`;
 }
 
-export function guidePage(guide) {
+export function guidePage(originalGuide, language = 'zh-CN', explicit = false) {
+  const guide = localizedGuide(originalGuide, language);
+  const t = value => esc(ownedText(value, language)), link = value => esc(languageUrl(value, language, explicit));
   const sourceList = guide.sourceIds.map(id => GUIDE_SOURCES[id]);
-  return `<article class="publication-article" data-publication-view="guide"><header><p class="eyebrow">BIOAI READER GUIDE</p><h1>${esc(guide.title)}</h1><p class="lede">${esc(guide.description)}</p><p class="source-note">BioAI 日知 · 阅读指南 · 更新及来源核查 ${GUIDE_REVIEW_DATE}</p></header>${guide.sections.map(section => `<section><h2>${esc(section.heading)}</h2>${(section.paragraphs || []).map(p => `<p>${esc(p.text)}${references(p.sources)}</p>`).join('')}${section.table ? `<div class="publication-table-wrap"><table class="publication-table"><thead><tr>${section.table.headers.map(cell => `<th scope="col">${esc(cell)}</th>`).join('')}</tr></thead><tbody>${section.table.rows.map(row => `<tr>${row.cells.map((cell, index) => `<${index === 0 ? 'th scope="row"' : 'td'}>${esc(cell)}${index === row.cells.length - 1 ? references(row.sources) : ''}</${index === 0 ? 'th' : 'td'}>`).join('')}</tr>`).join('')}</tbody></table></div>` : ''}</section>`).join('')}<section><h2>原始出处</h2><ol class="publication-sources">${sourceList.map(source => `<li><a href="${esc(source.url)}" rel="noopener">${esc(source.title)}</a><br><span class="source-note">${esc(source.label)}</span></li>`).join('')}</ol></section><nav class="publication-links" aria-label="继续阅读">${guide.links.map(link => `<a href="${esc(link.href)}">${esc(link.label)} →</a>`).join(' ')} <a href="/guides">全部指南 →</a></nav></article>`;
+  return `<article class="publication-article" data-publication-view="guide"><header><p class="eyebrow">BIOAI READER GUIDE</p><h1>${esc(guide.title)}</h1><p class="lede">${esc(guide.description)}</p><p class="source-note">${esc(brandName(language))} · ${esc(ownedText('阅读指南 · 更新及来源核查 {date}', language, { date: GUIDE_REVIEW_DATE }))}</p></header>${guide.sections.map(section => `<section><h2>${esc(section.heading)}</h2>${(section.paragraphs || []).map(p => `<p>${esc(p.text)}${references(p.sources, language)}</p>`).join('')}${section.table ? `<div class="publication-table-wrap"><table class="publication-table"><thead><tr>${section.table.headers.map(cell => `<th scope="col">${esc(cell)}</th>`).join('')}</tr></thead><tbody>${section.table.rows.map(row => `<tr>${row.cells.map((cell, index) => `<${index === 0 ? 'th scope="row"' : 'td'}>${esc(cell)}${index === row.cells.length - 1 ? references(row.sources, language) : ''}</${index === 0 ? 'th' : 'td'}>`).join('')}</tr>`).join('')}</tbody></table></div>` : ''}</section>`).join('')}<section><h2>${t('原始出处')}</h2><ol class="publication-sources">${sourceList.map(source => `<li><a data-source-original href="${esc(source.url)}" rel="noopener">${esc(source.title)}</a><br><span class="source-note">${t(source.label)}</span></li>`).join('')}</ol></section><nav class="publication-links" aria-label="${t('继续阅读')}">${guide.links.map(item => `<a href="${link(item.href)}">${esc(item.label)} →</a>`).join(' ')} <a href="${link('/guides')}">${t('全部指南 →')}</a></nav></article>`;
 }
 
-export function guideSchema(guide, base) {
+export function guideSchema(originalGuide, base, language = 'zh-CN', explicit = false) {
+  const guide = localizedGuide(originalGuide, language), url = languageUrl(`${base}/guides/${guide.id}`, language, explicit, base);
   return {
     '@context': 'https://schema.org', '@type': 'Article',
-    headline: guide.title, description: guide.description, inLanguage: 'zh-CN',
-    url: `${base}/guides/${guide.id}`,
-    mainEntityOfPage: { '@type': 'WebPage', '@id': `${base}/guides/${guide.id}` },
-    author: { '@type': 'Organization', name: 'BioAI 日知', url: base + '/' },
+    headline: guide.title, description: guide.description, inLanguage: languageOf(language),
+    url,
+    mainEntityOfPage: { '@type': 'WebPage', '@id': url },
+    author: { '@type': 'Organization', name: brandName(language), url: languageUrl(base + '/', language, explicit, base) },
     datePublished: GUIDE_REVIEW_DATE, dateModified: GUIDE_REVIEW_DATE,
     citation: guide.sourceIds.map(id => GUIDE_SOURCES[id].url),
   };

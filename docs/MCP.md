@@ -2,6 +2,8 @@
 
 BioAI 日知提供匿名、只读的远程 MCP，供个人 AI 查询本站已收录的研究与产业原文、公司目录和来源覆盖情况。网页、RSS 与 MCP 使用同一公开读取模型：已验证来源的原文记录，与经过编辑审核并附有有效证据的事件保持区分。
 
+本轮三语言功能对应站内代码版本 **3.3.0**：公开网页与 RSS 使用 `?lang=zh-CN|zh-Hant|en`，MCP 五项工具使用可选 `language` 参数。下文 3.1.0/3.2.0 的公网、SDK、CPU 和 Registry 记录均为注明日期的历史验收；它们不代表 3.3.0 已完成相同的生产验收。Registry 保留已发布的 3.2.0 目录元数据，本轮语言改动不自动上传新目录条目。实际部署版本与本轮验收由部署记录另行说明。
+
 公开服务已上线：[BioAI 日知](https://bioai-rizhi.pages.dev)。2026-10-08 短域名与 3.1.0 服务已通过真实公网 initialize、tools/list 和全部五项只读工具调用，并确认默认学术结果满足精选政策，见 [短域名验收](mcp-shortdomain-acceptance.json)；官方 MCP SDK 客户端也已完成两种协商模式的连接、工具发现和全部五项工具调用，见 [SDK 客户端验收](mcp-client-acceptance.json)。个人 Codex 已安装名为 `bioai` 的全局连接配置；当前会话需在后续新会话加载。Claude/Cursor 配置示例已提供，未擅自修改其他个人应用，当前部署与待观察项目见 [报纸版验收](newspaper-acceptance.json)。官方 Registry 的 `io.github.MInsYang/bioai-rizhi` / `3.1.0` 条目已发布并回读 `active`，见 [Registry 记录](mcp-registry.md)。
 
 ## 接入地址与工具
@@ -18,6 +20,14 @@ BioAI 日知提供匿名、只读的远程 MCP，供个人 AI 查询本站已收
 | `search_companies` | 检索公司目录 | `query`、`topic`、`track`、`region_group`、`history`、`limit`、`offset` |
 | `get_company` | 读取公司资料、别名验证状态、公开来源与已发布事件 | `slug` |
 | `get_source_status` | 查看公开来源的验证/采集状态和专题定义 | `query`、`company`、`limit`、`offset` |
+
+五项工具都接受可选 `language`，有效值仅为 `zh-CN`、`zh-Hant`、`en`。未传入时保留旧调用的覆盖说明、状态说明和专题文案，`language.presentation_language=legacy`；显式传入时，本地化 `coverage_note`、`interpretation_note`、来源状态说明、专题定义与期刊选择说明，并增添受控字段的 `display_labels`。机器字段键、工具名、ID、分类枚举、来源 URL、日期、引用坐标和内容哈希不翻译。中文赛道筛选值仍有效；也可使用稳定别名 `sequencing-multiomics`、`biopharma`、`ai-models-data`、`academic-research`，分别映射原有四个赛道值。
+
+返回的 `language` 元信息包含 `requested_language`、`presentation_language`、`original_records=preserved` 和语言说明。来源标题、摘要、已保存正文、事件说明、公司名称与精确证据引文保留原始语言；选择英文或繁体不表示来源已翻译，也不推断来源语言。`site_url` 在显式语言调用时添加阅读页面的 `lang` 参数，原始出处 `url` 保持原样。工具参数的语言选择不会触发采集、数据库写入或外部模型调用。MCP 连接地址仍为纯 `/mcp`，无需在端点 URL 加 `lang`。
+
+English: all five read-only tools accept `language: "en"`. Explanatory copy and controlled display labels use English, while original titles, source text, event summaries, and exact evidence quotations remain unchanged. Omit `language` for legacy presentation. Stable keys, IDs, enum values, citation spans, and source URLs remain usable as before.
+
+繁體中文：五項唯讀工具均可傳入 `language: "zh-Hant"`，以繁體顯示說明與受控標籤。來源標題、節選、事件說明及精確證據引文保留原始語言；未指定時維持舊呼叫文案。選擇語言不代表已翻譯來源，也不會觸發採集或資料庫寫入。
 
 专题 ID 为 `virtual-cell`、`organoid`、`virtual-embryo`、`virtual-organ`、`drug-discovery`。`get_source_status` 返回来自 `/api/topics` 的当前名称与说明。分类中的 `classification.method=automated_keyword_v1` 表示自动关键词导航分类；它不意味着编辑审核或完整学术领域覆盖。保留 `model_form`、`biological_model`、`ai_related` 和 `query_version`，区分实体模型与计算模型，并标明分类版本。
 
@@ -96,12 +106,13 @@ Cursor 的项目配置与个人配置会合并；同名项由项目配置优先�
 {
   "topic": "virtual-cell",
   "academic": "academic",
+  "language": "en",
   "days": 30,
   "limit": 20
 }
 ```
 
-`search_resources` 返回 `{total, items, limit, offset, coverage_note}`，每项保留 `id`、`url`、`site_url`、发表/收录时间、来源名称、专题、学术状态和分类方法。`get_resource` 的原文最多 6000 个 JavaScript 字符，并提供 `content_truncated` 和 `content_char_count`；读取原文完整版应使用原始来源 URL。
+`search_resources` 保留 `{total, items, limit, offset, coverage_note}` 并新增上述 `language` 元信息；显式语言调用还提供 `interpretation_note` 和 `display_labels`。每项保留 `id`、`url`、`site_url`、发表/收录时间、来源名称、专题、学术状态和分类方法。`get_resource` 的原文最多 6000 个 JavaScript 字符，并提供 `content_truncated` 和 `content_char_count`；读取原文完整版应使用原始来源 URL。
 
 PubMed `indexed` 表示收录状态，不能替换为“已通过同行评议”。bioRxiv 的 `preprint` 与版本保留。原文数量不等于已核验新闻数量；空结果只描述本站当前收录情况。
 
@@ -143,9 +154,13 @@ Cloudflare 当前推荐 `createMcpHandler` 的每请求服务器工厂，接受 
 # 从仓库根目录执行
 cd cloudflare/site
 node --test mcp.test.mjs
+# 一并检查三语言页面、原创指南、链接/元数据与原文保护
+node --test locales.test.mjs guides.test.mjs
 ```
 
 测试使用真实已安装 SDK 与伪造的公开读取回调，检查初始化、发现、工具调用、2026 header 校验、非法工具/参数、Origin/Host、大小限制、文本截断、预印本/分类来源、错误与内部字段隔离。它验证协议和边界，不替代生产数据库、来源实际采集或客户端界面验收。
+
+三语言测试另外覆盖全部五工具的三种显式语言、旧调用与纯端点兼容、无效语言在读取前被拒绝、静态 Schema 缓存、赛道别名、原文与精确引文/坐标/哈希不变；网页检查三篇指南的完整翻译、十类公开页面的 `lang`/canonical/JSON-LD/站内链接、恶意语言参数与 HTML 转义。测试使用伪造的公开读取模型；数据库集成项需由本地隔离 PostgreSQL 环境另行运行。
 
 MCP 静态工具 Schema 缓存优化已部署。3.2.0 站点 137 项 Worker 检查与 17 项统计界面检查通过、无跳过；以下 CPU 为此前初次上线样本，未将其冒充本轮重新测量值。公开数据响应使用表列 `no-store`。优化后 initialize、tools/list、search_resources、get_source_status 四次公网调用均 HTTP 200、`outcome=ok`，CPU 为 22/15/21/26 ms，仍高于 Workers Free 的名义 HTTP 10 ms。长期免费容量尚未验收，仍需观察和按授权选择运行计划；本次未执行付费升级。详情见 [Cloudflare 部署说明](cloudflare-deployment.md#额度与成本验收)。
 
@@ -156,6 +171,8 @@ MCP 静态工具 Schema 缓存优化已部署。3.2.0 站点 137 项 Worker 检�
 ## 分享与订阅
 
 可分享的内容地址分别为 `/records/{id}`、`/events/{id}`、`/companies/{slug}`、`/topics/{id}`，避免只分享弹窗状态。`url` 指向原始出处，`site_url` 指向本站上下文，两者同时保留。
+
+产品公开页面和 RSS 的语言链接为 `?lang=zh-CN`、`?lang=zh-Hant`、`?lang=en`。有效的显式参数优先；服务端未指定时返回简体中文。浏览器继续沿用 `bioai-language` 偏好并在需要服务器正文的页面重新读取对应语言；切换保留其他 query 与 hash。原创指南提供完整译文，来源数据保持原始语言并在页面说明。英文产品名为 BioAI Daily，问象为 Wenxiang。官网采用 `/`、`/zh-hant/`、`/en/` 路径，产品端保持 `lang` 参数，二者不要互换。
 
 来源资源 RSS 位于 `/feed.xml`，专题订阅可用 `/feed.xml?topic=virtual-cell` 等五个已知专题 ID。日摘要页面为 `/digest/YYYY-MM-DD`，对应结构化数据为 `/api/digest?date=YYYY-MM-DD`。它们沿用网站的公开读取门槛；原文资源与已核验事件仍分别表述。
 

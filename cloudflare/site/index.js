@@ -5,6 +5,7 @@ import { handleMcp } from './mcp.js';
 import { publication } from './publication.js';
 import { candidateApi } from './candidates.js';
 import { handleTelemetry, handleAdminAnalytics, recordMcpExecution } from './analytics.js';
+import { LANGUAGES, requestLanguage, ownedText, localizedPublicError } from './locales.js';
 
 const json = (data, status=200, headers={}) => Response.json(data,{status,headers:{'Cache-Control':'no-store',...headers}});
 async function admin(request, env) {
@@ -33,7 +34,7 @@ export function createWorker(dbFactory=database) {
         if((path.startsWith('/api/admin/candidates') || path.startsWith('/api/admin/analytics')) && !(await admin(request,env)))return json({detail:'Admin token required'},401);
         if(path.startsWith('/api/') && env.API_RATE_LIMITER){
           const check=await env.API_RATE_LIMITER.limit({key:request.headers.get('cf-connecting-ip') || 'unknown'});
-          if(!check.success)return new Response('Too many requests',{status:429,headers:{'Retry-After':'60'}});
+          if(!check.success)return new Response(LANGUAGES.includes(url.searchParams.get('lang')) ? ownedText('请求过于频繁，请稍后重试。',requestLanguage(request)) : 'Too many requests',{status:429,headers:{'Retry-After':'60'}});
         }
         if(path==='/indexnow-key.txt') {
           if(!/^[a-zA-Z0-9-]{8,128}$/.test(env.INDEXNOW_KEY || ''))return json({detail:'Not found'},404);
@@ -43,7 +44,7 @@ export function createWorker(dbFactory=database) {
         }
         // Static assets do not need a database connection.
         if(!path.startsWith('/api/') && !path.startsWith('/internal/') && path!='/mcp' && path!='/health' && !['/','/feed.xml','/robots.txt','/llms.txt','/sitemap.xml','/connect','/guides','/briefings'].includes(path) && !/^\/(topics|companies|records|events|digest|guides|sitemaps)\//.test(path))return secure(await env.ASSETS.fetch(request));
-        if(path==='/api/config')return json({version:'3.2.0',github_url:env.GITHUB_URL || null,cadence_hours:1,daily_digest_time:'08:00',timezone:'Asia/Shanghai',mcp_url:(env.SITE_ORIGIN || url.origin)+'/mcp'});
+        if(path==='/api/config')return json({version:'3.3.0',github_url:env.GITHUB_URL || null,cadence_hours:1,daily_digest_time:'08:00',timezone:'Asia/Shanghai',mcp_url:(env.SITE_ORIGIN || url.origin)+'/mcp'});
         if(path==='/api/telemetry')return secure(await handleTelemetry(request,env,()=>dbFactory(env)));
         const sql=dbFactory(env), read=(p,params={})=>apiRead(p,params,sql);
         if(path.startsWith('/api/admin/candidates')) {
@@ -54,20 +55,22 @@ export function createWorker(dbFactory=database) {
           execution=>recordMcpExecution(request,env,ctx,sql,execution)));
         if(path==='/health'){
           const rows=await sql.query('SELECT 1 AS ok');
-          return json({database:rows[0].ok,version:'3.2.0',runtime:'cloudflare',cadence_hours:1});
+          return json({database:rows[0].ok,version:'3.3.0',runtime:'cloudflare',cadence_hours:1});
         }
         if(path==='/internal/dispatch' && request.method==='POST')return json(await dispatch(sql,env.INGEST_QUEUE,Date.now(),'manual'));
         if(path==='/internal/digest' && request.method==='POST')return json((await sql.query('SELECT generate_daily_digest(now()) AS digest'))[0]);
         if(path.startsWith('/internal/'))return json({detail:'Not found'},404);
         const published=await publication(request,env,sql,read);if(published)return secure(published);
         const api=await handleApi(request,env,sql);if(api)return secure(api);
-        return json({detail:'Not found'},404);
+        return json({detail:LANGUAGES.includes(url.searchParams.get('lang')) ? localizedPublicError('Not found',requestLanguage(request)) : 'Not found'},404);
       }catch(error){
         // Do not expose database URLs, request bodies or upstream raw errors publicly.
         const status=Number(error.status || error.statusCode);
-        if(status>=400 && status<500)return json({detail:error.detail || error.message},status);
+        const url=new URL(request.url), publicRequest=!url.pathname.startsWith('/internal/') && !url.pathname.startsWith('/api/admin/');
+        const explicit=LANGUAGES.includes(url.searchParams.get('lang'));
+        if(status>=400 && status<500)return json({detail:publicRequest && explicit ? localizedPublicError(error.detail || error.message,requestLanguage(request)) : error.detail || error.message},status);
         console.error(JSON.stringify({event:'request_failed',name:error.name || 'Error'}));
-        return json({detail:'数据服务暂不可用，请稍后重试。'},503);
+        return json({detail:publicRequest && explicit ? ownedText('数据服务暂不可用，请稍后重试。',requestLanguage(request)) : '数据服务暂不可用，请稍后重试。'},503);
       }
     },
     async scheduled(controller,env,ctx) {

@@ -178,8 +178,13 @@
       env.addEventListener("popstate", pageView);
       env.document.addEventListener("click", recordAction, {capture: true});
       for (const event of ["pointerdown", "keydown", "scroll"]) env.addEventListener(event, touch, {passive: true});
-      const notice = env.document.getElementById?.("analytics-privacy-state");
-      if (notice) notice.textContent = allowed() ? "当前浏览器未发出 DNT / GPC 停止统计信号。" : "当前浏览器已发出 DNT / GPC 信号，网页事件不采集。";
+      const renderPrivacyNotice = () => {
+        const notice = env.document.getElementById?.("analytics-privacy-state");
+        const text = allowed() ? "当前浏览器未发出 DNT / GPC 停止统计信号。" : "当前浏览器已发出 DNT / GPC 信号，网页事件不采集。";
+        if (notice) notice.textContent = env.BioAILocale ? env.BioAILocale.t(text) : text;
+      };
+      renderPrivacyNotice();
+      env.addEventListener("bioai-languagechange", renderPrivacyNotice);
     }
     return {start, pageView, recordAction, touch};
   }

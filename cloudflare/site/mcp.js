@@ -3,6 +3,8 @@ import { createMcpHandler } from "agents/mcp/server";
 import { McpServer } from "@modelcontextprotocol/server";
 import { z } from "zod";
 import { journalPolicy } from './journals.js';
+import { LANGUAGES } from './locales.js';
+import { localizeMcpPayload, mcpCopy, MCP_TRACKS, mcpTrack } from './mcp-locales.js';
 
 export const MCP_LIMITS = Object.freeze({
   bodyBytes: 64 * 1024,
@@ -24,8 +26,10 @@ const pageFields = {
   limit: z.number().int().min(1).max(MCP_LIMITS.rows).default(20),
   offset: z.number().int().min(0).max(MCP_LIMITS.offset).default(0),
 };
+const languageField = z.enum(LANGUAGES).optional().describe('Optional presentation language. Omit for legacy copy. Source text remains in its original language.');
 export const TOOL_SCHEMAS = Object.freeze({
   search_resources: z.object({
+    language: languageField,
     query: boundedQuery.default(""),
     topic: z.enum(TOPIC_IDS).optional(),
     academic: z.enum(["all", "academic", "industry"]).default("all"),
@@ -35,19 +39,22 @@ export const TOOL_SCHEMAS = Object.freeze({
     ...pageFields,
   }).strict(),
   get_resource: z.object({
+    language: languageField,
     id: z.string().uuid(),
     kind: z.enum(["record", "event"]).default("record"),
   }).strict(),
   search_companies: z.object({
+    language: languageField,
     query: boundedQuery.default(""),
     topic: z.enum(TOPIC_IDS).optional(),
-    track: z.enum(["测序与多组学", "生物医药", "AI与模型数据", "学术进展"]).optional(),
+    track: z.enum(MCP_TRACKS).optional(),
     region_group: z.enum(["cn", "hk", "global", "cross"]).optional(),
     history: z.boolean().default(false),
     ...pageFields,
   }).strict(),
-  get_company: z.object({ slug }).strict(),
+  get_company: z.object({ slug, language: languageField }).strict(),
   get_source_status: z.object({
+    language: languageField,
     query: boundedQuery.default(""),
     company: slug.optional(),
     ...pageFields,
@@ -75,19 +82,27 @@ const itemSchema = z.object({
   topics: z.array(z.string()),
   academic: z.record(z.string(), z.unknown()).nullable(),
   classification: z.record(z.string(), z.unknown()).nullable(),
+  display_labels: z.record(z.string(), z.unknown()).optional(),
 });
+const presentationFields = {
+  language: z.object({requested_language:z.enum(LANGUAGES).nullable(),presentation_language:z.enum([...LANGUAGES,'legacy']),original_records:z.literal('preserved'),note:z.string()}),
+  interpretation_note: z.string().optional(),
+};
 const resourceListSchema = z.object({
   total: z.number().int().nonnegative(), items: z.array(itemSchema),
   limit: z.number().int(), offset: z.number().int(),
   coverage_note: z.string(),
+  ...presentationFields,
 });
 const objectResultSchema = z.object({
   data: z.record(z.string(), z.unknown()),
   coverage_note: z.string(),
+  ...presentationFields,
 });
 const companyListSchema = z.object({
   total: z.number().int().nonnegative(), items: z.array(z.record(z.string(), z.unknown())),
   limit: z.number().int(), offset: z.number().int(), coverage_note: z.string(),
+  ...presentationFields,
 });
 
 function freezeJson(value) {
@@ -223,13 +238,13 @@ function result(payload) {
   if (new TextEncoder().encode(serialized).byteLength > MCP_LIMITS.resultBytes) throw new Error("Public result exceeds limit");
   return { structuredContent: payload, content: [{ type: "text", text: serialized }] };
 }
-function toolError(error) {
+function toolError(error, language) {
   const missing = Number(error?.status ?? error?.statusCode) === 404;
   return {
     isError: true,
     content: [{ type: "text", text: JSON.stringify({ error: {
       code: missing ? "not_public_or_missing" : "public_data_unavailable",
-      message: missing ? "This item is missing or is not publicly published." : "Public data is temporarily unavailable. Retry later.",
+      message: mcpCopy(missing ? 'missing' : 'unavailable', language),
     } }) }],
   };
 }
@@ -245,13 +260,13 @@ async function boundedRead(apiRead, path, params = {}) {
 
 /** apiRead(path, params) must only return the site's gated public read model. */
 export function createBioAiServer(apiRead, origin, observeExecution) {
-  const server = new McpServer({ name: "bioai-rizhi", version: "3.2.0" }, { instructions: INSTRUCTIONS });
+  const server = new McpServer({ name: "bioai-rizhi", version: "3.3.0" }, { instructions: INSTRUCTIONS + ' All five tools accept optional language=zh-CN, zh-Hant, or en for explanatory copy and controlled display_labels; source text and stable keys/enums remain original. Omit language for legacy presentation.' });
   const register = (name, title, description, outputSchema, run) => server.registerTool(name, {
     title, description, inputSchema: INPUT_SCHEMAS[name], outputSchema: OUTPUT_SCHEMAS.get(outputSchema), annotations: READ_ONLY,
   }, async (args) => {
     const startedAt = new Date().toISOString(), started = performance.now();
     let output;
-    try { output = result(await run(args)); } catch (error) { output = toolError(error); }
+    try { output = result(localizeMcpPayload(await run(args), args.language, origin, name)); } catch (error) { output = toolError(error, args.language); }
     // This callback only runs after SDK argument/protocol validation. Do not
     // retain args, output content, client prompts or protocol request bodies.
     try {
@@ -306,7 +321,7 @@ export function createBioAiServer(apiRead, origin, observeExecution) {
 
   register("search_companies", "Search the BioAI company directory", "Find directory companies by current or historical name, topic, track or region. Topic matches and directory metadata are discovery aids, not a complete market census or source verification certificate.", companyListSchema, async (args) => {
     const params = { q: args.query, history: args.history, limit: args.limit, offset: args.offset };
-    for (const key of ["topic", "track", "region_group"]) if (args[key]) params[key] = args[key];
+    for (const key of ["topic", "track", "region_group"]) if (args[key]) params[key] = key === 'track' ? mcpTrack(args[key]) : args[key];
     return page(await boundedRead(apiRead, "/api/companies", params), args.limit, args.offset, (row) => companySummary(row, origin));
   });
 

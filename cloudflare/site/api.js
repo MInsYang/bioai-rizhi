@@ -1,5 +1,6 @@
 import { TOPICS } from './topics.js';
 import {JOURNAL_POLICY_VERSION,SELECTED_JOURNALS,journalPolicy,selectJournal,selectedJournalSQL} from './journals.js';
+import { LANGUAGES, languageOf, localizedTopic, localizedJournalPolicy, localizedPublicError } from './locales.js';
 
 // PostgreSQL remains the publication authority. Cloudflare messages and browser
 // retries may be duplicated; every admin mutation runs on one DB transaction.
@@ -184,9 +185,9 @@ const eventNumbers = row => counts(row, ['evidence_count', 'confidence']);
 /** Shared public read model for the browser and MCP. Never bypass public views. */
 export async function apiRead(path, input, sql) {
   const params = parameters(input);
-  if (path === '/api/topics') return { items: TOPICS };
-  if (path === '/api/journals') return journalPolicy();
-  if (path === '/health') return { database: (await first(sql, 'SELECT 1 AS ok')).ok, version: '3.1.0' };
+  if (path === '/api/topics') return { items: TOPICS.map(item => localizedTopic(item, languageOf(params.get('lang')))) };
+  if (path === '/api/journals') return localizedJournalPolicy(journalPolicy(), languageOf(params.get('lang')));
+  if (path === '/health') return { database: (await first(sql, 'SELECT 1 AS ok')).ok, version: '3.3.0' };
   if (path === '/api/overview') {
     const selected=conditions(),selectedJournal=selectedJournalSQL('r.raw_payload',value=>selected.p(value));
     const relevantAcademic=`${selectedJournal} AND r.raw_payload->'classification'->>'ai_related'='true' AND ${scopeEligibilitySQL('r.raw_payload')}`;
@@ -478,15 +479,19 @@ function json(value, status = 200) {
 export async function handleApi(request, env, sql) {
   const url = new URL(request.url), path = url.pathname;
   if (!path.startsWith('/api/') && path !== '/health') return null;
+  // Only presentation changes for public requests with an explicit valid locale.
+  // Administration, validation rules and database mutation paths stay unchanged.
+  const localize = value => !path.startsWith('/api/admin/') && LANGUAGES.includes(url.searchParams.get('lang'))
+    ? localizedPublicError(value, languageOf(url.searchParams.get('lang'))) : value;
   try {
     if (path.startsWith('/api/admin/')) return json(await adminApi(request, path, url.searchParams, env, sql));
     if (request.method !== 'GET') fail(405, 'Method Not Allowed');
     const result = await apiRead(path, url.searchParams, sql);
-    return result === null ? json({ detail: 'Not Found' }, 404) : json(result);
+    return result === null ? json({ detail: localize('Not Found') }, 404) : json(result);
   } catch (error) {
-    if (error instanceof ApiError) return json({ detail: error.detail }, error.status);
-    if (error instanceof URIError) return json({ detail: 'Invalid path encoding' }, 422);
+    if (error instanceof ApiError) return json({ detail: localize(error.detail) }, error.status);
+    if (error instanceof URIError) return json({ detail: localize('Invalid path encoding') }, 422);
     // Connection strings, backend errors and submitted tokens never enter a response.
-    return json({ detail: 'Database unavailable' }, 503);
+    return json({ detail: localize('Database unavailable') }, 503);
   }
 }
